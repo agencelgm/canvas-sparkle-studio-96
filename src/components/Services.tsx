@@ -1,6 +1,4 @@
 import { Users, Search, Globe, Database, Mail, Share2 } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
-import { motion } from "framer-motion";
 
 const Services = () => {
   const services = [
@@ -31,10 +29,20 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="section-padding">
-      <div className="container-wide">
+    <section id="services" className="section-padding relative overflow-hidden">
+      {/* Grid pattern background */}
+      <svg className="absolute inset-0 w-full h-full opacity-5" preserveAspectRatio="none">
+        <defs>
+          <pattern id="services-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-bronze" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#services-grid)" />
+      </svg>
+
+      <div className="container-wide relative z-10">
         {/* Section header */}
-        <AnimatedSection className="text-center mb-16 max-w-3xl mx-auto">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-6">
             Nos expertises
           </span>
@@ -46,18 +54,14 @@ const Services = () => {
             Ces expertises ne sont jamais utilisées isolément. 
             Elles font partie d'un système cohérent.
           </p>
-        </AnimatedSection>
+        </div>
 
         {/* Services grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <motion.div 
+            <div 
               key={index}
               className="group flex items-center gap-5 p-6 bg-card border border-border rounded-lg hover:border-bronze/30 hover:bg-card/80 transition-all duration-300"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.05 + index * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="flex-shrink-0 w-12 h-12 rounded-full bg-bronze/10 flex items-center justify-center group-hover:bg-bronze/20 transition-colors">
                 <service.icon className="w-5 h-5 text-bronze" />
@@ -65,16 +69,16 @@ const Services = () => {
               <span className="font-medium text-foreground">
                 {service.title}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Emphasis note */}
-        <AnimatedSection delay={0.4} className="text-center mt-10">
+        <div className="text-center mt-10">
           <p className="text-muted-foreground italic">
             👉 Ces services ne sont jamais activés isolément.
           </p>
-        </AnimatedSection>
+        </div>
       </div>
     </section>
   );

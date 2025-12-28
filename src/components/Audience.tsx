@@ -1,6 +1,4 @@
 import { Check, X } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
-import { motion } from "framer-motion";
 
 const Audience = () => {
   const forWho = [
@@ -16,28 +14,26 @@ const Audience = () => {
   ];
 
   return (
-    <section id="pour-qui" className="section-padding bg-card">
-      <div className="container-wide">
+    <section id="pour-qui" className="section-padding bg-card relative overflow-hidden">
+      {/* Decorative corner shapes */}
+      <div className="absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-bronze/10" />
+      <div className="absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-bronze/10" />
+
+      <div className="container-wide relative z-10">
         {/* Section header */}
-        <AnimatedSection className="text-center mb-16 max-w-3xl mx-auto">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-6">
             Qualification
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium leading-tight">
             Pour qui travaillons-nous ?
           </h2>
-        </AnimatedSection>
+        </div>
 
         {/* Two columns */}
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* For who */}
-          <motion.div 
-            className="p-8 md:p-10 bg-background border border-border rounded-lg"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <div className="p-8 md:p-10 bg-background border border-border rounded-lg">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-full bg-bronze/10 flex items-center justify-center">
                 <Check className="w-5 h-5 text-bronze" />
@@ -46,31 +42,21 @@ const Audience = () => {
             </div>
             <ul className="space-y-5">
               {forWho.map((item, index) => (
-                <motion.li 
+                <li 
                   key={index} 
                   className="flex items-start gap-4"
-                  initial={{ opacity: 0, x: -15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.15 + index * 0.1, duration: 0.4 }}
                 >
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-bronze/20 flex items-center justify-center mt-0.5">
                     <Check className="w-3.5 h-3.5 text-bronze" />
                   </span>
                   <span className="text-foreground">{item}</span>
-                </motion.li>
+                </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           {/* Not for who */}
-          <motion.div 
-            className="p-8 md:p-10 bg-background border border-border rounded-lg"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <div className="p-8 md:p-10 bg-background border border-border rounded-lg">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                 <X className="w-5 h-5 text-destructive" />
@@ -79,22 +65,18 @@ const Audience = () => {
             </div>
             <ul className="space-y-5">
               {notForWho.map((item, index) => (
-                <motion.li 
+                <li 
                   key={index} 
                   className="flex items-start gap-4"
-                  initial={{ opacity: 0, x: 15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
                 >
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-destructive/10 flex items-center justify-center mt-0.5">
                     <X className="w-3.5 h-3.5 text-destructive" />
                   </span>
                   <span className="text-muted-foreground">{item}</span>
-                </motion.li>
+                </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

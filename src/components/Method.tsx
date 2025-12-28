@@ -1,6 +1,3 @@
-import AnimatedSection from "./AnimatedSection";
-import { motion } from "framer-motion";
-
 const Method = () => {
   const steps = [
     {
@@ -26,10 +23,23 @@ const Method = () => {
   ];
 
   return (
-    <section id="methode" className="section-padding bg-primary text-primary-foreground">
-      <div className="container-wide">
+    <section id="methode" className="section-padding bg-primary text-primary-foreground relative overflow-hidden">
+      {/* Connected nodes background visual */}
+      <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
+        <defs>
+          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <circle cx="30" cy="30" r="1" fill="currentColor" className="text-bronze" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+      
+      {/* Decorative connected line */}
+      <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent hidden lg:block" />
+
+      <div className="container-wide relative z-10">
         {/* Section header */}
-        <AnimatedSection className="text-center mb-16 max-w-3xl mx-auto">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze-light border border-bronze-light/30 rounded-full mb-6">
             Notre méthode
           </span>
@@ -37,22 +47,23 @@ const Method = () => {
             Une méthodologie claire{" "}
             <span className="italic text-bronze-light">en 4 étapes</span>
           </h2>
-        </AnimatedSection>
+        </div>
 
-        {/* Steps */}
+        {/* Steps with connected nodes */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
           {steps.map((step, index) => (
-            <motion.div 
+            <div 
               key={index}
               className="relative group"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               {/* Connector line (hidden on last item and mobile) */}
               {index < steps.length - 1 && (
                 <div className="hidden lg:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-bronze/40 to-transparent z-0" />
+              )}
+              
+              {/* Node dot */}
+              {index < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-7 left-full w-3 h-3 rounded-full bg-bronze/50 z-10 -translate-x-1" />
               )}
 
               <div className="relative z-10 p-8 border border-primary-foreground/10 rounded-lg bg-primary-foreground/5 hover:bg-primary-foreground/10 transition-all duration-300">
@@ -69,7 +80,7 @@ const Method = () => {
                   {step.description}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
