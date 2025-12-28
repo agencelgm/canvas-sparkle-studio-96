@@ -64,12 +64,12 @@ const Method = () => {
           </h2>
         </div>
 
-        {/* Steps with connected nodes */}
+        {/* Steps with connected nodes - equal height grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
           {steps.map((step, index) => (
             <div 
               key={index}
-              className="relative group"
+              className="relative group h-full"
             >
               {/* Connector line (hidden on last item and mobile) */}
               {index < steps.length - 1 && (
@@ -81,7 +81,7 @@ const Method = () => {
                 <div className="hidden lg:block absolute top-7 left-full w-3 h-3 rounded-full bg-bronze/50 z-10 -translate-x-1" />
               )}
 
-              <div className="relative z-10 p-8 border border-border rounded-lg bg-secondary/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300 hover:border-bronze/30">
+              <div className="relative z-10 h-full flex flex-col p-8 border border-border rounded-lg bg-secondary/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300 hover:border-bronze/30">
                 {/* Step number */}
                 <span className="font-serif text-5xl font-medium text-bronze mb-6 block">
                   {step.number}
@@ -91,7 +91,7 @@ const Method = () => {
                 <h3 className="font-serif text-2xl font-medium mb-4">
                   {step.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mt-auto">
                   {step.description}
                 </p>
               </div>
