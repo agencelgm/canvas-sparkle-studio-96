@@ -6,9 +6,7 @@ const Header = () => {
         {/* Logo */}
         <a href="/" className="flex items-center gap-3">
           <img alt="LGM - Les Gens du Marketing" className="h-10 md:h-12 w-auto" src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png" />
-          <span className="hidden sm:block text-xs text-muted-foreground font-sans uppercase tracking-widest">
-            Les Gens du Marketing
-          </span>
+          
         </a>
 
         {/* Navigation */}

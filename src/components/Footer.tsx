@@ -6,9 +6,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <img alt="LGM - Les Gens du Marketing" className="h-10 w-auto" src="/lovable-uploads/460b0f55-ebe1-4114-80c5-911ba76028f2.png" />
-            <span className="text-xs text-muted-foreground uppercase tracking-widest">
-              Les Gens du Marketing
-            </span>
+            
           </div>
 
           {/* Links */}
