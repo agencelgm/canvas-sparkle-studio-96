@@ -6,19 +6,12 @@ import { Link, useLocation } from "react-router-dom";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
 
   const navLinks = [
     { href: "/a-propos", label: "À propos" },
     { href: "/services", label: "Services" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
-  ];
-
-  const homeLinks = [
-    { href: "#methode", label: "Méthode" },
-    { href: "#services", label: "Services" },
-    { href: "#pour-qui", label: "Pour qui" },
   ];
 
   return (
