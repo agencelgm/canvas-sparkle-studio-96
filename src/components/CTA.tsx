@@ -1,11 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import HexagonPattern from "./HexagonPattern";
 
 const CTA = () => {
   return (
-    <section className="section-padding">
-      <div className="container-narrow">
-        <div className="relative text-center p-10 md:p-16 lg:p-20 bg-primary rounded-lg overflow-hidden">
+    <section className="section-padding relative overflow-hidden">
+      {/* Hexagon pattern background */}
+      <div className="absolute inset-0 opacity-10">
+        <HexagonPattern />
+      </div>
+
+      {/* Bronze gradient orbs */}
+      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-radial from-bronze/15 via-bronze/5 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+
+      <div className="container-narrow relative z-10">
+        <div className="relative text-center p-10 md:p-16 lg:p-20 bg-secondary/40 border border-border rounded-lg overflow-hidden backdrop-blur-sm">
           {/* Geometric border accent */}
           <div className="absolute inset-0 border-2 border-bronze/20 rounded-lg m-4" />
           
@@ -23,18 +33,18 @@ const CTA = () => {
 
           <div className="relative z-10">
             {/* Headline */}
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-primary-foreground leading-tight mb-6">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium text-foreground leading-tight mb-6">
               Structurer votre croissance{" "}
-              <span className="italic text-bronze-light block mt-2">commence par une décision.</span>
+              <span className="italic text-bronze block mt-2">commence par une décision.</span>
             </h2>
 
             {/* Subtext */}
-            <p className="text-lg text-primary-foreground/70 max-w-2xl mx-auto mb-10">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
               Parlez à un stratège LGM pour déterminer si notre approche est adaptée à votre situation.
             </p>
 
             {/* CTA Button */}
-            <Button variant="bronze" size="xl" className="group">
+            <Button variant="hero" size="xl" className="group">
               Parler à un stratège
               <ArrowRight className="transition-transform group-hover:translate-x-1" />
             </Button>

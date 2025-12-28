@@ -1,3 +1,5 @@
+import HexagonPattern from "./HexagonPattern";
+
 const Method = () => {
   const steps = [
     {
@@ -23,9 +25,22 @@ const Method = () => {
   ];
 
   return (
-    <section id="methode" className="section-padding bg-primary text-primary-foreground relative overflow-hidden">
+    <section id="methode" className="section-padding relative overflow-hidden">
+      {/* Hexagon pattern background */}
+      <div className="absolute inset-0 opacity-10">
+        <HexagonPattern />
+      </div>
+
+      {/* Divider lines */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+
+      {/* Bronze gradient orbs */}
+      <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-radial from-bronze/15 via-bronze/5 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-10 w-64 h-64 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+
       {/* Connected nodes background visual */}
-      <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
+      <svg className="absolute inset-0 w-full h-full opacity-5" preserveAspectRatio="none">
         <defs>
           <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
             <circle cx="30" cy="30" r="1" fill="currentColor" className="text-bronze" />
@@ -35,17 +50,17 @@ const Method = () => {
       </svg>
       
       {/* Decorative connected line */}
-      <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent hidden lg:block" />
+      <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-bronze/20 to-transparent hidden lg:block" />
 
       <div className="container-wide relative z-10">
         {/* Section header */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
-          <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze-light border border-bronze-light/30 rounded-full mb-6">
+          <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-6">
             Notre méthode
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium leading-tight">
             Une méthodologie claire{" "}
-            <span className="italic text-bronze-light">en 4 étapes</span>
+            <span className="italic text-bronze">en 4 étapes</span>
           </h2>
         </div>
 
@@ -66,7 +81,7 @@ const Method = () => {
                 <div className="hidden lg:block absolute top-7 left-full w-3 h-3 rounded-full bg-bronze/50 z-10 -translate-x-1" />
               )}
 
-              <div className="relative z-10 p-8 border border-primary-foreground/10 rounded-lg bg-primary-foreground/5 hover:bg-primary-foreground/10 transition-all duration-300">
+              <div className="relative z-10 p-8 border border-border rounded-lg bg-secondary/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300 hover:border-bronze/30">
                 {/* Step number */}
                 <span className="font-serif text-5xl font-medium text-bronze mb-6 block">
                   {step.number}
@@ -76,7 +91,7 @@ const Method = () => {
                 <h3 className="font-serif text-2xl font-medium mb-4">
                   {step.title}
                 </h3>
-                <p className="text-primary-foreground/70 leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed">
                   {step.description}
                 </p>
               </div>

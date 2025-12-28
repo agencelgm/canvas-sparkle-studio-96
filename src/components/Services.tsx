@@ -1,4 +1,5 @@
 import { Users, Search, Globe, Database, Mail, Share2 } from "lucide-react";
+import HexagonPattern from "./HexagonPattern";
 
 const Services = () => {
   const services = [
@@ -30,6 +31,18 @@ const Services = () => {
 
   return (
     <section id="services" className="section-padding relative overflow-hidden">
+      {/* Hexagon pattern background */}
+      <div className="absolute inset-0 opacity-10">
+        <HexagonPattern />
+      </div>
+
+      {/* Divider line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+
+      {/* Bronze gradient orbs */}
+      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-radial from-bronze/12 via-bronze/4 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+
       {/* Background grid pattern */}
       <div className="absolute inset-0 opacity-5">
         <div 
@@ -63,7 +76,7 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group flex items-center gap-5 p-6 bg-card border border-border rounded-lg hover:border-bronze/30 hover:bg-card/80 transition-all duration-300"
+              className="group flex items-center gap-5 p-6 bg-secondary/30 border border-border rounded-lg hover:border-bronze/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300"
             >
               <div className="flex-shrink-0 w-12 h-12 rounded-full bg-bronze/10 flex items-center justify-center group-hover:bg-bronze/20 transition-colors">
                 <service.icon className="w-5 h-5 text-bronze" />

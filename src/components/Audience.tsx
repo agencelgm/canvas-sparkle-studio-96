@@ -1,4 +1,5 @@
 import { Check, X } from "lucide-react";
+import HexagonPattern from "./HexagonPattern";
 
 const Audience = () => {
   const forWho = [
@@ -14,7 +15,20 @@ const Audience = () => {
   ];
 
   return (
-    <section id="pour-qui" className="section-padding bg-card relative overflow-hidden">
+    <section id="pour-qui" className="section-padding relative overflow-hidden">
+      {/* Hexagon pattern background */}
+      <div className="absolute inset-0 opacity-10">
+        <HexagonPattern />
+      </div>
+
+      {/* Divider lines */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+
+      {/* Bronze gradient orbs */}
+      <div className="absolute top-1/4 left-20 w-80 h-80 bg-gradient-radial from-bronze/12 via-bronze/4 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-20 w-64 h-64 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+
       {/* Decorative corner shapes */}
       <div className="absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-bronze/10" />
       <div className="absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-bronze/10" />
@@ -33,7 +47,7 @@ const Audience = () => {
         {/* Two columns */}
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* For who */}
-          <div className="p-8 md:p-10 bg-background border border-border rounded-lg">
+          <div className="p-8 md:p-10 bg-secondary/30 border border-border rounded-lg backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-full bg-bronze/10 flex items-center justify-center">
                 <Check className="w-5 h-5 text-bronze" />
@@ -56,7 +70,7 @@ const Audience = () => {
           </div>
 
           {/* Not for who */}
-          <div className="p-8 md:p-10 bg-background border border-border rounded-lg">
+          <div className="p-8 md:p-10 bg-secondary/30 border border-border rounded-lg backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                 <X className="w-5 h-5 text-destructive" />
