@@ -1,3 +1,5 @@
+import lgmLogo from "@/assets/lgm-logo.png";
+
 const Footer = () => {
   return (
     <footer className="py-12 border-t border-border">
@@ -5,9 +7,11 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <span className="font-serif text-2xl font-semibold text-foreground">
-              LGM
-            </span>
+            <img 
+              src={lgmLogo} 
+              alt="LGM - Les Gens du Marketing" 
+              className="h-10 w-auto"
+            />
             <span className="text-xs text-muted-foreground uppercase tracking-widest">
               Les Gens du Marketing
             </span>
