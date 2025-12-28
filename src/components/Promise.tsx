@@ -1,4 +1,5 @@
 import { Target, Gauge, LineChart } from "lucide-react";
+import HexagonPattern from "./HexagonPattern";
 
 const Promise = () => {
   const promises = [
@@ -21,6 +22,18 @@ const Promise = () => {
 
   return (
     <section className="section-padding relative overflow-hidden">
+      {/* Hexagon pattern background */}
+      <div className="absolute inset-0 opacity-10">
+        <HexagonPattern />
+      </div>
+
+      {/* Divider line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+
+      {/* Bronze gradient orbs */}
+      <div className="absolute top-1/4 right-10 w-72 h-72 bg-gradient-radial from-bronze/15 via-bronze/5 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 left-10 w-64 h-64 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+
       {/* Decorative floating shapes */}
       <div className="absolute top-20 left-10 w-32 h-32 border border-bronze/20 rounded-full" />
       <div className="absolute top-40 left-20 w-16 h-16 border border-bronze/10 rounded-full" />
@@ -47,7 +60,7 @@ const Promise = () => {
           {promises.map((promise, index) => (
             <div 
               key={index}
-              className="group relative p-8 md:p-10 bg-card border border-border rounded-lg hover:border-bronze/30 transition-all duration-300 hover:-translate-y-1"
+              className="group relative p-8 md:p-10 bg-secondary/30 border border-border rounded-lg hover:border-bronze/30 transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
             >
               {/* Icon */}
               <div className="w-14 h-14 rounded-full bg-bronze/10 flex items-center justify-center mb-6 group-hover:bg-bronze/20 transition-colors">
@@ -63,7 +76,7 @@ const Promise = () => {
               </p>
 
               {/* Decorative number */}
-              <span className="absolute top-6 right-8 font-serif text-6xl font-medium text-border opacity-50">
+              <span className="absolute top-6 right-8 font-serif text-6xl font-medium text-bronze/10">
                 {String(index + 1).padStart(2, '0')}
               </span>
             </div>

@@ -7,12 +7,9 @@ const Problem = () => {
   return (
     <section className="section-padding relative overflow-hidden">
       {/* Hexagon pattern background */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-15">
         <HexagonPattern />
       </div>
-
-      {/* Subtle background gradient matching Hero */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
 
       {/* Geometric divider lines */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
@@ -20,7 +17,7 @@ const Problem = () => {
       
       {/* Bronze gradient orbs */}
       <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-radial from-bronze/15 via-bronze/5 to-transparent rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-1/4 w-80 h-80 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
 
       {/* Decorative diagonal lines - top right */}
       <svg className="absolute top-10 right-0 w-80 h-80 opacity-15" viewBox="0 0 100 100">
@@ -38,29 +35,28 @@ const Problem = () => {
         <line x1="40" y1="100" x2="0" y2="60" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
       </svg>
 
-      {/* AI Illustration as background element - right side */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full pointer-events-none">
+      {/* AI Illustration as background element - right side - MORE PROMINENT */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2/3 lg:w-1/2 h-[120%] pointer-events-none">
         {isLoading ? (
-          <div className="absolute inset-0 flex items-center justify-center opacity-20">
-            <div className="w-64 h-64 rounded-full border border-bronze/20 animate-pulse" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-30">
+            <div className="w-64 h-64 rounded-full border border-bronze/30 animate-pulse" />
           </div>
         ) : image ? (
           <div 
-            className="absolute inset-0 opacity-40 mix-blend-lighten"
+            className="absolute inset-0 opacity-60"
             style={{
               backgroundImage: `url(${image})`,
               backgroundSize: 'contain',
               backgroundPosition: 'center right',
               backgroundRepeat: 'no-repeat',
-              maskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
+              maskImage: 'linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 40%, transparent 80%)',
+              WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 40%, transparent 80%)',
             }}
           />
         ) : (
           /* Fallback decorative SVG */
-          <div className="absolute inset-0 flex items-center justify-center opacity-20">
+          <div className="absolute inset-0 flex items-center justify-center opacity-30">
             <svg viewBox="0 0 200 200" className="w-3/4 h-3/4">
-              {/* Scattered fragments on left */}
               <g className="text-bronze/50">
                 <polygon points="20,80 30,75 35,85 25,90" fill="none" stroke="currentColor" strokeWidth="0.5" />
                 <polygon points="40,60 50,55 55,65 45,70" fill="none" stroke="currentColor" strokeWidth="0.5" />
@@ -68,40 +64,20 @@ const Problem = () => {
                 <polygon points="50,100 60,95 65,105 55,110" fill="none" stroke="currentColor" strokeWidth="0.5" />
                 <polygon points="30,140 40,135 45,145 35,150" fill="none" stroke="currentColor" strokeWidth="0.5" />
               </g>
-              
-              {/* Connecting lines */}
               <g className="text-bronze/30">
                 <line x1="60" y1="90" x2="100" y2="100" stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,2" />
                 <line x1="70" y1="70" x2="110" y2="85" stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,2" />
                 <line x1="65" y1="120" x2="105" y2="115" stroke="currentColor" strokeWidth="0.3" strokeDasharray="2,2" />
               </g>
-              
-              {/* Hexagonal structure on right */}
               <g className="text-bronze">
-                <polygon 
-                  points="140,70 160,80 160,100 140,110 120,100 120,80" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="1"
-                />
-                <polygon 
-                  points="160,100 180,110 180,130 160,140 140,130 140,110" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="1"
-                />
-                <polygon 
-                  points="120,100 140,110 140,130 120,140 100,130 100,110" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="1"
-                />
+                <polygon points="140,70 160,80 160,100 140,110 120,100 120,80" fill="none" stroke="currentColor" strokeWidth="1" />
+                <polygon points="160,100 180,110 180,130 160,140 140,130 140,110" fill="none" stroke="currentColor" strokeWidth="1" />
+                <polygon points="120,100 140,110 140,130 120,140 100,130 100,110" fill="none" stroke="currentColor" strokeWidth="1" />
                 <circle cx="140" cy="100" r="25" fill="url(#bronzeGlow)" />
               </g>
-              
               <defs>
                 <radialGradient id="bronzeGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="hsl(30, 60%, 50%)" stopOpacity="0.2" />
+                  <stop offset="0%" stopColor="hsl(30, 60%, 50%)" stopOpacity="0.3" />
                   <stop offset="100%" stopColor="hsl(30, 60%, 50%)" stopOpacity="0" />
                 </radialGradient>
               </defs>
@@ -114,7 +90,6 @@ const Problem = () => {
         {/* Section intro */}
         <div className="text-center mb-16">
           <div className="relative inline-block">
-            {/* Glow behind badge */}
             <div className="absolute inset-0 bg-bronze/20 blur-xl rounded-full scale-150" />
             <span className="relative inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-6">
               Le constat
@@ -139,7 +114,6 @@ const Problem = () => {
               </p>
             </div>
 
-            {/* Divider */}
             <div className="w-16 h-px bg-gradient-to-r from-bronze/50 to-transparent" />
 
             <div className="space-y-4">
@@ -161,13 +135,11 @@ const Problem = () => {
             </div>
           </div>
 
-          {/* Right side: Empty space for the background illustration */}
           <div className="hidden lg:block" />
         </div>
 
         {/* Quote at bottom */}
         <div className="mt-16 pt-16 border-t border-border text-center relative">
-          {/* Subtle glow behind quote */}
           <div className="absolute inset-0 bg-gradient-radial from-bronze/5 via-transparent to-transparent" />
           <p className="font-serif text-2xl md:text-3xl text-foreground italic relative">
             "Le problème n'est pas l'effort.{" "}
