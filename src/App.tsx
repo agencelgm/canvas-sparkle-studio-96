@@ -15,7 +15,6 @@ import ContactPage from "./pages/ContactPage";
 import BlogPage from "./pages/BlogPage";
 import BlogPostPage from "./pages/BlogPostPage";
 import AdminLogin from "./pages/admin/AdminLogin";
-import AdminSignup from "./pages/admin/AdminSignup";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBlogPosts from "./pages/admin/AdminBlogPosts";
 import AdminBlogPostForm from "./pages/admin/AdminBlogPostForm";
@@ -45,7 +44,6 @@ const App = () => (
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/signup" element={<AdminSignup />} />
               <Route
                 path="/admin"
                 element={

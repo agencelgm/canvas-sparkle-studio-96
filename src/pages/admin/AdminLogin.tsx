@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,15 +103,6 @@ const AdminLogin = () => {
               {isLoading ? "Connexion..." : "Se connecter"}
             </Button>
           </form>
-
-          <div className="mt-6 flex flex-col items-center gap-2 text-sm text-muted-foreground">
-            <Link to="/admin/signup" className="hover:text-primary">
-              Créer un compte admin
-            </Link>
-            <Link to="/" className="hover:text-primary">
-              ← Retour au site
-            </Link>
-          </div>
         </div>
       </div>
     </div>
