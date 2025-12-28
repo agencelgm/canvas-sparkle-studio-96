@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import HexagonPattern from "./HexagonPattern";
 
 const Footer = () => {
@@ -9,39 +10,78 @@ const Footer = () => {
       </div>
 
       <div className="container-wide relative z-10">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <img 
-              alt="LGM - Les Gens du Marketing" 
-              className="h-8 sm:h-10 w-auto" 
-              src="/lovable-uploads/460b0f55-ebe1-4114-80c5-911ba76028f2.png" 
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6">
+          {/* Logo & Description */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link to="/" className="inline-block mb-4">
+              <img 
+                alt="LGM - Les Gens du Marketing" 
+                className="h-8 sm:h-10 w-auto" 
+                src="/lovable-uploads/460b0f55-ebe1-4114-80c5-911ba76028f2.png" 
+              />
+            </Link>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              De la stratégie aux résultats mesurables.
+            </p>
           </div>
 
-          {/* Links */}
-          <nav className="flex items-center gap-4 sm:gap-6 lg:gap-8">
-            <a href="#methode" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
-              Méthode
-            </a>
-            <a href="#services" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
-              Services
-            </a>
-            <a href="#pour-qui" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
-              Pour qui
-            </a>
-          </nav>
+          {/* Navigation Links */}
+          <div>
+            <h4 className="font-serif text-sm font-semibold text-foreground mb-4">Navigation</h4>
+            <nav className="flex flex-col gap-2">
+              <Link to="/a-propos" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                À propos
+              </Link>
+              <Link to="/services" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                Services
+              </Link>
+              <Link to="/blog" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                Blog
+              </Link>
+              <Link to="/contact" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                Contact
+              </Link>
+            </nav>
+          </div>
 
-          {/* Location */}
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Abidjan, Côte d'Ivoire
-          </p>
+          {/* Services */}
+          <div>
+            <h4 className="font-serif text-sm font-semibold text-foreground mb-4">Services</h4>
+            <nav className="flex flex-col gap-2">
+              <Link to="/services/generation-leads" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                Génération de leads
+              </Link>
+              <Link to="/services/seo-local" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                SEO Local
+              </Link>
+              <Link to="/services/publicite-digitale" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                Publicité Digitale
+              </Link>
+              <Link to="/services/strategie-contenu" className="text-xs sm:text-sm text-muted-foreground hover:text-bronze transition-colors">
+                Stratégie de contenu
+              </Link>
+            </nav>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="font-serif text-sm font-semibold text-foreground mb-4">Contact</h4>
+            <div className="flex flex-col gap-2 text-xs sm:text-sm text-muted-foreground">
+              <p>Abidjan, Côte d'Ivoire</p>
+              <a href="mailto:contact@lgm.ci" className="hover:text-bronze transition-colors">
+                contact@lgm.ci
+              </a>
+              <a href="tel:+2250700000000" className="hover:text-bronze transition-colors">
+                +225 07 00 00 00 00
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-6 sm:mt-8 lg:mt-10 pt-4 sm:pt-6 border-t border-border text-center">
+        <div className="mt-8 sm:mt-10 lg:mt-12 pt-6 border-t border-border text-center">
           <p className="text-xs sm:text-sm text-muted-foreground">
-            © {new Date().getFullYear()} LGM — Les Gens du Marketing. De la stratégie aux résultats mesurables.
+            © {new Date().getFullYear()} LGM — Les Gens du Marketing. Tous droits réservés.
           </p>
         </div>
       </div>
