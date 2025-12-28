@@ -1,17 +1,11 @@
 import { Button } from "@/components/ui/button";
 import lgmLogo from "@/assets/lgm-logo.png";
-
 const Header = () => {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+  return <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container-wide flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
         <a href="/" className="flex items-center gap-3">
-          <img 
-            src={lgmLogo} 
-            alt="LGM - Les Gens du Marketing" 
-            className="h-10 md:h-12 w-auto"
-          />
+          <img alt="LGM - Les Gens du Marketing" className="h-10 md:h-12 w-auto" src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png" />
           <span className="hidden sm:block text-xs text-muted-foreground font-sans uppercase tracking-widest">
             Les Gens du Marketing
           </span>
@@ -35,8 +29,6 @@ const Header = () => {
           Parler à un stratège
         </Button>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Header;

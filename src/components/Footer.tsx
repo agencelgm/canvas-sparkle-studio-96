@@ -1,17 +1,11 @@
 import lgmLogo from "@/assets/lgm-logo.png";
-
 const Footer = () => {
-  return (
-    <footer className="py-12 border-t border-border">
+  return <footer className="py-12 border-t border-border">
       <div className="container-wide">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img 
-              src={lgmLogo} 
-              alt="LGM - Les Gens du Marketing" 
-              className="h-10 w-auto"
-            />
+            <img alt="LGM - Les Gens du Marketing" className="h-10 w-auto" src="/lovable-uploads/460b0f55-ebe1-4114-80c5-911ba76028f2.png" />
             <span className="text-xs text-muted-foreground uppercase tracking-widest">
               Les Gens du Marketing
             </span>
@@ -43,8 +37,6 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
