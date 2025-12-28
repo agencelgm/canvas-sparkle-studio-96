@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import ClaimAdminRole from "./ClaimAdminRole";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -8,6 +9,10 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
   const { user, isAdmin, isLoading } = useAuth();
+
+  const handleAdminClaimed = () => {
+    window.location.reload();
+  };
 
   if (isLoading) {
     return (
@@ -22,14 +27,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   }
 
   if (requireAdmin && !isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-2">Accès refusé</h1>
-          <p className="text-muted-foreground">Vous n'avez pas les droits d'administration.</p>
-        </div>
-      </div>
-    );
+    return <ClaimAdminRole onSuccess={handleAdminClaimed} />;
   }
 
   return <>{children}</>;
