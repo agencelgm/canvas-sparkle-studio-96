@@ -35,19 +35,6 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-          {isHomePage ? (
-            // Show anchor links on homepage
-            homeLinks.map((link) => (
-              <a 
-                key={link.href}
-                href={link.href} 
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors link-underline"
-              >
-                {link.label}
-              </a>
-            ))
-          ) : null}
-          {/* Always show page links */}
           {navLinks.map((link) => (
             <Link 
               key={link.href}
@@ -84,16 +71,6 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-background border-t border-border">
           <nav className="container-wide py-4 flex flex-col gap-4">
-            {isHomePage && homeLinks.map((link) => (
-              <a 
-                key={link.href}
-                href={link.href} 
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
-              >
-                {link.label}
-              </a>
-            ))}
             {navLinks.map((link) => (
               <Link 
                 key={link.href}
