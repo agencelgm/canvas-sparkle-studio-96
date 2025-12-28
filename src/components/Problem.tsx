@@ -1,6 +1,4 @@
 import { X } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
-import { motion } from "framer-motion";
 
 const Problem = () => {
   const problems = [
@@ -16,10 +14,21 @@ const Problem = () => {
   ];
 
   return (
-    <section className="section-padding bg-card">
-      <div className="container-narrow">
+    <section className="section-padding bg-card relative overflow-hidden">
+      {/* Geometric divider lines */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+      
+      {/* Decorative diagonal lines */}
+      <svg className="absolute top-20 right-0 w-64 h-64 opacity-10" viewBox="0 0 100 100">
+        <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-bronze" />
+        <line x1="20" y1="0" x2="100" y2="80" stroke="currentColor" strokeWidth="0.5" className="text-bronze" />
+        <line x1="40" y1="0" x2="100" y2="60" stroke="currentColor" strokeWidth="0.5" className="text-bronze" />
+      </svg>
+
+      <div className="container-narrow relative z-10">
         {/* Section intro */}
-        <AnimatedSection className="text-center mb-16">
+        <div className="text-center mb-16">
           <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-6">
             Le constat
           </span>
@@ -27,69 +36,61 @@ const Problem = () => {
             Le problème n'est pas l'effort.<br />
             <span className="text-muted-foreground">C'est l'absence de structure.</span>
           </h2>
-        </AnimatedSection>
+        </div>
 
         {/* Problem grid */}
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
           {/* What companies accumulate */}
-          <AnimatedSection variant="slideLeft" delay={0.1} className="space-y-6">
+          <div className="space-y-6">
             <p className="text-lg text-foreground font-medium">
               La majorité des entreprises accumulent :
             </p>
             <ul className="space-y-4">
               {problems.map((problem, index) => (
-                <motion.li 
+                <li 
                   key={index} 
                   className="flex items-center gap-4 text-muted-foreground"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
                 >
                   <span className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
                     <span className="text-sm font-medium text-foreground">{index + 1}</span>
                   </span>
                   {problem}
-                </motion.li>
+                </li>
               ))}
             </ul>
             <p className="text-muted-foreground italic pt-2">
               Sans jamais construire un système cohérent.
             </p>
-          </AnimatedSection>
+          </div>
 
           {/* Results */}
-          <AnimatedSection variant="slideRight" delay={0.2} className="space-y-6">
+          <div className="space-y-6">
             <p className="text-lg text-foreground font-medium">
               Résultat :
             </p>
             <ul className="space-y-4">
               {results.map((result, index) => (
-                <motion.li 
+                <li 
                   key={index} 
                   className="flex items-start gap-4 text-muted-foreground"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
                 >
                   <span className="flex-shrink-0 w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center mt-0.5">
                     <X className="w-4 h-4 text-destructive" />
                   </span>
                   {result}
-                </motion.li>
+                </li>
               ))}
             </ul>
-          </AnimatedSection>
+          </div>
         </div>
 
         {/* Divider with emphasis */}
-        <AnimatedSection delay={0.4} className="mt-16 pt-16 border-t border-border text-center">
+        <div className="mt-16 pt-16 border-t border-border text-center">
           <p className="font-serif text-2xl md:text-3xl text-foreground italic">
             "Le problème n'est pas l'effort.{" "}
             <span className="text-bronze">Le problème est l'absence de structure.</span>"
           </p>
-        </AnimatedSection>
+        </div>
       </div>
     </section>
   );
