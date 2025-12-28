@@ -1,3 +1,6 @@
+import AnimatedSection from "./AnimatedSection";
+import { motion } from "framer-motion";
+
 const Method = () => {
   const steps = [
     {
@@ -26,7 +29,7 @@ const Method = () => {
     <section id="methode" className="section-padding bg-primary text-primary-foreground">
       <div className="container-wide">
         {/* Section header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        <AnimatedSection className="text-center mb-16 max-w-3xl mx-auto">
           <span className="inline-block px-4 py-2 text-xs font-medium uppercase tracking-widest text-bronze-light border border-bronze-light/30 rounded-full mb-6">
             Notre méthode
           </span>
@@ -34,14 +37,18 @@ const Method = () => {
             Une méthodologie claire{" "}
             <span className="italic text-bronze-light">en 4 étapes</span>
           </h2>
-        </div>
+        </AnimatedSection>
 
         {/* Steps */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
           {steps.map((step, index) => (
-            <div 
+            <motion.div 
               key={index}
               className="relative group"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               {/* Connector line (hidden on last item and mobile) */}
               {index < steps.length - 1 && (
@@ -62,7 +69,7 @@ const Method = () => {
                   {step.description}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

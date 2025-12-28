@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
+import lgmLogo from "@/assets/lgm-logo.png";
 
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container-wide flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2">
-          <span className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
-            LGM
-          </span>
+        <a href="/" className="flex items-center gap-3">
+          <img 
+            src={lgmLogo} 
+            alt="LGM - Les Gens du Marketing" 
+            className="h-10 md:h-12 w-auto"
+          />
           <span className="hidden sm:block text-xs text-muted-foreground font-sans uppercase tracking-widest">
             Les Gens du Marketing
           </span>
