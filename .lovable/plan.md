@@ -1,37 +1,34 @@
 
 
-## Redesign Hero Right Column to Match Reference
+## Add "Publicité Facebook" Service Page
 
-### The problem
+### What changes
 
-The current hero has only a floating stats card on the right. The reference image shows a **large photo** with a stats card **overlapping** it, plus a "Join the Future" pill at the bottom. The composition creates much more visual impact.
+Add the Facebook Ads service as a dedicated entry in the existing service detail system, using the SEO copy from the old site.
 
-### Changes
+### File changes
 
-**1. Generate a hero image using AI**
+**1. `src/pages/ServiceDetailPage.tsx`** — Add new entry to `servicesData`
 
-Use the AI image generation edge function to create a professional photo-style image of a marketing professional at work — styled to match the LGM dark/bronze aesthetic. Store it in the public folder.
+Add key `"publicite-facebook"` with:
+- icon: `Megaphone` (or `Facebook` from lucide if available)
+- title: "Publicité Facebook"
+- headline: "Maximisez Votre Impact avec Nos Campagnes Facebook"
+- description: Copy from old site about being the specialized Facebook ads agency in Abidjan
+- benefits: "Garantie de Résultats", "Stratégies Personnalisées pour Chaque Client", "Expertise en ciblage précis", "Rapports détaillés et mesurables", "Gestion complète des campagnes", "Amélioration continue basée sur les données", "Accompagnement et support proactif"
+- process: 4-step process — Consultation gratuite → Analyse des besoins → Lancement campagnes → Résultats mesurables
 
-**2. `src/components/Hero.tsx`** — Restructure right column
+**2. `src/pages/ServicesPage.tsx`** — Add Facebook Ads to the services grid
 
-Replace the current right column with the reference layout:
-- A large **rounded image** (takes up most of the right side, with rounded corners and slight top-right crop)
-- The **stats card** (existing "Résultats prouvés" card) positioned to **overlap** the left edge of the image, floating on top
-- The **"Rejoignez l'avenir du marketing" pill** positioned at the bottom-right of the image
-- Use `absolute` positioning for the card and pill relative to the image container
-- Keep the existing card content (headline, 9.6 rating, stars, avatar group)
+Add a new entry in the `services` array with slug `"publicite-facebook"` so it appears on the services listing page.
 
-**3. Layout adjustments**
+**3. `src/App.tsx`** — No changes needed
 
-- The image should have `rounded-2xl` with `object-cover`
-- Stats card: `absolute top-8 -left-12` overlapping the image boundary
-- Pill: `absolute bottom-6 right-6`
-- On mobile: stack image below text, card overlaps still visible but adjusted for smaller screens
-- Keep the dark background and bronze accents — do NOT switch to light theme
+The route `/services/:slug` already handles all service detail pages dynamically.
 
-### Technical details
+### Technical notes
 
-- Generate image via the existing `generate-illustration` edge function or add a static placeholder image
-- The right column becomes a `relative` container with the image as the base and card/pill as `absolute` children
-- No structural changes to left column — only the right column composition changes
+- The `ServiceDetailPage` component already handles dynamic slugs — just adding data is enough
+- Old site slug was `agence-marketing-publicite-facebook/` but we'll use `publicite-facebook` to match the existing URL pattern (can add a redirect later if needed for SEO)
+- SEO meta tags are already handled by `Helmet` in `ServiceDetailPage`
 
