@@ -6,33 +6,18 @@ import HexagonPattern from "@/components/HexagonPattern";
 const values = [
   {
     icon: Target,
-    title: "Résultats mesurables",
-    description: "Chaque action est guidée par des objectifs clairs et des KPIs précis."
-  },
-  {
-    icon: Users,
-    title: "Partenariat",
-    description: "Nous travaillons main dans la main avec nos clients, comme une extension de leur équipe."
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation",
-    description: "Nous explorons constamment de nouvelles approches pour rester à la pointe."
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description: "Nous visons l'excellence dans chaque projet, sans compromis sur la qualité."
+    title: "Transparence Totale",
+    description: "Nous vous tenons informés des moindres détails de votre campagne marketing, des stratégies employées aux résultats obtenus. Nous partageons avec vous toutes les données et analyses."
   },
   {
     icon: TrendingUp,
-    title: "Croissance",
-    description: "Notre objectif est de faire croître votre entreprise de manière durable."
+    title: "Performance",
+    description: "Nous proposons un modèle basé sur la performance. Si les objectifs convenus ne sont pas atteints, nous vous remboursons les frais d'agence. Notre agence travaille en harmonie avec vos objectifs."
   },
   {
     icon: Heart,
-    title: "Passion",
-    description: "Le marketing est notre passion, et cela se reflète dans notre travail."
+    title: "Approche Personnalisée",
+    description: "Chaque entreprise à Abidjan est unique. Nous concevons des stratégies sur mesure, de la page de lead aux campagnes publicitaires, pour générer des leads de qualité de manière durable."
   }
 ];
 
