@@ -16,7 +16,7 @@ const Index = () => {
         <title>LGM — Agence de Marketing Digital et Communication à Abidjan</title>
         <meta 
           name="description" 
-          content="LGM est l'agence de marketing digital à Abidjan spécialisée en résultats tangibles. Obtenez plus de prospects qualifiés et augmentez votre chiffre d'affaires grâce à des stratégies éprouvées." 
+          content="LGM est l'agence de marketing digital à Abidjan. De la stratégie aux résultats concrets : plus de prospects qualifiés et une croissance mesurable pour votre entreprise." 
         />
         <meta name="keywords" content="marketing digital abidjan, communication abidjan, agence marketing côte d'ivoire, leads qualifiés, publicité digitale, automatisation IA, SEO abidjan, génération leads, développement web abidjan" />
         <link rel="canonical" href="https://lgm.marketing" />
