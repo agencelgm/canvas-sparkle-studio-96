@@ -70,10 +70,10 @@ const Services = () => {
             Nos expertises
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight mb-4 sm:mb-6">
-            Expertises intégrées <span className="italic text-bronze">au système</span>
+            Transformez votre entreprise <span className="italic text-bronze">avec nos services</span>
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
-            Ces expertises ne sont jamais utilisées isolément. Elles font partie d'un système cohérent.
+            Des solutions innovantes pour votre succès à Abidjan et toute la Côte d'Ivoire. Ces expertises font partie d'un système cohérent.
           </p>
         </div>
 
