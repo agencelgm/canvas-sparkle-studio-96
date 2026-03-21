@@ -131,6 +131,26 @@ const servicesData: Record<string, {
       { step: 3, title: "Contenu", description: "Création et planification du contenu" },
       { step: 4, title: "Community", description: "Animation et engagement quotidien" }
     ]
+  },
+  "publicite-facebook": {
+    icon: Megaphone,
+    title: "Publicité Facebook",
+    headline: "Maximisez Votre Impact avec Nos Campagnes Facebook",
+    description: "À Abidjan, nous sommes l'agence marketing spécialisée en publicité Facebook qui vous accompagne vers des résultats concrets. Bénéficiez de stratégies publicitaires sur mesure qui captivent et convertissent votre audience cible en clients fidèles.",
+    benefits: [
+      "Stratégies personnalisées pour chaque client",
+      "Expertise en ciblage précis",
+      "Rapports détaillés et mesurables",
+      "Gestion complète des campagnes",
+      "Amélioration continue basée sur les données",
+      "Accompagnement et support proactif"
+    ],
+    process: [
+      { step: 1, title: "Consultation", description: "Réservez une consultation gratuite avec nos experts marketing" },
+      { step: 2, title: "Analyse", description: "Analyse approfondie de vos besoins et de votre audience cible" },
+      { step: 3, title: "Lancement", description: "Création et lancement de campagnes optimisées et ciblées" },
+      { step: 4, title: "Résultats", description: "Suivi des performances et optimisation continue pour un ROI maximal" }
+    ]
   }
 };
 

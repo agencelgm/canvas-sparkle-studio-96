@@ -46,6 +46,13 @@ const services = [
     slug: "formations-webinaires",
     description: "Maîtrisez le marketing digital grâce à nos formations et webinaires interactifs et pratiques.",
     features: ["Formations personnalisées", "Webinaires interactifs", "Coaching marketing", "Ateliers pratiques"]
+  },
+  {
+    icon: Megaphone,
+    title: "Publicité Facebook",
+    slug: "publicite-facebook",
+    description: "Maximisez votre impact avec des campagnes Facebook ciblées. Stratégies sur mesure qui convertissent votre audience en clients fidèles.",
+    features: ["Ciblage précis", "Campagnes optimisées", "Rapports détaillés", "Support proactif"]
   }
 ];
 
