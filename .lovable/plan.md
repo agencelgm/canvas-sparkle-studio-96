@@ -1,40 +1,37 @@
 
 
-## Redesign Hero Section + Update Navigation
+## Redesign Hero Right Column to Match Reference
 
-### Overview
+### The problem
 
-Redesign the homepage hero to use a **split layout** inspired by the reference screenshots: text/CTA on the left, a visual card + image composition on the right. Also add "Accueil" as the first nav link.
+The current hero has only a floating stats card on the right. The reference image shows a **large photo** with a stats card **overlapping** it, plus a "Join the Future" pill at the bottom. The composition creates much more visual impact.
 
 ### Changes
 
-**1. `src/components/Header.tsx`** — Add "Accueil" link
+**1. Generate a hero image using AI**
 
-- Add `{ href: "/", label: "Accueil" }` as the first item in `navLinks` array
+Use the AI image generation edge function to create a professional photo-style image of a marketing professional at work — styled to match the LGM dark/bronze aesthetic. Store it in the public folder.
 
-**2. `src/components/Hero.tsx`** — Redesign to split layout
+**2. `src/components/Hero.tsx`** — Restructure right column
 
-Replace the current centered layout with a two-column grid:
+Replace the current right column with the reference layout:
+- A large **rounded image** (takes up most of the right side, with rounded corners and slight top-right crop)
+- The **stats card** (existing "Résultats prouvés" card) positioned to **overlap** the left edge of the image, floating on top
+- The **"Rejoignez l'avenir du marketing" pill** positioned at the bottom-right of the image
+- Use `absolute` positioning for the card and pill relative to the image container
+- Keep the existing card content (headline, 9.6 rating, stars, avatar group)
 
-- **Left column** (text-aligned left):
-  - SEO badge pill ("Marketing Digital")
-  - H1: current headline, left-aligned
-  - Subtitle paragraph, left-aligned
-  - Two CTA buttons side by side (same as current)
+**3. Layout adjustments**
 
-- **Right column** (visual composition):
-  - A floating card with: bold headline ("De la stratégie aux résultats concrets"), a rating/score display (e.g. "9.6" with stars), and a "Clients actifs" indicator with avatar circles
-  - Behind/overlapping the card: a decorative image area using the existing bronze gradient orbs and hexagon pattern to create visual depth
-  - A secondary pill/button: "Rejoignez l'avenir du marketing"
-
-- **Responsive**: On mobile, stack vertically — text first, then the card composition below
-- Keep existing background elements (hexagon pattern, bronze orbs, gradient)
-- No external images needed — use gradients, shapes, and the existing design system to create the visual card
+- The image should have `rounded-2xl` with `object-cover`
+- Stats card: `absolute top-8 -left-12` overlapping the image boundary
+- Pill: `absolute bottom-6 right-6`
+- On mobile: stack image below text, card overlaps still visible but adjusted for smaller screens
+- Keep the dark background and bronze accents — do NOT switch to light theme
 
 ### Technical details
 
-- The right-side card is pure CSS/HTML — rounded card with backdrop blur, bronze accents, avatar placeholders as colored circles
-- Grid: `grid grid-cols-1 lg:grid-cols-2 gap-8 items-center`
-- The card floats with slight rotation/shadow for depth, matching the reference aesthetic
-- Stats card uses the existing `card` component styling
+- Generate image via the existing `generate-illustration` edge function or add a static placeholder image
+- The right column becomes a `relative` container with the image as the base and card/pill as `absolute` children
+- No structural changes to left column — only the right column composition changes
 
