@@ -6,26 +6,32 @@ const Services = () => {
     {
       icon: Users,
       title: "Génération de leads qualifiés",
+      description: "Attirez des prospects qualifiés grâce à des campagnes ciblées et efficaces.",
     },
     {
       icon: Search,
       title: "SEO & SEO local à Abidjan",
+      description: "Dominez le marché d'Abidjan et améliorez votre visibilité en ligne.",
     },
     {
       icon: Globe,
-      title: "Sites orientés conversion",
+      title: "Développement web & sites conversion",
+      description: "Transformez votre présence en ligne avec un site web sur mesure.",
     },
     {
       icon: Database,
-      title: "CRM & automatisation",
+      title: "Automatisation d'entreprise grâce à l'IA",
+      description: "Boostez votre efficacité avec des technologies avancées.",
     },
     {
       icon: Mail,
-      title: "Email marketing",
+      title: "Publicités payantes & digitales",
+      description: "Maximisez votre ROI avec des campagnes Google, Facebook et Instagram.",
     },
     {
       icon: Share2,
       title: "Réseaux sociaux orientés business",
+      description: "Construisez une communauté engagée et renforcez votre marque.",
     },
   ];
 
