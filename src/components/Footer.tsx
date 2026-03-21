@@ -21,7 +21,7 @@ const Footer = () => {
               />
             </Link>
             <p className="text-xs sm:text-sm text-muted-foreground">
-              De la stratégie aux résultats mesurables.
+              De la stratégie de marketing digital aux résultats mesurables.
             </p>
           </div>
 
