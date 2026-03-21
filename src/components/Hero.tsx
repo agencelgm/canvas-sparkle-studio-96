@@ -36,6 +36,18 @@ const Hero = () => {
           augmentez votre <span className="text-foreground font-medium">chiffre d'affaires</span> grâce 
           à un système structuré et pilotable.
         </p>
+        {/* Video */}
+        <div className="max-w-3xl mx-auto mb-8 sm:mb-10 px-2">
+          <div className="aspect-video rounded-lg overflow-hidden border border-border shadow-lg">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+              title="LGM - Agence de Marketing Digital à Abidjan"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
