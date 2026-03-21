@@ -1,34 +1,40 @@
 
 
-## Add "Publicité Facebook" Service Page
+## Redesign Hero Section + Update Navigation
 
-### What changes
+### Overview
 
-Add the Facebook Ads service as a dedicated entry in the existing service detail system, using the SEO copy from the old site.
+Redesign the homepage hero to use a **split layout** inspired by the reference screenshots: text/CTA on the left, a visual card + image composition on the right. Also add "Accueil" as the first nav link.
 
-### File changes
+### Changes
 
-**1. `src/pages/ServiceDetailPage.tsx`** — Add new entry to `servicesData`
+**1. `src/components/Header.tsx`** — Add "Accueil" link
 
-Add key `"publicite-facebook"` with:
-- icon: `Megaphone` (or `Facebook` from lucide if available)
-- title: "Publicité Facebook"
-- headline: "Maximisez Votre Impact avec Nos Campagnes Facebook"
-- description: Copy from old site about being the specialized Facebook ads agency in Abidjan
-- benefits: "Garantie de Résultats", "Stratégies Personnalisées pour Chaque Client", "Expertise en ciblage précis", "Rapports détaillés et mesurables", "Gestion complète des campagnes", "Amélioration continue basée sur les données", "Accompagnement et support proactif"
-- process: 4-step process — Consultation gratuite → Analyse des besoins → Lancement campagnes → Résultats mesurables
+- Add `{ href: "/", label: "Accueil" }` as the first item in `navLinks` array
 
-**2. `src/pages/ServicesPage.tsx`** — Add Facebook Ads to the services grid
+**2. `src/components/Hero.tsx`** — Redesign to split layout
 
-Add a new entry in the `services` array with slug `"publicite-facebook"` so it appears on the services listing page.
+Replace the current centered layout with a two-column grid:
 
-**3. `src/App.tsx`** — No changes needed
+- **Left column** (text-aligned left):
+  - SEO badge pill ("Marketing Digital")
+  - H1: current headline, left-aligned
+  - Subtitle paragraph, left-aligned
+  - Two CTA buttons side by side (same as current)
 
-The route `/services/:slug` already handles all service detail pages dynamically.
+- **Right column** (visual composition):
+  - A floating card with: bold headline ("De la stratégie aux résultats concrets"), a rating/score display (e.g. "9.6" with stars), and a "Clients actifs" indicator with avatar circles
+  - Behind/overlapping the card: a decorative image area using the existing bronze gradient orbs and hexagon pattern to create visual depth
+  - A secondary pill/button: "Rejoignez l'avenir du marketing"
 
-### Technical notes
+- **Responsive**: On mobile, stack vertically — text first, then the card composition below
+- Keep existing background elements (hexagon pattern, bronze orbs, gradient)
+- No external images needed — use gradients, shapes, and the existing design system to create the visual card
 
-- The `ServiceDetailPage` component already handles dynamic slugs — just adding data is enough
-- Old site slug was `agence-marketing-publicite-facebook/` but we'll use `publicite-facebook` to match the existing URL pattern (can add a redirect later if needed for SEO)
-- SEO meta tags are already handled by `Helmet` in `ServiceDetailPage`
+### Technical details
+
+- The right-side card is pure CSS/HTML — rounded card with backdrop blur, bronze accents, avatar placeholders as colored circles
+- Grid: `grid grid-cols-1 lg:grid-cols-2 gap-8 items-center`
+- The card floats with slight rotation/shadow for depth, matching the reference aesthetic
+- Stats card uses the existing `card` component styling
 
