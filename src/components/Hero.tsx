@@ -54,65 +54,67 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Right column — Visual card composition */}
-          <div className="relative flex items-center justify-center lg:justify-end mt-8 lg:mt-0">
-            {/* Background decorative elements */}
-            <div className="absolute -top-8 -right-8 w-64 h-64 bg-gradient-radial from-bronze/15 to-transparent rounded-full blur-2xl" />
-            <div className="absolute -bottom-12 -left-8 w-48 h-48 bg-gradient-radial from-primary/10 to-transparent rounded-full blur-xl" />
+          {/* Right column — Image + overlapping card */}
+          <div className="relative mt-8 lg:mt-0">
+            {/* Main image */}
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src="/hero-image.jpg"
+                alt="Expert marketing digital LGM à Abidjan"
+                className="w-full h-[400px] sm:h-[500px] lg:h-[560px] object-cover"
+                loading="eager"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+            </div>
 
-            {/* Main floating card */}
-            <div className="relative w-full max-w-md">
-              {/* Primary card */}
-              <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 sm:p-8 shadow-2xl transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-bronze/5 via-transparent to-primary/5 rounded-2xl" />
+            {/* Overlapping stats card */}
+            <div className="absolute top-6 -left-4 sm:top-8 sm:-left-12 w-[280px] sm:w-[300px] bg-card/85 backdrop-blur-xl border border-border/50 rounded-2xl p-5 sm:p-6 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-bronze/5 via-transparent to-primary/5 rounded-2xl" />
+              
+              <div className="relative z-10">
+                <p className="text-[10px] font-medium uppercase tracking-widest text-bronze mb-3">Résultats prouvés</p>
                 
-                <div className="relative z-10">
-                  <p className="text-xs font-medium uppercase tracking-widest text-bronze mb-4">Résultats prouvés</p>
-                  
-                  <h2 className="font-serif text-2xl sm:text-3xl font-medium leading-tight mb-6">
-                    De la stratégie aux{" "}
-                    <span className="text-bronze italic">résultats concrets</span>
-                  </h2>
+                <h2 className="font-serif text-lg sm:text-xl font-medium leading-tight mb-4">
+                  De la stratégie aux{" "}
+                  <span className="text-bronze italic">résultats concrets</span>
+                </h2>
 
-                  {/* Rating display */}
-                  <div className="flex items-center gap-3 mb-6 pb-6 border-b border-border/30">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-bronze/10 border border-bronze/20">
-                      <span className="text-2xl font-bold text-bronze">9.6</span>
+                {/* Rating display */}
+                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border/30">
+                  <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-bronze/10 border border-bronze/20">
+                    <span className="text-xl font-bold text-bronze">9.6</span>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-0.5 mb-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3 h-3 fill-bronze text-bronze" />
+                      ))}
                     </div>
-                    <div>
-                      <div className="flex items-center gap-0.5 mb-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 fill-bronze text-bronze" />
-                        ))}
-                      </div>
-                      <p className="text-xs text-muted-foreground">Satisfaction client</p>
+                    <p className="text-[10px] text-muted-foreground">Satisfaction client</p>
+                  </div>
+                </div>
+
+                {/* Active clients indicator */}
+                <div className="flex items-center gap-2.5">
+                  <div className="flex -space-x-2">
+                    <div className="w-7 h-7 rounded-full bg-bronze/30 border-2 border-card" />
+                    <div className="w-7 h-7 rounded-full bg-primary/30 border-2 border-card" />
+                    <div className="w-7 h-7 rounded-full bg-accent/30 border-2 border-card" />
+                    <div className="w-7 h-7 rounded-full bg-muted border-2 border-card flex items-center justify-center">
+                      <span className="text-[9px] font-medium text-muted-foreground">+12</span>
                     </div>
                   </div>
-
-                  {/* Active clients indicator */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex -space-x-2">
-                        <div className="w-8 h-8 rounded-full bg-bronze/30 border-2 border-card" />
-                        <div className="w-8 h-8 rounded-full bg-primary/30 border-2 border-card" />
-                        <div className="w-8 h-8 rounded-full bg-accent/30 border-2 border-card" />
-                        <div className="w-8 h-8 rounded-full bg-muted border-2 border-card flex items-center justify-center">
-                          <span className="text-[10px] font-medium text-muted-foreground">+12</span>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Clients actifs</p>
-                        <p className="text-xs text-muted-foreground">Entreprises accompagnées</p>
-                      </div>
-                    </div>
+                  <div>
+                    <p className="text-xs font-medium text-foreground">Clients actifs</p>
+                    <p className="text-[10px] text-muted-foreground">Entreprises accompagnées</p>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Floating secondary pill */}
-              <div className="absolute -bottom-4 -left-4 sm:-left-8 bg-card/90 backdrop-blur-md border border-bronze/20 rounded-full px-4 py-2 shadow-lg">
-                <p className="text-xs font-medium text-bronze whitespace-nowrap">✨ Rejoignez l'avenir du marketing</p>
-              </div>
+            {/* Floating pill — bottom right */}
+            <div className="absolute -bottom-3 right-4 sm:bottom-4 sm:right-6 bg-card/90 backdrop-blur-md border border-bronze/20 rounded-full px-4 py-2 shadow-lg">
+              <p className="text-xs font-medium text-bronze whitespace-nowrap">✨ Rejoignez l'avenir du marketing</p>
             </div>
           </div>
         </div>
