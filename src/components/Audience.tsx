@@ -104,6 +104,9 @@ const Audience = () => {
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight mt-4">
             Pour qui travaillons-nous ?
           </h2>
+          <p className="text-sm sm:text-base text-muted-foreground mt-4 max-w-2xl mx-auto">
+            Chez LGM, nous aidons les propriétaires d'entreprises ambitieux à obtenir plus de prospects qualifiés et à augmenter leur chiffre d'affaires.
+          </p>
         </div>
 
         {/* Content */}

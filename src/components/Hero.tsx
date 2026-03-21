@@ -20,27 +20,27 @@ const Hero = () => {
         {/* SEO Badge */}
         <div>
           <span className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-6 sm:mb-8">
-            Agence marketing à Abidjan
+            Agence de Marketing Digital et Communication à Abidjan
           </span>
         </div>
 
         {/* Main headline */}
         <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-tight mb-4 sm:mb-6">
-          De la stratégie aux{" "}
+          De la stratégie de marketing digital aux{" "}
           <span className="italic text-bronze">résultats mesurables</span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
-          Si votre croissance est instable, le problème n'est ni votre marketing, ni votre vente. 
-          C'est l'absence d'un{" "}
-          <span className="text-foreground font-medium">système structuré et pilotable</span>.
+          Obtenez plus de <span className="text-foreground font-medium">prospects qualifiés</span> et 
+          augmentez votre <span className="text-foreground font-medium">chiffre d'affaires</span> grâce 
+          à un système structuré et pilotable.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Button variant="hero" size="lg" className="group w-full sm:w-auto">
-            Parler à un stratège
+            Réservez une consultation gratuite
             <ArrowRight className="transition-transform group-hover:translate-x-1" />
           </Button>
           <Button variant="hero-secondary" size="lg" className="w-full sm:w-auto">
@@ -50,7 +50,7 @@ const Hero = () => {
 
         {/* Trust indicator */}
         <p className="mt-8 sm:mt-12 text-xs sm:text-sm text-muted-foreground">
-          Cabinet stratégique de croissance · Abidjan, Côte d'Ivoire
+          La seule agence marketing à Abidjan qui garantit des résultats · Côte d'Ivoire
         </p>
       </div>
 

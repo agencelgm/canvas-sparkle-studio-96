@@ -64,18 +64,18 @@ const AboutPage = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Fondée avec la vision de révolutionner le marketing digital en Afrique de l'Ouest, 
-                  LGM est née d'une frustration : trop d'entreprises investissent dans le marketing 
+                  LGM est l'agence de marketing digital à Abidjan spécialisée en résultats tangibles. 
+                  Née d'une frustration : trop d'entreprises investissent dans le marketing 
                   sans voir de retour concret.
                 </p>
                 <p>
                   Notre approche est différente. Nous ne vendons pas des "likes" ou des "impressions". 
                   Nous construisons des systèmes d'acquisition qui génèrent des leads qualifiés et 
-                  des clients réels.
+                  des clients réels, avec une approche personnalisée centrée sur la performance.
                 </p>
                 <p>
                   Aujourd'hui, nous accompagnons des PME, des startups et des grandes entreprises 
-                  dans leur croissance, avec une seule obsession : le ROI.
+                  à Abidjan et en Côte d'Ivoire dans leur croissance, avec une seule obsession : le ROI.
                 </p>
               </div>
             </div>

@@ -129,8 +129,13 @@ const Problem = () => {
                   <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-bronze/60 mt-2 flex-shrink-0" />
                   <span>Une dépendance permanente au prochain "test marketing"</span>
                 </li>
-              </ul>
+            </ul>
             </div>
+
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              C'est pourquoi chez LGM, nous proposons une approche personnalisée, centrée sur la performance et l'innovation, 
+              avec des stratégies de marketing digital éprouvées qui génèrent des résultats tangibles.
+            </p>
           </div>
         </div>
 

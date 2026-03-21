@@ -16,36 +16,36 @@ const services = [
     icon: Search,
     title: "SEO Local",
     slug: "seo-local",
-    description: "Dominez les résultats de recherche locaux et attirez des clients de votre zone géographique.",
+    description: "Dominez les résultats de recherche locaux et attirez des clients de votre zone géographique à Abidjan.",
     features: ["Optimisation Google Business", "Citations locales", "Avis clients", "Contenu géolocalisé"]
   },
   {
     icon: Megaphone,
-    title: "Publicité Digitale",
+    title: "Publicités Payantes",
     slug: "publicite-digitale",
-    description: "Maximisez votre ROI avec des campagnes publicitaires ciblées sur Google, Facebook et Instagram.",
+    description: "Boostez votre visibilité et vos ventes avec nos campagnes publicitaires ciblées sur Google, Facebook et Instagram.",
     features: ["Google Ads", "Facebook & Instagram Ads", "Retargeting", "A/B Testing"]
   },
   {
     icon: FileText,
-    title: "Stratégie de contenu",
-    slug: "strategie-contenu",
-    description: "Créez du contenu qui engage, éduque et convertit votre audience en clients fidèles.",
-    features: ["Calendrier éditorial", "Rédaction SEO", "Content marketing", "Storytelling de marque"]
+    title: "Développement Web",
+    slug: "developpement-web",
+    description: "Transformez votre présence en ligne et attirez des clients avec un site web sur mesure orienté conversion.",
+    features: ["Sites sur mesure", "Landing pages", "Optimisation conversion", "Design responsive"]
   },
   {
     icon: BarChart3,
-    title: "Analytics & Reporting",
-    slug: "analytics-reporting",
-    description: "Prenez des décisions éclairées grâce à des tableaux de bord clairs et des analyses approfondies.",
-    features: ["Tableaux de bord personnalisés", "Suivi des conversions", "Attribution marketing", "Rapports mensuels"]
+    title: "Automatisation & IA",
+    slug: "automatisation-ia",
+    description: "Boostez votre efficacité avec l'IA. Nos technologies avancées automatisent vos processus, réduisant coûts et complexité.",
+    features: ["CRM automatisé", "Chatbots IA", "Email automation", "Reporting intelligent"]
   },
   {
     icon: MessageCircle,
-    title: "Social Media Management",
-    slug: "social-media",
-    description: "Construisez une communauté engagée et renforcez votre présence sur les réseaux sociaux.",
-    features: ["Stratégie social media", "Création de contenu", "Community management", "Influence marketing"]
+    title: "Formations & Webinaires",
+    slug: "formations-webinaires",
+    description: "Maîtrisez le marketing digital grâce à nos formations et webinaires interactifs et pratiques.",
+    features: ["Formations personnalisées", "Webinaires interactifs", "Coaching marketing", "Ateliers pratiques"]
   }
 ];
 

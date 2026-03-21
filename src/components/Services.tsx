@@ -82,12 +82,15 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group flex items-center gap-3 sm:gap-4 lg:gap-5 p-4 sm:p-5 lg:p-6 bg-secondary/30 border border-border rounded-lg hover:border-bronze/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300"
+              className="group flex flex-col gap-3 p-4 sm:p-5 lg:p-6 bg-secondary/30 border border-border rounded-lg hover:border-bronze/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300"
             >
-              <div className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-bronze/10 flex items-center justify-center group-hover:bg-bronze/20 transition-colors">
-                <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-bronze" />
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-bronze/10 flex items-center justify-center group-hover:bg-bronze/20 transition-colors">
+                  <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-bronze" />
+                </div>
+                <span className="font-medium text-sm sm:text-base text-foreground">{service.title}</span>
               </div>
-              <span className="font-medium text-sm sm:text-base text-foreground">{service.title}</span>
+              <p className="text-xs sm:text-sm text-muted-foreground">{service.description}</p>
             </div>
           ))}
         </div>
