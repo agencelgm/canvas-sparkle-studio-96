@@ -40,12 +40,12 @@ const CTA = () => {
 
             {/* Subtext */}
             <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 lg:mb-10 px-2">
-              Parlez à un stratège LGM pour déterminer si notre approche est adaptée à votre situation.
+              Réservez une consultation gratuite. Découvrez comment notre agence marketing peut transformer votre entreprise.
             </p>
 
             {/* CTA Button */}
             <Button variant="hero" size="lg" className="group w-full sm:w-auto">
-              Parler à un stratège
+              Réservez une consultation gratuite
               <ArrowRight className="transition-transform group-hover:translate-x-1" />
             </Button>
           </div>

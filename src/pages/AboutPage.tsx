@@ -1,38 +1,23 @@
 import PageLayout from "@/components/layout/PageLayout";
-import { Target, Users, Lightbulb, Award, TrendingUp, Heart } from "lucide-react";
+import { Target, TrendingUp, Heart } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import HexagonPattern from "@/components/HexagonPattern";
 
 const values = [
   {
     icon: Target,
-    title: "Résultats mesurables",
-    description: "Chaque action est guidée par des objectifs clairs et des KPIs précis."
-  },
-  {
-    icon: Users,
-    title: "Partenariat",
-    description: "Nous travaillons main dans la main avec nos clients, comme une extension de leur équipe."
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation",
-    description: "Nous explorons constamment de nouvelles approches pour rester à la pointe."
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description: "Nous visons l'excellence dans chaque projet, sans compromis sur la qualité."
+    title: "Transparence Totale",
+    description: "Nous vous tenons informés des moindres détails de votre campagne marketing, des stratégies employées aux résultats obtenus. Nous partageons avec vous toutes les données et analyses."
   },
   {
     icon: TrendingUp,
-    title: "Croissance",
-    description: "Notre objectif est de faire croître votre entreprise de manière durable."
+    title: "Performance",
+    description: "Nous proposons un modèle basé sur la performance. Si les objectifs convenus ne sont pas atteints, nous vous remboursons les frais d'agence. Notre agence travaille en harmonie avec vos objectifs."
   },
   {
     icon: Heart,
-    title: "Passion",
-    description: "Le marketing est notre passion, et cela se reflète dans notre travail."
+    title: "Approche Personnalisée",
+    description: "Chaque entreprise à Abidjan est unique. Nous concevons des stratégies sur mesure, de la page de lead aux campagnes publicitaires, pour générer des leads de qualité de manière durable."
   }
 ];
 
@@ -79,18 +64,18 @@ const AboutPage = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Fondée avec la vision de révolutionner le marketing digital en Afrique de l'Ouest, 
-                  LGM est née d'une frustration : trop d'entreprises investissent dans le marketing 
+                  LGM est l'agence de marketing digital à Abidjan spécialisée en résultats tangibles. 
+                  Née d'une frustration : trop d'entreprises investissent dans le marketing 
                   sans voir de retour concret.
                 </p>
                 <p>
                   Notre approche est différente. Nous ne vendons pas des "likes" ou des "impressions". 
                   Nous construisons des systèmes d'acquisition qui génèrent des leads qualifiés et 
-                  des clients réels.
+                  des clients réels, avec une approche personnalisée centrée sur la performance.
                 </p>
                 <p>
                   Aujourd'hui, nous accompagnons des PME, des startups et des grandes entreprises 
-                  dans leur croissance, avec une seule obsession : le ROI.
+                  à Abidjan et en Côte d'Ivoire dans leur croissance, avec une seule obsession : le ROI.
                 </p>
               </div>
             </div>

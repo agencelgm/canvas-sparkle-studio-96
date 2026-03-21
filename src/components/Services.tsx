@@ -6,26 +6,32 @@ const Services = () => {
     {
       icon: Users,
       title: "Génération de leads qualifiés",
+      description: "Attirez des prospects qualifiés grâce à des campagnes ciblées et efficaces.",
     },
     {
       icon: Search,
       title: "SEO & SEO local à Abidjan",
+      description: "Dominez le marché d'Abidjan et améliorez votre visibilité en ligne.",
     },
     {
       icon: Globe,
-      title: "Sites orientés conversion",
+      title: "Développement web & sites conversion",
+      description: "Transformez votre présence en ligne avec un site web sur mesure.",
     },
     {
       icon: Database,
-      title: "CRM & automatisation",
+      title: "Automatisation d'entreprise grâce à l'IA",
+      description: "Boostez votre efficacité avec des technologies avancées.",
     },
     {
       icon: Mail,
-      title: "Email marketing",
+      title: "Publicités payantes & digitales",
+      description: "Maximisez votre ROI avec des campagnes Google, Facebook et Instagram.",
     },
     {
       icon: Share2,
       title: "Réseaux sociaux orientés business",
+      description: "Construisez une communauté engagée et renforcez votre marque.",
     },
   ];
 
@@ -64,10 +70,10 @@ const Services = () => {
             Nos expertises
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight mb-4 sm:mb-6">
-            Expertises intégrées <span className="italic text-bronze">au système</span>
+            Transformez votre entreprise <span className="italic text-bronze">avec nos services</span>
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
-            Ces expertises ne sont jamais utilisées isolément. Elles font partie d'un système cohérent.
+            Des solutions innovantes pour votre succès à Abidjan et toute la Côte d'Ivoire. Ces expertises font partie d'un système cohérent.
           </p>
         </div>
 
@@ -76,12 +82,15 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group flex items-center gap-3 sm:gap-4 lg:gap-5 p-4 sm:p-5 lg:p-6 bg-secondary/30 border border-border rounded-lg hover:border-bronze/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300"
+              className="group flex flex-col gap-3 p-4 sm:p-5 lg:p-6 bg-secondary/30 border border-border rounded-lg hover:border-bronze/30 hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300"
             >
-              <div className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-bronze/10 flex items-center justify-center group-hover:bg-bronze/20 transition-colors">
-                <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-bronze" />
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-bronze/10 flex items-center justify-center group-hover:bg-bronze/20 transition-colors">
+                  <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-bronze" />
+                </div>
+                <span className="font-medium text-sm sm:text-base text-foreground">{service.title}</span>
               </div>
-              <span className="font-medium text-sm sm:text-base text-foreground">{service.title}</span>
+              <p className="text-xs sm:text-sm text-muted-foreground">{service.description}</p>
             </div>
           ))}
         </div>

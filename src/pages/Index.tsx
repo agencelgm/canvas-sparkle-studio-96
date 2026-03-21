@@ -13,13 +13,13 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>LGM — Agence Marketing à Abidjan | De la stratégie aux résultats mesurables</title>
+        <title>LGM — Agence de Marketing Digital et Communication à Abidjan</title>
         <meta 
           name="description" 
-          content="LGM est un cabinet stratégique de croissance à Abidjan. Nous structurons votre système de revenus : marketing, vente, tracking et automatisation. Résultats mesurables garantis." 
+          content="LGM est l'agence de marketing digital à Abidjan spécialisée en résultats tangibles. Obtenez plus de prospects qualifiés et augmentez votre chiffre d'affaires grâce à des stratégies éprouvées." 
         />
-        <meta name="keywords" content="agence marketing abidjan, cabinet stratégique, croissance entreprise, génération leads, SEO Abidjan" />
-        <link rel="canonical" href="https://lgm.ci" />
+        <meta name="keywords" content="marketing digital abidjan, communication abidjan, agence marketing côte d'ivoire, leads qualifiés, publicité digitale, automatisation IA, SEO abidjan, génération leads, développement web abidjan" />
+        <link rel="canonical" href="https://lgm.marketing" />
       </Helmet>
 
       <div className="min-h-screen bg-background">
