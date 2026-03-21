@@ -1,34 +1,24 @@
 
 
-## Add "Publicité Facebook" Service Page
+## Add YouTube Video Embed to Hero Section
 
 ### What changes
 
-Add the Facebook Ads service as a dedicated entry in the existing service detail system, using the SEO copy from the old site.
+Add a responsive YouTube video embed between the subheadline ("structuré et pilotable.") and the CTA buttons in the Hero component.
 
-### File changes
+### File: `src/components/Hero.tsx`
 
-**1. `src/pages/ServiceDetailPage.tsx`** — Add new entry to `servicesData`
+Between line 38 (end of subheadline `</p>`) and line 40 (CTAs `<div>`), insert:
 
-Add key `"publicite-facebook"` with:
-- icon: `Megaphone` (or `Facebook` from lucide if available)
-- title: "Publicité Facebook"
-- headline: "Maximisez Votre Impact avec Nos Campagnes Facebook"
-- description: Copy from old site about being the specialized Facebook ads agency in Abidjan
-- benefits: "Garantie de Résultats", "Stratégies Personnalisées pour Chaque Client", "Expertise en ciblage précis", "Rapports détaillés et mesurables", "Gestion complète des campagnes", "Amélioration continue basée sur les données", "Accompagnement et support proactif"
-- process: 4-step process — Consultation gratuite → Analyse des besoins → Lancement campagnes → Résultats mesurables
+- A container `div` with `max-w-3xl mx-auto mb-8 sm:mb-10 px-2`
+- Inside: a 16:9 aspect-ratio wrapper using `aspect-video` (Tailwind)
+- An `<iframe>` with the YouTube embed URL, rounded corners, subtle border matching the design (`border border-border rounded-lg overflow-hidden`)
+- A placeholder YouTube URL that you'll need to replace with your actual video link
 
-**2. `src/pages/ServicesPage.tsx`** — Add Facebook Ads to the services grid
+### Technical details
 
-Add a new entry in the `services` array with slug `"publicite-facebook"` so it appears on the services listing page.
-
-**3. `src/App.tsx`** — No changes needed
-
-The route `/services/:slug` already handles all service detail pages dynamically.
-
-### Technical notes
-
-- The `ServiceDetailPage` component already handles dynamic slugs — just adding data is enough
-- Old site slug was `agence-marketing-publicite-facebook/` but we'll use `publicite-facebook` to match the existing URL pattern (can add a redirect later if needed for SEO)
-- SEO meta tags are already handled by `Helmet` in `ServiceDetailPage`
+- Uses native `<iframe>` embed — no extra dependencies
+- `aspect-video` gives a clean 16:9 ratio on all screen sizes
+- The iframe gets `allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"` and `allowFullScreen`
+- You'll need to provide your YouTube video URL so I can set the correct embed `src`
 
