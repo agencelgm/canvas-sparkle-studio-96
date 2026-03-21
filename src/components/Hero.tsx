@@ -50,7 +50,7 @@ const Hero = () => {
 
         {/* Trust indicator */}
         <p className="mt-8 sm:mt-12 text-xs sm:text-sm text-muted-foreground">
-          La seule agence marketing à Abidjan qui garantit des résultats · Côte d'Ivoire
+          De la stratégie aux résultats concrets · Abidjan, Côte d'Ivoire
         </p>
       </div>
 
