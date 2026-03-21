@@ -1,5 +1,5 @@
 import PageLayout from "@/components/layout/PageLayout";
-import { Target, Users, Lightbulb, Award, TrendingUp, Heart } from "lucide-react";
+import { Target, TrendingUp, Heart } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import HexagonPattern from "@/components/HexagonPattern";
 
