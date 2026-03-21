@@ -1,35 +1,34 @@
 
 
-## Update About Page with Old Site SEO Copy
+## Add "Publicité Facebook" Service Page
 
 ### What changes
 
-Update the About page copy to integrate SEO-rich content from the old site, aligned with the new positioning "De la stratégie aux résultats concrets" (not "garantit des résultats").
+Add the Facebook Ads service as a dedicated entry in the existing service detail system, using the SEO copy from the old site.
 
-### File: `src/pages/AboutPage.tsx`
+### File changes
 
-**Hero section:**
-- Badge: "Société de Marketing Digital à Abidjan"
-- H1: Keep "Les Gens du Marketing"
-- Subtitle: "Découvrez pourquoi nous sommes la société de marketing digital de référence à Abidjan. De la stratégie aux résultats concrets."
+**1. `src/pages/ServiceDetailPage.tsx`** — Add new entry to `servicesData`
 
-**Story section — rewrite with old site copy:**
-- Title: "Avec LGM, investissez dans le marketing digital en toute confiance"
-- Paragraph 1: "Nous aidons les propriétaires d'entreprises ambitieux à obtenir plus de prospects qualifiés et à augmenter leur chiffre d'affaires, sans se ruiner, grâce à des stratégies de marketing digital éprouvées."
-- Paragraph 2: "Chez LGM, nous combinons expertise locale et approches globales pour offrir des solutions de marketing digital sur mesure. En tant que société leader en marketing digital à Abidjan, nous nous engageons à transformer votre présence en ligne avec des stratégies innovantes et des résultats mesurables."
-- Paragraph 3: Keep existing text about PME/startups/grandes entreprises
+Add key `"publicite-facebook"` with:
+- icon: `Megaphone` (or `Facebook` from lucide if available)
+- title: "Publicité Facebook"
+- headline: "Maximisez Votre Impact avec Nos Campagnes Facebook"
+- description: Copy from old site about being the specialized Facebook ads agency in Abidjan
+- benefits: "Garantie de Résultats", "Stratégies Personnalisées pour Chaque Client", "Expertise en ciblage précis", "Rapports détaillés et mesurables", "Gestion complète des campagnes", "Amélioration continue basée sur les données", "Accompagnement et support proactif"
+- process: 4-step process — Consultation gratuite → Analyse des besoins → Lancement campagnes → Résultats mesurables
 
-**Add new "Notre approche" section** (from old site's 2-step method):
-- Step 1: "Obtenez une consultation gratuite" — describe the process
-- Step 2: "Observez les résultats" — describe what happens next
-- Styled as a simple 2-column grid matching existing design patterns
+**2. `src/pages/ServicesPage.tsx`** — Add Facebook Ads to the services grid
 
-**Values section:** Keep as-is (already updated with old site values)
+Add a new entry in the `services` array with slug `"publicite-facebook"` so it appears on the services listing page.
 
-**CTA section — update copy:**
-- Title: "Lancez votre success story avec LGM"
-- Subtitle: "Remplissez le formulaire pour réserver un rendez-vous avec nos experts marketing"
-- Button: "Réservez une consultation gratuite" → links to /contact
+**3. `src/App.tsx`** — No changes needed
 
-**Meta description:** Update to reflect "société de marketing digital de référence à Abidjan"
+The route `/services/:slug` already handles all service detail pages dynamically.
+
+### Technical notes
+
+- The `ServiceDetailPage` component already handles dynamic slugs — just adding data is enough
+- Old site slug was `agence-marketing-publicite-facebook/` but we'll use `publicite-facebook` to match the existing URL pattern (can add a redirect later if needed for SEO)
+- SEO meta tags are already handled by `Helmet` in `ServiceDetailPage`
 
