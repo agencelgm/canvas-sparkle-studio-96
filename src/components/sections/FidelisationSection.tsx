@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Mail, MessageSquare, Gift, Star, BarChart2, CheckCircle } from "lucide-react";
+import PhoneImage from "@/components/PhoneImage";
 
 const features = [
   { icon: Mail, label: "Séquences email marketing ciblées", desc: "Des emails personnalisés au bon moment, avec le bon message, au bon segment." },
@@ -120,13 +121,13 @@ const FidelisationSection = () => {
           <div className="flex justify-center lg:justify-end relative">
             <div className="absolute inset-0 m-auto w-56 h-56 bg-gradient-radial from-bronze/18 to-transparent rounded-full blur-2xl animate-glow-pulse" />
             <div className="relative z-10 w-72 md:w-80 lg:w-[400px]">
-              <motion.img
+              <PhoneImage
                 src="/images/acf-validation.png"
                 alt="Fidélisation — validation"
                 className="absolute inset-0 w-full object-contain drop-shadow-2xl"
                 style={{ opacity: img0Opacity, y: imageY, scale: imageScale }}
               />
-              <motion.img
+              <PhoneImage
                 src="/images/acf-loyalty.png"
                 alt="Fidélisation — loyalty"
                 className="absolute inset-0 w-full object-contain drop-shadow-2xl"

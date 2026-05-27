@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Bot, RefreshCw, Globe, Filter, BarChart3, CheckCircle } from "lucide-react";
+import PhoneImage from "@/components/PhoneImage";
 
 const features = [
   { icon: Bot, label: "Agents IA WhatsApp — qualification automatique", desc: "L'IA reçoit, répond et qualifie chaque prospect en moins de 60 secondes." },
@@ -73,7 +74,7 @@ const ConversionSection = () => {
             <div className="absolute inset-0 m-auto w-56 h-56 bg-gradient-radial from-bronze/18 to-transparent rounded-full blur-2xl animate-glow-pulse" />
             <div className="relative z-10 w-72 md:w-80 lg:w-[400px]">
               {images.map((img, i) => (
-                <motion.img
+                <PhoneImage
                   key={img.src}
                   src={img.src}
                   alt={img.alt}

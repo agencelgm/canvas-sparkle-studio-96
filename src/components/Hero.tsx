@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import HexagonPattern from "./HexagonPattern";
+import PhoneImage from "./PhoneImage";
 
 const words1 = ["La", "méthode", "qui"];
 const words2 = ["multiplie", "votre"];
@@ -124,14 +125,18 @@ const Hero = () => {
           {/* Glow behind image */}
           <div className="absolute inset-0 m-auto w-64 h-64 bg-gradient-radial from-bronze/25 via-bronze/8 to-transparent rounded-full blur-2xl animate-glow-pulse" />
 
-          <motion.img
-            src="/images/acf-social.png"
-            alt="Acquisition — réseaux sociaux"
-            className="relative z-10 w-72 sm:w-80 md:w-96 lg:w-[420px] xl:w-[460px] object-contain drop-shadow-2xl animate-float"
+          <motion.div
+            className="relative z-10"
             initial={{ opacity: 0, scale: 0.85, x: 40 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          />
+          >
+            <PhoneImage
+              src="/images/acf-social.png"
+              alt="Acquisition — réseaux sociaux"
+              className="w-72 sm:w-80 md:w-96 lg:w-[420px] xl:w-[460px] object-contain drop-shadow-2xl animate-float"
+            />
+          </motion.div>
 
           {/* Floating stat cards */}
           <motion.div

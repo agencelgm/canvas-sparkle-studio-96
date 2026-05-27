@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { TrendingUp, Globe, Megaphone, Search, FileText, CheckCircle } from "lucide-react";
+import PhoneImage from "@/components/PhoneImage";
 
 const features = [
   { icon: Megaphone, label: "Campagnes Facebook & Instagram Ads", desc: "Ciblage précis, créatifs qui convertissent, budget maîtrisé." },
@@ -116,7 +117,7 @@ const AcquisitionSection = () => {
           {/* Right — image */}
           <div className="flex justify-center lg:justify-end relative">
             <div className="absolute inset-0 m-auto w-56 h-56 bg-gradient-radial from-bronze/20 to-transparent rounded-full blur-2xl animate-glow-pulse" />
-            <motion.img
+            <PhoneImage
               src="/images/acf-social.png"
               alt="Acquisition — réseaux sociaux"
               className="relative z-10 w-72 md:w-80 lg:w-[400px] object-contain drop-shadow-2xl"
