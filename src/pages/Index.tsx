@@ -2,8 +2,10 @@ import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
-import Promise from "@/components/Promise";
-import Method from "@/components/Method";
+import FrameworkACF from "@/components/FrameworkACF";
+import AcquisitionSection from "@/components/sections/AcquisitionSection";
+import ConversionSection from "@/components/sections/ConversionSection";
+import FidelisationSection from "@/components/sections/FidelisationSection";
 import Services from "@/components/Services";
 import Audience from "@/components/Audience";
 import CTA from "@/components/CTA";
@@ -14,9 +16,9 @@ const Index = () => {
     <>
       <Helmet>
         <title>LGM — Agence de Marketing Digital et Communication à Abidjan</title>
-        <meta 
-          name="description" 
-          content="LGM est l'agence de marketing digital à Abidjan. De la stratégie aux résultats concrets : plus de prospects qualifiés et une croissance mesurable pour votre entreprise." 
+        <meta
+          name="description"
+          content="LGM est l'agence de marketing digital à Abidjan. Acquisition, Conversion, Fidélisation — le framework complet pour multiplier votre chiffre d'affaires."
         />
         <meta name="keywords" content="marketing digital abidjan, communication abidjan, agence marketing côte d'ivoire, leads qualifiés, publicité digitale, automatisation IA, SEO abidjan, génération leads, développement web abidjan" />
         <link rel="canonical" href="https://lgm.marketing" />
@@ -27,8 +29,10 @@ const Index = () => {
         <main>
           <Hero />
           <Problem />
-          <Promise />
-          <Method />
+          <FrameworkACF />
+          <AcquisitionSection />
+          <ConversionSection />
+          <FidelisationSection />
           <Services />
           <Audience />
           <CTA />
