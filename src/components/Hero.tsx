@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import HexagonPattern from "./HexagonPattern";
 import PhoneImage from "./PhoneImage";
@@ -7,7 +7,7 @@ const words1 = ["La", "méthode", "qui"];
 const words2 = ["multiplie", "votre"];
 const words3 = ["chiffre", "d'affaires."];
 
-const wordVariants = {
+const wordVariants: Variants = {
   hidden: { opacity: 0, y: 40, skewY: 2 },
   visible: (i: number) => ({
     opacity: 1,
