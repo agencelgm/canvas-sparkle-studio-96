@@ -6,9 +6,11 @@ export const siteContact = {
   address: "Chateau, Camp Militaire, Angre, Abidjan",
 };
 
+import aboutHeroAsset from "@/assets/about-hero.jpg.asset.json";
+
 export const publicImages = {
   hero: "/images/lgm-hero.png",
-  about: "/images/lgm-about.png",
+  about: aboutHeroAsset.url,
   method: "/images/lgm-method.png",
   services: "/images/lgm-services.png",
   contact: "/images/lgm-contact.png",
