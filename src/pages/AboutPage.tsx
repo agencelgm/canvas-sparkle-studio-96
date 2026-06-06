@@ -1,6 +1,8 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import PageLayout from "@/components/layout/PageLayout";
-import { FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { FinalCTA, ImageFrame, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages } from "@/data/publicContent";
 
 const principles = [
