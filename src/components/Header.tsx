@@ -1,151 +1,231 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight } from "lucide-react";
+
+const EASE = [0.32, 0.72, 0, 1] as const;
+
+const navLinks = [
+  { href: "/a-propos",  label: "À propos" },
+  { href: "/services",  label: "Services" },
+  { href: "/blog",      label: "Blog" },
+  { href: "/contact",   label: "Contact" },
+];
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled,    setScrolled]    = useState(false);
+  const [menuOpen,    setMenuOpen]    = useState(false);
   const location = useLocation();
 
-  // Track scroll to switch from transparent to opaque
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 56);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
-    setIsMenuOpen(false);
+    setMenuOpen(false);
   }, [location.pathname]);
 
-  const navLinks = [
-    { href: "/a-propos", label: "À propos" },
-    { href: "/services", label: "Services" },
-    { href: "/blog", label: "Blog" },
-    { href: "/contact", label: "Contact" },
-  ];
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   return (
     <>
+      {/* ── Main bar ─────────────────────────────────────────────── */}
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        className="fixed top-0 left-0 right-0 z-50"
         animate={{
-          background: scrolled
-            ? "rgba(10,10,12,0.92)"
-            : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "blur(0px)",
+          backgroundColor: scrolled
+            ? "rgba(13, 11, 8, 0.90)"
+            : "rgba(13, 11, 8, 0)",
+          backdropFilter: scrolled ? "blur(18px)" : "blur(0px)",
           borderBottom: scrolled
-            ? "1px solid rgba(201,162,39,0.1)"
+            ? "1px solid rgba(196, 154, 42, 0.09)"
             : "1px solid transparent",
         }}
-        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 0.4, ease: EASE }}
       >
-        <div className="container-wide flex items-center justify-between" style={{ height: "clamp(56px, 5vw, 72px)" }}>
+        <div
+          className="container-wide flex items-center justify-between"
+          style={{ height: "clamp(60px, 5vw, 76px)" }}
+        >
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 flex-shrink-0">
+          <Link to="/" className="flex-shrink-0" aria-label="LGM — accueil">
             <img
-              alt="LGM - Les Gens du Marketing"
-              className="w-auto"
-              style={{ height: "clamp(28px, 3.5vw, 44px)" }}
               src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png"
+              alt="LGM"
+              style={{ height: "clamp(28px, 3.2vw, 42px)", width: "auto" }}
             />
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            {navLinks.map((link) => (
+          <nav className="hidden md:flex items-center gap-7 lg:gap-9" aria-label="Navigation principale">
+            {navLinks.map(({ href, label }) => (
               <Link
-                key={link.href}
-                to={link.href}
-                className={`text-sm font-medium transition-colors duration-200 link-underline ${
-                  location.pathname === link.href
-                    ? "text-foreground"
-                    : "text-foreground/65 hover:text-foreground"
-                }`}
+                key={href}
+                to={href}
+                className="font-sans text-sm font-medium link-underline transition-colors duration-200"
+                style={{
+                  color: location.pathname === href
+                    ? "#F0E8D5"
+                    : "rgba(240, 232, 213, 0.55)",
+                }}
+                onMouseEnter={(e) => {
+                  if (location.pathname !== href)
+                    (e.currentTarget as HTMLElement).style.color = "#F0E8D5";
+                }}
+                onMouseLeave={(e) => {
+                  if (location.pathname !== href)
+                    (e.currentTarget as HTMLElement).style.color =
+                      "rgba(240, 232, 213, 0.55)";
+                }}
               >
-                {link.label}
+                {label}
               </Link>
             ))}
           </nav>
 
           {/* Desktop CTA */}
-          <Link to="/contact" className="hidden sm:block">
-            <button className="btn-gold-outline group flex items-center gap-2 !py-2.5 !px-5 !text-xs">
-              Parler à un stratège
-              <span className="w-5 h-5 rounded-full bg-bronze/10 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowRight className="w-2.5 h-2.5" />
-              </span>
-            </button>
-          </Link>
+          <div className="hidden md:flex items-center gap-4">
+            <Link to="/contact">
+              <button
+                className="btn-akan-outline"
+                style={{ padding: "0.55rem 1.4rem", fontSize: "0.78rem", letterSpacing: "0.04em" }}
+              >
+                Nous contacter
+              </button>
+            </Link>
+          </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile hamburger */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-foreground/80 hover:text-foreground transition-colors"
-            aria-label="Toggle navigation menu"
+            className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-[5px]"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={menuOpen}
           >
-            <motion.div
-              animate={{ rotate: isMenuOpen ? 90 : 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </motion.div>
+            <motion.span
+              className="block w-5 h-px origin-center"
+              style={{ background: "#F0E8D5" }}
+              animate={menuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+            />
+            <motion.span
+              className="block w-5 h-px"
+              style={{ background: "#F0E8D5" }}
+              animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.2, ease: EASE }}
+            />
+            <motion.span
+              className="block w-5 h-px origin-center"
+              style={{ background: "#F0E8D5" }}
+              animate={menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+            />
           </button>
         </div>
       </motion.header>
 
-      {/* Mobile menu overlay */}
+      {/* ── Mobile fullscreen overlay ─────────────────────────────── */}
       <AnimatePresence>
-        {isMenuOpen && (
+        {menuOpen && (
           <motion.div
+            key="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40"
-            style={{ background: "rgba(10,10,12,0.95)", backdropFilter: "blur(20px)" }}
+            transition={{ duration: 0.25, ease: EASE }}
+            className="fixed inset-0 z-40 flex flex-col"
+            style={{
+              background: "rgba(13, 11, 8, 0.97)",
+              backdropFilter: "blur(24px)",
+            }}
           >
-            <div className="flex flex-col justify-center h-full px-8 pt-20">
-              <nav className="flex flex-col gap-2">
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.3, delay: i * 0.06 }}
-                  >
-                    <Link
-                      to={link.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="block py-3 font-serif text-foreground/80 hover:text-foreground transition-colors"
-                      style={{ fontSize: "clamp(1.5rem, 5vw, 2.25rem)", fontWeight: 500 }}
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
+            {/* Close at top-right (same position as hamburger) */}
+            <div
+              className="container-wide flex justify-end"
+              style={{ height: "clamp(60px, 5vw, 76px)", alignItems: "center" }}
+            >
+              <button
+                className="w-8 h-8 flex flex-col items-center justify-center gap-[5px]"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Fermer le menu"
+              >
+                <span
+                  className="block w-5 h-px origin-center rotate-45"
+                  style={{ background: "#F0E8D5", transform: "translateY(0.5px) rotate(45deg)" }}
+                />
+                <span
+                  className="block w-5 h-px origin-center -rotate-45"
+                  style={{ background: "#F0E8D5", transform: "translateY(-0.5px) rotate(-45deg)" }}
+                />
+              </button>
+            </div>
 
+            {/* Links */}
+            <nav
+              className="flex-1 flex flex-col justify-center container-narrow"
+              aria-label="Navigation mobile"
+            >
+              {navLinks.map(({ href, label }, i) => (
+                <motion.div
+                  key={href}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.32, delay: i * 0.06, ease: EASE }}
+                >
+                  <Link
+                    to={href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block py-4 font-serif border-b"
+                    style={{
+                      fontSize: "clamp(1.75rem, 7vw, 2.75rem)",
+                      fontWeight: 400,
+                      color: location.pathname === href ? "#E8C96B" : "#F0E8D5",
+                      borderColor: "rgba(196, 154, 42, 0.10)",
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              {/* Mobile CTA */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, delay: 0.28 }}
-                className="mt-8"
+                transition={{ duration: 0.32, delay: navLinks.length * 0.06 + 0.04, ease: EASE }}
+                className="mt-10"
               >
-                <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
-                  <button className="btn-gold w-full justify-center group flex items-center gap-3">
-                    Consultation gratuite
-                    <span className="w-7 h-7 rounded-full bg-black/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                  <button className="btn-akan w-full" style={{ justifyContent: "center" }}>
+                    Prendre contact
                   </button>
                 </Link>
               </motion.div>
-            </div>
+            </nav>
+
+            {/* Footer contact strip */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="container-narrow pb-8 pt-4"
+            >
+              <a
+                href="mailto:contact@lgm.marketing"
+                className="font-sans text-sm"
+                style={{ color: "rgba(240, 232, 213, 0.4)" }}
+              >
+                contact@lgm.marketing
+              </a>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

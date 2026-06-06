@@ -1,181 +1,202 @@
-import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Play } from "lucide-react";
-import HexagonPattern from "./HexagonPattern";
-import PhoneImage from "./PhoneImage";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-const words1 = ["La", "méthode", "qui"];
-const words2 = ["multiplie", "votre"];
-const words3 = ["chiffre", "d'affaires."];
+const EASE = [0.32, 0.72, 0, 1] as const;
 
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: 40, skewY: 2 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    skewY: 0,
-    transition: { duration: 0.7, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
-};
+const line1 = ["L'excellence", "marketing,"];
+const line2 = ["faite", "en", "Afrique."];
 
 const Hero = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden bg-background">
-      {/* Hexagon pattern */}
-      <HexagonPattern className="absolute inset-0 opacity-20" />
+    <section
+      ref={containerRef}
+      className="relative min-h-[100dvh] flex items-center overflow-hidden"
+      style={{ background: "var(--espresso)" }}
+    >
+      {/* ── Background editorial image with parallax ──────────── */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ y: imgY }}
+        aria-hidden="true"
+      >
+        <img
+          src="/images/hero-editorial.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ transform: "scale(1.12)", transformOrigin: "center 40%" }}
+        />
+        {/* Layered dark gradient */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(13,11,8,0.72) 0%, rgba(13,11,8,0.22) 45%, rgba(13,11,8,0.82) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "rgba(13,11,8,0.28)" }}
+        />
+      </motion.div>
 
-      {/* Ambient glow orbs */}
-      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-gradient-radial from-bronze/8 to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* ── Content ───────────────────────────────────────────── */}
+      <div
+        className="container-wide relative z-10"
+        style={{ paddingTop: "clamp(7rem, 18vh, 12rem)", paddingBottom: "5rem" }}
+      >
+        <div style={{ maxWidth: "820px" }}>
 
-      <div className="container-wide relative z-10 grid lg:grid-cols-2 gap-12 items-center py-16 md:py-24">
-        {/* Left — Copy */}
-        <div className="order-2 lg:order-1">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          {/* Headline */}
+          <h1
+            className="font-serif"
+            style={{
+              fontSize: "clamp(2.9rem, 7.8vw, 5.5rem)",
+              fontWeight: 400,
+              lineHeight: 1.06,
+              letterSpacing: "-0.025em",
+              color: "#F5EFE0",
+              marginBottom: "0.08em",
+              textWrap: "balance",
+            }}
           >
-            <span className="pill-gold mb-8 inline-flex">
-              <span className="w-1.5 h-1.5 rounded-full bg-bronze animate-pulse" />
-              Agence Marketing Digital · Abidjan, Côte d'Ivoire
+            {/* Line 1 */}
+            <span className="block overflow-hidden">
+              {line1.map((word, i) => (
+                <motion.span
+                  key={word}
+                  className="inline-block"
+                  style={{ marginRight: "0.24em" }}
+                  initial={{ y: "105%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.72, delay: 0.18 + i * 0.13, ease: EASE }}
+                >
+                  {word}
+                </motion.span>
+              ))}
             </span>
-          </motion.div>
 
-          {/* Headline — word by word */}
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-medium leading-[1.1] mb-6 overflow-hidden">
-            <span className="flex flex-wrap gap-x-3">
-              {words1.map((w, i) => (
-                <motion.span key={w} custom={i} variants={wordVariants} initial="hidden" animate="visible">
-                  {w}
-                </motion.span>
-              ))}
-            </span>
-            <span className="flex flex-wrap gap-x-3 mt-1">
-              {words2.map((w, i) => (
+            {/* Line 2 — italic gold */}
+            <span
+              className="block overflow-hidden italic"
+              style={{ color: "var(--akan-gold-light)" }}
+            >
+              {line2.map((word, i) => (
                 <motion.span
-                  key={w}
-                  custom={words1.length + i}
-                  variants={wordVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className={w === "multiplie" ? "italic text-bronze" : ""}
+                  key={word}
+                  className="inline-block"
+                  style={{ marginRight: "0.24em" }}
+                  initial={{ y: "105%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.72, delay: 0.42 + i * 0.10, ease: EASE }}
                 >
-                  {w}
-                </motion.span>
-              ))}
-            </span>
-            <span className="flex flex-wrap gap-x-3 mt-1">
-              {words3.map((w, i) => (
-                <motion.span
-                  key={w}
-                  custom={words1.length + words2.length + i}
-                  variants={wordVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {w}
+                  {word}
                 </motion.span>
               ))}
             </span>
           </h1>
 
+          {/* Gold divider line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.65, delay: 0.75, ease: EASE }}
+            style={{
+              height: "1px",
+              width: "52px",
+              background: "var(--akan-gold)",
+              transformOrigin: "left",
+              margin: "1.75rem 0",
+            }}
+          />
+
           {/* Subtitle */}
           <motion.p
-            className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed mb-10"
-            initial={{ opacity: 0, y: 20 }}
+            className="font-sans"
+            style={{
+              fontSize: "clamp(0.95rem, 1.75vw, 1.08rem)",
+              lineHeight: 1.72,
+              color: "rgba(245, 239, 224, 0.66)",
+              maxWidth: "46ch",
+              marginBottom: "2.5rem",
+            }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.9 }}
+            transition={{ duration: 0.7, delay: 0.75, ease: EASE }}
           >
-            Acquisition · Conversion · Fidélisation — trois leviers, un système.
-            <br className="hidden md:block" />
-            On l'active pour vous, de A à Z.
+            Nous construisons des systèmes qui transforment des inconnus en clients
+            fidèles. Acquisition, Conversion, Fidélisation.
           </motion.p>
 
           {/* CTAs */}
           <motion.div
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
+            className="flex flex-col sm:flex-row gap-3"
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.1 }}
+            transition={{ duration: 0.7, delay: 0.9, ease: EASE }}
           >
-            <a href="#contact" className="btn-gold">
-              Réserver un appel gratuit
-              <ArrowRight size={16} />
-            </a>
-            <a href="#methode" className="btn-gold-outline">
-              <Play size={14} className="fill-bronze" />
-              Voir la méthode
-            </a>
-          </motion.div>
-
-          {/* Trust line */}
-          <motion.p
-            className="mt-10 text-xs text-muted-foreground/60 tracking-widest uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-          >
-            Résultats mesurables · Système pilotable · 100% accompagné
-          </motion.p>
-        </div>
-
-        {/* Right — 3D phone image */}
-        <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
-          {/* Glow behind image */}
-          <div className="absolute inset-0 m-auto w-64 h-64 bg-gradient-radial from-bronze/25 via-bronze/8 to-transparent rounded-full blur-2xl animate-glow-pulse" />
-
-          <motion.div
-            className="relative z-10"
-            initial={{ opacity: 0, scale: 0.85, x: 40 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <PhoneImage
-              src="/images/acf-social.png"
-              alt="Acquisition — réseaux sociaux"
-              className="w-72 sm:w-80 md:w-96 lg:w-[420px] xl:w-[460px] object-contain drop-shadow-2xl animate-float"
-            />
-          </motion.div>
-
-          {/* Floating stat cards */}
-          <motion.div
-            className="card-glass absolute top-8 -left-4 lg:-left-8 px-4 py-3 rounded-lg"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 1.3 }}
-          >
-            <div className="text-2xl font-serif font-medium text-bronze">3×</div>
-            <div className="text-xs text-muted-foreground mt-0.5">plus de leads</div>
-          </motion.div>
-
-          <motion.div
-            className="card-glass absolute bottom-16 -right-2 lg:-right-6 px-4 py-3 rounded-lg"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 1.5 }}
-          >
-            <div className="text-2xl font-serif font-medium text-bronze">+67%</div>
-            <div className="text-xs text-muted-foreground mt-0.5">taux de conversion</div>
+            <Link to="/contact">
+              <button className="btn-akan group">
+                Démarrer votre croissance
+                <span
+                  className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  style={{ background: "rgba(13,11,8,0.22)" }}
+                >
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M2 8L8 2M8 2H4M8 2V6"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </Link>
+            <button
+              className="btn-akan-outline"
+              onClick={() =>
+                document
+                  .getElementById("framework")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              Notre méthode ACF
+            </button>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — vertical line only, no text */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-8 right-6 md:right-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
+        aria-hidden="true"
       >
-        <span className="text-[10px] tracking-widest uppercase text-muted-foreground/50">Scroller</span>
-        <div className="w-5 h-8 border border-muted-foreground/20 rounded-full flex items-start justify-center p-1.5">
-          <motion.div
-            className="w-1 h-1 bg-bronze rounded-full"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
+        <div
+          style={{
+            width: "1px",
+            height: "44px",
+            background:
+              "linear-gradient(to bottom, transparent, rgba(196,154,42,0.45))",
+          }}
+        />
       </motion.div>
     </section>
   );
