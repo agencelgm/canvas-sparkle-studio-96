@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
-import Hero from "@/components/Hero";
+import VideoHero from "@/components/VideoHero";
 import Problem from "@/components/Problem";
-import FrameworkACF from "@/components/FrameworkACF";
+import FrameworkACF3D from "@/components/FrameworkACF3D";
 import AcquisitionSection from "@/components/sections/AcquisitionSection";
 import ConversionSection from "@/components/sections/ConversionSection";
 import FidelisationSection from "@/components/sections/FidelisationSection";
+import Results from "@/components/Results";
 import Services from "@/components/Services";
-import Audience from "@/components/Audience";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 
@@ -27,14 +27,14 @@ const Index = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main>
-          <Hero />
+          <VideoHero />
           <Problem />
-          <FrameworkACF />
+          <FrameworkACF3D />
           <AcquisitionSection />
           <ConversionSection />
           <FidelisationSection />
+          <Results />
           <Services />
-          <Audience />
           <CTA />
         </main>
         <Footer />

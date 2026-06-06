@@ -1,154 +1,168 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { Bot, RefreshCw, Globe, Filter, BarChart3, CheckCircle } from "lucide-react";
-import PhoneImage from "@/components/PhoneImage";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sparkles } from "@react-three/drei";
+import * as THREE from "three";
+import ParticleBackground from "@/components/canvas/ParticleBackground";
 
-const features = [
-  { icon: Bot, label: "Agents IA WhatsApp — qualification automatique", desc: "L'IA reçoit, répond et qualifie chaque prospect en moins de 60 secondes." },
-  { icon: RefreshCw, label: "Relances intelligentes 24h/24", desc: "Le prospect ne répond plus ? L'agent IA reprend la conversation automatiquement." },
-  { icon: Globe, label: "Sites web optimisés SEO/AEO/GEO", desc: "Des sites pensés pour convertir ET pour être trouvés par Google et les IA." },
-  { icon: Filter, label: "Funnels de vente automatisés", desc: "Du premier contact à la prise de RDV — sans intervention manuelle." },
-  { icon: BarChart3, label: "CRM & suivi du pipeline commercial", desc: "Visualisez chaque opportunité, ne laissez plus aucun prospect tomber dans l'oubli." },
-];
+// Funnel shape: stacked cylinders that fill progressively
+function ConversionFunnel() {
+  const groupRef = useRef<THREE.Group>(null);
 
-const images = [
-  { src: "/images/acf-chat.png", alt: "Agent IA WhatsApp" },
-  { src: "/images/acf-checklist.png", alt: "Funnel de vente" },
-  { src: "/images/acf-payment.png", alt: "Paiement converti" },
-];
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y = state.clock.elapsedTime * 0.12;
+  });
 
-function useFeatureOpacity(scrollYProgress: MotionValue<number>, start: number, end: number) {
-  return useTransform(scrollYProgress, [start, end], [0, 1]);
+  const tealColor = "#4ECDC4";
+  const levels = [
+    { y: 1.2, r: 0.9, h: 0.18, opacity: 0.35, label: "Prospects" },
+    { y: 0.7, r: 0.72, h: 0.18, opacity: 0.5, label: "Leads" },
+    { y: 0.25, r: 0.55, h: 0.18, opacity: 0.65, label: "Qualifiés" },
+    { y: -0.18, r: 0.38, h: 0.18, opacity: 0.8, label: "Devis" },
+    { y: -0.6, r: 0.22, h: 0.18, opacity: 1, label: "Clients" },
+  ];
+
+  return (
+    <group ref={groupRef}>
+      {levels.map((level, i) => (
+        <mesh key={i} position={[0, level.y, 0]}>
+          <cylinderGeometry args={[level.r, level.r * 0.82, level.h, 64]} />
+          <meshStandardMaterial
+            color={tealColor}
+            emissive={tealColor}
+            emissiveIntensity={0.3 + level.opacity * 0.3}
+            metalness={0.6}
+            roughness={0.3}
+            transparent
+            opacity={level.opacity * 0.8}
+          />
+        </mesh>
+      ))}
+
+      {/* Bottom conversion glow */}
+      <mesh position={[0, -0.6, 0]}>
+        <sphereGeometry args={[0.14, 32, 32]} />
+        <meshStandardMaterial color={tealColor} emissive={tealColor} emissiveIntensity={1} metalness={0.9} roughness={0.05} />
+      </mesh>
+
+      <Sparkles count={45} scale={3} size={0.8} speed={0.2} opacity={0.4} color={tealColor} />
+    </group>
+  );
 }
 
-function useFeatureY(scrollYProgress: MotionValue<number>, start: number, end: number) {
-  return useTransform(scrollYProgress, [start, end], [24, 0]);
-}
+const FEATURES = [
+  { label: "Tunnel de vente automatisé", desc: "Votre prospect guidé du premier contact jusqu'au paiement." },
+  { label: "Relance & nurturing email / WhatsApp", desc: "Aucun lead ne tombe aux oubliettes grâce à des séquences automatiques." },
+  { label: "Offre et argumentaire sur mesure", desc: "Ce que vous présentez convainc — pas par hasard, par méthode." },
+  { label: "CRM & suivi des opportunités", desc: "Chaque deal visible, chaque opportunité suivie en temps réel." },
+];
 
 const ConversionSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const imageY = useTransform(scrollYProgress, [0, 1], [20, -60]);
-  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.90, 1.05, 0.98]);
-
-  // Image crossfade: img0 → img1 → img2
-  const img0Opacity = useTransform(scrollYProgress, [0, 0.28, 0.38], [1, 1, 0]);
-  const img1Opacity = useTransform(scrollYProgress, [0.28, 0.40, 0.62, 0.72], [0, 1, 1, 0]);
-  const img2Opacity = useTransform(scrollYProgress, [0.62, 0.74], [0, 1]);
-
-  const f0o = useFeatureOpacity(scrollYProgress, 0.05, 0.18);
-  const f0y = useFeatureY(scrollYProgress, 0.05, 0.18);
-  const f1o = useFeatureOpacity(scrollYProgress, 0.18, 0.31);
-  const f1y = useFeatureY(scrollYProgress, 0.18, 0.31);
-  const f2o = useFeatureOpacity(scrollYProgress, 0.31, 0.44);
-  const f2y = useFeatureY(scrollYProgress, 0.31, 0.44);
-  const f3o = useFeatureOpacity(scrollYProgress, 0.44, 0.57);
-  const f3y = useFeatureY(scrollYProgress, 0.44, 0.57);
-  const f4o = useFeatureOpacity(scrollYProgress, 0.57, 0.70);
-  const f4y = useFeatureY(scrollYProgress, 0.57, 0.70);
-
-  const opacities = [f0o, f1o, f2o, f3o, f4o];
-  const ys = [f0y, f1y, f2y, f3y, f4y];
-  const imgOpacities = [img0Opacity, img1Opacity, img2Opacity];
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const canvasScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.93, 1.02, 0.97]);
 
   return (
-    <div ref={containerRef} style={{ height: "290vh" }} className="relative">
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {/* Background */}
-        <div className="absolute inset-0 bg-background" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-bronze/20 to-transparent" />
-        <div className="absolute top-1/2 right-0 w-[500px] h-[500px] -translate-y-1/2 bg-gradient-radial from-bronze/6 to-transparent rounded-full blur-3xl pointer-events-none" />
+    <div ref={containerRef} style={{ height: "300vh" }} className="relative">
+      <div className="sticky top-0 overflow-hidden flex items-center" style={{ height: "100dvh" }}>
+        <ParticleBackground count={300} color="#4ECDC4" size={0.008} spread={10} />
 
-        {/* Watermark */}
-        <div className="absolute left-8 top-1/2 -translate-y-1/2 section-number opacity-60 select-none hidden lg:block">
-          02
-        </div>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 60% 60% at 25% 50%, rgba(78,205,196,0.055) 0%, transparent 70%)" }}
+        />
 
-        <div className="container-wide relative z-10 grid lg:grid-cols-2 gap-10 items-center w-full">
-          {/* Left — image stack (crossfades on scroll) */}
-          <div className="flex justify-center lg:justify-start relative order-2 lg:order-1">
-            <div className="absolute inset-0 m-auto w-56 h-56 bg-gradient-radial from-bronze/18 to-transparent rounded-full blur-2xl animate-glow-pulse" />
-            <div className="relative z-10 w-72 md:w-80 lg:w-[400px]">
-              {images.map((img, i) => (
-                <PhoneImage
-                  key={img.src}
-                  src={img.src}
-                  alt={img.alt}
-                  className="absolute inset-0 w-full object-contain drop-shadow-2xl"
-                  style={{ opacity: imgOpacities[i], y: imageY, scale: imageScale }}
-                />
+        <div className="container-wide relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* 3D canvas left */}
+          <motion.div
+            style={{ scale: canvasScale }}
+            className="order-1"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+          >
+            <div
+              className="rounded-2xl p-px"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(78,205,196,0.12)",
+                height: "clamp(280px, 44vw, 460px)",
+              }}
+            >
+              <div
+                className="w-full h-full rounded-[calc(1rem-1px)] overflow-hidden relative"
+                style={{ background: "rgba(12,12,16,0.9)", boxShadow: "inset 0 1px 1px rgba(255,255,255,0.05)" }}
+              >
+                <Canvas
+                  camera={{ position: [0, 0, 4], fov: 55 }}
+                  gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
+                  style={{ background: "transparent", width: "100%", height: "100%" }}
+                  dpr={[1, 2]}
+                >
+                  <ambientLight intensity={0.35} />
+                  <pointLight position={[3, 3, 3]} intensity={1.4} color="#4ECDC4" />
+                  <pointLight position={[-3, -2, 1]} intensity={0.4} color="#ffffff" />
+                  <ConversionFunnel />
+                </Canvas>
+                <div className="absolute bottom-5 left-5">
+                  <div className="card-glass rounded-lg px-4 py-2.5" style={{ border: "1px solid rgba(78,205,196,0.15)" }}>
+                    <p className="text-[10px] text-muted-foreground font-sans uppercase tracking-widest mb-0.5">Taux de conversion</p>
+                    <p className="font-display font-bold" style={{ fontSize: "1.5rem", color: "#4ECDC4" }}>+67%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Text right */}
+          <motion.div style={{ y: textY }} className="order-2">
+            <div className="relative mb-2">
+              <span className="section-number absolute -top-2 -left-2 select-none pointer-events-none">02</span>
+            </div>
+            <div className="pt-10">
+              <h2
+                className="font-serif text-foreground mb-5 leading-tight"
+                style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)", fontWeight: 600, letterSpacing: "-0.02em" }}
+              >
+                Conversion
+              </h2>
+              <p
+                className="text-muted-foreground font-sans leading-relaxed mb-8 max-w-[46ch]"
+                style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.05rem)" }}
+              >
+                Attirer des prospects ne suffit pas. Il faut un système qui transforme ces contacts en clients payants — sans effort manuel constant.
+              </p>
+            </div>
+
+            <div className="flex flex-col">
+              {FEATURES.map((f, i) => (
+                <motion.div
+                  key={f.label}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.55, delay: i * 0.09, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="feature-item"
+                >
+                  <span className="w-1 h-1 rounded-full flex-shrink-0 mt-2" style={{ background: "#4ECDC4" }} />
+                  <div>
+                    <p className="text-foreground/90 font-medium text-sm mb-0.5">{f.label}</p>
+                    <p className="text-muted-foreground text-sm">{f.desc}</p>
+                  </div>
+                </motion.div>
               ))}
-              {/* Placeholder height */}
-              <div className="w-full aspect-[3/4] opacity-0 pointer-events-none" />
             </div>
-          </div>
-
-          {/* Right — copy */}
-          <div className="order-1 lg:order-2">
-            <motion.span
-              className="pill-gold mb-6 inline-flex"
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <CheckCircle size={12} />
-              Deuxième levier
-            </motion.span>
-
-            <motion.h2
-              className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium leading-tight mb-4"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
-              Transformez vos prospects{" "}
-              <span className="italic text-bronze">en clients payants.</span>
-            </motion.h2>
-
-            <motion.p
-              className="text-muted-foreground mb-8 max-w-md leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-            >
-              Un prospect non relancé dans les 5 premières minutes a 80% de chances de partir chez un concurrent. L'IA comble ce gap, sans que vous leviez le petit doigt.
-            </motion.p>
-
-            <div className="space-y-0 divide-y divide-white/5">
-              {features.map((f, i) => {
-                const Icon = f.icon;
-                return (
-                  <motion.div
-                    key={f.label}
-                    className="feature-item"
-                    style={{ opacity: opacities[i], y: ys[i] }}
-                  >
-                    <div className="w-8 h-8 rounded-full bg-bronze/10 flex items-center justify-center flex-shrink-0">
-                      <Icon size={14} className="text-bronze" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{f.label}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{f.desc}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Progress indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2">
-          <div className="w-4 h-1 rounded-full bg-bronze/20" />
-          <div className="w-8 h-1 rounded-full bg-bronze" />
-          <div className="w-4 h-1 rounded-full bg-bronze/20" />
+        {/* Bottom progress */}
+        <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <div className="w-4 h-0.5 rounded-full bg-white/15" />
+          <div className="w-8 h-0.5 rounded-full" style={{ background: "#4ECDC4" }} />
+          <div className="w-4 h-0.5 rounded-full bg-white/15" />
         </div>
       </div>
     </div>

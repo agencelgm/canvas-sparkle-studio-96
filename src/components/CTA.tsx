@@ -1,55 +1,85 @@
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import HexagonPattern from "./HexagonPattern";
+import { Link } from "react-router-dom";
+import ParticleBackground from "@/components/canvas/ParticleBackground";
 
 const CTA = () => {
   return (
-    <section className="section-padding relative overflow-hidden">
-      {/* Hexagon pattern background */}
-      <div className="absolute inset-0 opacity-10">
-        <HexagonPattern />
-      </div>
+    <section className="relative py-28 md:py-40 overflow-hidden bg-background">
+      {/* Dense particle field for cinematic depth */}
+      <ParticleBackground count={500} color="#C9A227" size={0.009} spread={14} />
 
-      {/* Bronze gradient orbs - hidden on mobile */}
-      <div className="hidden sm:block absolute top-1/3 left-1/4 w-48 md:w-96 h-48 md:h-96 bg-gradient-radial from-bronze/15 via-bronze/5 to-transparent rounded-full blur-3xl" />
-      <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-48 md:w-80 h-48 md:h-80 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+      {/* Radial glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,162,39,0.07) 0%, rgba(201,162,39,0.02) 50%, transparent 75%)",
+        }}
+      />
 
-      <div className="container-narrow relative z-10">
-        <div className="relative text-center p-6 sm:p-10 md:p-16 lg:p-20 bg-secondary/40 border border-border rounded-lg overflow-hidden backdrop-blur-sm">
-          {/* Geometric border accent - hidden on mobile */}
-          <div className="hidden sm:block absolute inset-0 border-2 border-bronze/20 rounded-lg m-3 sm:m-4" />
-          
-          {/* Decorative corner hexagons - hidden on mobile */}
-          <svg className="hidden sm:block absolute top-3 sm:top-4 left-3 sm:left-4 w-8 sm:w-12 h-8 sm:h-12 text-bronze/20" viewBox="0 0 100 100">
-            <polygon points="50,3 95,25 95,75 50,97 5,75 5,25" fill="none" stroke="currentColor" strokeWidth="2" />
-          </svg>
-          <svg className="hidden sm:block absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-8 sm:w-12 h-8 sm:h-12 text-bronze/20" viewBox="0 0 100 100">
-            <polygon points="50,3 95,25 95,75 50,97 5,75 5,25" fill="none" stroke="currentColor" strokeWidth="2" />
-          </svg>
-          
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-32 sm:w-64 h-32 sm:h-64 bg-bronze/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-24 sm:w-48 h-24 sm:h-48 bg-bronze/10 rounded-full blur-3xl" />
+      {/* Top divider */}
+      <div className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent 0%, rgba(201,162,39,0.25) 50%, transparent 100%)" }}
+      />
 
-          <div className="relative z-10">
-            {/* Headline */}
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-foreground leading-tight mb-4 sm:mb-6">
-              Structurer votre croissance{" "}
-              <span className="italic text-bronze block mt-1 sm:mt-2">commence par une décision.</span>
-            </h2>
+      <div className="container-narrow relative z-10 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          {/* Kicker */}
+          <p className="pill-gold mb-8 mx-auto inline-flex">
+            <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#C9A227" }} />
+            Passez à l'action
+          </p>
 
-            {/* Subtext */}
-            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 lg:mb-10 px-2">
-              Réservez une consultation gratuite. Découvrez comment notre agence marketing peut transformer votre entreprise.
-            </p>
+          {/* Headline */}
+          <h2
+            className="font-serif text-foreground mb-6 mx-auto"
+            style={{
+              fontSize: "clamp(2.25rem, 5.5vw, 4.5rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.025em",
+              lineHeight: 1.1,
+              textWrap: "balance",
+              maxWidth: "18ch",
+            }}
+          >
+            Structurer votre croissance commence par une décision.
+          </h2>
 
-            {/* CTA Button */}
-            <Button variant="hero" size="lg" className="group w-full sm:w-auto">
-              Réservez une consultation gratuite
-              <ArrowRight className="transition-transform group-hover:translate-x-1" />
-            </Button>
+          {/* Body */}
+          <p
+            className="text-muted-foreground font-sans leading-relaxed mb-12 mx-auto max-w-[48ch]"
+            style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)" }}
+          >
+            Réservez une consultation gratuite. En 30 minutes, nous analysons votre situation et vous proposons un plan d'activation ACF sur mesure.
+          </p>
+
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/contact">
+              <button className="btn-gold group flex items-center gap-3">
+                Consultation gratuite
+                <span className="w-7 h-7 rounded-full bg-black/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </button>
+            </Link>
+            <Link to="/services">
+              <button className="btn-gold-outline">
+                Voir nos services
+              </button>
+            </Link>
           </div>
-        </div>
+
+          {/* Trust micro-line */}
+          <p className="text-muted-foreground/50 font-sans text-xs mt-8 tracking-wide uppercase">
+            Sans engagement — Réponse sous 24h
+          </p>
+        </motion.div>
       </div>
     </section>
   );
