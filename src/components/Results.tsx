@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import ParticleBackground from "@/components/canvas/ParticleBackground";
 
 interface CounterProps {
   target: number;
@@ -64,14 +63,8 @@ const METRICS = [
 const Results = () => {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden bg-background">
-      {/* Particles */}
-      <ParticleBackground count={200} color="#C9A227" size={0.007} spread={12} />
-
-      {/* Center glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,162,39,0.04) 0%, transparent 70%)" }}
-      />
+      {/* Top rule */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(201,162,39,0.2) 50%, transparent 100%)" }} />
 
       <div className="container-wide relative z-10">
         {/* Header */}
@@ -79,7 +72,7 @@ const Results = () => {
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16 md:mb-20"
         >
           <h2
@@ -110,7 +103,7 @@ const Results = () => {
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
             >
               {/* Double-bezel card */}
               <div

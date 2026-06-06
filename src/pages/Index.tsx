@@ -3,9 +3,6 @@ import Header from "@/components/Header";
 import VideoHero from "@/components/VideoHero";
 import Problem from "@/components/Problem";
 import FrameworkACF3D from "@/components/FrameworkACF3D";
-import AcquisitionSection from "@/components/sections/AcquisitionSection";
-import ConversionSection from "@/components/sections/ConversionSection";
-import FidelisationSection from "@/components/sections/FidelisationSection";
 import Results from "@/components/Results";
 import Services from "@/components/Services";
 import CTA from "@/components/CTA";
@@ -30,9 +27,6 @@ const Index = () => {
           <VideoHero />
           <Problem />
           <FrameworkACF3D />
-          <AcquisitionSection />
-          <ConversionSection />
-          <FidelisationSection />
           <Results />
           <Services />
           <CTA />

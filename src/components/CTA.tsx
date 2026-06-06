@@ -7,7 +7,7 @@ const CTA = () => {
   return (
     <section className="relative py-28 md:py-40 overflow-hidden bg-background">
       {/* Dense particle field for cinematic depth */}
-      <ParticleBackground count={500} color="#C9A227" size={0.009} spread={14} />
+      <ParticleBackground count={150} color="#C9A227" size={0.009} spread={14} />
 
       {/* Radial glow */}
       <div
@@ -27,7 +27,7 @@ const CTA = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Kicker */}
           <p className="pill-gold mb-8 mx-auto inline-flex">

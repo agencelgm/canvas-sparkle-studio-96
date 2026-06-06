@@ -89,7 +89,7 @@ const VideoHero = () => {
   return (
     <div
       ref={containerRef}
-      style={{ height: "350vh" }}
+      style={{ height: "250vh" }}
       className="relative"
     >
       {/* Sticky viewport */}
@@ -129,10 +129,10 @@ const VideoHero = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activePhase}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
                 {/* Kicker */}
                 <p className="pill-gold mb-4 inline-flex">
@@ -174,9 +174,9 @@ const VideoHero = () => {
                 {/* CTA — only on last phase */}
                 {phase.cta && (
                   <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
+                    initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{ delay: 0.25, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="flex flex-wrap gap-4"
                   >
                     <Link to="/contact">
