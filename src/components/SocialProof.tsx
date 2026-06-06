@@ -1,6 +1,50 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
+
+/* Reusable animated counter — same engine as Results.tsx */
+function Counter({
+  target,
+  suffix = "",
+  prefix = "",
+  duration = 1500,
+}: {
+  target: number;
+  suffix?: string;
+  prefix?: string;
+  duration?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+
+  useEffect(() => {
+    if (!inView) return;
+    const startTime = performance.now();
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setCount(Math.round(target * ease(progress)));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  }, [inView, target, duration]);
+
+  return (
+    <span ref={ref}>
+      {prefix}{count}{suffix}
+    </span>
+  );
+}
+
+const miniStats = [
+  { value: 12, suffix: "+", label: "clients accompagnés sur 6 mois+" },
+  { value: 90, suffix: " jours", label: "délai moyen pour les premiers résultats" },
+];
 
 const SocialProof = () => (
   <section
@@ -83,7 +127,6 @@ const SocialProof = () => (
                     fontSize: "0.82rem",
                     fontWeight: 600,
                     color: "var(--ivory-text)",
-                    letterSpacing: "0",
                   }}
                 >
                   Moussa Konaté
@@ -99,7 +142,7 @@ const SocialProof = () => (
           </blockquote>
         </motion.div>
 
-        {/* Right — Contextualized stat */}
+        {/* Right — Animated stats */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -116,7 +159,7 @@ const SocialProof = () => (
             }}
           />
 
-          {/* Big stat */}
+          {/* Big animated stat */}
           <div
             className="font-display"
             style={{
@@ -124,11 +167,12 @@ const SocialProof = () => (
               fontWeight: 700,
               lineHeight: 0.9,
               letterSpacing: "-0.04em",
-              color: "var(--ivory-text)",
               marginBottom: "1.25rem",
             }}
           >
-            <span style={{ color: "var(--akan-gold)" }}>×7</span>
+            <span style={{ color: "var(--akan-gold)" }}>
+              ×<Counter target={7} duration={1400} />
+            </span>
           </div>
 
           <p
@@ -153,32 +197,67 @@ const SocialProof = () => (
               lineHeight: 1.68,
               color: "var(--ivory-muted)",
               maxWidth: "38ch",
+              marginBottom: "2rem",
             }}
           >
-            Ce chiffre n'est pas une promesse. C'est la médiane mesurée sur nos 12 derniers clients
+            Ce chiffre n'est pas une promesse. C'est la médiane mesurée sur nos clients
             accompagnés sur au moins 6 mois — acquisition, conversion et fidélisation activées ensemble.
           </p>
 
-          {/* Bottom divider + context */}
+          {/* Mini-stats */}
           <div
+            className="grid grid-cols-2 gap-5"
             style={{
-              marginTop: "2rem",
               paddingTop: "1.5rem",
               borderTop: "1px solid rgba(196, 154, 42, 0.18)",
             }}
           >
-            <p
-              className="font-sans"
-              style={{
-                fontSize: "0.72rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "rgba(42,31,14,0.35)",
-              }}
-            >
-              Abidjan · Dakar · Douala · 2022–2025
-            </p>
+            {miniStats.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.55, delay: 0.3 + i * 0.1, ease: EASE }}
+              >
+                <div
+                  className="font-display"
+                  style={{
+                    fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                    fontWeight: 700,
+                    letterSpacing: "-0.03em",
+                    color: "var(--ivory-text)",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  <Counter target={stat.value} suffix={stat.suffix} duration={1200} />
+                </div>
+                <p
+                  className="font-sans"
+                  style={{
+                    fontSize: "0.75rem",
+                    lineHeight: 1.45,
+                    color: "var(--ivory-muted)",
+                  }}
+                >
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
           </div>
+
+          {/* Bottom context */}
+          <p
+            className="font-sans mt-4"
+            style={{
+              fontSize: "0.68rem",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "rgba(42,31,14,0.3)",
+            }}
+          >
+            Abidjan · Dakar · Douala · 2022–2025
+          </p>
         </motion.div>
       </div>
     </div>

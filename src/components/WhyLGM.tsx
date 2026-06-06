@@ -14,7 +14,7 @@ const differentiators = [
   },
   {
     label: "Résultats mesurables uniquement",
-    text: "Chaque action est liée à une métrique. Pas de rapport flou, pas de \"notoriété\" non traçable.",
+    text: "Chaque action est liée à une métrique. Pas de rapport flou, pas de notoriété non traçable.",
   },
   {
     label: "Reporting hebdomadaire",
@@ -38,44 +38,37 @@ const WhyLGM = () => (
     <div className="container-wide">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-16 items-stretch">
 
-        {/* Left — Editorial image */}
+        {/* Left — Editorial image (Lagos, Nigeria) */}
         <motion.div
           className="relative mb-12 lg:mb-0"
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.9, ease: EASE }}
-          style={{ minHeight: "400px" }}
+          style={{ minHeight: "420px" }}
         >
           <div
             className="relative overflow-hidden"
             style={{
               height: "100%",
-              minHeight: "400px",
-              maxHeight: "600px",
+              minHeight: "420px",
+              maxHeight: "620px",
             }}
           >
             <img
-              src="/images/whylgm-editorial.jpg"
-              alt="Équipe LGM analysant des données marketing à Abidjan"
+              src="https://source.unsplash.com/afqRNiMCELc/800x1000"
+              alt="Professionnel ouest-africain au travail — Abidjan, Côte d'Ivoire"
               className="w-full h-full object-cover"
               style={{ display: "block" }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = "none";
-                const parent = (e.target as HTMLImageElement).parentElement;
-                if (parent) {
-                  parent.style.background =
-                    "linear-gradient(145deg, rgba(196,154,42,0.08) 0%, rgba(42,31,14,0.5) 100%)";
-                  parent.style.border = "1px solid rgba(196,154,42,0.15)";
-                }
-              }}
+              loading="lazy"
+              crossOrigin="anonymous"
             />
-            {/* Subtle overlay for editorial feel */}
+            {/* Subtle vignette for editorial feel */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(180deg, transparent 60%, rgba(245,239,224,0.08) 100%)",
+                  "linear-gradient(180deg, transparent 50%, rgba(245,239,224,0.12) 100%)",
               }}
             />
           </div>
@@ -89,16 +82,16 @@ const WhyLGM = () => (
             transition={{ duration: 0.7, delay: 0.4, ease: EASE }}
             style={{
               background: "var(--ivory)",
-              padding: "1rem 1.25rem",
+              padding: "0.9rem 1.2rem",
             }}
           >
             <p
               className="font-display"
               style={{
-                fontSize: "0.65rem",
+                fontSize: "0.62rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "rgba(42,31,14,0.5)",
+                color: "rgba(42,31,14,0.45)",
               }}
             >
               Abidjan, Côte d'Ivoire
@@ -118,10 +111,10 @@ const WhyLGM = () => (
           <div
             className="font-display mb-5"
             style={{
-              fontSize: "0.65rem",
+              fontSize: "0.62rem",
               letterSpacing: "0.22em",
               textTransform: "uppercase",
-              color: "rgba(139,105,20,0.7)",
+              color: "rgba(139,105,20,0.65)",
               fontWeight: 700,
             }}
           >

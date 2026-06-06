@@ -11,6 +11,7 @@ const pillars = [
     description:
       "Nous créons un flux constant de prospects qualifiés grâce à des stratégies ciblées sur les canaux où se trouvent vos clients.",
     tags: ["Réseaux sociaux", "SEO & SEA", "Génération de leads", "Publicité digitale"],
+    icon: "/images/acf-social.png",
   },
   {
     number: "02",
@@ -19,6 +20,7 @@ const pillars = [
     description:
       "Nous optimisons chaque point de contact pour que vos prospects franchissent le pas : pages de destination, tunnels de vente, offres irrésistibles.",
     tags: ["Landing pages", "Tunnel de vente", "Optimisation CRO", "Offres & pricing"],
+    icon: "/images/acf-validation.png",
   },
   {
     number: "03",
@@ -27,8 +29,36 @@ const pillars = [
     description:
       "Nous mettons en place des systèmes automatisés pour maintenir la relation, encourager les achats répétés et transformer vos clients en ambassadeurs.",
     tags: ["Email automation", "Loyalty programs", "Upsell & cross-sell", "NPS & rétention"],
+    icon: "/images/acf-loyalty.png",
   },
 ];
+
+/* Akan decorative pattern for Framework section */
+const AkanPatternCorner = () => (
+  <div
+    className="absolute top-0 left-0 pointer-events-none select-none"
+    style={{ width: "320px", height: "320px", opacity: 0.04 }}
+    aria-hidden="true"
+  >
+    <svg width="320" height="320" viewBox="0 0 320 320" fill="none">
+      <defs>
+        <pattern id="akan-fw" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M20 1 L39 20 L20 39 L1 20 Z" stroke="#C49A2A" strokeWidth="0.7" fill="none" />
+          <path d="M20 9 L31 20 L20 31 L9 20 Z" stroke="#C49A2A" strokeWidth="0.4" fill="none" />
+        </pattern>
+        <radialGradient id="akan-fw-fade" cx="0" cy="0" r="1.1" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stopOpacity="1" />
+          <stop offset="65%" stopOpacity="0.2" />
+          <stop offset="100%" stopOpacity="0" />
+        </radialGradient>
+        <mask id="akan-fw-mask">
+          <rect width="320" height="320" fill="url(#akan-fw-fade)" />
+        </mask>
+      </defs>
+      <rect width="320" height="320" fill="url(#akan-fw)" mask="url(#akan-fw-mask)" />
+    </svg>
+  </div>
+);
 
 /* ── Desktop pillar card ─────────────────────────────────────── */
 const PillarCard = ({
@@ -45,11 +75,27 @@ const PillarCard = ({
     viewport={{ once: true, amount: 0.3 }}
     transition={{ duration: 0.7, delay: index * 0.14, ease: EASE }}
   >
+    {/* Icon */}
+    <div className="mb-5">
+      <img
+        src={pillar.icon}
+        alt=""
+        aria-hidden="true"
+        style={{
+          width: "44px",
+          height: "44px",
+          objectFit: "contain",
+          filter: "brightness(0) invert(1)",
+          opacity: 0.55,
+        }}
+      />
+    </div>
+
     {/* Number */}
     <div
-      className="font-display mb-5"
+      className="font-display mb-4"
       style={{
-        fontSize: "0.7rem",
+        fontSize: "0.65rem",
         letterSpacing: "0.2em",
         color: "var(--akan-gold)",
         fontWeight: 700,
@@ -90,7 +136,7 @@ const PillarCard = ({
       style={{
         fontSize: "0.88rem",
         lineHeight: 1.72,
-        color: "rgba(240, 232, 213, 0.58)",
+        color: "rgba(240, 232, 213, 0.55)",
         maxWidth: "30ch",
       }}
     >
@@ -144,17 +190,19 @@ const AccordionItem = ({
       aria-expanded={isOpen}
     >
       <div className="flex items-center gap-4">
-        <span
-          className="font-display"
+        <img
+          src={pillar.icon}
+          alt=""
+          aria-hidden="true"
           style={{
-            fontSize: "0.68rem",
-            letterSpacing: "0.18em",
-            color: "var(--akan-gold)",
-            fontWeight: 700,
+            width: "28px",
+            height: "28px",
+            objectFit: "contain",
+            filter: "brightness(0) invert(1)",
+            opacity: 0.45,
+            flexShrink: 0,
           }}
-        >
-          {pillar.number}
-        </span>
+        />
         <span
           className="font-serif"
           style={{
@@ -239,13 +287,18 @@ const Framework = () => {
   return (
     <section
       id="framework"
+      className="relative overflow-hidden"
       style={{
-        background: "var(--espresso)",
+        background:
+          "radial-gradient(ellipse at 80% 70%, rgba(42,31,14,0.55) 0%, transparent 50%), radial-gradient(ellipse at 10% 20%, rgba(196,154,42,0.06) 0%, transparent 50%), #0D0B08",
         paddingTop: "clamp(5rem, 12vw, 9rem)",
         paddingBottom: "clamp(5rem, 12vw, 9rem)",
       }}
     >
-      <div className="container-wide">
+      {/* Akan decorative pattern — top-left corner */}
+      <AkanPatternCorner />
+
+      <div className="container-wide relative z-10">
 
         {/* Section header */}
         <motion.div
@@ -314,7 +367,7 @@ const Framework = () => {
                     height: "7px",
                     borderRadius: "50%",
                     border: "1px solid var(--akan-gold)",
-                    background: "var(--espresso)",
+                    background: "#0D0B08",
                   }}
                 />
               </motion.div>

@@ -7,6 +7,34 @@ const EASE = [0.32, 0.72, 0, 1] as const;
 const line1 = ["L'excellence", "marketing,"];
 const line2 = ["faite", "en", "Afrique."];
 
+/* Akan geometric diamond pattern — subtle decorative overlay */
+const AkanPattern = () => (
+  <div
+    className="absolute bottom-0 right-0 pointer-events-none select-none"
+    style={{ width: "420px", height: "420px", opacity: 0.055 }}
+    aria-hidden="true"
+  >
+    <svg width="420" height="420" viewBox="0 0 420 420" fill="none">
+      <defs>
+        <pattern id="akan-hero" x="0" y="0" width="42" height="42" patternUnits="userSpaceOnUse">
+          <path d="M21 1 L41 21 L21 41 L1 21 Z" stroke="#C49A2A" strokeWidth="0.8" fill="none" />
+          <path d="M21 10 L32 21 L21 32 L10 21 Z" stroke="#C49A2A" strokeWidth="0.45" fill="none" />
+          <circle cx="21" cy="21" r="1.2" fill="#C49A2A" />
+        </pattern>
+        <radialGradient id="akan-hero-fade" cx="1" cy="1" r="1.1" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stopOpacity="1" />
+          <stop offset="60%" stopOpacity="0.35" />
+          <stop offset="100%" stopOpacity="0" />
+        </radialGradient>
+        <mask id="akan-hero-mask">
+          <rect width="420" height="420" fill="url(#akan-hero-fade)" />
+        </mask>
+      </defs>
+      <rect width="420" height="420" fill="url(#akan-hero)" mask="url(#akan-hero-mask)" />
+    </svg>
+  </div>
+);
+
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -19,7 +47,7 @@ const Hero = () => {
     <section
       ref={containerRef}
       className="relative min-h-[100dvh] flex items-center overflow-hidden"
-      style={{ background: "var(--espresso)" }}
+      style={{ background: "#0D0B08" }}
     >
       {/* ── Background editorial image with parallax ──────────── */}
       <motion.div
@@ -28,24 +56,37 @@ const Hero = () => {
         aria-hidden="true"
       >
         <img
-          src="/images/hero-editorial.jpg"
+          src="https://source.unsplash.com/vI_er1u9ZhA/1920x1080"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ transform: "scale(1.12)", transformOrigin: "center 40%" }}
+          style={{ transform: "scale(1.12)", transformOrigin: "center 35%" }}
+          loading="eager"
+          crossOrigin="anonymous"
         />
-        {/* Layered dark gradient */}
+        {/* Layered dark gradient — preserves editorial feel while ensuring legibility */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(13,11,8,0.72) 0%, rgba(13,11,8,0.22) 45%, rgba(13,11,8,0.82) 100%)",
+              "linear-gradient(180deg, rgba(13,11,8,0.68) 0%, rgba(13,11,8,0.18) 40%, rgba(13,11,8,0.78) 100%)",
           }}
         />
         <div
           className="absolute inset-0"
-          style={{ background: "rgba(13,11,8,0.28)" }}
+          style={{ background: "rgba(13,11,8,0.24)" }}
+        />
+        {/* Warm ambient glow — left side */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 8% 65%, rgba(196,154,42,0.08) 0%, transparent 50%)",
+          }}
         />
       </motion.div>
+
+      {/* Akan decorative pattern — bottom right */}
+      <AkanPattern />
 
       {/* ── Content ───────────────────────────────────────────── */}
       <div
@@ -181,7 +222,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll indicator — vertical line only, no text */}
+      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 right-6 md:right-10"
         initial={{ opacity: 0 }}
