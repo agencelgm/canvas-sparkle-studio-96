@@ -126,6 +126,7 @@ const AboutPage = () => {
 
     <FinalCTA title="Votre marque merite une execution aussi serieuse que votre ambition." text="Le premier appel sert a comprendre votre contexte, pas a vous vendre une formule toute faite." button="Reserver un audit" />
   </PageLayout>
-);
+  );
+};
 
 export default AboutPage;
