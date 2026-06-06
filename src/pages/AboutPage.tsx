@@ -21,7 +21,17 @@ const AboutPage = () => (
     <Helmet>
       <title>A propos | LGM, Les Gens du Marketing</title>
       <meta name="description" content="Decouvrez LGM, l'agence marketing digital basee a Abidjan qui structure acquisition, conversion et fidelisation avec la methode ACF." />
+      <link rel="canonical" href="https://lgm.marketing/a-propos" />
+      <meta property="og:url" content="https://lgm.marketing/a-propos" />
       <meta property="og:image" content={publicImages.og} />
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+          { "@type": "ListItem", position: 2, name: "A propos" },
+        ],
+      })}</script>
     </Helmet>
 
     <PageHero

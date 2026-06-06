@@ -22,12 +22,46 @@ const ServiceDetailPage = () => {
     );
   }
 
+  const canonicalUrl = `https://lgm.marketing/services/${service.slug}`;
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.description,
+    serviceType: service.kicker,
+    provider: {
+      "@type": "Organization",
+      name: "LGM, Les Gens du Marketing",
+      url: "https://lgm.marketing",
+    },
+    areaServed: [
+      { "@type": "City", name: "Abidjan" },
+      { "@type": "Country", name: "Cote d'Ivoire" },
+    ],
+    url: canonicalUrl,
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://lgm.marketing/services" },
+      { "@type": "ListItem", position: 3, name: service.title },
+    ],
+  };
+
   return (
     <PageLayout>
       <Helmet>
         <title>{service.title} | LGM</title>
         <meta name="description" content={service.description} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={`${service.title} | LGM`} />
+        <meta property="og:description" content={service.description} />
+        <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={publicImages.og} />
+        <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       <PageHero

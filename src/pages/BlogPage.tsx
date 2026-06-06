@@ -62,7 +62,17 @@ const BlogPage = () => {
       <Helmet>
         <title>Blog | LGM</title>
         <meta name="description" content="Insights LGM sur acquisition, conversion, fidelisation, SEO, publicite digitale et marketing en Afrique de l'Ouest." />
+        <link rel="canonical" href="https://lgm.marketing/blog" />
+        <meta property="og:url" content="https://lgm.marketing/blog" />
         <meta property="og:image" content={publicImages.og} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+            { "@type": "ListItem", position: 2, name: "Blog" },
+          ],
+        })}</script>
       </Helmet>
 
       <PageHero
