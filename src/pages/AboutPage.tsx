@@ -1,6 +1,8 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import PageLayout from "@/components/layout/PageLayout";
-import { FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { FinalCTA, ImageFrame, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages } from "@/data/publicContent";
 
 const principles = [
@@ -16,7 +18,13 @@ const timeline = [
   { label: "Pilotage", text: "Chaque semaine, nous arbitrons avec des donnees et des priorites nettes." },
 ];
 
-const AboutPage = () => (
+const AboutPage = () => {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "-6%"]);
+
+  return (
   <PageLayout>
     <Helmet>
       <title>A propos | LGM, Les Gens du Marketing</title>
@@ -34,13 +42,31 @@ const AboutPage = () => (
       })}</script>
     </Helmet>
 
-    <PageHero
-      eyebrow="L'agence"
-      title={<>Les Gens du <span className="editorial-accent">Marketing</span></>}
-      lead="LGM existe pour aider les entreprises ambitieuses d'Afrique de l'Ouest a transformer leur presence digitale en moteur commercial mesurable."
-      image={publicImages.about}
-      imageAlt="Image editoriale abstraite de l'identite LGM"
-    />
+    <section ref={heroRef} className="relative flex min-h-[100dvh] items-center overflow-hidden bg-espresso text-ivory md:items-end">
+      <motion.img
+        src={publicImages.about}
+        alt="Dirigeante ouest-africaine au bureau face au skyline d'Abidjan au coucher du soleil"
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ y: imageY, scale: 1.06 }}
+        loading="eager"
+        decoding="async"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,11,8,0.45),rgba(13,11,8,0.2)_36%,rgba(13,11,8,0.92))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_64%,rgba(232,201,107,0.2),transparent_34%)]" />
+
+      <div className="container-wide relative z-10 pb-14 pt-28 md:pb-[clamp(4rem,9vw,7rem)] md:pt-32">
+        <motion.div style={{ y: titleY }} className="max-w-5xl">
+          <p className="section-kicker">L'agence</p>
+          <h1 className="public-h1 max-w-[14ch]">
+            <span className="block">Les Gens du</span>
+            <span className="block editorial-accent">Marketing</span>
+          </h1>
+          <p className="public-lead max-w-[54ch] text-ivory/78">
+            LGM existe pour aider les entreprises ambitieuses d'Afrique de l'Ouest a transformer leur presence digitale en moteur commercial mesurable.
+          </p>
+        </motion.div>
+      </div>
+    </section>
 
     <section className="section-ivory section-pad">
       <div className="container-wide grid gap-12 lg:grid-cols-[0.75fr_1fr] lg:items-center">
@@ -100,6 +126,7 @@ const AboutPage = () => (
 
     <FinalCTA title="Votre marque merite une execution aussi serieuse que votre ambition." text="Le premier appel sert a comprendre votre contexte, pas a vous vendre une formule toute faite." button="Reserver un audit" />
   </PageLayout>
-);
+  );
+};
 
 export default AboutPage;
