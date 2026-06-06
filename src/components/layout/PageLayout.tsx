@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import GrainOverlay from "@/components/GrainOverlay";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -7,11 +8,10 @@ interface PageLayoutProps {
 
 const PageLayout = ({ children }: PageLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="public-shell flex min-h-[100dvh] flex-col">
+      <GrainOverlay />
       <Header />
-      <main className="flex-1 pt-14 md:pt-16 lg:pt-20">
-        {children}
-      </main>
+      <main className="public-main flex-1">{children}</main>
       <Footer />
     </div>
   );

@@ -68,7 +68,7 @@ serve(async (req: Request): Promise<Response> => {
     if (insertError) {
       console.error("Error inserting admin role:", insertError);
       return new Response(
-        JSON.stringify({ error: "Erreur lors de l'attribution du rôle" }),
+        JSON.stringify({ error: "Erreur lors de l'attribution du rÃ´le" }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -77,16 +77,16 @@ serve(async (req: Request): Promise<Response> => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, message: "Rôle admin attribué avec succès" }),
+      JSON.stringify({ success: true, message: "RÃ´le admin attribuÃ© avec succÃ¨s" }),
       {
         status: 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error in assign-admin-role:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

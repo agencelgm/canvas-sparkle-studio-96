@@ -1,10 +1,10 @@
-import PageLayout from "@/components/layout/PageLayout";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import PageLayout from "@/components/layout/PageLayout";
+import { BackArrow, FinalCTA, Reveal } from "@/components/public/PublicPrimitives";
+import { publicImages } from "@/data/publicContent";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Calendar } from "lucide-react";
-import HexagonPattern from "@/components/HexagonPattern";
 
 interface BlogPost {
   id: string;
@@ -14,29 +14,31 @@ interface BlogPost {
   excerpt: string | null;
   featured_image: string | null;
   published_at: string | null;
-  blog_categories: {
-    id: string;
-    name: string;
-    slug: string;
-  } | null;
+  blog_categories: { id: string; name: string; slug: string } | null;
 }
+
+const formatDate = (dateString: string | null) => {
+  if (!dateString) return "Date a venir";
+  return new Date(dateString).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+};
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
       if (!slug) return;
-      
-      const { data } = await supabase
+      const { data, error: queryError } = await supabase
         .from("blog_posts")
         .select("*, blog_categories(*)")
         .eq("slug", slug)
         .eq("published", true)
         .single();
 
+      if (queryError) setError(true);
       setPost(data as BlogPost | null);
       setLoading(false);
     };
@@ -44,34 +46,29 @@ const BlogPostPage = () => {
     fetchPost();
   }, [slug]);
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "";
-    return new Date(dateString).toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-  };
-
   if (loading) {
     return (
       <PageLayout>
-        <div className="section-padding container-narrow text-center">
-          <p className="text-muted-foreground">Chargement...</p>
-        </div>
+        <section className="public-page-hero min-h-[70dvh]">
+          <div className="container-narrow relative z-10 pt-32">
+            <div className="public-card h-12 animate-pulse" />
+            <div className="public-card mt-5 h-40 animate-pulse" />
+          </div>
+        </section>
       </PageLayout>
     );
   }
 
-  if (!post) {
+  if (error || !post) {
     return (
       <PageLayout>
-        <div className="section-padding container-narrow text-center">
-          <h1 className="text-2xl font-serif text-foreground mb-4">Article non trouvé</h1>
-          <Link to="/blog" className="text-bronze hover:underline">
-            Retour au blog
-          </Link>
-        </div>
+        <section className="public-page-hero min-h-[70dvh]">
+          <div className="container-narrow relative z-10 pt-32 text-center">
+            <h1 className="public-h2">Article introuvable</h1>
+            <p className="public-lead mx-auto">Cette note n'est pas publiee ou a ete deplacee.</p>
+            <Link to="/blog" className="btn-akan mt-8">Retour au blog</Link>
+          </div>
+        </section>
       </PageLayout>
     );
   }
@@ -81,84 +78,34 @@ const BlogPostPage = () => {
       <Helmet>
         <title>{post.title} | LGM Blog</title>
         <meta name="description" content={post.excerpt || post.title} />
+        <meta property="og:image" content={post.featured_image || publicImages.og} />
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <HexagonPattern />
-        </div>
-        
-        <div className="container-narrow relative z-10">
-          <Link 
-            to="/blog" 
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
+      <section className="public-page-hero">
+        <img src={post.featured_image || publicImages.blog} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-55" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,11,8,0.62),rgba(13,11,8,0.92))]" />
+        <div className="container-narrow relative z-10 pt-32">
+          <Link to="/blog" className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-[#e8c96b]">
+            <BackArrow />
             Retour au blog
           </Link>
-
-          {post.blog_categories && (
-            <span className="inline-block text-bronze text-sm font-medium uppercase tracking-wider mb-4">
-              {post.blog_categories.name}
-            </span>
-          )}
-
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-foreground mb-6">
-            {post.title}
-          </h1>
-
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Calendar className="w-4 h-4" />
-            {formatDate(post.published_at)}
-          </div>
+          <Reveal>
+            <p className="section-kicker">{post.blog_categories?.name || "Insight"}</p>
+            <h1 className="public-h1 max-w-[13ch]">{post.title}</h1>
+            <p className="mt-6 text-sm font-bold text-ivory/64">{formatDate(post.published_at)}</p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Featured Image */}
-      {post.featured_image && (
-        <section className="pb-8">
-          <div className="container-narrow">
-            <div className="aspect-video rounded-lg overflow-hidden">
-              <img 
-                src={post.featured_image} 
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Content */}
-      <section className="section-padding pt-0">
+      <section className="section-espresso section-pad-tight">
         <div className="container-narrow">
-          <article className="prose prose-invert prose-bronze max-w-none">
-            <div 
-              className="text-muted-foreground leading-relaxed space-y-4"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+          <article className="public-prose">
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
           </article>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="section-padding bg-card/50">
-        <div className="container-narrow text-center">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-foreground mb-4">
-            Besoin d'aide pour votre marketing ?
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            Discutons de comment nous pouvons appliquer ces stratégies à votre entreprise.
-          </p>
-          <Link 
-            to="/contact"
-            className="inline-flex items-center justify-center px-8 py-3 bg-bronze hover:bg-bronze-dark text-background font-medium rounded-md transition-colors"
-          >
-            Contactez-nous
-          </Link>
-        </div>
-      </section>
+      <FinalCTA title="Vous voulez appliquer ces idees a votre entreprise ?" text="Nous pouvons analyser votre acquisition, votre conversion et votre fidelisation avec une lecture concrete de vos chiffres." button="Demander un audit" />
     </PageLayout>
   );
 };

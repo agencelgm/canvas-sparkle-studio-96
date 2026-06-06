@@ -32,7 +32,7 @@ const CTA = () => {
           {/* Kicker */}
           <p className="pill-gold mb-8 mx-auto inline-flex">
             <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#C9A227" }} />
-            Passez à l'action
+            Passez Ã  l'action
           </p>
 
           {/* Headline */}
@@ -47,7 +47,7 @@ const CTA = () => {
               maxWidth: "18ch",
             }}
           >
-            Structurer votre croissance commence par une décision.
+            Structurer votre croissance commence par une dÃ©cision.
           </h2>
 
           {/* Body */}
@@ -55,7 +55,7 @@ const CTA = () => {
             className="text-muted-foreground font-sans leading-relaxed mb-12 mx-auto max-w-[48ch]"
             style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)" }}
           >
-            Réservez une consultation gratuite. En 30 minutes, nous analysons votre situation et vous proposons un plan d'activation ACF sur mesure.
+            RÃ©servez une consultation gratuite. En 30 minutes, nous analysons votre situation et vous proposons un plan d'activation ACF sur mesure.
           </p>
 
           {/* CTA buttons */}
@@ -77,7 +77,7 @@ const CTA = () => {
 
           {/* Trust micro-line */}
           <p className="text-muted-foreground/50 font-sans text-xs mt-8 tracking-wide uppercase">
-            Sans engagement — Réponse sous 24h
+            Sans engagement â€” RÃ©ponse sous 24h
           </p>
         </motion.div>
       </div>

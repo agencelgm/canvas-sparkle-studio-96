@@ -1,79 +1,24 @@
-import { motion } from "framer-motion";
-
-const EASE = [0.32, 0.72, 0, 1] as const;
+import { publicImages } from "@/data/publicContent";
+import { ImageFrame, Reveal } from "@/components/public/PublicPrimitives";
 
 const Manifeste = () => (
-  <section
-    style={{
-      background: "var(--ivory)",
-      color: "var(--ivory-text)",
-      paddingTop: "clamp(5.5rem, 14vw, 11rem)",
-      paddingBottom: "clamp(5.5rem, 14vw, 11rem)",
-    }}
-  >
-    <div className="container-narrow">
-      <motion.div
-        initial={{ opacity: 0, y: 36 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.9, ease: EASE }}
-      >
-        {/* Opening quote mark — decorative, Cormorant Garamond */}
-        <div
-          className="font-serif italic select-none"
-          style={{
-            fontSize: "6rem",
-            lineHeight: 0.75,
-            color: "rgba(196, 154, 42, 0.18)",
-            marginBottom: "0.6rem",
-            fontWeight: 400,
-          }}
-          aria-hidden="true"
-        >
-          &ldquo;
-        </div>
-
-        {/* The manifeste */}
-        <blockquote>
-          <p
-            className="font-serif italic"
-            style={{
-              fontSize: "clamp(1.65rem, 3.8vw, 3rem)",
-              fontWeight: 400,
-              lineHeight: 1.35,
-              letterSpacing: "-0.016em",
-              color: "var(--ivory-text)",
-              textWrap: "balance",
-              maxWidth: "22ch",
-            }}
-          >
-            Nous ne faisons pas de la publicité. Nous construisons des systèmes
-            qui transforment des inconnus en clients fidèles.
+  <section className="section-ivory section-pad overflow-hidden">
+    <div className="container-wide grid gap-12 lg:grid-cols-[0.72fr_1fr] lg:items-center">
+      <Reveal>
+        <ImageFrame src={publicImages.about} alt="Composition editoriale LGM avec figures, textile et lumiere d'Abidjan" tone="light" className="min-h-[460px]" />
+      </Reveal>
+      <Reveal delay={0.12}>
+        <p className="section-kicker text-[#8b6914]">Manifeste</p>
+        <blockquote className="max-w-4xl">
+          <p className="font-serif text-[clamp(2.2rem,5vw,5.6rem)] italic leading-[1.04] text-ivory-text">
+            Nous ne vendons pas du bruit digital. Nous construisons le systeme qui amene les bonnes personnes jusqu'a votre offre.
           </p>
-
-          {/* Attribution */}
-          <footer className="mt-9 flex items-center gap-4">
-            <div
-              style={{
-                width: "32px",
-                height: "1px",
-                background: "var(--akan-gold)",
-              }}
-            />
-            <cite
-              className="font-sans not-italic"
-              style={{
-                fontSize: "0.72rem",
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                color: "var(--ivory-muted)",
-              }}
-            >
-              La méthode ACF — LGM
-            </cite>
+          <footer className="mt-8 flex flex-col gap-4 text-sm font-semibold text-ivory-muted sm:flex-row sm:items-center">
+            <span className="h-px w-14 bg-[#c49a2a]" aria-hidden="true" />
+            La methode ACF, par LGM
           </footer>
         </blockquote>
-      </motion.div>
+      </Reveal>
     </div>
   </section>
 );

@@ -10,7 +10,7 @@ const AdminSidebar = () => {
   const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/posts", label: "Articles", icon: FileText },
-    { href: "/admin/categories", label: "Catégories", icon: FolderOpen },
+    { href: "/admin/categories", label: "CatÃ©gories", icon: FolderOpen },
     { href: "/admin/contacts", label: "Messages", icon: Mail },
   ];
 
@@ -22,7 +22,7 @@ const AdminSidebar = () => {
   };
 
   return (
-    <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
+    <aside className="w-64 bg-card border-r border-border min-h-[100dvh] flex flex-col">
       <div className="p-6 border-b border-border">
         <Link to="/" className="flex items-center gap-3">
           <img
@@ -58,7 +58,7 @@ const AdminSidebar = () => {
           onClick={() => signOut()}
         >
           <LogOut className="w-5 h-5" />
-          Déconnexion
+          DÃ©connexion
         </Button>
       </div>
     </aside>

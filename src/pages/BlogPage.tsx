@@ -1,10 +1,10 @@
-import PageLayout from "@/components/layout/PageLayout";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PageLayout from "@/components/layout/PageLayout";
+import { Arrow, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { publicImages } from "@/data/publicContent";
 import { supabase } from "@/integrations/supabase/client";
-import { Calendar, ArrowRight } from "lucide-react";
-import HexagonPattern from "@/components/HexagonPattern";
 
 interface BlogCategory {
   id: string;
@@ -23,174 +23,112 @@ interface BlogPost {
   blog_categories: BlogCategory | null;
 }
 
+const formatDate = (dateString: string | null) => {
+  if (!dateString) return "Date a venir";
+  return new Date(dateString).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+};
+
 const BlogPage = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const [postsResult, categoriesResult] = await Promise.all([
-        supabase
-          .from("blog_posts")
-          .select("*, blog_categories(*)")
-          .eq("published", true)
-          .order("published_at", { ascending: false }),
-        supabase
-          .from("blog_categories")
-          .select("*")
-          .order("name")
+        supabase.from("blog_posts").select("*, blog_categories(*)").eq("published", true).order("published_at", { ascending: false }),
+        supabase.from("blog_categories").select("*").order("name"),
       ]);
 
-      if (postsResult.data) setPosts(postsResult.data as BlogPost[]);
-      if (categoriesResult.data) setCategories(categoriesResult.data);
+      if (postsResult.error || categoriesResult.error) {
+        setError(true);
+      } else {
+        setPosts((postsResult.data || []) as BlogPost[]);
+        setCategories(categoriesResult.data || []);
+      }
       setLoading(false);
     };
 
     fetchData();
   }, []);
 
-  const filteredPosts = selectedCategory 
-    ? posts.filter(post => post.category_id === selectedCategory)
-    : posts;
-
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "";
-    return new Date(dateString).toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-  };
+  const filteredPosts = selectedCategory ? posts.filter((post) => post.category_id === selectedCategory) : posts;
 
   return (
     <PageLayout>
       <Helmet>
-        <title>Blog | LGM - Les Gens du Marketing</title>
-        <meta name="description" content="Découvrez nos articles sur le marketing digital, le SEO, la stratégie et les réseaux sociaux." />
+        <title>Blog | LGM</title>
+        <meta name="description" content="Insights LGM sur acquisition, conversion, fidelisation, SEO, publicite digitale et marketing en Afrique de l'Ouest." />
+        <meta property="og:image" content={publicImages.og} />
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <HexagonPattern />
-        </div>
-        
-        <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-bronze/20 to-bronze-dark/10 rounded-full blur-3xl hidden md:block" />
-        
-        <div className="container-narrow relative z-10">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="inline-block text-bronze text-sm font-medium tracking-wider uppercase mb-4 animate-fade-up">
-              Blog
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold text-foreground mb-6 animate-fade-up animation-delay-100">
-              Insights & <span className="text-gradient-bronze">Stratégies</span>
-            </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed animate-fade-up animation-delay-200">
-              Articles, guides et études de cas pour booster votre marketing.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Insights"
+        title={<>Des idees marketing pour les marches qui <span className="editorial-accent">bougent vite.</span></>}
+        lead="Guides, analyses et notes de terrain pour comprendre ce qui fait avancer acquisition, conversion et fidelisation."
+        image={publicImages.blog}
+        imageAlt="Image generative d'un journal marketing LGM"
+      />
 
-      {/* Categories Filter */}
-      <section className="py-6 border-b border-border">
+      <section className="section-espresso section-pad-tight">
         <div className="container-wide">
-          <div className="flex flex-wrap gap-3 justify-center">
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                selectedCategory === null 
-                  ? "bg-bronze text-background" 
-                  : "bg-card border border-border text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Tous
-            </button>
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === category.id 
-                    ? "bg-bronze text-background" 
-                    : "bg-card border border-border text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {category.name}
+          <Reveal>
+            <div className="flex flex-wrap gap-3 border-b border-[#e8c96b1f] pb-6">
+              <button onClick={() => setSelectedCategory(null)} className={selectedCategory === null ? "btn-akan min-h-0 px-5 py-2" : "btn-akan-outline min-h-0 px-5 py-2"}>
+                Tous
               </button>
-            ))}
-          </div>
-        </div>
-      </section>
+              {categories.map((category) => (
+                <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={selectedCategory === category.id ? "btn-akan min-h-0 px-5 py-2" : "btn-akan-outline min-h-0 px-5 py-2"}>
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </Reveal>
 
-      {/* Blog Posts */}
-      <section className="section-padding">
-        <div className="container-wide">
           {loading ? (
-            <div className="text-center text-muted-foreground">Chargement...</div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[0, 1, 2].map((item) => <div key={item} className="public-card h-80 animate-pulse" />)}
+            </div>
+          ) : error ? (
+            <div className="mt-12 public-card p-8 text-center">
+              <h2 className="public-h3 text-ivory">Impossible de charger les articles</h2>
+              <p className="public-body mx-auto mt-3 max-w-xl">Reessayez dans quelques instants ou contactez LGM directement.</p>
+            </div>
           ) : filteredPosts.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground mb-4">
-                Aucun article pour le moment.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Revenez bientôt pour découvrir nos prochains contenus !
-              </p>
+            <div className="mt-12 public-card p-8 text-center">
+              <h2 className="public-h3 text-ivory">Aucun article pour cette selection</h2>
+              <p className="public-body mx-auto mt-3 max-w-xl">Les prochaines notes de terrain seront publiees ici.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {filteredPosts.map((post) => (
-                <Link 
-                  key={post.id}
-                  to={`/blog/${post.slug}`}
-                  className="group bg-card border border-border/50 rounded-lg overflow-hidden hover:border-bronze/50 transition-all duration-300"
-                >
-                  {post.featured_image ? (
-                    <div className="aspect-video bg-muted overflow-hidden">
-                      <img 
-                        src={post.featured_image} 
+            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {filteredPosts.map((post, index) => (
+                <Reveal key={post.id} delay={index * 0.045}>
+                  <Link to={`/blog/${post.slug}`} className="blog-card group h-full text-ivory">
+                    <div className="aspect-[1.38] overflow-hidden bg-[#17120c]">
+                      <img
+                        src={post.featured_image || publicImages.blog}
                         alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
-                  ) : (
-                    <div className="aspect-video bg-gradient-to-br from-bronze/10 to-bronze-dark/5 flex items-center justify-center">
-                      <span className="text-bronze/30 font-serif text-4xl">LGM</span>
-                    </div>
-                  )}
-                  
-                  <div className="p-5 lg:p-6">
-                    {post.blog_categories && (
-                      <span className="text-xs text-bronze font-medium uppercase tracking-wider">
-                        {post.blog_categories.name}
+                    <div className="flex h-full flex-col p-5 md:p-6">
+                      <div className="flex items-center justify-between gap-4 text-xs font-bold text-[#e8c96b]">
+                        <span>{post.blog_categories?.name || "LGM"}</span>
+                        <span>{formatDate(post.published_at)}</span>
+                      </div>
+                      <h2 className="public-h3 mt-5 text-[clamp(1.25rem,2vw,1.8rem)] transition-colors group-hover:text-[#e8c96b]">{post.title}</h2>
+                      {post.excerpt && <p className="public-body mt-3 line-clamp-3">{post.excerpt}</p>}
+                      <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#e8c96b]">
+                        Lire l'article <Arrow />
                       </span>
-                    )}
-                    
-                    <h2 className="font-serif text-lg lg:text-xl font-semibold text-foreground mt-2 mb-3 group-hover:text-bronze transition-colors line-clamp-2">
-                      {post.title}
-                    </h2>
-                    
-                    {post.excerpt && (
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                        {post.excerpt}
-                      </p>
-                    )}
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar className="w-3.5 h-3.5" />
-                        {formatDate(post.published_at)}
-                      </div>
-                      
-                      <div className="flex items-center gap-1 text-bronze text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                        Lire
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </Reveal>
               ))}
             </div>
           )}

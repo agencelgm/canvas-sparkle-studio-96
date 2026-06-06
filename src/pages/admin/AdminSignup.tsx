@@ -13,7 +13,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 
 const signupSchema = z.object({
   email: z.string().email("Adresse email invalide"),
-  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractÃ¨res"),
   confirmPassword: z.string(),
   adminSecret: z.string().min(1, "Le code secret admin est requis"),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -53,7 +53,7 @@ const AdminSignup = () => {
       if (signUpError) throw signUpError;
 
       if (!authData.user) {
-        throw new Error("Erreur lors de la création du compte");
+        throw new Error("Erreur lors de la crÃ©ation du compte");
       }
 
       // Call edge function to assign admin role with secret
@@ -69,7 +69,7 @@ const AdminSignup = () => {
         toast({
           variant: "destructive",
           title: "Erreur",
-          description: roleError.message || "Code secret invalide ou erreur lors de l'attribution du rôle admin",
+          description: roleError.message || "Code secret invalide ou erreur lors de l'attribution du rÃ´le admin",
         });
         // Sign out the user since they don't have admin role
         await supabase.auth.signOut();
@@ -78,15 +78,15 @@ const AdminSignup = () => {
       }
 
       toast({
-        title: "Compte créé",
-        description: "Votre compte administrateur a été créé avec succès",
+        title: "Compte crÃ©Ã©",
+        description: "Votre compte administrateur a Ã©tÃ© crÃ©Ã© avec succÃ¨s",
       });
       navigate("/admin");
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         variant: "destructive",
         title: "Erreur",
-        description: error.message || "Une erreur est survenue lors de l'inscription",
+        description: error instanceof Error ? error.message : "Une erreur est survenue lors de l'inscription",
       });
     } finally {
       setIsLoading(false);
@@ -94,12 +94,12 @@ const AdminSignup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Inscription Admin</CardTitle>
           <CardDescription>
-            Créez un compte administrateur avec le code secret
+            CrÃ©ez un compte administrateur avec le code secret
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -131,7 +131,7 @@ const AdminSignup = () => {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                         {...field}
                       />
                     </FormControl>
@@ -148,7 +148,7 @@ const AdminSignup = () => {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                         {...field}
                       />
                     </FormControl>
@@ -175,7 +175,7 @@ const AdminSignup = () => {
               />
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Créer le compte admin
+                CrÃ©er le compte admin
               </Button>
             </form>
           </Form>
@@ -185,7 +185,7 @@ const AdminSignup = () => {
               className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1"
             >
               <ArrowLeft className="h-4 w-4" />
-              Retour à la connexion
+              Retour Ã  la connexion
             </Link>
           </div>
         </CardContent>

@@ -1,153 +1,73 @@
-import PageLayout from "@/components/layout/PageLayout";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ArrowRight, Users, Search, Megaphone, FileText, BarChart3, MessageCircle } from "lucide-react";
-import HexagonPattern from "@/components/HexagonPattern";
+import PageLayout from "@/components/layout/PageLayout";
+import { Arrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { publicImages, publicServices } from "@/data/publicContent";
 
-const services = [
-  {
-    icon: Users,
-    title: "Génération de leads",
-    slug: "generation-leads",
-    description: "Attirez des prospects qualifiés grâce à des stratégies ciblées et des campagnes optimisées pour la conversion.",
-    features: ["Landing pages optimisées", "Campagnes publicitaires ciblées", "Lead magnets stratégiques", "Nurturing automatisé"]
-  },
-  {
-    icon: Search,
-    title: "SEO Local",
-    slug: "seo-local",
-    description: "Dominez les résultats de recherche locaux et attirez des clients de votre zone géographique à Abidjan.",
-    features: ["Optimisation Google Business", "Citations locales", "Avis clients", "Contenu géolocalisé"]
-  },
-  {
-    icon: Megaphone,
-    title: "Publicités Payantes",
-    slug: "publicite-digitale",
-    description: "Boostez votre visibilité et vos ventes avec nos campagnes publicitaires ciblées sur Google, Facebook et Instagram.",
-    features: ["Google Ads", "Facebook & Instagram Ads", "Retargeting", "A/B Testing"]
-  },
-  {
-    icon: FileText,
-    title: "Développement Web",
-    slug: "developpement-web",
-    description: "Transformez votre présence en ligne et attirez des clients avec un site web sur mesure orienté conversion.",
-    features: ["Sites sur mesure", "Landing pages", "Optimisation conversion", "Design responsive"]
-  },
-  {
-    icon: BarChart3,
-    title: "Automatisation & IA",
-    slug: "automatisation-ia",
-    description: "Boostez votre efficacité avec l'IA. Nos technologies avancées automatisent vos processus, réduisant coûts et complexité.",
-    features: ["CRM automatisé", "Chatbots IA", "Email automation", "Reporting intelligent"]
-  },
-  {
-    icon: MessageCircle,
-    title: "Formations & Webinaires",
-    slug: "formations-webinaires",
-    description: "Maîtrisez le marketing digital grâce à nos formations et webinaires interactifs et pratiques.",
-    features: ["Formations personnalisées", "Webinaires interactifs", "Coaching marketing", "Ateliers pratiques"]
-  },
-  {
-    icon: Megaphone,
-    title: "Publicité Facebook",
-    slug: "publicite-facebook",
-    description: "Maximisez votre impact avec des campagnes Facebook ciblées. Stratégies sur mesure qui convertissent votre audience en clients fidèles.",
-    features: ["Ciblage précis", "Campagnes optimisées", "Rapports détaillés", "Support proactif"]
-  }
-];
+const ServicesPage = () => (
+  <PageLayout>
+    <Helmet>
+      <title>Services | LGM, Les Gens du Marketing</title>
+      <meta name="description" content="Generation de leads, SEO local, publicite digitale, sites web, automatisation IA et formations : les services LGM pour structurer votre croissance." />
+      <meta property="og:image" content={publicImages.og} />
+    </Helmet>
 
-const ServicesPage = () => {
-  return (
-    <PageLayout>
-      <Helmet>
-        <title>Nos Services | LGM - Les Gens du Marketing</title>
-        <meta name="description" content="Découvrez nos services de marketing digital : génération de leads, SEO local, publicité digitale, stratégie de contenu et plus encore." />
-      </Helmet>
+    <PageHero
+      eyebrow="Services"
+      title={<>Des leviers precis pour une <span className="editorial-accent">croissance visible.</span></>}
+      lead="Nous ne vendons pas des prestations isolees. Chaque service est pense pour renforcer le systeme ACF de votre entreprise."
+      image={publicImages.services}
+      imageAlt="Image generative abstraite representant les services LGM"
+    />
 
-      {/* Hero Section */}
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <HexagonPattern />
-        </div>
-        
-        <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-bronze/20 to-bronze-dark/10 rounded-full blur-3xl hidden md:block" />
-        
-        <div className="container-narrow relative z-10">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="inline-block text-bronze text-sm font-medium tracking-wider uppercase mb-4 animate-fade-up">
-              Nos services
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold text-foreground mb-6 animate-fade-up animation-delay-100">
-              Des solutions <span className="text-gradient-bronze">sur mesure</span>
-            </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed animate-fade-up animation-delay-200">
-              Chaque entreprise est unique. Nous adaptons nos services à vos objectifs 
-              pour maximiser votre retour sur investissement.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Grid */}
-      <section className="section-padding bg-card/30">
-        <div className="container-wide">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {services.map((service, index) => (
-              <Link 
-                key={index}
-                to={`/services/${service.slug}`}
-                className="group bg-card border border-border/50 rounded-lg p-6 lg:p-8 hover:border-bronze/50 transition-all duration-300 hover:shadow-lg hover:shadow-bronze/5"
-              >
-                <div className="w-14 h-14 rounded-lg bg-bronze/10 flex items-center justify-center mb-6 group-hover:bg-bronze/20 transition-colors">
-                  <service.icon className="w-7 h-7 text-bronze" />
+    <section className="section-espresso section-pad-tight">
+      <div className="container-wide">
+        <Reveal>
+          <p className="section-kicker">Index des expertises</p>
+          <h2 className="public-h2 max-w-5xl">Choisissez un point d'entree, nous relions le reste du systeme.</h2>
+        </Reveal>
+        <div className="mt-12 border-t border-[#e8c96b24]">
+          {publicServices.map((service, index) => (
+            <Reveal key={service.slug} delay={index * 0.045}>
+              <Link to={`/services/${service.slug}`} className="service-row group text-ivory">
+                <div>
+                  <p className="font-display text-5xl font-extrabold text-[#e8c96b33]">{String(index + 1).padStart(2, "0")}</p>
+                  <p className="mt-2 text-sm font-bold text-[#e8c96b]">{service.kicker}</p>
                 </div>
-                
-                <h2 className="font-serif text-xl lg:text-2xl font-semibold text-foreground mb-3">
-                  {service.title}
-                </h2>
-                
-                <p className="text-sm text-muted-foreground mb-6">
-                  {service.description}
-                </p>
-                
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, fIndex) => (
-                    <li key={fIndex} className="text-xs text-muted-foreground flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-bronze rounded-full" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <div className="flex items-center gap-2 text-bronze text-sm font-medium group-hover:gap-3 transition-all">
-                  En savoir plus
-                  <ArrowRight className="w-4 h-4" />
+                <div>
+                  <h2 className="public-h3 transition-colors group-hover:text-[#e8c96b]">{service.title}</h2>
+                  <p className="public-body mt-3 max-w-2xl">{service.description}</p>
                 </div>
+                <div className="tag-list">
+                  {service.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#e8c96b3d] text-[#e8c96b] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                  <Arrow />
+                </span>
               </Link>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* CTA Section */}
-      <section className="section-padding">
-        <div className="container-narrow text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Besoin d'un service personnalisé ?
-          </h2>
-          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Chaque projet est unique. Contactez-nous pour discuter de vos besoins spécifiques.
+    <section className="section-ivory section-pad-tight">
+      <div className="container-wide grid gap-10 lg:grid-cols-[1fr_0.76fr] lg:items-center">
+        <Reveal>
+          <p className="section-kicker text-[#8b6914]">ACF en pratique</p>
+          <h2 className="public-h2 max-w-4xl text-ivory-text">Un bon service ne suffit pas. Il doit s'inscrire dans le parcours complet du client.</h2>
+          <p className="public-lead text-ivory-muted">
+            C'est pourquoi nous commencons toujours par comprendre ou le systeme bloque : attirer, convertir, fideliser ou mesurer.
           </p>
-          <Link 
-            to="/contact"
-            className="inline-flex items-center justify-center px-8 py-3 bg-bronze hover:bg-bronze-dark text-background font-medium rounded-md transition-colors"
-          >
-            Demander un devis
-          </Link>
-        </div>
-      </section>
-    </PageLayout>
-  );
-};
+        </Reveal>
+        <Reveal delay={0.12}>
+          <ImageFrame src={publicImages.method} alt="Methode ACF de LGM" tone="light" className="min-h-[360px]" />
+        </Reveal>
+      </div>
+    </section>
+
+    <FinalCTA title="Vous ne savez pas encore quel service choisir ?" text="C'est normal. L'audit sert justement a identifier le levier qui creera le plus d'impact en premier." button="Demander un diagnostic" />
+  </PageLayout>
+);
 
 export default ServicesPage;

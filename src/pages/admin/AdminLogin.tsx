@@ -9,7 +9,7 @@ import { z } from "zod";
 
 const loginSchema = z.object({
   email: z.string().email("Email invalide"),
-  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+  password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractÃ¨res"),
 });
 
 const AdminLogin = () => {
@@ -61,7 +61,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="bg-card border border-border rounded-xl p-8 shadow-lg">
           <div className="text-center mb-8">
@@ -71,7 +71,7 @@ const AdminLogin = () => {
               src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png"
             />
             <h1 className="text-2xl font-bold text-foreground">Administration</h1>
-            <p className="text-muted-foreground mt-2">Connectez-vous pour accéder au tableau de bord</p>
+            <p className="text-muted-foreground mt-2">Connectez-vous pour accÃ©der au tableau de bord</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -94,7 +94,7 @@ const AdminLogin = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 required
               />
             </div>
@@ -106,10 +106,10 @@ const AdminLogin = () => {
 
           <div className="mt-6 flex flex-col items-center gap-2 text-sm text-muted-foreground">
             <Link to="/admin/signup" className="hover:text-primary">
-              Créer un compte admin
+              CrÃ©er un compte admin
             </Link>
             <Link to="/" className="hover:text-primary">
-              ← Retour au site
+              â† Retour au site
             </Link>
           </div>
         </div>

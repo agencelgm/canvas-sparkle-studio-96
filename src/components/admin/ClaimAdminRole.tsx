@@ -33,16 +33,16 @@ const ClaimAdminRole = ({ onSuccess }: ClaimAdminRoleProps) => {
       if (error) throw error;
 
       toast({
-        title: "Rôle admin attribué",
-        description: "Vous avez maintenant accès à l'administration.",
+        title: "RÃ´le admin attribuÃ©",
+        description: "Vous avez maintenant accÃ¨s Ã  l'administration.",
       });
       
       onSuccess();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         variant: "destructive",
         title: "Erreur",
-        description: error.message || "Impossible d'attribuer le rôle admin.",
+        description: error instanceof Error ? error.message : "Impossible d'attribuer le rÃ´le admin.",
       });
     } finally {
       setIsLoading(false);
@@ -50,13 +50,13 @@ const ClaimAdminRole = ({ onSuccess }: ClaimAdminRoleProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle>Accès refusé</CardTitle>
+          <CardTitle>AccÃ¨s refusÃ©</CardTitle>
           <CardDescription>
-            Vous êtes connecté mais vous n'avez pas les droits d'administration.
-            Si vous êtes administrateur, entrez le code secret pour obtenir l'accès.
+            Vous Ãªtes connectÃ© mais vous n'avez pas les droits d'administration.
+            Si vous Ãªtes administrateur, entrez le code secret pour obtenir l'accÃ¨s.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -74,7 +74,7 @@ const ClaimAdminRole = ({ onSuccess }: ClaimAdminRoleProps) => {
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Réclamer l'accès admin
+              RÃ©clamer l'accÃ¨s admin
             </Button>
           </form>
           <Button
@@ -82,7 +82,7 @@ const ClaimAdminRole = ({ onSuccess }: ClaimAdminRoleProps) => {
             className="w-full mt-4"
             onClick={() => signOut()}
           >
-            Se déconnecter
+            Se dÃ©connecter
           </Button>
         </CardContent>
       </Card>

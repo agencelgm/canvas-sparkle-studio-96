@@ -3,15 +3,15 @@ import HexagonPattern from "./HexagonPattern";
 
 const Audience = () => {
   const forWho = [
-    "Dirigeants impliqués dans les décisions",
-    "Entreprises avec une ambition de croissance structurée",
-    "Organisations prêtes à mesurer et ajuster"
+    "Dirigeants impliquÃ©s dans les dÃ©cisions",
+    "Entreprises avec une ambition de croissance structurÃ©e",
+    "Organisations prÃªtes Ã  mesurer et ajuster"
   ];
 
   const notForWho = [
     "Recherche de solutions rapides",
-    "Budgets marketing très faibles",
-    "Refus de structurer un système"
+    "Budgets marketing trÃ¨s faibles",
+    "Refus de structurer un systÃ¨me"
   ];
 
   return (
@@ -105,7 +105,7 @@ const Audience = () => {
             Pour qui travaillons-nous ?
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Chez LGM, nous aidons les propriétaires d'entreprises ambitieux à obtenir plus de prospects qualifiés et à augmenter leur chiffre d'affaires.
+            Chez LGM, nous aidons les propriÃ©taires d'entreprises ambitieux Ã  obtenir plus de prospects qualifiÃ©s et Ã  augmenter leur chiffre d'affaires.
           </p>
         </div>
 
