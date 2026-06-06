@@ -1,24 +1,25 @@
+## Fix blank page (React Three Fiber / React 18 mismatch)
 
+### Root cause
 
-## Add YouTube Video Embed to Hero Section
+`@react-three/fiber@^9` and `@react-three/drei@^10` require React 19. The project is on React 18, so the fiber reconciler crashes at startup with `Cannot read properties of undefined (reading 'S')`, blanking the whole app.
 
-### What changes
+### Change
 
-Add a responsive YouTube video embed between the subheadline ("structuré et pilotable.") and the CTA buttons in the Hero component.
+Downgrade the 3D stack to versions compatible with React 18, keeping `three@0.184`:
 
-### File: `src/components/Hero.tsx`
+- `@react-three/fiber`: `^9.6.1` → `^8.17.10`
+- `@react-three/drei`: `^10.7.7` → `^9.114.0`
+- `three` and `@types/three`: leave as-is (drei 9 / fiber 8 work with three 0.16x–0.18x)
 
-Between line 38 (end of subheadline `</p>`) and line 40 (CTAs `<div>`), insert:
+### Steps
 
-- A container `div` with `max-w-3xl mx-auto mb-8 sm:mb-10 px-2`
-- Inside: a 16:9 aspect-ratio wrapper using `aspect-video` (Tailwind)
-- An `<iframe>` with the YouTube embed URL, rounded corners, subtle border matching the design (`border border-border rounded-lg overflow-hidden`)
-- A placeholder YouTube URL that you'll need to replace with your actual video link
+1. Update the two versions in `package.json`.
+2. Reinstall (`bun install`) so the Vite dep cache rebuilds.
+3. Verify in the preview: homepage renders, no reconciler error in console, `/a-propos` still works.
 
-### Technical details
+### Notes
 
-- Uses native `<iframe>` embed — no extra dependencies
-- `aspect-video` gives a clean 16:9 ratio on all screen sizes
-- The iframe gets `allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"` and `allowFullScreen`
-- You'll need to provide your YouTube video URL so I can set the correct embed `src`
-
+- No component code changes expected — fiber/drei APIs used here (`Canvas`, basic meshes, OrbitControls/Float-style helpers) are stable across these versions.
+- If any drei import breaks after downgrade, I'll adjust the import path in that single file.
+- Alternative (not recommended now): upgrade the whole app to React 19. Larger blast radius across shadcn, Radix, framer-motion — not worth it just to fix this.
