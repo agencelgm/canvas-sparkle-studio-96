@@ -9,7 +9,17 @@ const ServicesPage = () => (
     <Helmet>
       <title>Services | LGM, Les Gens du Marketing</title>
       <meta name="description" content="Generation de leads, SEO local, publicite digitale, sites web, automatisation IA et formations : les services LGM pour structurer votre croissance." />
+      <link rel="canonical" href="https://lgm.marketing/services" />
+      <meta property="og:url" content="https://lgm.marketing/services" />
       <meta property="og:image" content={publicImages.og} />
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+          { "@type": "ListItem", position: 2, name: "Services" },
+        ],
+      })}</script>
     </Helmet>
 
     <PageHero

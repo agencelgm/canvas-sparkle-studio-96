@@ -73,12 +73,47 @@ const BlogPostPage = () => {
     );
   }
 
+  const canonicalUrl = `https://lgm.marketing/blog/${post.slug}`;
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt || post.title,
+    image: post.featured_image || `https://lgm.marketing${publicImages.og}`,
+    datePublished: post.published_at,
+    dateModified: post.published_at,
+    author: { "@type": "Organization", name: "LGM, Les Gens du Marketing", url: "https://lgm.marketing" },
+    publisher: {
+      "@type": "Organization",
+      name: "LGM, Les Gens du Marketing",
+      logo: { "@type": "ImageObject", url: `https://lgm.marketing${publicImages.og}` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+    articleSection: post.blog_categories?.name || "Insight",
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://lgm.marketing/blog" },
+      { "@type": "ListItem", position: 3, name: post.title },
+    ],
+  };
+
   return (
     <PageLayout>
       <Helmet>
         <title>{post.title} | LGM Blog</title>
         <meta name="description" content={post.excerpt || post.title} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt || post.title} />
+        <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={post.featured_image || publicImages.og} />
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       <section className="public-page-hero">

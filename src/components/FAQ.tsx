@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { EASE, Reveal } from "@/components/public/PublicPrimitives";
 
 export const faqItems = [
@@ -59,19 +59,15 @@ const FAQ = () => {
                       +
                     </motion.span>
                   </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.36, ease: EASE }}
-                        className="overflow-hidden"
-                      >
-                        <p className="public-body max-w-3xl pb-6 text-ivory-muted">{item.answer}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <motion.div
+                    initial={false}
+                    animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                    transition={{ duration: 0.36, ease: EASE }}
+                    className="overflow-hidden"
+                    aria-hidden={!isOpen}
+                  >
+                    <p className="public-body max-w-3xl pb-6 text-ivory-muted">{item.answer}</p>
+                  </motion.div>
                 </div>
               </Reveal>
             );
