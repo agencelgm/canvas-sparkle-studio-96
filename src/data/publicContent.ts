@@ -227,7 +227,7 @@ export const serviceAreaPages: ServiceAreaPage[] = [
     city: "Dakar",
     country: "Senegal",
     title: "Agence marketing pour entreprises a Dakar",
-    metaDescription: "Agence marketing pour Dakar : generation de leads, publicite Facebook, SEO local, creation de logo, automatisation IA et logiciels metier pour entreprises senegalaises.",
+    metaDescription: "Agence marketing pour Dakar : generation de leads, publicite Facebook, SEO local, automatisation IA et logiciels metier.",
     lead: "Depuis Abidjan, LGM accompagne les entreprises de Dakar avec des systemes marketing adaptes aux marches francophones et aux cycles commerciaux locaux.",
     proof: ["Strategie adaptee aux entreprises senegalaises", "Campagnes Meta et Google pilotees a distance", "Reporting clair pour les equipes commerciales"],
   },
