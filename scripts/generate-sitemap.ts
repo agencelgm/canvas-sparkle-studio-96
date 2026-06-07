@@ -14,7 +14,7 @@ if (existsSync(envPath)) {
   }
 }
 
-const BASE_URL = "https://lgm.marketing";
+const BASE_URL = "https://canvas-sparkle-studio-96.lovable.app";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL ?? "";
 const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 
