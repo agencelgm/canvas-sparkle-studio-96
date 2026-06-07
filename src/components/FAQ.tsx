@@ -17,15 +17,23 @@ export const faqItems = [
   },
   {
     question: "Quel budget minimum prevoir ?",
-    answer: "Les accompagnements demarrent generalement autour de 300 000 FCFA par mois pour un levier, et augmentent selon le marche, les canaux et le niveau d'execution attendu.",
+    answer: "Nos accompagnements commencent a 270 000 FCFA. En dessous, nous orientons vers nos formations et webinaires.",
   },
   {
     question: "Etes-vous uniquement bases a Abidjan ?",
-    answer: "Notre base est a Abidjan, mais nous accompagnons aussi des entreprises au Senegal, au Cameroun et dans d'autres marches francophones d'Afrique de l'Ouest.",
+    answer: "Nos bureaux sont a Angre, Abidjan. Nous travaillons aussi a distance depuis Dakar, Douala, Ouagadougou et dans toute l'Afrique de l'Ouest.",
   },
   {
     question: "Que comprend le suivi hebdomadaire ?",
     answer: "Vous recevez les metriques cles, les actions menees, les arbitrages proposes et les priorites de la semaine suivante. L'objectif est de garder une lecture nette de ce qui avance.",
+  },
+  {
+    question: "Proposez-vous des services d'automatisation et d'IA ?",
+    answer: "Oui — chatbots, workflows automatises, integration IA en entreprise pour reduire les taches repetitives et accelerer le suivi commercial.",
+  },
+  {
+    question: "Developpez-vous des logiciels sur mesure ?",
+    answer: "Oui, des outils specifiques a votre metier : CRM, portails clients, outils internes, dashboards.",
   },
 ];
 
@@ -60,8 +68,8 @@ const FAQ = () => {
                     </motion.span>
                   </button>
                   <motion.div
-                    initial={false}
                     animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                    initial={false}
                     transition={{ duration: 0.36, ease: EASE }}
                     className="overflow-hidden"
                     aria-hidden={!isOpen}

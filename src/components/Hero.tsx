@@ -28,7 +28,7 @@ const Hero = () => {
           <p className="section-kicker">Agence marketing digital a Abidjan</p>
           <h1 className="public-h1 hero-title max-w-[11ch]">
             <span className="block">L'excellence marketing,</span>
-            <span className="block editorial-accent">faite en Afrique.</span>
+            <span className="block editorial-accent">basee a Abidjan.</span>
           </h1>
           <p className="public-lead max-w-[54ch] text-ivory/78">
             Nous construisons des systemes qui transforment des inconnus en clients fideles : acquisition, conversion et fidelisation orchestrees pour votre marche.

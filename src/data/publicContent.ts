@@ -1,9 +1,10 @@
 export const siteContact = {
   email: "contact@lgm.marketing",
-  phoneDisplay: "+225 07 67 00 96 29",
-  phoneHref: "+2250767009629",
-  whatsapp: "https://wa.me/2250767009629",
+  phoneDisplay: "+225 07 98 17 23 39",
+  phoneHref: "+2250798172339",
+  whatsapp: "https://wa.me/2250798172339",
   address: "Chateau, Camp Militaire, Angre, Abidjan",
+  hours: "Lundi–vendredi, 9h–17h",
 };
 
 import aboutHeroAsset from "@/assets/about-hero.jpg.asset.json";
@@ -141,6 +142,36 @@ export const publicServices: PublicService[] = [
       { title: "Creation", description: "Angles, visuels, messages et pages de conversion." },
       { title: "Diffusion", description: "Campagnes, tracking, exclusions et retargeting." },
       { title: "Amelioration", description: "Tests hebdomadaires et arbitrages chiffres en main." },
+    ],
+  },
+  {
+    slug: "creation-logo",
+    title: "Creation de logo & identite visuelle",
+    kicker: "Identite",
+    headline: "Une marque qui inspire confiance avant meme que le prospect lise un mot.",
+    description: "Logo, typographie, palette, charte graphique — pensees pour les entreprises ambitieuses d'Afrique de l'Ouest.",
+    tags: ["Logo", "Charte graphique", "Branding", "Identite visuelle"],
+    benefits: ["Identite memorable et differenciante", "Coherence sur tous les supports", "Charte utilisable en interne", "Positionnement visuel professionnel"],
+    process: [
+      { title: "Brief", description: "Positionnement, valeurs, cibles et univers de reference." },
+      { title: "Exploration", description: "Pistes creatives, moodboards et directions artistiques." },
+      { title: "Creation", description: "Logo, declinaisons, typographies et palette couleurs." },
+      { title: "Livraison", description: "Fichiers sources, charte graphique et guide d'utilisation." },
+    ],
+  },
+  {
+    slug: "logiciel-sur-mesure",
+    title: "Logiciel sur mesure",
+    kicker: "Technologie",
+    headline: "Un outil construit pour votre metier, pas pour un cas generique.",
+    description: "CRM, portails clients, outils internes, dashboards — avec une logique metier pensee depuis vos vrais besoins.",
+    tags: ["CRM sur mesure", "Portail client", "Dashboard", "Outils internes"],
+    benefits: ["Outil adapte a vos processus", "Adoption rapide par les equipes", "Moins de friction operationnelle", "Donnees consolidees et lisibles"],
+    process: [
+      { title: "Analyse", description: "Processus, flux de donnees, utilisateurs et contraintes techniques." },
+      { title: "Conception", description: "Architecture, wireframes et logique metier." },
+      { title: "Developpement", description: "Build iteratif avec tests et validations intermediaires." },
+      { title: "Deploiement", description: "Mise en production, formation et documentation utilisateur." },
     ],
   },
 ];

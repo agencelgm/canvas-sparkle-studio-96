@@ -24,11 +24,11 @@ const Index = () => {
         />
         <meta
           name="keywords"
-          content="marketing digital Abidjan, agence marketing Cote d'Ivoire, generation leads, publicite digitale Afrique, SEO Abidjan, automatisation marketing IA"
+          content="marketing digital Abidjan, agence de communication Abidjan, agence de publicite Abidjan, agence Facebook Abidjan, creation de logo Abidjan, logiciel sur mesure Abidjan, generation leads, publicite digitale Afrique, SEO Abidjan, automatisation marketing IA, integration IA entreprise"
         />
         <link rel="canonical" href="https://lgm.marketing" />
         <meta property="og:title" content="LGM, agence de marketing digital a Abidjan" />
-        <meta property="og:description" content="La methode ACF pour structurer acquisition, conversion et fidelisation en Afrique de l'Ouest." />
+        <meta property="og:description" content="La methode ACF pour structurer acquisition, conversion et fidelisation a Abidjan, Cote d'Ivoire — avec accompagnements a distance au Senegal, Cameroun, Burkina Faso." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://lgm.marketing" />
         <meta property="og:locale" content="fr_CI" />

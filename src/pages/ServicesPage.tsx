@@ -8,7 +8,7 @@ const ServicesPage = () => (
   <PageLayout>
     <Helmet>
       <title>Services | LGM, Les Gens du Marketing</title>
-      <meta name="description" content="Generation de leads, SEO local, publicite digitale, sites web, automatisation IA et formations : les services LGM pour structurer votre croissance." />
+      <meta name="description" content="Generation de leads, SEO local, publicite digitale, creation de logo, logiciel sur mesure, automatisation IA et formations : les services LGM pour structurer votre croissance a Abidjan." />
       <link rel="canonical" href="https://lgm.marketing/services" />
       <meta property="og:url" content="https://lgm.marketing/services" />
       <meta property="og:image" content={publicImages.og} />

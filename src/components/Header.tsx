@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { navLinks } from "@/data/publicContent";
+import { navLinks, siteContact } from "@/data/publicContent";
 import { EASE } from "@/components/public/PublicPrimitives";
 
 const Header = () => {
@@ -71,7 +71,7 @@ const Header = () => {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <a href="https://wa.me/2250767009629" target="_blank" rel="noreferrer" className="public-text-link text-[0.82rem]">
+            <a href={siteContact.whatsapp} target="_blank" rel="noreferrer" className="public-text-link text-[0.82rem]">
               WhatsApp
             </a>
             <Link to="/contact" className="btn-akan-outline min-h-0 px-5 py-2 text-[0.78rem]">

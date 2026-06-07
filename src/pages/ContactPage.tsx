@@ -51,7 +51,7 @@ const ContactPage = () => {
     <PageLayout>
       <Helmet>
         <title>Contact | LGM</title>
-        <meta name="description" content="Contactez LGM a Abidjan pour un audit marketing digital et une lecture claire de vos leviers acquisition, conversion et fidelisation." />
+        <meta name="description" content="Contactez LGM a Abidjan pour un audit marketing, creation de logo, logiciel sur mesure ou automatisation IA. Reponse sous 24h — lundi au vendredi 9h-17h." />
         <link rel="canonical" href="https://lgm.marketing/contact" />
         <meta property="og:url" content="https://lgm.marketing/contact" />
         <meta property="og:image" content={publicImages.og} />

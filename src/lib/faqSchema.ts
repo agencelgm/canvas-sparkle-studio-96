@@ -21,7 +21,7 @@ export const localBusinessSchema = {
   description:
     "Agence de marketing digital à Abidjan, Côte d'Ivoire. Spécialiste de l'acquisition de leads, la conversion et la fidélisation client grâce à la méthode ACF.",
   url: "https://lgm.marketing",
-  telephone: "+2250767009629",
+  telephone: "+2250798172339",
   email: "contact@lgm.marketing",
   foundingDate: "2019",
   address: {
@@ -40,6 +40,7 @@ export const localBusinessSchema = {
     { "@type": "Country", name: "Côte d'Ivoire" },
     { "@type": "Country", name: "Sénégal" },
     { "@type": "Country", name: "Cameroun" },
+    { "@type": "Country", name: "Burkina Faso" },
   ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
@@ -51,6 +52,9 @@ export const localBusinessSchema = {
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Automatisation marketing & IA" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Gestion réseaux sociaux business" } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Développement sites web conversion" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Création de logo & identité visuelle" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Logiciel sur mesure" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Publicité Facebook & Meta Ads" } },
     ],
   },
   sameAs: [

@@ -28,7 +28,7 @@ const AboutPage = () => {
   <PageLayout>
     <Helmet>
       <title>A propos | LGM, Les Gens du Marketing</title>
-      <meta name="description" content="Decouvrez LGM, l'agence marketing digital basee a Abidjan qui structure acquisition, conversion et fidelisation avec la methode ACF." />
+      <meta name="description" content="Decouvrez LGM, l'agence de marketing digital et de communication basee a Abidjan. Strategie ACF, creation de logo, developpement web et automatisation IA pour les entreprises d'Afrique de l'Ouest." />
       <link rel="canonical" href="https://lgm.marketing/a-propos" />
       <meta property="og:url" content="https://lgm.marketing/a-propos" />
       <meta property="og:image" content={publicImages.og} />
