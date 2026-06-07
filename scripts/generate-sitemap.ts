@@ -1,9 +1,18 @@
 // Genere public/sitemap.xml automatiquement avant chaque `vite dev` et `vite build`.
 // Source : code-defined routes (publicContent.ts) + articles publies dans Supabase.
 
-import { writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import { publicServices, serviceAreaPages } from "../src/data/publicContent";
+
+// Charge .env (Vite expose VITE_*, mais ce script tourne hors de Vite)
+const envPath = resolve(".env");
+if (existsSync(envPath)) {
+  for (const line of readFileSync(envPath, "utf-8").split("\n")) {
+    const m = line.match(/^([A-Z0-9_]+)=(.*)$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+  }
+}
 
 const BASE_URL = "https://lgm.marketing";
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL ?? "";
