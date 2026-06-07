@@ -290,10 +290,13 @@ const QualificationForm = ({
     }
   };
 
+  const surfaceClass = isHero
+    ? "rounded-md border border-[#f0d99633] bg-[#0f1623] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.45)] md:p-5 xl:p-6"
+    : "public-card p-5 md:p-7";
   return (
     <form
       onSubmit={submit}
-      className={`public-card ${isHero ? "p-4 shadow-[0_26px_80px_rgba(0,0,0,0.28)] md:p-5 xl:p-6" : "p-5 md:p-7"} ${className}`}
+      className={`${surfaceClass} ${className}`}
       noValidate
     >
       <div className={`${isHero ? "mb-4" : "mb-6"} flex flex-wrap items-center gap-2`}>
