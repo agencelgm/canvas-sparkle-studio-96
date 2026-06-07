@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
-import { BackArrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { BackArrow, EASE, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import RelatedLinks from "@/components/seo/RelatedLinks";
 import { findService, publicImages, serviceAreaPages } from "@/data/publicContent";
@@ -11,6 +13,7 @@ import { codeGraph, findNode } from "@/data/siteGraph";
 const ServiceDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const service = findService(slug);
+  const [openFaq, setOpenFaq] = useState(0);
 
   if (!service) {
     return (
@@ -41,6 +44,17 @@ const ServiceDetailPage = () => {
     areaServed: serviceAreaPages.map((area) => ({ "@type": "City", name: `${area.city}, ${area.country}` })),
     url: canonicalUrl,
   };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faq.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+
   const clampMeta = (text: string, max = 158) => (text.length <= max ? text : `${text.slice(0, max - 1).trimEnd()}…`);
   const metaDescription = clampMeta(`${service.title} a Abidjan : ${service.description}`);
   const breadcrumbSchema = {
@@ -64,6 +78,7 @@ const ServiceDetailPage = () => {
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
@@ -111,6 +126,22 @@ const ServiceDetailPage = () => {
         </div>
       </section>
 
+      {/* Long description */}
+      <section className="section-platinum section-pad-tight border-t border-[rgba(26,21,16,0.06)]">
+        <div className="container-wide">
+          <div className="mx-auto max-w-3xl">
+            <Reveal>
+              <p className="section-kicker text-[#d7b46a]">Notre approche</p>
+              <div className="mt-6 space-y-5">
+                {service.longDescription.split("\n\n").map((para, i) => (
+                  <p key={i} className="public-body text-platinum-muted leading-relaxed">{para}</p>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       <section className="section-charcoal section-pad-tight">
         <div className="container-wide grid gap-10 lg:grid-cols-[0.7fr_1fr] lg:items-start">
           <Reveal>
@@ -132,6 +163,50 @@ const ServiceDetailPage = () => {
                 </article>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-platinum section-pad-tight overflow-hidden">
+        <div className="container-wide grid gap-10 lg:grid-cols-[0.72fr_1fr]">
+          <Reveal>
+            <p className="section-kicker text-[#d7b46a]">Questions</p>
+            <h2 className="public-h2 max-w-2xl text-platinum-text">Questions sur {service.title.toLowerCase()}.</h2>
+          </Reveal>
+          <div className="border-t border-[rgba(26,21,16,0.12)]">
+            {service.faq.map((item, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <Reveal key={item.question} delay={index * 0.04}>
+                  <div className="border-b border-[rgba(26,21,16,0.10)]">
+                    <button
+                      className="flex w-full items-start justify-between gap-6 py-6 text-left"
+                      onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                      aria-expanded={isOpen}
+                    >
+                      <span className="public-h3 text-[clamp(1rem,1.8vw,1.4rem)] text-platinum-text">{item.question}</span>
+                      <motion.span
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#d7b46a44] text-[#d7b46a]"
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={{ duration: 0.28, ease: EASE }}
+                      >
+                        +
+                      </motion.span>
+                    </button>
+                    <motion.div
+                      animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                      initial={false}
+                      transition={{ duration: 0.36, ease: EASE }}
+                      className="overflow-hidden"
+                      aria-hidden={!isOpen}
+                    >
+                      <p className="public-body max-w-3xl pb-6 text-platinum-muted">{item.answer}</p>
+                    </motion.div>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
