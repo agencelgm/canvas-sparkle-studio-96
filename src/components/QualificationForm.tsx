@@ -2,9 +2,10 @@ import { useMemo, useState } from "react";
 import { qualificationServiceOptions } from "@/data/publicContent";
 import { supabase } from "@/integrations/supabase/client";
 
-const MINIMUM_INVESTMENT = 270000;
-const DAILY_AD_BUDGET = 10000;
-const MONTHLY_AD_BUDGET = 300000;
+const MINIMUM_INVESTMENT = 405000;
+const DAILY_AD_BUDGET = 5000;
+const MONTHLY_AD_BUDGET = 150000;
+const ANCHOR_PRICE = 500000;
 
 const paidAdvertisingServices = new Set([
   "Publicite digitale / agence de publicite",
@@ -22,9 +23,33 @@ const objectiveOptions = [
   "Autre objectif",
 ];
 
+const revenueBandOptions = [
+  { value: "lt_500k", label: "Moins de 500 000 FCFA" },
+  { value: "500k_2m", label: "500 000 a 2 000 000 FCFA" },
+  { value: "2m_10m", label: "2 a 10 millions FCFA" },
+  { value: "10m_50m", label: "10 a 50 millions FCFA" },
+  { value: "gt_50m", label: "Plus de 50 millions FCFA" },
+] as const;
+
+const teamSizeOptions = [
+  { value: "solo", label: "Solo / freelance" },
+  { value: "2_5", label: "2 a 5 personnes" },
+  { value: "6_20", label: "6 a 20 personnes" },
+  { value: "21_50", label: "21 a 50 personnes" },
+  { value: "gt_50", label: "Plus de 50" },
+] as const;
+
+const anchorReactionOptions = [
+  { value: "affordable", label: "C'est dans mes moyens" },
+  { value: "possible", label: "C'est eleve mais possible si le ROI est la" },
+  { value: "too_much", label: "C'est trop pour moi aujourd'hui" },
+] as const;
+
 type StepId = "identity" | "business" | "service" | "history" | "objective" | "budget";
 type YesNo = "" | "yes" | "no";
-type DailyReadiness = "" | "yes" | "no" | "later";
+type RevenueBand = "" | typeof revenueBandOptions[number]["value"];
+type TeamSize = "" | typeof teamSizeOptions[number]["value"];
+type AnchorReaction = "" | typeof anchorReactionOptions[number]["value"];
 
 type FormData = {
   name: string;
@@ -35,15 +60,18 @@ type FormData = {
   industry: string;
   location: string;
   websiteOrSocial: string;
+  monthlyRevenueBand: RevenueBand;
+  teamSize: TeamSize;
   service: string;
   hasInvestedMarketing: YesNo;
   pastMarketingBudgetRaw: string;
   pastMarketingResult: string;
   objective90: string;
   objective90Details: string;
+  dailyAdBudget5k: YesNo;
   canInvestMinimum: YesNo;
   monthlyBudgetRaw: string;
-  dailyAdBudgetReady: DailyReadiness;
+  anchorReaction: AnchorReaction;
 };
 
 const emptyForm: FormData = {
@@ -55,15 +83,18 @@ const emptyForm: FormData = {
   industry: "",
   location: "",
   websiteOrSocial: "",
+  monthlyRevenueBand: "",
+  teamSize: "",
   service: "",
   hasInvestedMarketing: "",
   pastMarketingBudgetRaw: "",
   pastMarketingResult: "",
   objective90: "",
   objective90Details: "",
+  dailyAdBudget5k: "",
   canInvestMinimum: "",
   monthlyBudgetRaw: "",
-  dailyAdBudgetReady: "",
+  anchorReaction: "",
 };
 
 const formatAmount = (amount: number) => `${new Intl.NumberFormat("fr-FR").format(amount)} FCFA`;
@@ -82,6 +113,93 @@ const parseBudgetAmount = (raw: string) => {
 };
 
 const getAbbreviatedOptions = (value: number) => (value > 0 && value < 1000 ? [value, value * 1000, value * 10000] : null);
+
+// ============== CALIBRATION ENGINE ==============
+
+type BudgetBand = "low" | "medium" | "high";
+
+type Calibration = {
+  score: number;
+  band: BudgetBand;
+  flags: string[];
+  strong: boolean;
+  blockingMessage?: string;
+};
+
+const revenueBandScore: Record<string, number> = {
+  lt_500k: 0,
+  "500k_2m": 30,
+  "2m_10m": 60,
+  "10m_50m": 85,
+  gt_50m: 100,
+};
+
+const teamScore: Record<string, number> = {
+  solo: 20,
+  "2_5": 35,
+  "6_20": 65,
+  "21_50": 85,
+  gt_50: 100,
+};
+
+const anchorScore: Record<string, number> = {
+  too_much: 0,
+  possible: 60,
+  affordable: 100,
+};
+
+const toBand = (score: number): BudgetBand => (score >= 65 ? "high" : score >= 35 ? "medium" : "low");
+
+const computeCalibration = (form: FormData, isPaid: boolean, normalizedBudget: number | null): Calibration => {
+  const signals: number[] = [];
+  if (form.monthlyRevenueBand) signals.push(revenueBandScore[form.monthlyRevenueBand] ?? 0);
+  if (form.teamSize) signals.push(teamScore[form.teamSize] ?? 0);
+  if (form.anchorReaction) signals.push(anchorScore[form.anchorReaction] ?? 0);
+  signals.push(form.canInvestMinimum === "yes" ? 80 : 0);
+  if (isPaid) signals.push(form.dailyAdBudget5k === "yes" ? 80 : 0);
+  if (normalizedBudget !== null) {
+    if (normalizedBudget >= 1000000) signals.push(100);
+    else if (normalizedBudget >= MINIMUM_INVESTMENT) signals.push(60);
+    else signals.push(20);
+  }
+
+  const score = signals.length ? Math.round(signals.reduce((a, b) => a + b, 0) / signals.length) : 0;
+  const band = toBand(score);
+
+  const flags: string[] = [];
+  let strong = false;
+  let blockingMessage: string | undefined;
+
+  // Strong inconsistencies — block
+  if (form.monthlyRevenueBand === "lt_500k" && form.canInvestMinimum === "yes") {
+    flags.push("CA < 500k mais capacite 405k declaree");
+    strong = true;
+  }
+  if (form.monthlyRevenueBand === "lt_500k" && form.anchorReaction === "affordable") {
+    flags.push("CA < 500k mais plan 500k 'dans mes moyens'");
+    strong = true;
+  }
+  if (form.canInvestMinimum === "no" && form.anchorReaction === "affordable") {
+    flags.push("Refuse 405k mais plan 500k 'dans mes moyens'");
+    strong = true;
+  }
+  // Weak inconsistencies — flag only
+  if (form.teamSize === "solo" && form.monthlyRevenueBand === "gt_50m") {
+    flags.push("Solo mais CA > 50M");
+  }
+  if (isPaid && form.dailyAdBudget5k === "no" && form.canInvestMinimum === "yes") {
+    flags.push("Refuse 5k/jour mais accepte 405k minimum");
+  }
+
+  if (strong) {
+    blockingMessage =
+      "Vos reponses semblent incoherentes. Reprenez les etapes Entreprise et Budget pour les harmoniser avant d'envoyer.";
+  }
+
+  return { score, band, flags, strong, blockingMessage };
+};
+
+// ============== STYLES ==============
 
 const optionClass = (active: boolean) =>
   `rounded-md border px-4 py-3 text-left text-sm font-semibold transition-colors ${
@@ -180,6 +298,8 @@ const QualificationForm = ({
       if (formData.hasBusiness === "yes" && formData.companyName.trim().length < 2) nextErrors.push("Indiquez le nom de votre entreprise.");
       if (formData.industry.trim().length < 2) nextErrors.push("Indiquez votre secteur d'activite ou votre projet.");
       if (formData.location.trim().length < 2) nextErrors.push("Indiquez votre ville et pays.");
+      if (!formData.monthlyRevenueBand) nextErrors.push("Indiquez votre chiffre d'affaires mensuel approximatif.");
+      if (!formData.teamSize) nextErrors.push("Indiquez la taille de votre equipe.");
     }
 
     if (current.id === "service" && !formData.service) {
@@ -198,6 +318,9 @@ const QualificationForm = ({
     if (current.id === "objective") {
       if (!formData.objective90) nextErrors.push("Choisissez votre objectif principal a 90 jours.");
       if (formData.objective90Details.trim().length < 10) nextErrors.push("Precisez ce que vous voulez obtenir dans les 90 jours.");
+      if (isPaidAdvertising && !formData.dailyAdBudget5k) {
+        nextErrors.push(`Indiquez si vous pouvez investir au moins ${formatAmount(DAILY_AD_BUDGET)} par jour dans votre marketing.`);
+      }
     }
 
     if (current.id === "budget") {
@@ -220,9 +343,7 @@ const QualificationForm = ({
         }
       }
 
-      if (isPaidAdvertising && formData.dailyAdBudgetReady !== "yes") {
-        nextErrors.push(`Pour une demande publicite, vous devez etre pret a investir au moins ${formatAmount(DAILY_AD_BUDGET)} par jour, soit environ ${formatAmount(MONTHLY_AD_BUDGET)} par mois.`);
-      }
+      if (!formData.anchorReaction) nextErrors.push("Indiquez votre reaction au plan d'accompagnement propose.");
     }
 
     setErrors(nextErrors);
@@ -250,6 +371,12 @@ const QualificationForm = ({
     const monthlyBudget = getNormalizedMonthlyBudget();
     if (!monthlyBudget) return;
 
+    const calibration = computeCalibration(formData, isPaidAdvertising, monthlyBudget);
+    if (calibration.strong) {
+      setErrors([calibration.blockingMessage || "Vos reponses semblent incoherentes."]);
+      return;
+    }
+
     const hasPaidHistory = isPaidAdvertising && formData.hasInvestedMarketing === "yes";
     const pastBudget = hasPaidHistory ? parseBudgetAmount(formData.pastMarketingBudgetRaw) : null;
 
@@ -273,8 +400,15 @@ const QualificationForm = ({
         budget_raw: formData.monthlyBudgetRaw.trim(),
         budget_normalized: monthlyBudget,
         can_invest_minimum: true,
-        can_invest_10000_daily: isPaidAdvertising ? true : null,
-        eligibility_status: "eligible",
+        can_invest_10000_daily: isPaidAdvertising ? formData.dailyAdBudget5k === "yes" : null,
+        monthly_revenue_band: formData.monthlyRevenueBand || null,
+        team_size_band: formData.teamSize || null,
+        anchor_reaction: formData.anchorReaction || null,
+        daily_ad_budget_ready_5k: isPaidAdvertising ? formData.dailyAdBudget5k === "yes" : null,
+        coherence_score: calibration.score,
+        budget_band: calibration.band,
+        coherence_flags: calibration.flags,
+        eligibility_status: calibration.flags.length === 0 && calibration.band !== "low" ? "eligible" : "to_review",
         source_page: sourcePage,
       });
       if (error) throw error;
@@ -370,6 +504,26 @@ const QualificationForm = ({
             <label htmlFor={`${sourcePage}-web`} className="contact-label">Site, page Facebook, Instagram ou LinkedIn</label>
             <input id={`${sourcePage}-web`} className="contact-field" value={formData.websiteOrSocial} onChange={(event) => updateField("websiteOrSocial", event.target.value)} placeholder="https://..." />
           </div>
+          <div>
+            <p className="contact-label">Chiffre d'affaires mensuel approximatif *</p>
+            <div className={optionGridClass}>
+              {revenueBandOptions.map((option) => (
+                <button key={option.value} type="button" className={optionButtonClass(formData.monthlyRevenueBand === option.value)} onClick={() => updateField("monthlyRevenueBand", option.value)}>
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="contact-label">Combien d'employes a temps plein avez-vous ? *</p>
+            <div className={optionGridClass}>
+              {teamSizeOptions.map((option) => (
+                <button key={option.value} type="button" className={optionButtonClass(formData.teamSize === option.value)} onClick={() => updateField("teamSize", option.value)}>
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -426,6 +580,15 @@ const QualificationForm = ({
             <label htmlFor={`${sourcePage}-objective-details`} className="contact-label">Precisez votre objectif en quelques phrases *</label>
             <textarea id={`${sourcePage}-objective-details`} className="contact-field min-h-[140px] resize-y" value={formData.objective90Details} onChange={(event) => updateField("objective90Details", event.target.value)} placeholder="Exemple : obtenir 80 demandes qualifiees par mois, lancer une campagne Facebook rentable, automatiser le suivi client..." />
           </div>
+          {isPaidAdvertising && (
+            <div>
+              <p className="contact-label">Pour atteindre cet objectif, pouvez-vous mettre au moins {formatAmount(DAILY_AD_BUDGET)} par jour dans votre marketing ? *</p>
+              <div className={threeOptionGridClass}>
+                <button type="button" className={optionButtonClass(formData.dailyAdBudget5k === "yes")} onClick={() => updateField("dailyAdBudget5k", "yes")}>Oui</button>
+                <button type="button" className={optionButtonClass(formData.dailyAdBudget5k === "no")} onClick={() => updateField("dailyAdBudget5k", "no")}>Non</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -440,8 +603,8 @@ const QualificationForm = ({
           </div>
           <div>
             <label htmlFor={`${sourcePage}-monthly-budget`} className="contact-label">Quel est votre budget marketing mensuel complet en FCFA ? *</label>
-            <input id={`${sourcePage}-monthly-budget`} className="contact-field" inputMode="numeric" value={formData.monthlyBudgetRaw} onChange={(event) => updateField("monthlyBudgetRaw", event.target.value)} placeholder="Exemple : 270000" />
-            <p className={`mt-2 text-xs font-semibold ${mutedText}`}>Entrez le montant complet. Exemple : 270000, pas 270k ni 270 mille.</p>
+            <input id={`${sourcePage}-monthly-budget`} className="contact-field" inputMode="numeric" value={formData.monthlyBudgetRaw} onChange={(event) => updateField("monthlyBudgetRaw", event.target.value)} placeholder="Exemple : 405000" />
+            <p className={`mt-2 text-xs font-semibold ${mutedText}`}>Entrez le montant complet. Exemple : 405000, pas 405k ni 405 mille.</p>
           </div>
           {budgetOptions && (
             <div className="rounded-md border border-[#f0d99640] p-4">
@@ -463,16 +626,16 @@ const QualificationForm = ({
               </div>
             </div>
           )}
-          {isPaidAdvertising && (
-            <div>
-              <p className="contact-label">Etes-vous pret a investir au moins {formatAmount(DAILY_AD_BUDGET)} par jour dans la publicite de votre entreprise, soit environ {formatAmount(MONTHLY_AD_BUDGET)} par mois ? *</p>
-              <div className={threeOptionGridClass}>
-                <button type="button" className={optionButtonClass(formData.dailyAdBudgetReady === "yes")} onClick={() => updateField("dailyAdBudgetReady", "yes")}>Oui</button>
-                <button type="button" className={optionButtonClass(formData.dailyAdBudgetReady === "no")} onClick={() => updateField("dailyAdBudgetReady", "no")}>Non</button>
-                <button type="button" className={optionButtonClass(formData.dailyAdBudgetReady === "later")} onClick={() => updateField("dailyAdBudgetReady", "later")}>Pas encore</button>
-              </div>
+          <div>
+            <p className="contact-label">Si LGM vous proposait un plan d'accompagnement a {formatAmount(ANCHOR_PRICE)} par mois, votre premiere reaction serait : *</p>
+            <div className={optionGridClass}>
+              {anchorReactionOptions.map((option) => (
+                <button key={option.value} type="button" className={optionButtonClass(formData.anchorReaction === option.value)} onClick={() => updateField("anchorReaction", option.value)}>
+                  {option.label}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
         </div>
       )}
 
