@@ -159,11 +159,35 @@ const BlogPostPage = () => {
 
       <section className="section-charcoal section-pad-tight">
         <div className="container-narrow">
+          <Breadcrumbs
+            className="mb-6"
+            items={[
+              { label: "Accueil", to: "/" },
+              { label: "Blog", to: "/blog" },
+              { label: post.title },
+            ]}
+          />
           <article className="public-prose">
             <div dangerouslySetInnerHTML={{ __html: post.content }} />
           </article>
         </div>
       </section>
+
+      {(() => {
+        const node: PageNode = {
+          url: `/blog/${post.slug}`,
+          title: post.title,
+          type: "article",
+          tags: [
+            "blog",
+            ...(post.blog_categories?.name ? [slugify(post.blog_categories.name)] : []),
+            ...post.title.toLowerCase().split(/[^a-z]+/).filter((w) => w.length > 4),
+          ],
+          description: post.excerpt ?? undefined,
+          publishedAt: post.published_at ?? undefined,
+        };
+        return <RelatedLinks current={node} count={6} excludeUrls={[`/blog/${post.slug}`]} />;
+      })()}
 
       <FinalCTA title="Vous voulez appliquer ces idees a votre entreprise ?" text="Nous pouvons analyser votre acquisition, votre conversion et votre fidelisation avec une lecture concrete de vos chiffres." button="Demander un audit" />
     </PageLayout>
