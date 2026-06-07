@@ -218,7 +218,7 @@ export const serviceAreaPages: ServiceAreaPage[] = [
     city: "Abidjan",
     country: "Cote d'Ivoire",
     title: "Agence marketing et communication a Abidjan",
-    metaDescription: "LGM est une agence marketing et communication a Abidjan : publicite digitale, Facebook Ads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure.",
+    metaDescription: "LGM, agence marketing et communication a Abidjan : Facebook Ads, SEO/AEO/GEO, sites web, IA, automatisation et logiciels sur mesure.",
     lead: "Basee a Abidjan, LGM accompagne les entreprises qui veulent structurer leur acquisition, convertir plus de prospects et professionnaliser leur presence digitale.",
     proof: ["Equipe basee a Abidjan", "Connaissance du marche ivoirien", "Accompagnement marketing, communication, IA et logiciel"],
   },
