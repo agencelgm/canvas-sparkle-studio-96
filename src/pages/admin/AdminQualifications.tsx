@@ -135,11 +135,20 @@ const AdminQualifications = () => {
                       <h3 className="font-semibold text-foreground">{qualification.name}</h3>
                       <p className="text-sm text-muted-foreground">{qualification.company_name || "Sans entreprise"}</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">{formatDate(qualification.created_at)}</span>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-xs text-muted-foreground">{formatDate(qualification.created_at)}</span>
+                      {(() => {
+                        const badge = bandBadge(qualification.budget_band, qualification.coherence_flags);
+                        return <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${badge.className}`}>{badge.label}</span>;
+                      })()}
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{qualification.service}</span>
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{formatAmount(qualification.budget_normalized)}</span>
+                    {qualification.coherence_score !== null && (
+                      <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">Score {qualification.coherence_score}</span>
+                    )}
                   </div>
                   <p className="mt-3 line-clamp-2 text-sm text-foreground">{qualification.objective_90_days}</p>
                 </button>
