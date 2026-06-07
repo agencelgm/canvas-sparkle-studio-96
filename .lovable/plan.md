@@ -1,79 +1,172 @@
-# Refonte du formulaire de qualification
+# Maillage interne automatique + contrôle manuel
 
-## 1. Champs supprimés (étape Entreprise)
+## Objectif
 
-- **Ville / pays** → supprimé du formulaire ET de l'insertion DB (`location` envoyé comme chaîne vide ou `"Non renseigné"` pour respecter la contrainte NOT NULL existante).
-- **Site / page Facebook / Instagram / LinkedIn** → supprimé du formulaire (`website_or_social` envoyé à `null`).
+Chaque page du site (statique, service, zone, blog) doit être reliée aux autres pages pertinentes, automatiquement à la création, avec une possibilité d'override manuel. Cela maximise le SEO classique (jus de lien, crawlabilité) et l'AEO/GEO (les LLMs suivent les liens internes pour comprendre la structure thématique).
 
-Pas de migration DB : on garde les colonnes pour l'historique.
+## 1. Pages actuelles à cartographier
 
-## 2. Nouvelle structure : 4 étapes avec budget réparti
+Routes publiques existantes :
 
-Au lieu d'empiler toutes les questions budget à la fin, on les disperse pour casser les patterns que les prospects peuvent reconnaître.
+- `/` (Accueil)
+- `/a-propos`
+- `/services` (hub)
+- `/services/:slug` (spokes — détail service)
+- `/zones/:slug` (spokes — zone géographique)
+- `/contact`
+- `/blog` (hub)
+- `/blog/:slug` (spokes — articles)
 
-### Étape 1 — Identité + signal CA
+Architecture cible : **hub-and-spoke + ceintures contextuelles**.
 
-- Nom, email, téléphone/WhatsApp
-- **Quel est votre Chiffre d'affaires mensuel approximatif** (déplacé ici depuis Entreprise) — présenté comme contexte de profil
+```text
+              ┌────────── Accueil ──────────┐
+              │       (lie tous les hubs)    │
+              ▼              ▼               ▼
+          /services       /zones          /blog
+           (hub)          (hub)          (hub)
+          /  |  \         /  \          /  |  \
+        s1  s2  s3      z1   z2       a1  a2  a3
+        (chaque spoke ↔ hub + 2-3 spokes voisins + 2 articles liés)
+```
 
-### Étape 2 — Entreprise + signal équipe + ancrage
+## 2. Couche 1 — Maillage automatique (par convention)
 
-- Avez-vous déjà une entreprise ?
-- nom (si oui)
-- **Combien d'employés à temps plein** (reste ici)
-- **Réaction au plan à 500 000 FCFA/mois** (déplacé depuis Budget) — posée tôt, avant que le prospect ne devine que c'est un test budget
+Un module central `src/lib/internalLinking.ts` qui centralise toute la logique de liens. Aucune page ne hardcode ses liens sortants.
 
-### Étape 3 — Besoin (multi-select) + signal pub quotidien
-
-- Quel est votre besoin principal ? **Sélection multiple** (1 ou plusieurs services)
-- **Si au moins un service de pub payante est sélectionné** : « Pouvez-vous mettre au moins 10 000 FCFA/jour dans votre marketing ? Soit un budget mensuel de 300 000 FCFA » (déplacé depuis Objectif)
-- L'étape « Publicité » (historique pub) est **fusionnée** dans cette étape, conditionnée comme avant à la sélection d'un service de pub payante : « Avez-vous déjà investi en marketing ? » + montant + résultat
-
-### Étape 4 — Objectif 90 jours (multi-select) + capacité 405k + budget conditionnel
-
-- Objectif principal à 90 jours : **sélection multiple**
-- Précisez votre objectif (textarea)
-- **Êtes-vous en mesure d'investir au minimum 405 000 FCFA ?** (Oui / Non)
-- **Si « Non » uniquement** : « Quel est votre budget marketing mensuel complet en FCFA ? » apparaît (avec la confirmation d'arrondi 1 000/10 000/100 000). Si « Oui », pas de question budget supplémentaire — on considère que 405k+ est confirmé.
-
-## 3. Stockage des sélections multiples
-
-`service` et `objective_90_days` restent en `text` en DB ; on **joint les valeurs avec " | "** côté client (`["Plus de leads", "Plus de ventes"].join(" | ")`). Pas de migration. `paidAdvertisingServices` test passe à « au moins un service de la sélection appartient au set pub payante ».
-
-## 4. Scroll auto en haut du formulaire à chaque étape
-
-Ajouter un `useRef` sur le `<form>` et, dans `goNext`/`goBack`, faire :
+### Registre des pages
 
 ```ts
-formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+// src/data/siteGraph.ts
+export type PageNode = {
+  url: string;
+  title: string;
+  type: "home" | "hub" | "service" | "zone" | "article" | "static";
+  tags: string[];          // mots-clés thématiques (ex: ["meta-ads", "leads"])
+  zones?: string[];        // ex: ["abidjan", "cocody"]
+  services?: string[];     // slugs services liés
+  publishedAt?: string;
+};
+
+export const staticPages: PageNode[] = [ /* /, /a-propos, /services, /zones, /blog, /contact */ ];
 ```
 
-Compatible avec Lenis (qui intercepte scrollIntoView).
+Les services et zones sont déjà dans `publicContent.ts` → on les **agrège** au moment du build. Les articles de blog viennent de Supabase → on construit le graphe **côté client au runtime** via React Query (et côté script pour la sitemap).
 
-## 5. Lisibilité des questions
+### Fonction unique : `getRelatedLinks(currentPage, count)`
 
-Les libellés actuels (`.contact-label`) sont visuellement écrasés par le titre `public-h3`. On augmente la taille/poids des libellés de questions dans ce formulaire uniquement, via une classe locale :
+Algorithme de scoring (par ordre de poids) :
 
-```
-question-label : text-base md:text-lg font-bold text-platinum (clair ou foncé selon tone)
-```
+1. **Même type** + tags partagés → score élevé (articles ↔ articles du même thème)
+2. **Service ↔ Zone** : un service mentionnant "meta-ads" lie aux zones où ce service est proposé
+3. **Article ↔ Service/Zone** : un article taggé `meta-ads` lie au service correspondant
+4. **Tous les spokes** lient à leur hub
+5. **Tous les hubs** lient à l'accueil
+6. **Fallback** : 2 articles récents si pas assez de matches
 
-Appliquée à tous les `<p className="contact-label">` qui introduisent un bloc de choix, et au `<label>` des champs principaux. Le titre `public-h3` peut être légèrement réduit (`text-[clamp(1.2rem,1.8vw,1.6rem)]`) pour rééquilibrer la hiérarchie.
+Retourne `count` liens triés par pertinence, avec ancres variées (`title` ou variation issue d'un pool de templates).
 
-## 6. Calibration — adaptations
+### Composant `<RelatedLinks page={...} />`
 
-Le moteur `computeCalibration` reste, mais :
+Inséré **par défaut** au bas de chaque template de page (ServiceDetailPage, ServiceAreaPage, BlogPostPage, AboutPage). Affiche 4-6 liens contextuels. Aucun travail manuel à chaque nouvelle page.
 
-- `normalizedBudget` devient optionnel (seulement présent si l'utilisateur a répondu « Non » à 405k).
-- Règle bloquante adaptée : si `canInvestMinimum === "no"` ET `monthlyBudgetRaw` < 405 000 → toujours marqué incohérent avec l'ancrage « affordable », flagué mais pas bloquant (le « non » est cohérent en soi).
-- Les 3 incohérences fortes existantes restent.
+### Composant `<ContextualLink keyword="meta-ads">texte</ContextualLink>`
 
-## 7. Fichiers modifiés
+Pour les liens **dans le corps du texte** : pendant le rendu du contenu, ce composant cherche la meilleure page cible pour le mot-clé via `siteGraph`. Si la page courante = page cible → rend du texte simple (pas d'auto-link).
 
-- `src/components/QualificationForm.tsx` — restructuration steps, multi-select UI (toggle), suppression champs location/website, scroll-to-top, classe question-label, conditionnel budget.
-- Aucune migration DB.
+## 3. Couche 2 — Contrôle manuel
+
+Trois niveaux d'override, du plus léger au plus fort.
+
+### a) Override par page (frontmatter / champ DB)
+
+Pour le blog : nouveau champ `related_post_ids uuid[]` et `outbound_links jsonb` sur `blog_posts`. Si rempli, ces liens **remplacent** la sélection automatique. Sinon, fallback auto.
+
+Pour services/zones : champ optionnel `relatedSlugs?: string[]` dans `publicContent.ts`.
+
+### b) Éditeur visuel admin
+
+Dans `/admin/posts/:id` (et nouvelle page `/admin/linking` pour services/zones) :
+
+- Liste des liens auto-suggérés (calculés par `getRelatedLinks`)
+- Cases à cocher pour "pinner" certains, "exclure" d'autres
+- Champ libre pour ajouter une URL manuelle
+- Aperçu en direct des liens qui apparaîtront
+
+Persistance dans `outbound_links` (JSON : `{pinned: [], excluded: [], extra: []}`).
+
+### c) Règles globales
+
+Page `/admin/linking/rules` : table `linking_rules` (id, source_tag, target_url, anchor_text, weight). Permet "tous les articles taggés `seo` lient vers /services/strategie-seo". Lues par `getRelatedLinks` avant le scoring auto.
+
+## 4. Workflow "nouvelle page créée"
+
+### Article de blog (déjà via admin)
+
+1. Auteur publie l'article avec tags
+2. Au save : un trigger Supabase (ou fonction edge) recalcule `outbound_links` pour cet article ET **réinscrit** les articles existants qui devraient maintenant le lier (back-linking auto)
+3. Admin peut overrider dans l'éditeur
+
+### Service / Zone (code-defined)
+
+1. Dev ajoute l'entrée dans `publicContent.ts` avec ses `tags` et `zones`
+2. Au prochain build, `<RelatedLinks>` la sélectionne automatiquement partout où elle est pertinente
+3. Le script `scripts/generate-sitemap.ts` (à créer) l'ajoute à `sitemap.xml`
+
+## 5. Sitemap, robots, llms.txt
+
+- **`scripts/generate-sitemap.ts`** : parcourt `siteGraph` + Supabase (blog publié) → écrit `public/sitemap.xml`. Hook `predev` + `prebuild` dans `package.json`.
+- **`public/robots.txt`** : ajouter les bots IA (GPTBot, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended) en `Allow: /` + ligne `Sitemap:`.
+- **`public/llms.txt`** : déjà présent → on le **régénère** depuis `siteGraph` pour qu'il liste toutes les pages clés (services, zones, articles récents).
+
+## 6. Schema JSON-LD pour renforcer le maillage
+
+Sur chaque page de détail, injecter via `react-helmet-async` :
+
+- `BreadcrumbList` (déjà recommandé) — chaîne accueil → hub → spoke
+- `Article` avec `mentions` pointant vers les services/zones cités (signal AEO fort)
+- `Service` avec `areaServed` listant les zones
+
+## 7. Garde-fous
+
+- `<NavLink>` interne uniquement vers des URLs présentes dans `siteGraph` → un lien cassé devient une erreur de type TypeScript
+- Test unitaire `siteGraph.test.ts` : chaque page est joignable depuis l'accueil en ≤ 3 clics ; aucun "page orpheline"
+- Composant `<DevLinkAudit />` (en `import.meta.env.DEV` seulement) affiche un overlay listant les liens internes de la page courante
+
+## 8. Fichiers à créer / modifier
+
+**Création :**
+
+- `src/data/siteGraph.ts` — registre statique
+- `src/lib/internalLinking.ts` — scoring + getRelatedLinks
+- `src/components/seo/RelatedLinks.tsx`
+- `src/components/seo/ContextualLink.tsx`
+- `src/components/seo/Breadcrumbs.tsx` (avec JSON-LD)
+- `scripts/generate-sitemap.ts` + hooks `package.json`
+- `src/pages/admin/AdminLinking.tsx` (UI règles + override services/zones)
+- Migration Supabase : `blog_posts.outbound_links jsonb`, `blog_posts.related_post_ids uuid[]`, table `linking_rules`
+
+**Modification :**
+
+- `src/App.tsx` — route `/admin/linking`
+- `src/pages/ServiceDetailPage.tsx`, `ServiceAreaPage.tsx`, `BlogPostPage.tsx`, `AboutPage.tsx`, `Index.tsx` — insérer `<RelatedLinks />` et `<Breadcrumbs />`
+- `src/pages/admin/AdminBlogPostForm.tsx` — bloc "Liens internes" (pin/exclude/extra)
+- `public/robots.txt`, `public/llms.txt`
+
+## 9. Phasage proposé
+
+- **Phase 1 (fondations)** : `siteGraph`, `internalLinking`, `<RelatedLinks>`, `<Breadcrumbs>`, intégration dans les 4 templates publics. Sitemap auto. → couvre 80 % du besoin.
+- **Phase 2 (manuel)** : migration DB, bloc admin "Liens internes" sur le formulaire d'article, table `linking_rules`.
+- **Phase 3 (raffinage)** : `<ContextualLink>` dans le corps des articles, recalcul back-link automatique, audit overlay dev.
 
 ## Hors scope
 
-- Aucun changement sur l'admin (`AdminQualifications.tsx`) — les colonnes restent identiques, l'affichage continue de fonctionner.
-- Pas de refonte du design global de la carte formulaire.
+- Pas de réécriture du contenu existant des articles (juste ajout des composants).
+- Pas de génération de pages programmatiques nouvelles dans ce chantier (couvert par un autre skill).
+- Pas de redirections 301 — le routing actuel est conservé.
+
+## Questions à valider avant de coder
+
+1. **Démarre-t-on par la Phase 1 seule** (auto only, suffisant immédiatement) ou on enchaîne directement Phase 1 + 2 ?
+2. **Override admin sur services/zones** : utile maintenant ou seulement quand on aura beaucoup de zones programmatiques ?
+3. **Nombre de liens** affichés par défaut dans `<RelatedLinks>` : 4 ou 6 ?
