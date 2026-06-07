@@ -1,65 +1,92 @@
-# Fix: form transparence, scroll au changement de page, sections ACF & FAQ
+# Calibration cachée du budget — formulaire de qualification
 
-## 1. Formulaire transparent sur plusieurs pages
+## Objectif
 
-**Cause:** `QualificationForm` utilise la classe `.public-card` qui a `background: rgba(246, 248, 251, 0.055)` (5% d'opacité). Sur les hero sombres espresso (Services, Contact, Blog, Service Detail, Zone, About, NotFound), le `DiagnosticHeroSlot` est donc quasi invisible.
+Trianguler la capacité d'investissement réelle du prospect via 3 questions indirectes posées à différentes étapes, plus 2 questions directes reformulées et espacées. Bloquer la soumission en cas d'incohérence forte. Stocker un score de cohérence visible côté admin.
 
-**Correction:**
-- Dans `src/components/QualificationForm.tsx`, quand `variant="hero"`, remplacer la classe `public-card` par un fond solide opaque cohérent avec la charte : surface graphite avec léger inner glow bronze, bordure dorée plus marquée. Exemple :
-  ```
-  bg-[#0f1623] border border-[#f0d99633] shadow-[0_30px_90px_rgba(0,0,0,0.45)] rounded-md
-  ```
-  au lieu de `public-card`.
-- Garder `public-card` pour le variant "full" (où il vit déjà sur un fond clair platinum suffisamment contrasté).
-- Vérifier également `tone` : forcer `tone="dark"` côté `DiagnosticHeroSlot` (déjà le cas par défaut) pour assurer la lisibilité des labels.
+## 1. Nouvelles questions indirectes
 
-## 2. Scroll non remis à zéro au changement de page
+Réparties sur 3 étapes différentes pour éviter qu'on les voie « côte à côte ».
 
-**Cause probable:** le navigateur restaure la position de scroll de l'ancienne page (scrollRestoration = "auto" par défaut). `ScrollToTop` s'exécute en `useLayoutEffect`, mais la restauration navigateur se déclenche après et écrase notre `scrollTo(0)`.
+### Étape « Entreprise »
 
-**Correction:**
-- Dans `src/main.tsx`, ajouter au démarrage :
-  ```ts
-  if ('scrollRestoration' in window.history) {
-    window.history.scrollRestoration = 'manual';
-  }
-  ```
-- Dans `src/components/ScrollToTop.tsx`, après le `window.scrollTo(...)` initial, planifier un second scroll via `requestAnimationFrame` pour couvrir le cas où des composants enfants (images, Helmet, framer-motion) modifient la hauteur après le premier paint :
-  ```ts
-  window.scrollTo(0, 0);
-  requestAnimationFrame(() => window.scrollTo(0, 0));
-  ```
-- Conserver la logique existante pour `#diagnostic`.
+- **Chiffre d'affaires mensuel** (fourchettes) :
+  - Moins de 500 000 FCFA
+  - 500 000 — 2 000 000 FCFA
+  - 2 — 10 millions FCFA
+  - 10 — 50 millions FCFA
+  - Plus de 50 millions FCFA
+- **Combien d'employés avez-vous à temps plein** :
+  - Solo / freelance
+  - 2 à 5 personnes
+  - 6 à 20 personnes
+  - 21 à 50 personnes
+  - Plus de 50
 
-## 3. Section « Méthode ACF » mal centrée
+### Étape « Budget » (en fin de parcours)
 
-**Cause:** `src/components/Framework.tsx` utilise `grid lg:grid-cols-[0.82fr_1fr]` avec un kicker/H2/lead à gauche en sticky. Visuellement l'ensemble paraît décalé à gauche et les piliers s'étalent.
+- **Test d'ancrage** : « Si LGM vous proposait un plan d'accompagnement à 500 000 FCFA/mois, votre première réaction serait… »
+  - C'est dans mes moyens
+  - C'est élevé mais possible si le ROI est là
+  - C'est trop pour moi aujourd'hui
 
-**Correction (Framework.tsx):**
-- Passer à une structure verticale centrée :
-  - En-tête (kicker, H2, lead, CTA) dans un bloc `max-w-3xl mx-auto text-center`.
-  - Image éditoriale `ImageFrame` en pleine largeur `max-w-5xl mx-auto` sous l'en-tête.
-  - Les trois piliers (`Acquisition / Conversion / Fidélisation`) en grille `md:grid-cols-3 gap-6` avec cartes de hauteur égale (`h-full`), titre + body + tag-list alignés en colonne, texte gauche dans la carte mais cartes centrées dans la section.
-- Garder typographie et tokens existants ; pas de changement de palette.
+## 2. Questions directes — reformulées et déplacées
 
-## 4. Section FAQ mal structurée
+- **« Êtes-vous en mesure d'investir au minimum 270 000 FCFA »** → seuil porté à **405 000 FCFA**. Reste à l'étape Budget.
+- **Question « 10 000 FCFA/jour »** → reformulée en **« 5 000 FCFA par jour dans votre marketing »** ET **déplacée** hors de l'étape Budget : posée à l'étape **Objectif 90 jours**, juste après le détail de l'objectif (loin de la question 405k). Toujours conditionnée à `paidAdvertisingServices`.
 
-**Cause:** `src/components/FAQ.tsx` utilise `grid lg:grid-cols-[0.62fr_1fr]` ce qui laisse l'en-tête flottant à gauche et les questions décalées.
+## 3. Moteur de calibration (client + check serveur)
 
-**Correction (FAQ.tsx):**
-- En-tête (`Questions`, H2, lead) centré : `max-w-3xl mx-auto text-center mb-12`.
-- Liste de questions dans un bloc `max-w-3xl mx-auto` (lisibilité), chaque item en pleine largeur avec séparateurs `border-t`. Texte des questions et réponses alignés à gauche dans la colonne, mais colonne elle-même centrée.
+Calcul d'un `coherence_score` (0–100) et d'un `budget_band` (low / medium / high) à partir de :
 
-## Fichiers modifiés
 
-- `src/main.tsx` (scrollRestoration manual)
-- `src/components/ScrollToTop.tsx` (double scroll RAF)
-- `src/components/QualificationForm.tsx` (fond opaque pour variant hero)
-- `src/components/Framework.tsx` (layout vertical centré)
-- `src/components/FAQ.tsx` (layout vertical centré)
+| Signal                 | Source                          | Mapping band                                              |
+| ---------------------- | ------------------------------- | --------------------------------------------------------- |
+| CA mensuel             | étape Entreprise                | <500k = low, 500k–2M = low/med, 2M–10M = med, >10M = high |
+| Taille équipe          | étape Entreprise                | solo/2-5 = low/med, 6-20 = med, >20 = high                |
+| Réaction ancrage 500k  | étape Budget                    | « trop » = low, « possible » = med, « moyens » = high     |
+| Capacité 405k déclarée | étape Budget                    | oui = ≥med, non = low                                     |
+| 5k/jour publicité      | étape Objectif (si pub payante) | oui = ≥med, non = low                                     |
+
+
+**Règle de cohérence forte (bloque la soumission) :**
+
+- CA = « moins de 500k » **ET** capacité 405k = « oui » → incohérent
+- CA = « moins de 500k » **ET** réaction ancrage = « dans mes moyens » → incohérent
+- Capacité 405k = « non » **ET** réaction ancrage = « dans mes moyens » → incohérent
+
+Message inline : *« Vos réponses semblent incohérentes. Reprenez les étapes Entreprise et Budget avant d'envoyer. »* + lien vers l'étape concernée.
+
+## 4. Base de données
+
+Migration `qualification_submissions` — ajout colonnes :
+
+- `monthly_revenue_band` text
+- `team_size_band` text
+- `anchor_reaction` text
+- `daily_ad_budget_ready_5k` boolean (remplace `can_invest_10000_daily` qui est conservé nullable pour l'historique)
+- `coherence_score` integer
+- `budget_band` text
+- `coherence_flags` text[] (liste des règles déclenchées, vide si cohérent)
+
+Les nouveaux champs sont nullables pour ne pas casser les anciennes lignes.
+
+## 5. Admin — affichage
+
+`src/pages/admin/AdminQualifications.tsx` :
+
+- Badge couleur sur la liste : vert (cohérent + budget_band ≥ med), jaune (low ou flags faibles), rouge (flags forts — ne sera plus soumis mais montre l'historique).
+- Détail : panneau « Calibration budget » qui affiche les 3 signaux indirects, la question directe, le score, et la liste des flags.
+
+## 6. Fichiers modifiés
+
+- `src/components/QualificationForm.tsx` — nouveaux champs FormData, nouveaux blocs UI sur les 3 étapes, reformulation 270→405k et déplacement 10k→5k, moteur de calibration côté soumission, blocage si incohérence forte.
+- `src/data/publicContent.ts` — exporter les options des bandes CA / équipe / ancrage (centralisé).
+- `src/pages/admin/AdminQualifications.tsx` — type + affichage badge + panneau calibration.
+- Migration Supabase pour les nouvelles colonnes.
 
 ## Hors scope
 
-- Pas de changement de copy.
-- Pas de modification du contenu FAQ (`faqContent.ts`) ni des piliers.
-- Pas de refonte du Hero ou du flow du formulaire (étapes, validation).
+- Pas de refonte des étapes existantes (Identité, Service, Histoire).
+- Pas de A/B testing des formulations.
+- Pas de webhook / notification — uniquement stockage + affichage admin.

@@ -27,7 +27,45 @@ interface QualificationSubmission {
   eligibility_status: string;
   source_page: string | null;
   created_at: string;
+  monthly_revenue_band: string | null;
+  team_size_band: string | null;
+  anchor_reaction: string | null;
+  daily_ad_budget_ready_5k: boolean | null;
+  coherence_score: number | null;
+  budget_band: string | null;
+  coherence_flags: string[] | null;
 }
+
+const revenueBandLabel: Record<string, string> = {
+  lt_500k: "Moins de 500 000 FCFA",
+  "500k_2m": "500 000 a 2 000 000 FCFA",
+  "2m_10m": "2 a 10 millions FCFA",
+  "10m_50m": "10 a 50 millions FCFA",
+  gt_50m: "Plus de 50 millions FCFA",
+};
+
+const teamSizeLabel: Record<string, string> = {
+  solo: "Solo / freelance",
+  "2_5": "2 a 5 personnes",
+  "6_20": "6 a 20 personnes",
+  "21_50": "21 a 50 personnes",
+  gt_50: "Plus de 50",
+};
+
+const anchorReactionLabel: Record<string, string> = {
+  affordable: "Dans mes moyens",
+  possible: "Eleve mais possible si ROI",
+  too_much: "Trop pour aujourd'hui",
+};
+
+const bandBadge = (band: string | null, flags: string[] | null) => {
+  const hasFlags = Array.isArray(flags) && flags.length > 0;
+  if (hasFlags) return { label: "A requalifier", className: "bg-red-500/15 text-red-400 border-red-500/30" };
+  if (band === "high") return { label: "Budget eleve", className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" };
+  if (band === "medium") return { label: "Budget moyen", className: "bg-amber-500/15 text-amber-400 border-amber-500/30" };
+  if (band === "low") return { label: "Budget faible", className: "bg-orange-500/15 text-orange-400 border-orange-500/30" };
+  return { label: "Non calibre", className: "bg-muted text-muted-foreground border-border" };
+};
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString("fr-FR", {
@@ -97,11 +135,20 @@ const AdminQualifications = () => {
                       <h3 className="font-semibold text-foreground">{qualification.name}</h3>
                       <p className="text-sm text-muted-foreground">{qualification.company_name || "Sans entreprise"}</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">{formatDate(qualification.created_at)}</span>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-xs text-muted-foreground">{formatDate(qualification.created_at)}</span>
+                      {(() => {
+                        const badge = bandBadge(qualification.budget_band, qualification.coherence_flags);
+                        return <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${badge.className}`}>{badge.label}</span>;
+                      })()}
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{qualification.service}</span>
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{formatAmount(qualification.budget_normalized)}</span>
+                    {qualification.coherence_score !== null && (
+                      <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">Score {qualification.coherence_score}</span>
+                    )}
                   </div>
                   <p className="mt-3 line-clamp-2 text-sm text-foreground">{qualification.objective_90_days}</p>
                 </button>
@@ -139,9 +186,28 @@ const AdminQualifications = () => {
                       <Detail label="Resultat de l'investissement passe" value={selected.past_marketing_result || "Non renseigne"} />
                     </>
                   )}
-                  <Detail label="Capable d'investir minimum 270 000 FCFA" value={boolLabel(selected.can_invest_minimum)} />
-                  <Detail label="Pret a investir 10 000 FCFA / jour en publicite" value={boolLabel(selected.can_invest_10000_daily)} />
+                  <Detail label="Capable d'investir le minimum requis" value={boolLabel(selected.can_invest_minimum)} />
+                  <Detail label="Pret a investir 5 000 FCFA / jour en publicite" value={boolLabel(selected.daily_ad_budget_ready_5k ?? selected.can_invest_10000_daily)} />
                   <Detail label="Source" value={selected.source_page || "Non renseigne"} />
+                </div>
+
+                <div className="mt-6 rounded-lg border border-border bg-muted/30 p-5">
+                  <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-foreground">Calibration budget</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Detail label="CA mensuel declare" value={selected.monthly_revenue_band ? (revenueBandLabel[selected.monthly_revenue_band] || selected.monthly_revenue_band) : "Non renseigne"} />
+                    <Detail label="Taille de l'equipe" value={selected.team_size_band ? (teamSizeLabel[selected.team_size_band] || selected.team_size_band) : "Non renseigne"} />
+                    <Detail label="Reaction au plan 500 000 FCFA" value={selected.anchor_reaction ? (anchorReactionLabel[selected.anchor_reaction] || selected.anchor_reaction) : "Non renseigne"} />
+                    <Detail label="Score de coherence" value={selected.coherence_score !== null ? `${selected.coherence_score} / 100` : "Non calcule"} />
+                    <Detail label="Categorie de budget" value={selected.budget_band || "Non calcule"} />
+                  </div>
+                  {selected.coherence_flags && selected.coherence_flags.length > 0 && (
+                    <div className="mt-4 rounded-md border border-red-500/30 bg-red-500/10 p-3">
+                      <p className="mb-2 text-xs font-bold uppercase text-red-400">Drapeaux d'incoherence</p>
+                      <ul className="list-inside list-disc text-sm text-red-300">
+                        {selected.coherence_flags.map((flag) => <li key={flag}>{flag}</li>)}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
