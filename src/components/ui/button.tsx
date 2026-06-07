@@ -1,4 +1,4 @@
-import * as React from "react";
+﻿import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -18,8 +18,8 @@ const buttonVariants = cva(
         // Premium LGM variants
         hero: "bg-primary text-primary-foreground hover:bg-primary/90 border border-primary shadow-lg hover:shadow-xl hover:-translate-y-0.5",
         "hero-secondary": "bg-transparent text-primary border border-primary/30 hover:border-primary hover:bg-primary/5",
-        bronze: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
-        "bronze-outline": "bg-transparent text-accent border border-accent hover:bg-accent/10",
+        cobalt: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg hover:shadow-xl hover:-translate-y-0.5",
+        "cobalt-outline": "bg-transparent text-accent border border-accent hover:bg-accent/10",
       },
       size: {
         default: "h-10 px-5 py-2",

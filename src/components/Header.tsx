@@ -34,14 +34,14 @@ const Header = () => {
         <motion.div
           className="container-wide flex items-center justify-between"
           animate={{
-            backgroundColor: scrolled ? "rgba(13, 11, 8, 0.82)" : "rgba(13, 11, 8, 0.38)",
-            borderColor: scrolled ? "rgba(232, 201, 107, 0.22)" : "rgba(232, 201, 107, 0.10)",
+            backgroundColor: scrolled ? "rgba(7, 11, 18, 0.82)" : "rgba(7, 11, 18, 0.38)",
+            borderColor: scrolled ? "rgba(240, 217, 150, 0.22)" : "rgba(240, 217, 150, 0.10)",
             backdropFilter: "blur(20px)",
           }}
           transition={{ duration: 0.36, ease: EASE }}
           style={{
             minHeight: "64px",
-            border: "1px solid rgba(232, 201, 107, 0.14)",
+            border: "1px solid rgba(240, 217, 150, 0.14)",
             borderRadius: "999px",
             boxShadow: scrolled ? "0 18px 60px rgba(0,0,0,0.24)" : "0 8px 36px rgba(0,0,0,0.12)",
           }}
@@ -61,8 +61,8 @@ const Header = () => {
                 to={href}
                 className="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300"
                 style={{
-                  color: isActive(href) ? "#0d0b08" : "rgba(245,239,224,0.72)",
-                  background: isActive(href) ? "#e8c96b" : "transparent",
+                  color: isActive(href) ? "#070b12" : "rgba(246,248,251,0.72)",
+                  background: isActive(href) ? "#f0d996" : "transparent",
                 }}
               >
                 {label}
@@ -74,25 +74,25 @@ const Header = () => {
             <a href={siteContact.whatsapp} target="_blank" rel="noreferrer" className="public-text-link text-[0.82rem]">
               WhatsApp
             </a>
-            <Link to="/contact" className="btn-akan-outline min-h-0 px-5 py-2 text-[0.78rem]">
+            <Link to="/contact" className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
               Audit gratuit
             </Link>
           </div>
 
           <button
-            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-[#e8c96b33] md:hidden"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-[#f0d99633] md:hidden"
             onClick={() => setMenuOpen((value) => !value)}
             aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={menuOpen}
           >
             <span className="sr-only">Menu</span>
             <motion.span
-              className="absolute h-px w-5 bg-ivory"
+              className="absolute h-px w-5 bg-platinum"
               animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
               transition={{ duration: 0.28, ease: EASE }}
             />
             <motion.span
-              className="absolute h-px w-5 bg-ivory"
+              className="absolute h-px w-5 bg-platinum"
               animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
               transition={{ duration: 0.28, ease: EASE }}
             />
@@ -104,7 +104,7 @@ const Header = () => {
         {menuOpen && (
           <motion.div
             key="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col bg-[#0d0b08]/95 px-5 pb-8 pt-28 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-[#070b12]/95 px-5 pb-8 pt-28 backdrop-blur-2xl md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -121,14 +121,14 @@ const Header = () => {
                 >
                   <Link
                     to={href}
-                    className="block border-b border-[#e8c96b1f] py-5 font-display text-[clamp(2.2rem,11vw,4rem)] font-extrabold leading-none text-ivory"
+                    className="block border-b border-[#f0d9961f] py-5 font-display text-[clamp(2.2rem,11vw,4rem)] font-extrabold leading-none text-platinum"
                   >
                     {label}
                   </Link>
                 </motion.div>
               ))}
             </nav>
-            <Link to="/contact" className="btn-akan w-full justify-center">
+            <Link to="/contact" className="btn-cobalt w-full justify-center">
               Demander un audit
             </Link>
           </motion.div>

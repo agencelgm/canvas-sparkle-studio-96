@@ -1,9 +1,9 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 
 const PROBLEMS = [
-  "Des décisions prises à l'aveugle",
-  "Des performances irrégulières",
-  "Une dépendance permanente au prochain « test marketing »",
+  "Des dÃ©cisions prises Ã  l'aveugle",
+  "Des performances irrÃ©guliÃ¨res",
+  "Une dÃ©pendance permanente au prochain Â« test marketing Â»",
 ];
 
 const Problem = () => {
@@ -22,13 +22,13 @@ const Problem = () => {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#C9A227" }} />
+            <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#2F6BFF" }} />
             Le constat
           </motion.p>
 
           {/* Headline */}
           <motion.h2
-            className="font-serif text-foreground mb-8"
+            className="font-display text-foreground mb-8"
             style={{
               fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
               fontWeight: 600,
@@ -41,7 +41,7 @@ const Problem = () => {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
           >
-            Le problème n'est pas l'effort.{" "}
+            Le problÃ¨me n'est pas l'effort.{" "}
             <span className="text-muted-foreground">C'est l'absence de structure.</span>
           </motion.h2>
 
@@ -54,7 +54,7 @@ const Problem = () => {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
-            La majorité des entreprises accumulent des actions marketing, des prestataires et des outils… sans jamais construire un système cohérent.
+            La majoritÃ© des entreprises accumulent des actions marketing, des prestataires et des outilsâ€¦ sans jamais construire un systÃ¨me cohÃ©rent.
           </motion.p>
 
           {/* Problem list */}

@@ -11,29 +11,30 @@ import FAQ from "@/components/FAQ";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import { publicImages } from "@/data/publicContent";
-import { faqSchema, localBusinessSchema } from "@/lib/faqSchema";
+import { faqSchema, localBusinessSchema, websiteSchema } from "@/lib/faqSchema";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>LGM, agence de marketing digital a Abidjan</title>
+        <title>LGM | Agence marketing et communication a Abidjan</title>
         <meta
           name="description"
-          content="LGM est l'agence de marketing digital a Abidjan. Acquisition, Conversion, Fidelisation : la methode ACF pour transformer des inconnus en clients fideles."
+          content="Agence marketing et communication a Abidjan : publicite digitale, Facebook Ads, generation de leads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure."
         />
         <meta
           name="keywords"
-          content="marketing digital Abidjan, agence de communication Abidjan, agence de publicite Abidjan, agence Facebook Abidjan, creation de logo Abidjan, logiciel sur mesure Abidjan, generation leads, publicite digitale Afrique, SEO Abidjan, automatisation marketing IA, integration IA entreprise"
+          content="agence marketing Abidjan, agence de communication Abidjan, entreprise de marketing, agence de publicite, agence Facebook, services Facebook, generation de leads, SEO Abidjan, AEO, GEO, creation de logo, automatisation IA, logiciel sur mesure"
         />
         <link rel="canonical" href="https://lgm.marketing" />
-        <meta property="og:title" content="LGM, agence de marketing digital a Abidjan" />
-        <meta property="og:description" content="La methode ACF pour structurer acquisition, conversion et fidelisation a Abidjan, Cote d'Ivoire — avec accompagnements a distance au Senegal, Cameroun, Burkina Faso." />
+        <meta property="og:title" content="LGM | Agence marketing et communication a Abidjan" />
+        <meta property="og:description" content="Publicite digitale, Facebook Ads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure pour entreprises ambitieuses." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://lgm.marketing" />
         <meta property="og:locale" content="fr_CI" />
-        <meta property="og:image" content={publicImages.og} />
-        <meta name="twitter:image" content={publicImages.og} />
+        <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
+        <meta name="twitter:image" content={`https://lgm.marketing${publicImages.og}`} />
+        <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>

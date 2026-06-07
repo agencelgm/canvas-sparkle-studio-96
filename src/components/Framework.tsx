@@ -20,7 +20,7 @@ const pillars = [
 ];
 
 const Framework = () => (
-  <section id="framework" className="section-espresso section-pad relative overflow-hidden">
+  <section id="framework" className="section-charcoal section-pad relative overflow-hidden">
     <div className="public-ambient public-ambient-one" aria-hidden="true" />
     <div className="container-wide relative z-10">
       <div className="grid gap-12 lg:grid-cols-[0.82fr_1fr] lg:items-start">
@@ -42,9 +42,9 @@ const Framework = () => (
           {pillars.map((pillar, index) => (
             <Reveal key={pillar.title} delay={index * 0.08}>
               <article className="public-card grid gap-5 p-5 md:grid-cols-[0.22fr_1fr] md:p-7">
-                <div className="font-display text-5xl font-extrabold text-[#e8c96b33]">{index + 1}</div>
+                <div className="font-display text-5xl font-extrabold text-[#f0d99633]">{index + 1}</div>
                 <div>
-                  <h3 className="public-h3 text-ivory">{pillar.title}</h3>
+                  <h3 className="public-h3 text-platinum">{pillar.title}</h3>
                   <p className="public-body mt-3">{pillar.text}</p>
                   <div className="tag-list mt-5">
                     {pillar.tags.map((tag) => <span key={tag}>{tag}</span>)}

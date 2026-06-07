@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
 import ServiceDetailPage from "./pages/ServiceDetailPage";
+import ServiceAreaPage from "./pages/ServiceAreaPage";
 import ContactPage from "./pages/ContactPage";
 import BlogPage from "./pages/BlogPage";
 import BlogPostPage from "./pages/BlogPostPage";
@@ -21,6 +22,7 @@ import AdminBlogPosts from "./pages/admin/AdminBlogPosts";
 import AdminBlogPostForm from "./pages/admin/AdminBlogPostForm";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminContacts from "./pages/admin/AdminContacts";
+import AdminQualifications from "./pages/admin/AdminQualifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,7 @@ const App = () => (
               <Route path="/a-propos" element={<AboutPage />} />
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/services/:slug" element={<ServiceDetailPage />} />
+              <Route path="/zones/:slug" element={<ServiceAreaPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
@@ -91,6 +94,14 @@ const App = () => (
                 element={
                   <ProtectedRoute requireAdmin>
                     <AdminContacts />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/qualifications"
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminQualifications />
                   </ProtectedRoute>
                 }
               />

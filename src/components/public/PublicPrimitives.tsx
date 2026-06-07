@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+﻿import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -38,15 +38,15 @@ export const Reveal = ({
 export const MagneticLink = ({
   to,
   children,
-  variant = "gold",
+  variant = "cobalt",
   className = "",
 }: {
   to: string;
   children: ReactNode;
-  variant?: "gold" | "ivory" | "outline";
+  variant?: "cobalt" | "platinum" | "outline";
   className?: string;
 }) => {
-  const base = variant === "ivory" ? "btn-ivory" : variant === "outline" ? "btn-akan-outline" : "btn-akan";
+  const base = variant === "platinum" ? "btn-platinum" : variant === "outline" ? "btn-cobalt-outline" : "btn-cobalt";
   return (
     <Link to={to} className={`${base} group ${className}`}>
       <span>{children}</span>
@@ -113,7 +113,7 @@ export const PageHero = ({
 );
 
 export const FinalCTA = ({ title, text, button = "Parler a LGM" }: { title: string; text: string; button?: string }) => (
-  <section className="section-espresso public-cta-band">
+  <section className="section-charcoal public-cta-band">
     <div className="container-wide grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
       <Reveal>
         <p className="section-kicker">Decision</p>

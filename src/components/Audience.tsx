@@ -1,17 +1,17 @@
-import { Check, X } from "lucide-react";
+﻿import { Check, X } from "lucide-react";
 import HexagonPattern from "./HexagonPattern";
 
 const Audience = () => {
   const forWho = [
-    "Dirigeants impliquÃ©s dans les dÃ©cisions",
-    "Entreprises avec une ambition de croissance structurÃ©e",
-    "Organisations prÃªtes Ã  mesurer et ajuster"
+    "Dirigeants impliquÃƒÂ©s dans les dÃƒÂ©cisions",
+    "Entreprises avec une ambition de croissance structurÃƒÂ©e",
+    "Organisations prÃƒÂªtes Ãƒ  mesurer et ajuster"
   ];
 
   const notForWho = [
     "Recherche de solutions rapides",
-    "Budgets marketing trÃ¨s faibles",
-    "Refus de structurer un systÃ¨me"
+    "Budgets marketing trÃƒÂ¨s faibles",
+    "Refus de structurer un systÃƒÂ¨me"
   ];
 
   return (
@@ -22,26 +22,26 @@ const Audience = () => {
       </div>
 
       {/* Divider lines */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cobalt/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cobalt/30 to-transparent" />
 
       {/* Bronze gradient orbs - hidden on mobile */}
-      <div className="hidden sm:block absolute top-20 left-0 sm:left-10 w-48 sm:w-72 lg:w-96 h-48 sm:h-72 lg:h-96 bg-gradient-radial from-bronze/15 via-bronze/5 to-transparent rounded-full blur-3xl" />
-      <div className="hidden sm:block absolute bottom-20 right-1/4 w-48 md:w-80 h-48 md:h-80 bg-gradient-radial from-bronze/10 via-bronze/3 to-transparent rounded-full blur-3xl" />
+      <div className="hidden sm:block absolute top-20 left-0 sm:left-10 w-48 sm:w-72 lg:w-96 h-48 sm:h-72 lg:h-96 bg-gradient-radial from-cobalt/15 via-cobalt/5 to-transparent rounded-full blur-3xl" />
+      <div className="hidden sm:block absolute bottom-20 right-1/4 w-48 md:w-80 h-48 md:h-80 bg-gradient-radial from-cobalt/10 via-cobalt/3 to-transparent rounded-full blur-3xl" />
 
       {/* Decorative diagonal lines - hidden on mobile */}
       <svg className="hidden md:block absolute top-10 right-0 w-48 lg:w-80 h-48 lg:h-80 opacity-15" viewBox="0 0 100 100">
-        <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
-        <line x1="20" y1="0" x2="100" y2="80" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
-        <line x1="40" y1="0" x2="100" y2="60" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
-        <line x1="60" y1="0" x2="100" y2="40" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
+        <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
+        <line x1="20" y1="0" x2="100" y2="80" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
+        <line x1="40" y1="0" x2="100" y2="60" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
+        <line x1="60" y1="0" x2="100" y2="40" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
       </svg>
 
       <svg className="hidden md:block absolute bottom-10 left-0 w-48 lg:w-80 h-48 lg:h-80 opacity-15" viewBox="0 0 100 100">
-        <line x1="100" y1="100" x2="0" y2="0" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
-        <line x1="80" y1="100" x2="0" y2="20" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
-        <line x1="60" y1="100" x2="0" y2="40" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
-        <line x1="40" y1="100" x2="0" y2="60" stroke="currentColor" strokeWidth="0.3" className="text-bronze" />
+        <line x1="100" y1="100" x2="0" y2="0" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
+        <line x1="80" y1="100" x2="0" y2="20" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
+        <line x1="60" y1="100" x2="0" y2="40" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
+        <line x1="40" y1="100" x2="0" y2="60" stroke="currentColor" strokeWidth="0.3" className="text-cobalt" />
       </svg>
 
       {/* Background illustration - hidden on tablet and below */}
@@ -52,7 +52,7 @@ const Audience = () => {
               <stop offset="0%" stopColor="hsl(30, 60%, 50%)" stopOpacity="0.3" />
               <stop offset="100%" stopColor="hsl(30, 60%, 50%)" stopOpacity="0" />
             </radialGradient>
-            <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="cobaltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="hsl(30, 60%, 45%)" stopOpacity="0.6" />
               <stop offset="100%" stopColor="hsl(35, 70%, 55%)" stopOpacity="0.3" />
             </linearGradient>
@@ -61,7 +61,7 @@ const Audience = () => {
           <path 
             d="M100,50 L200,50 L175,120 L175,200 L125,200 L125,120 Z" 
             fill="none" 
-            stroke="url(#bronzeGrad)" 
+            stroke="url(#cobaltGrad)" 
             strokeWidth="1.5"
             className="opacity-60"
           />
@@ -96,16 +96,16 @@ const Audience = () => {
         {/* Section header */}
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">
           <div className="relative inline-block">
-            <div className="absolute inset-0 bg-bronze/20 blur-xl rounded-full scale-150" />
-            <span className="relative inline-block px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-medium uppercase tracking-widest text-bronze border border-bronze/30 rounded-full mb-4 sm:mb-6">
+            <div className="absolute inset-0 bg-cobalt/20 blur-xl rounded-full scale-150" />
+            <span className="relative inline-block px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-medium uppercase tracking-widest text-cobalt border border-cobalt/30 rounded-full mb-4 sm:mb-6">
               Qualification
             </span>
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight mt-4">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight mt-4">
             Pour qui travaillons-nous ?
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Chez LGM, nous aidons les propriÃ©taires d'entreprises ambitieux Ã  obtenir plus de prospects qualifiÃ©s et Ã  augmenter leur chiffre d'affaires.
+            Chez LGM, nous aidons les propriÃƒÂ©taires d'entreprises ambitieux Ãƒ  obtenir plus de prospects qualifiÃƒÂ©s et Ãƒ  augmenter leur chiffre d'affaires.
           </p>
         </div>
 
@@ -115,10 +115,10 @@ const Audience = () => {
             {/* For who */}
             <div className="space-y-4 sm:space-y-6">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-bronze/10 flex items-center justify-center">
-                  <Check className="w-4 h-4 sm:w-5 sm:h-5 text-bronze" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-cobalt/10 flex items-center justify-center">
+                  <Check className="w-4 h-4 sm:w-5 sm:h-5 text-cobalt" />
                 </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium">Pour vous si</h3>
+                <h3 className="font-display text-xl sm:text-2xl font-medium">Pour vous si</h3>
               </div>
               <ul className="space-y-3 sm:space-y-4">
                 {forWho.map((item, index) => (
@@ -126,7 +126,7 @@ const Audience = () => {
                     key={index} 
                     className="flex items-start gap-2 sm:gap-3"
                   >
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-bronze/60 mt-2 flex-shrink-0" />
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-cobalt/60 mt-2 flex-shrink-0" />
                     <span className="text-sm sm:text-base text-foreground">{item}</span>
                   </li>
                 ))}
@@ -134,7 +134,7 @@ const Audience = () => {
             </div>
 
             {/* Divider */}
-            <div className="w-12 sm:w-16 h-px bg-gradient-to-r from-bronze/50 to-transparent" />
+            <div className="w-12 sm:w-16 h-px bg-gradient-to-r from-cobalt/50 to-transparent" />
 
             {/* Not for who */}
             <div className="space-y-4 sm:space-y-6">
@@ -142,7 +142,7 @@ const Audience = () => {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                   <X className="w-4 h-4 sm:w-5 sm:h-5 text-destructive" />
                 </div>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium">Pas pour vous si</h3>
+                <h3 className="font-display text-xl sm:text-2xl font-medium">Pas pour vous si</h3>
               </div>
               <ul className="space-y-3 sm:space-y-4">
                 {notForWho.map((item, index) => (

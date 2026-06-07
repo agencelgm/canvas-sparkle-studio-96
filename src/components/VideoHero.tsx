@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+﻿import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -6,37 +6,37 @@ import { ArrowRight } from "lucide-react";
 const TEXT_PHASES = [
   {
     range: [0, 0.2] as [number, number],
-    kicker: "Le défi de toute entreprise",
-    headline: "Et si votre croissance\ndépendait d'un seul système ?",
-    body: "La plupart des entreprises travaillent sans méthode. Résultat : stagnation, frustration, chiffre d'affaires en dents de scie.",
+    kicker: "Le dÃ©fi de toute entreprise",
+    headline: "Et si votre croissance\ndÃ©pendait d'un seul systÃ¨me ?",
+    body: "La plupart des entreprises travaillent sans mÃ©thode. RÃ©sultat : stagnation, frustration, chiffre d'affaires en dents de scie.",
     cta: false,
   },
   {
     range: [0.2, 0.4] as [number, number],
     kicker: "Levier 01",
     headline: "Acquisition",
-    body: "Publicités, SEO, réseaux sociaux — chaque jour, des prospects qualifiés entrent dans votre système. En flux continu.",
+    body: "PublicitÃ©s, SEO, rÃ©seaux sociaux â€” chaque jour, des prospects qualifiÃ©s entrent dans votre systÃ¨me. En flux continu.",
     cta: false,
   },
   {
     range: [0.4, 0.6] as [number, number],
     kicker: "Levier 02",
     headline: "Conversion",
-    body: "Ces prospects deviennent des clients. Pas plus tard. Maintenant. Avec les bons outils, le bon suivi, la bonne méthode.",
+    body: "Ces prospects deviennent des clients. Pas plus tard. Maintenant. Avec les bons outils, le bon suivi, la bonne mÃ©thode.",
     cta: false,
   },
   {
     range: [0.6, 0.8] as [number, number],
     kicker: "Levier 03",
-    headline: "Fidélisation",
-    body: "Vos clients reviennent, rachètent, vous recommandent. Le cycle de croissance tourne, sans vous épuiser.",
+    headline: "FidÃ©lisation",
+    body: "Vos clients reviennent, rachÃ¨tent, vous recommandent. Le cycle de croissance tourne, sans vous Ã©puiser.",
     cta: false,
   },
   {
     range: [0.8, 1.0] as [number, number],
-    kicker: "Le résultat",
+    kicker: "Le rÃ©sultat",
     headline: "+277%",
-    body: "C'est ce qui se passe quand les 3 leviers travaillent ensemble. Un système. Une méthode. Des résultats.",
+    body: "C'est ce qui se passe quand les 3 leviers travaillent ensemble. Un systÃ¨me. Une mÃ©thode. Des rÃ©sultats.",
     cta: true,
   },
 ];
@@ -62,7 +62,7 @@ const VideoHero = () => {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Scroll → video.currentTime
+  // Scroll â†’ video.currentTime
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const video = videoRef.current;
     if (!video || !videoReady || prefersReducedMotion) return;
@@ -95,7 +95,7 @@ const VideoHero = () => {
       {/* Sticky viewport */}
       <div className="sticky top-0 w-full overflow-hidden" style={{ height: "100dvh" }}>
 
-        {/* Video layer — full cover */}
+        {/* Video layer â€” full cover */}
         <video
           ref={videoRef}
           src="/video/hero.mp4"
@@ -138,14 +138,14 @@ const VideoHero = () => {
                 <p className="pill-gold mb-4 inline-flex">
                   <span
                     className="w-1.5 h-1.5 rounded-full mr-2 self-center"
-                    style={{ background: "#C9A227" }}
+                    style={{ background: "#2F6BFF" }}
                   />
                   {phase.kicker}
                 </p>
 
                 {/* Headline */}
                 <h1
-                  className="font-serif text-foreground leading-tight mb-4"
+                  className="font-display text-foreground leading-tight mb-4"
                   style={{
                     fontSize: activePhase === 4
                       ? "clamp(4rem, 12vw, 9rem)"
@@ -171,7 +171,7 @@ const VideoHero = () => {
                   {phase.body}
                 </p>
 
-                {/* CTA — only on last phase */}
+                {/* CTA â€” only on last phase */}
                 {phase.cta && (
                   <motion.div
                     initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
@@ -181,7 +181,7 @@ const VideoHero = () => {
                   >
                     <Link to="/contact">
                       <button className="btn-gold group flex items-center gap-3">
-                        Découvrir la méthode
+                        DÃ©couvrir la mÃ©thode
                         <span className="w-7 h-7 rounded-full bg-black/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                           <ArrowRight className="w-3.5 h-3.5" />
                         </span>
@@ -206,28 +206,28 @@ const VideoHero = () => {
                 className="w-0.5 rounded-full transition-all duration-500"
                 style={{
                   height: i === activePhase ? 28 : 10,
-                  background: i === activePhase ? "#C9A227" : "rgba(255,255,255,0.2)",
+                  background: i === activePhase ? "#2F6BFF" : "rgba(255,255,255,0.2)",
                 }}
               />
             ))}
           </div>
         </div>
 
-        {/* Fallback for reduced motion — static frame with intro text */}
+        {/* Fallback for reduced motion â€” static frame with intro text */}
         {prefersReducedMotion && (
           <div className="absolute inset-0 flex items-end pb-20 px-6 md:px-12 lg:px-20 pointer-events-none">
             <div className="max-w-3xl">
               <p className="pill-gold mb-4 inline-flex">
-                <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#C9A227" }} />
-                Méthode LGM
+                <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#2F6BFF" }} />
+                MÃ©thode LGM
               </p>
-              <h1 className="font-serif text-foreground leading-tight mb-4"
+              <h1 className="font-display text-foreground leading-tight mb-4"
                 style={{ fontSize: "clamp(2.25rem, 5vw, 4.5rem)", fontWeight: 600, letterSpacing: "-0.02em" }}>
-                Un système pour accélérer votre croissance
+                Un systÃ¨me pour accÃ©lÃ©rer votre croissance
               </h1>
               <p className="text-foreground/75 font-sans leading-relaxed mb-8 max-w-[52ch]"
                 style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)" }}>
-                Acquisition, Conversion, Fidélisation — les 3 leviers que toute entreprise doit activer.
+                Acquisition, Conversion, FidÃ©lisation â€” les 3 leviers que toute entreprise doit activer.
               </p>
             </div>
           </div>

@@ -20,7 +20,6 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ["Bodoni Moda", "Georgia", "serif"],
         sans: ["Manrope", "system-ui", "sans-serif"],
         display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
       },
@@ -58,10 +57,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        bronze: {
-          DEFAULT: "hsl(var(--bronze))",
-          light: "hsl(var(--bronze-light))",
-          dark: "hsl(var(--bronze-dark))",
+        cobalt: {
+          DEFAULT: "#d7b46a",
+          light: "#f0d996",
+          dark: "#a97a28",
+          ink: "#1b1408",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -73,14 +73,14 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        espresso: "#0d0b08",
-        ivory: "#f5efe0",
-        "ivory-text": "#1a1510",
-        "ivory-muted": "#655842",
-        "akan-gold": "#c49a2a",
-        "akan-gold-light": "#e8c96b",
-        "warm-dark": "#2a1f0e",
-        clay: "#8e3f22",
+        charcoal: "#070b12",
+        "charcoal-soft": "#101827",
+        "charcoal-panel": "#141d2d",
+        graphite: "#1b2537",
+        platinum: "#f6f8fb",
+        "platinum-2": "#e9eef7",
+        "platinum-text": "#101827",
+        "platinum-muted": "#536071",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
-import { findService, publicImages } from "@/data/publicContent";
+import { findService, publicImages, serviceAreaPages } from "@/data/publicContent";
 
 const ServiceDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,7 +15,7 @@ const ServiceDetailPage = () => {
           <div className="container-narrow relative z-10 pt-28 text-center">
             <h1 className="public-h2">Service introuvable</h1>
             <p className="public-lead mx-auto">Cette page n'existe pas ou a ete deplacee.</p>
-            <Link to="/services" className="btn-akan mt-8">Retour aux services</Link>
+            <Link to="/services" className="btn-cobalt mt-8">Retour aux services</Link>
           </div>
         </section>
       </PageLayout>
@@ -34,12 +34,10 @@ const ServiceDetailPage = () => {
       name: "LGM, Les Gens du Marketing",
       url: "https://lgm.marketing",
     },
-    areaServed: [
-      { "@type": "City", name: "Abidjan" },
-      { "@type": "Country", name: "Cote d'Ivoire" },
-    ],
+    areaServed: serviceAreaPages.map((area) => ({ "@type": "City", name: `${area.city}, ${area.country}` })),
     url: canonicalUrl,
   };
+  const metaDescription = `${service.description} Service disponible pour Abidjan, Dakar, Douala, Ouagadougou et les entreprises francophones.`;
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,13 +51,13 @@ const ServiceDetailPage = () => {
   return (
     <PageLayout>
       <Helmet>
-        <title>{service.title} | LGM</title>
-        <meta name="description" content={service.description} />
+        <title>{service.title} a Abidjan | LGM</title>
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={`${service.title} | LGM`} />
-        <meta property="og:description" content={service.description} />
+        <meta property="og:title" content={`${service.title} a Abidjan | LGM`} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={publicImages.og} />
+        <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
@@ -69,27 +67,27 @@ const ServiceDetailPage = () => {
         title={<>{service.title}</>}
         lead={service.headline}
         image={publicImages.services}
-        imageAlt={`Image generative pour le service ${service.title}`}
+        imageAlt={`Environnement marketing professionnel pour piloter ${service.title.toLowerCase()} et le flux de prospects`}
       />
 
-      <section className="section-ivory section-pad-tight">
+      <section className="section-platinum section-pad-tight">
         <div className="container-wide">
-          <Link to="/services" className="mb-9 inline-flex items-center gap-2 text-sm font-bold text-[#8b6914]">
+          <Link to="/services" className="mb-9 inline-flex items-center gap-2 text-sm font-bold text-[#d7b46a]">
             <BackArrow />
             Tous les services
           </Link>
           <div className="grid gap-10 lg:grid-cols-[0.78fr_1fr] lg:items-start">
             <Reveal>
-              <p className="section-kicker text-[#8b6914]">Pourquoi ce levier</p>
-              <h2 className="public-h2 max-w-3xl text-ivory-text">{service.headline}</h2>
-              <p className="public-lead text-ivory-muted">{service.description}</p>
+              <p className="section-kicker text-[#d7b46a]">Pourquoi ce levier</p>
+              <h2 className="public-h2 max-w-3xl text-platinum-text">{service.headline}</h2>
+              <p className="public-lead text-platinum-muted">{service.description}</p>
             </Reveal>
             <Reveal delay={0.12}>
               <div className="grid gap-4 sm:grid-cols-2">
                 {service.benefits.map((benefit) => (
-                  <div key={benefit} className="border-t border-[rgba(26,21,16,0.16)] pt-4">
-                    <span className="mb-4 block h-2 w-2 rounded-full bg-[#8b6914]" aria-hidden="true" />
-                    <p className="font-semibold leading-relaxed text-ivory-text">{benefit}</p>
+                  <div key={benefit} className="border-t border-[rgba(16,24,39,0.16)] pt-4">
+                    <span className="mb-4 block h-2 w-2 rounded-full bg-[#d7b46a]" aria-hidden="true" />
+                    <p className="font-semibold leading-relaxed text-platinum-text">{benefit}</p>
                   </div>
                 ))}
               </div>
@@ -98,22 +96,22 @@ const ServiceDetailPage = () => {
         </div>
       </section>
 
-      <section className="section-espresso section-pad-tight">
+      <section className="section-charcoal section-pad-tight">
         <div className="container-wide grid gap-10 lg:grid-cols-[0.7fr_1fr] lg:items-start">
           <Reveal>
             <p className="section-kicker">Process</p>
             <h2 className="public-h2 max-w-3xl">Comment nous l'activons.</h2>
             <div className="mt-8">
-              <ImageFrame src={publicImages.method} alt="Visualisation du processus LGM" className="min-h-[320px]" />
+              <ImageFrame src={publicImages.method} alt="Parcours marketing ACF reliant acquisition, conversion et fidelisation" className="min-h-[320px]" />
             </div>
           </Reveal>
-          <div className="border-t border-[#e8c96b24]">
+          <div className="border-t border-[#f0d99624]">
             {service.process.map((step, index) => (
               <Reveal key={step.title} delay={index * 0.06}>
-                <article className="grid gap-4 border-b border-[#e8c96b1f] py-6 md:grid-cols-[0.22fr_1fr]">
-                  <p className="font-display text-4xl font-extrabold text-[#e8c96b33]">{String(index + 1).padStart(2, "0")}</p>
+                <article className="grid gap-4 border-b border-[#f0d9961f] py-6 md:grid-cols-[0.22fr_1fr]">
+                  <p className="font-display text-4xl font-extrabold text-[#f0d99633]">{String(index + 1).padStart(2, "0")}</p>
                   <div>
-                    <h3 className="public-h3 text-ivory">{step.title}</h3>
+                    <h3 className="public-h3 text-platinum">{step.title}</h3>
                     <p className="public-body mt-2">{step.description}</p>
                   </div>
                 </article>

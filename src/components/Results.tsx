@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+﻿import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 interface CounterProps {
@@ -41,21 +41,21 @@ const METRICS = [
     value: 277,
     suffix: "%",
     label: "Croissance du chiffre d'affaires",
-    desc: "Résultat moyen observé chez nos clients après 6 mois d'activation complète du framework ACF.",
-    color: "#C9A227",
+    desc: "RÃ©sultat moyen observÃ© chez nos clients aprÃ¨s 6 mois d'activation complÃ¨te du framework ACF.",
+    color: "#2F6BFF",
   },
   {
     value: 3,
-    suffix: "×",
-    label: "Volume de leads qualifiés",
-    desc: "Multiplication du flux de prospects entrants grâce aux stratégies d'acquisition multi-canal.",
+    suffix: "Ã—",
+    label: "Volume de leads qualifiÃ©s",
+    desc: "Multiplication du flux de prospects entrants grÃ¢ce aux stratÃ©gies d'acquisition multi-canal.",
     color: "#4ECDC4",
   },
   {
     value: 67,
     suffix: "%",
-    label: "Taux de conversion amélioré",
-    desc: "Amélioration moyenne du taux de transformation des prospects en clients payants.",
+    label: "Taux de conversion amÃ©liorÃ©",
+    desc: "AmÃ©lioration moyenne du taux de transformation des prospects en clients payants.",
     color: "#8B5CF6",
   },
 ];
@@ -76,7 +76,7 @@ const Results = () => {
           className="text-center mb-16 md:mb-20"
         >
           <h2
-            className="font-serif text-foreground mb-5"
+            className="font-display text-foreground mb-5"
             style={{
               fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
               fontWeight: 600,
@@ -85,13 +85,13 @@ const Results = () => {
               textWrap: "balance",
             }}
           >
-            Ce que le système produit
+            Ce que le systÃ¨me produit
           </h2>
           <p
             className="text-muted-foreground font-sans mx-auto max-w-[50ch] leading-relaxed"
             style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.1rem)" }}
           >
-            Quand les 3 leviers ACF fonctionnent ensemble, les résultats deviennent prévisibles et cumulatifs.
+            Quand les 3 leviers ACF fonctionnent ensemble, les rÃ©sultats deviennent prÃ©visibles et cumulatifs.
           </p>
         </motion.div>
 
@@ -137,7 +137,7 @@ const Results = () => {
 
                   {/* Label */}
                   <p
-                    className="font-serif text-foreground mb-3"
+                    className="font-display text-foreground mb-3"
                     style={{ fontSize: "clamp(1rem, 1.8vw, 1.25rem)", fontWeight: 500 }}
                   >
                     {metric.label}

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import ParticleBackground from "@/components/canvas/ParticleBackground";
@@ -7,7 +7,7 @@ const CTA = () => {
   return (
     <section className="relative py-28 md:py-40 overflow-hidden bg-background">
       {/* Dense particle field for cinematic depth */}
-      <ParticleBackground count={150} color="#C9A227" size={0.009} spread={14} />
+      <ParticleBackground count={150} color="#2F6BFF" size={0.009} spread={14} />
 
       {/* Radial glow */}
       <div
@@ -31,13 +31,13 @@ const CTA = () => {
         >
           {/* Kicker */}
           <p className="pill-gold mb-8 mx-auto inline-flex">
-            <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#C9A227" }} />
-            Passez Ã  l'action
+            <span className="w-1.5 h-1.5 rounded-full mr-2 self-center" style={{ background: "#2F6BFF" }} />
+            Passez Ãƒ  l'action
           </p>
 
           {/* Headline */}
           <h2
-            className="font-serif text-foreground mb-6 mx-auto"
+            className="font-display text-foreground mb-6 mx-auto"
             style={{
               fontSize: "clamp(2.25rem, 5.5vw, 4.5rem)",
               fontWeight: 600,
@@ -47,7 +47,7 @@ const CTA = () => {
               maxWidth: "18ch",
             }}
           >
-            Structurer votre croissance commence par une dÃ©cision.
+            Structurer votre croissance commence par une dÃƒÂ©cision.
           </h2>
 
           {/* Body */}
@@ -55,7 +55,7 @@ const CTA = () => {
             className="text-muted-foreground font-sans leading-relaxed mb-12 mx-auto max-w-[48ch]"
             style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)" }}
           >
-            RÃ©servez une consultation gratuite. En 30 minutes, nous analysons votre situation et vous proposons un plan d'activation ACF sur mesure.
+            RÃƒÂ©servez une consultation gratuite. En 30 minutes, nous analysons votre situation et vous proposons un plan d'activation ACF sur mesure.
           </p>
 
           {/* CTA buttons */}
@@ -77,7 +77,7 @@ const CTA = () => {
 
           {/* Trust micro-line */}
           <p className="text-muted-foreground/50 font-sans text-xs mt-8 tracking-wide uppercase">
-            Sans engagement â€” RÃ©ponse sous 24h
+            Sans engagement Ã¢â‚¬â€ RÃƒÂ©ponse sous 24h
           </p>
         </motion.div>
       </div>

@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+﻿import { motion, type Variants } from "framer-motion";
 import { TrendingUp, Zap, Heart } from "lucide-react";
 
 const pillars = [
@@ -6,8 +6,8 @@ const pillars = [
     id: "acquisition",
     number: "01",
     label: "Acquisition",
-    tagline: "Être vu. Chaque jour.",
-    description: "Campagnes publicitaires, SEO/AEO/GEO, contenu organique — votre moteur de visibilité tourne en continu.",
+    tagline: "ÃŠtre vu. Chaque jour.",
+    description: "Campagnes publicitaires, SEO/AEO/GEO, contenu organique â€” votre moteur de visibilitÃ© tourne en continu.",
     icon: TrendingUp,
     delay: 0.2,
     position: "left",
@@ -17,7 +17,7 @@ const pillars = [
     number: "02",
     label: "Conversion",
     tagline: "Transformer. Automatiquement.",
-    description: "Agents IA WhatsApp, sites optimisés, funnels — chaque prospect est qualifié et suivi jusqu'à la vente.",
+    description: "Agents IA WhatsApp, sites optimisÃ©s, funnels â€” chaque prospect est qualifiÃ© et suivi jusqu'Ã  la vente.",
     icon: Zap,
     delay: 0.4,
     position: "right",
@@ -25,9 +25,9 @@ const pillars = [
   {
     id: "fidelisation",
     number: "03",
-    label: "Fidélisation",
+    label: "FidÃ©lisation",
     tagline: "Faire revenir. En continu.",
-    description: "Email marketing, campagnes WhatsApp, automatisations — vos clients existants génèrent de nouvelles ventes.",
+    description: "Email marketing, campagnes WhatsApp, automatisations â€” vos clients existants gÃ©nÃ¨rent de nouvelles ventes.",
     icon: Heart,
     delay: 0.6,
     position: "left",
@@ -57,14 +57,14 @@ const FrameworkACF = () => {
         <svg width="100%" height="100%">
           <defs>
             <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="1" fill="currentColor" className="text-bronze" />
+              <circle cx="20" cy="20" r="1" fill="currentColor" className="text-cobalt" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#dots)" />
         </svg>
       </div>
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-bronze/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cobalt/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cobalt/30 to-transparent" />
 
       <div className="container-wide relative z-10">
         {/* Section header */}
@@ -76,29 +76,29 @@ const FrameworkACF = () => {
           transition={{ duration: 0.7 }}
         >
           <span className="pill-gold mb-6 inline-flex">Notre framework</span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium leading-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium leading-tight">
             Trois leviers.{" "}
-            <span className="italic text-bronze">Un seul objectif.</span>
+            <span className="italic text-cobalt">Un seul objectif.</span>
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Pour faire croître un chiffre d'affaires, il faut activer les trois en simultané. Un seul levier manquant, et le système fuit.
+            Pour faire croÃ®tre un chiffre d'affaires, il faut activer les trois en simultanÃ©. Un seul levier manquant, et le systÃ¨me fuit.
           </p>
         </motion.div>
 
-        {/* ACF diagram — central visual */}
+        {/* ACF diagram â€” central visual */}
         <div className="flex flex-col items-center mb-16 md:mb-20">
           {/* Three interconnected circles */}
           <div className="relative w-full max-w-2xl mx-auto h-64 md:h-80 hidden md:flex items-center justify-center">
             {/* Orbit ring */}
             <motion.div
-              className="absolute w-56 h-56 rounded-full border border-bronze/15 animate-spin-slow"
+              className="absolute w-56 h-56 rounded-full border border-cobalt/15 animate-spin-slow"
               initial={{ opacity: 0, scale: 0.5 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             />
             <motion.div
-              className="absolute w-40 h-40 rounded-full border border-bronze/10 animate-spin-slow"
+              className="absolute w-40 h-40 rounded-full border border-cobalt/10 animate-spin-slow"
               style={{ animationDirection: "reverse", animationDuration: "20s" }}
               initial={{ opacity: 0, scale: 0.5 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -109,7 +109,7 @@ const FrameworkACF = () => {
             {/* Center node */}
             <motion.div
               className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #C9A227, #E4C76B)" }}
+              style={{ background: "linear-gradient(135deg, #2F6BFF, #7FB0FF)" }}
               initial={{ opacity: 0, scale: 0 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -118,7 +118,7 @@ const FrameworkACF = () => {
               <span className="text-black font-display font-bold text-sm">LGM</span>
             </motion.div>
 
-            {/* Acquisition node — left */}
+            {/* Acquisition node â€” left */}
             <motion.div
               className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2"
               initial={{ opacity: 0, x: -30 }}
@@ -127,21 +127,21 @@ const FrameworkACF = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
             >
               <div className="w-14 h-14 rounded-full card-glass flex items-center justify-center animate-glow-pulse">
-                <TrendingUp size={22} className="text-bronze" />
+                <TrendingUp size={22} className="text-cobalt" />
               </div>
-              <span className="text-xs font-medium text-bronze tracking-wide">Acquisition</span>
+              <span className="text-xs font-medium text-cobalt tracking-wide">Acquisition</span>
             </motion.div>
 
             {/* Connecting line left */}
             <motion.div
-              className="absolute left-16 top-1/2 h-px w-24 bg-gradient-to-r from-bronze/40 to-bronze/10 origin-left"
+              className="absolute left-16 top-1/2 h-px w-24 bg-gradient-to-r from-cobalt/40 to-cobalt/10 origin-left"
               variants={lineVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
             />
 
-            {/* Conversion node — top right */}
+            {/* Conversion node â€” top right */}
             <motion.div
               className="absolute right-4 top-6 flex flex-col items-center gap-2"
               initial={{ opacity: 0, x: 30, y: -20 }}
@@ -150,12 +150,12 @@ const FrameworkACF = () => {
               transition={{ duration: 0.6, delay: 0.65 }}
             >
               <div className="w-14 h-14 rounded-full card-glass flex items-center justify-center animate-glow-pulse" style={{ animationDelay: "0.8s" }}>
-                <Zap size={22} className="text-bronze" />
+                <Zap size={22} className="text-cobalt" />
               </div>
-              <span className="text-xs font-medium text-bronze tracking-wide">Conversion</span>
+              <span className="text-xs font-medium text-cobalt tracking-wide">Conversion</span>
             </motion.div>
 
-            {/* Fidélisation node — bottom right */}
+            {/* FidÃ©lisation node â€” bottom right */}
             <motion.div
               className="absolute right-4 bottom-6 flex flex-col items-center gap-2"
               initial={{ opacity: 0, x: 30, y: 20 }}
@@ -164,9 +164,9 @@ const FrameworkACF = () => {
               transition={{ duration: 0.6, delay: 0.8 }}
             >
               <div className="w-14 h-14 rounded-full card-glass flex items-center justify-center animate-glow-pulse" style={{ animationDelay: "1.6s" }}>
-                <Heart size={22} className="text-bronze" />
+                <Heart size={22} className="text-cobalt" />
               </div>
-              <span className="text-xs font-medium text-bronze tracking-wide">Fidélisation</span>
+              <span className="text-xs font-medium text-cobalt tracking-wide">FidÃ©lisation</span>
             </motion.div>
 
             {/* SVG connecting lines to right nodes */}
@@ -191,8 +191,8 @@ const FrameworkACF = () => {
               />
               <defs>
                 <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#C9A227" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#C9A227" stopOpacity="0.1" />
+                  <stop offset="0%" stopColor="#2F6BFF" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#2F6BFF" stopOpacity="0.1" />
                 </linearGradient>
               </defs>
             </svg>
@@ -211,22 +211,22 @@ const FrameworkACF = () => {
             const Icon = pillar.icon;
             return (
               <motion.div key={pillar.id} variants={itemVariants}>
-                <div className="h-full card-glass rounded-lg p-7 hover:border-bronze/30 transition-colors duration-300 group">
+                <div className="h-full card-glass rounded-lg p-7 hover:border-cobalt/30 transition-colors duration-300 group">
                   {/* Number */}
-                  <span className="text-5xl font-serif font-medium text-bronze/20 group-hover:text-bronze/35 transition-colors duration-300 block mb-4">
+                  <span className="text-5xl font-display font-medium text-cobalt/20 group-hover:text-cobalt/35 transition-colors duration-300 block mb-4">
                     {pillar.number}
                   </span>
 
                   {/* Icon + Label */}
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-9 h-9 rounded-full bg-bronze/10 flex items-center justify-center flex-shrink-0">
-                      <Icon size={18} className="text-bronze" />
+                    <div className="w-9 h-9 rounded-full bg-cobalt/10 flex items-center justify-center flex-shrink-0">
+                      <Icon size={18} className="text-cobalt" />
                     </div>
-                    <h3 className="font-serif text-xl font-medium">{pillar.label}</h3>
+                    <h3 className="font-display text-xl font-medium">{pillar.label}</h3>
                   </div>
 
                   {/* Tagline */}
-                  <p className="text-sm font-medium text-bronze mb-3">{pillar.tagline}</p>
+                  <p className="text-sm font-medium text-cobalt mb-3">{pillar.tagline}</p>
 
                   {/* Description */}
                   <p className="text-sm text-muted-foreground leading-relaxed">{pillar.description}</p>
@@ -244,7 +244,7 @@ const FrameworkACF = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          ↓ Scrollez pour découvrir chaque levier en détail
+          â†“ Scrollez pour dÃ©couvrir chaque levier en dÃ©tail
         </motion.p>
       </div>
     </section>

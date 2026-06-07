@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import PageLayout from "@/components/layout/PageLayout";
@@ -27,11 +27,11 @@ const NotFound = () => {
             <p className="public-lead">Le chemin demande ne correspond a aucune page publique. Repartons sur une route utile.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <MagneticLink to="/">Retour a l'accueil</MagneticLink>
-              <Link to="/services" className="btn-akan-outline">Voir les services</Link>
+              <Link to="/services" className="btn-cobalt-outline">Voir les services</Link>
             </div>
           </Reveal>
           <Reveal delay={0.12}>
-            <ImageFrame src={publicImages.blog} alt="Composition editoriale LGM pour page introuvable" className="min-h-[420px]" />
+            <ImageFrame src={publicImages.blog} alt="Table de travail marketing avec contenu, notes et suivi de campagne" className="min-h-[420px]" />
           </Reveal>
         </div>
       </section>

@@ -1,10 +1,10 @@
-import { publicServices } from "@/data/publicContent";
+﻿import { publicServices } from "@/data/publicContent";
 import { Reveal } from "@/components/public/PublicPrimitives";
 
 const FidelisationSection = () => {
   const service = publicServices.find((item) => item.slug === "automatisation-ia") || publicServices[4];
   return (
-    <section className="section-espresso section-pad-tight">
+    <section className="section-charcoal section-pad-tight">
       <div className="container-wide">
         <Reveal>
           <p className="section-kicker">Fidelisation</p>

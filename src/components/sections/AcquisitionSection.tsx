@@ -1,10 +1,10 @@
-import { publicServices } from "@/data/publicContent";
+﻿import { publicServices } from "@/data/publicContent";
 import { Reveal } from "@/components/public/PublicPrimitives";
 
 const AcquisitionSection = () => {
   const service = publicServices[0];
   return (
-    <section className="section-espresso section-pad-tight">
+    <section className="section-charcoal section-pad-tight">
       <div className="container-wide">
         <Reveal>
           <p className="section-kicker">Acquisition</p>

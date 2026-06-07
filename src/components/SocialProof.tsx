@@ -5,7 +5,7 @@ import { Reveal } from "@/components/public/PublicPrimitives";
 const stats = [
   { value: 7, prefix: "x", label: "ROI moyen constate chez les clients accompagnes plus de 6 mois" },
   { value: 90, suffix: " j", label: "fenetre moyenne pour voir les premiers signaux solides" },
-  { value: 12, suffix: "+", label: "marches et secteurs suivis en Afrique de l'Ouest" },
+  { value: 12, suffix: "+", label: "secteurs suivis entre Abidjan, Dakar, Douala et Ouagadougou" },
 ];
 
 const Counter = ({ value, suffix = "", prefix = "" }: { value: number; suffix?: string; prefix?: string }) => {
@@ -29,27 +29,27 @@ const Counter = ({ value, suffix = "", prefix = "" }: { value: number; suffix?: 
 };
 
 const SocialProof = () => (
-  <section className="section-ivory section-pad-tight overflow-hidden">
+  <section className="section-platinum section-pad-tight overflow-hidden">
     <div className="container-wide">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-end">
         <Reveal>
-          <p className="section-kicker text-[#8b6914]">Preuve</p>
+          <p className="section-kicker text-[#d7b46a]">Preuve</p>
           <blockquote className="max-w-3xl">
-            <p className="font-serif text-[clamp(1.8rem,3.8vw,4.1rem)] italic leading-[1.08] text-ivory-text">
+            <p className="font-display text-[clamp(1.8rem,3.8vw,4.1rem)] italic leading-[1.08] text-platinum-text">
               LGM a transforme notre acquisition en machine commerciale lisible. Pour la premiere fois, chaque canal avait un role clair.
             </p>
-            <footer className="mt-7 text-sm font-bold text-ivory-muted">Moussa Konate, direction commerciale, Abidjan</footer>
+            <footer className="mt-7 text-sm font-bold text-platinum-muted">Moussa Konate, direction commerciale, Abidjan</footer>
           </blockquote>
         </Reveal>
 
         <Reveal delay={0.12}>
-          <div className="metric-rail text-ivory-text">
+          <div className="metric-rail text-platinum-text">
             {stats.map((stat) => (
               <div key={stat.label}>
-                <p className="font-display text-[clamp(2.4rem,5vw,5.6rem)] font-extrabold leading-none text-[#8b6914]">
+                <p className="font-display text-[clamp(2.4rem,5vw,5.6rem)] font-extrabold leading-none text-[#d7b46a]">
                   <Counter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
                 </p>
-                <p className="mt-3 text-sm font-semibold leading-relaxed text-ivory-muted">{stat.label}</p>
+                <p className="mt-3 text-sm font-semibold leading-relaxed text-platinum-muted">{stat.label}</p>
               </div>
             ))}
           </div>

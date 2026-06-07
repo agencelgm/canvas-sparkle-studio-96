@@ -1,4 +1,4 @@
-interface HexagonPatternProps {
+﻿interface HexagonPatternProps {
   className?: string;
 }
 
@@ -19,14 +19,14 @@ const HexagonPattern = ({ className = "" }: HexagonPatternProps) => {
             fill="none"
             stroke="currentColor"
             strokeWidth="0.5"
-            className="text-bronze"
+            className="text-cobalt"
           />
           <path
             d="M28,40 L52,55 L52,85 L28,100 L4,85 L4,55 Z"
             fill="none"
             stroke="currentColor"
             strokeWidth="0.5"
-            className="text-bronze"
+            className="text-cobalt"
           />
         </pattern>
         <linearGradient id="hex-fade" x1="0%" y1="0%" x2="0%" y2="100%">

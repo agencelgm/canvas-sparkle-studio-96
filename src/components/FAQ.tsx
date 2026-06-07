@@ -1,89 +1,28 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { EASE, Reveal } from "@/components/public/PublicPrimitives";
+import { Reveal } from "@/components/public/PublicPrimitives";
+import { faqItems } from "@/data/faqContent";
 
-export const faqItems = [
-  {
-    question: "Combien de temps avant de voir les premiers resultats ?",
-    answer: "Les premiers signaux apparaissent souvent entre 3 et 6 semaines selon les canaux actives. Les resultats durables se consolident plutot entre 60 et 90 jours, avec un suivi hebdomadaire clair.",
-  },
-  {
-    question: "Quelle est la methode ACF de LGM ?",
-    answer: "ACF signifie Acquisition, Conversion, Fidelisation. Nous traitons ces leviers comme un systeme unique : attirer sans convertir coute cher, convertir sans fideliser limite la croissance.",
-  },
-  {
-    question: "Travaillez-vous avec toutes les tailles d'entreprises ?",
-    answer: "Nous accompagnons surtout des PME et entreprises en croissance qui ont deja une offre validee et veulent structurer leur acquisition commerciale.",
-  },
-  {
-    question: "Quel budget minimum prevoir ?",
-    answer: "Nos accompagnements commencent a 270 000 FCFA. En dessous, nous orientons vers nos formations et webinaires.",
-  },
-  {
-    question: "Etes-vous uniquement bases a Abidjan ?",
-    answer: "Nos bureaux sont a Angre, Abidjan. Nous travaillons aussi a distance depuis Dakar, Douala, Ouagadougou et dans toute l'Afrique de l'Ouest.",
-  },
-  {
-    question: "Que comprend le suivi hebdomadaire ?",
-    answer: "Vous recevez les metriques cles, les actions menees, les arbitrages proposes et les priorites de la semaine suivante. L'objectif est de garder une lecture nette de ce qui avance.",
-  },
-  {
-    question: "Proposez-vous des services d'automatisation et d'IA ?",
-    answer: "Oui — chatbots, workflows automatises, integration IA en entreprise pour reduire les taches repetitives et accelerer le suivi commercial.",
-  },
-  {
-    question: "Developpez-vous des logiciels sur mesure ?",
-    answer: "Oui, des outils specifiques a votre metier : CRM, portails clients, outils internes, dashboards.",
-  },
-];
-
-const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(0);
-
-  return (
-    <section className="section-ivory section-pad-tight overflow-hidden">
-      <div className="container-wide grid gap-10 lg:grid-cols-[0.72fr_1fr]">
-        <Reveal>
-          <p className="section-kicker text-[#8b6914]">Questions</p>
-          <h2 className="public-h2 max-w-2xl text-ivory-text">Ce que les dirigeants demandent avant de signer.</h2>
-        </Reveal>
-        <div className="border-t border-[rgba(26,21,16,0.16)]">
-          {faqItems.map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <Reveal key={item.question} delay={index * 0.04}>
-                <div className="border-b border-[rgba(26,21,16,0.13)]">
-                  <button
-                    className="flex w-full items-start justify-between gap-6 py-6 text-left"
-                    onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                    aria-expanded={isOpen}
-                  >
-                    <span className="public-h3 text-[clamp(1.15rem,2vw,1.8rem)] text-ivory-text">{item.question}</span>
-                    <motion.span
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#8b691444] text-[#8b6914]"
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.28, ease: EASE }}
-                    >
-                      +
-                    </motion.span>
-                  </button>
-                  <motion.div
-                    animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-                    initial={false}
-                    transition={{ duration: 0.36, ease: EASE }}
-                    className="overflow-hidden"
-                    aria-hidden={!isOpen}
-                  >
-                    <p className="public-body max-w-3xl pb-6 text-ivory-muted">{item.answer}</p>
-                  </motion.div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+const FAQ = () => (
+  <section className="section-platinum section-pad-tight overflow-hidden">
+    <div className="container-wide grid gap-10 lg:grid-cols-[0.62fr_1fr]">
+      <Reveal>
+        <p className="section-kicker text-[#d7b46a]">Questions</p>
+        <h2 className="public-h2 max-w-2xl text-platinum-text">Reponses directes avant de contacter une agence.</h2>
+        <p className="public-lead text-platinum-muted">
+          Cette section est volontairement visible en clair pour aider les dirigeants, Google et les moteurs de reponse IA a comprendre exactement ce que fait LGM.
+        </p>
+      </Reveal>
+      <div className="grid gap-5">
+        {faqItems.map((item, index) => (
+          <Reveal key={item.question} delay={index * 0.035}>
+            <article className="border-t border-[rgba(16,24,39,0.14)] pt-5">
+              <h3 className="public-h3 text-[clamp(1.1rem,1.8vw,1.55rem)] text-platinum-text">{item.question}</h3>
+              <p className="public-body mt-3 max-w-3xl text-platinum-muted">{item.answer}</p>
+            </article>
+          </Reveal>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default FAQ;

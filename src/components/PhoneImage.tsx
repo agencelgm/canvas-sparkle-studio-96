@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion, MotionStyle } from "framer-motion";
 
 interface PhoneImageProps {
@@ -27,26 +27,26 @@ const PhoneImage = ({ src, alt, className = "", style, placeholderIcon }: PhoneI
         {/* Phone silhouette */}
         <div className="flex flex-col items-center gap-4 opacity-40">
           <div
-            className="w-24 h-40 rounded-2xl border-2 border-bronze/40 relative flex items-center justify-center"
+            className="w-24 h-40 rounded-2xl border-2 border-cobalt/40 relative flex items-center justify-center"
             style={{ background: "rgba(201,162,39,0.05)" }}
           >
             {/* Notch */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-bronze/20" />
+            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-cobalt/20" />
             {/* Screen content placeholder */}
             <div className="flex flex-col gap-1.5 w-16">
-              <div className="h-1 rounded bg-bronze/30 w-full" />
-              <div className="h-1 rounded bg-bronze/20 w-3/4" />
-              <div className="h-1 rounded bg-bronze/20 w-5/6" />
+              <div className="h-1 rounded bg-cobalt/30 w-full" />
+              <div className="h-1 rounded bg-cobalt/20 w-3/4" />
+              <div className="h-1 rounded bg-cobalt/20 w-5/6" />
             </div>
             {/* Home indicator */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-bronze/20" />
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-cobalt/20" />
           </div>
           {placeholderIcon && (
-            <div className="text-bronze/50">{placeholderIcon}</div>
+            <div className="text-cobalt/50">{placeholderIcon}</div>
           )}
         </div>
 
-        {/* Gold glow dots — mimics the 3D floating elements */}
+        {/* Gold glow dots â€” mimics the 3D floating elements */}
         {[
           { top: "15%", left: "10%", size: 8, delay: 0 },
           { top: "25%", right: "12%", size: 10, delay: 0.3 },
@@ -56,7 +56,7 @@ const PhoneImage = ({ src, alt, className = "", style, placeholderIcon }: PhoneI
         ].map((dot, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full bg-bronze/20"
+            className="absolute rounded-full bg-cobalt/20"
             style={{
               width: dot.size,
               height: dot.size,

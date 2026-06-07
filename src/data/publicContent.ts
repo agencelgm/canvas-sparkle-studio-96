@@ -3,21 +3,19 @@ export const siteContact = {
   phoneDisplay: "+225 07 98 17 23 39",
   phoneHref: "+2250798172339",
   whatsapp: "https://wa.me/2250798172339",
+  hours: "Lundi au vendredi, 9h-17h",
   address: "Chateau, Camp Militaire, Angre, Abidjan",
-  hours: "Lundi–vendredi, 9h–17h",
 };
 
-import aboutHeroAsset from "@/assets/about-hero.jpg.asset.json";
-
 export const publicImages = {
-  hero: "/images/lgm-hero.png",
-  about: aboutHeroAsset.url,
-  method: "/images/lgm-method.png",
-  services: "/images/lgm-services.png",
-  contact: "/images/lgm-contact.png",
-  blog: "/images/lgm-blog.png",
-  og: "/images/og-lgm.png",
-  board: "/images/lgm-imagegen-board.png",
+  hero: "/images/lgm-hero.jpg",
+  about: "/images/lgm-about.jpg",
+  method: "/images/lgm-method.jpg",
+  services: "/images/lgm-services.jpg",
+  contact: "/images/lgm-contact.jpg",
+  blog: "/images/lgm-blog.jpg",
+  og: "/images/og-lgm.jpg",
+  board: "/images/lgm-imagegen-board.jpg",
 };
 
 export const navLinks = [
@@ -38,6 +36,16 @@ export type PublicService = {
   process: { title: string; description: string }[];
 };
 
+export type ServiceAreaPage = {
+  slug: string;
+  city: string;
+  country: string;
+  title: string;
+  metaDescription: string;
+  lead: string;
+  proof: string[];
+};
+
 export const publicServices: PublicService[] = [
   {
     slug: "generation-leads",
@@ -56,12 +64,12 @@ export const publicServices: PublicService[] = [
   },
   {
     slug: "seo-local",
-    title: "SEO local",
-    kicker: "Visibilite",
-    headline: "Etre trouve a Abidjan avant que le prospect ne demande autour de lui.",
-    description: "Nous structurons votre presence locale pour Google, les recherches geographiques et les intentions fortes : fiches, contenus, pages locales et signaux de confiance.",
-    tags: ["Google Business", "SEO technique", "Pages locales", "Avis clients"],
-    benefits: ["Meilleure presence locale", "Plus d'appels entrants", "Contenu utile et durable", "Base SEO plus propre"],
+    title: "SEO, AEO & GEO a Abidjan",
+    kicker: "Visibilite organique",
+    headline: "Etre trouve a Abidjan quand vos clients cherchent une agence marketing, une agence de communication ou un prestataire digital.",
+    description: "Nous structurons votre presence pour Google, les moteurs de reponse IA et les recherches geographiques : SEO technique, pages locales, contenus utiles, FAQ visibles et signaux de confiance.",
+    tags: ["SEO Abidjan", "AEO", "GEO", "Google Business", "Pages locales"],
+    benefits: ["Meilleure presence locale", "Plus d'appels entrants", "Reponses visibles pour les IA", "Base SEO plus propre"],
     process: [
       { title: "Audit", description: "Technique, contenus, fiches, concurrence et intentions locales." },
       { title: "Architecture", description: "Pages, maillage, mots cles et priorites geographiques." },
@@ -71,11 +79,11 @@ export const publicServices: PublicService[] = [
   },
   {
     slug: "publicite-digitale",
-    title: "Publicite digitale",
+    title: "Agence de publicite digitale",
     kicker: "Performance",
     headline: "Des campagnes payantes qui servent le chiffre, pas seulement la visibilite.",
-    description: "Nous gerons vos budgets publicitaires avec une logique de test, d'attribution et de conversion. Chaque campagne a un role clair dans le systeme ACF.",
-    tags: ["Google Ads", "Meta Ads", "Retargeting", "A/B testing"],
+    description: "Nous gerons vos budgets publicitaires avec une logique de test, d'attribution et de conversion. Chaque campagne Facebook, Instagram ou Google Ads a un role clair dans le systeme ACF.",
+    tags: ["Agence publicite", "Google Ads", "Meta Ads", "Retargeting", "A/B testing"],
     benefits: ["Budget mieux alloue", "Creation d'annonces plus nette", "Retargeting utile", "Lecture claire du ROI"],
     process: [
       { title: "Plan media", description: "Objectifs, budget, audiences et sequence de tests." },
@@ -101,17 +109,47 @@ export const publicServices: PublicService[] = [
   },
   {
     slug: "automatisation-ia",
-    title: "Automatisation & IA",
+    title: "IA, automatisation & integration d'entreprise",
     kicker: "Systeme",
-    headline: "Moins de relances manuelles, plus de decisions prises au bon moment.",
-    description: "Nous connectons CRM, emails, formulaires, scoring et IA pour automatiser ce qui ralentit vos ventes, sans retirer l'humain la ou il compte.",
-    tags: ["CRM", "Email flows", "Chatbots IA", "Dashboards"],
+    headline: "Integrer l'intelligence artificielle dans vos operations sans perdre le controle commercial.",
+    description: "Nous connectons CRM, emails, formulaires, scoring, agents IA et tableaux de bord pour automatiser ce qui ralentit vos ventes, votre suivi client et vos operations internes.",
+    tags: ["Automatisation entreprise", "Agents IA", "CRM", "Chatbots IA", "Dashboards"],
     benefits: ["Moins de taches repetitives", "Relances plus rapides", "Meilleur suivi client", "Donnees consolidees"],
     process: [
       { title: "Cartographie", description: "Process actuels, pertes de temps et points de friction." },
       { title: "Workflow", description: "Scenarios, outils, regles et messages automatises." },
       { title: "Integration", description: "CRM, formulaires, emails, dashboards et alertes." },
       { title: "Formation", description: "Documentation simple et adoption par les equipes." },
+    ],
+  },
+  {
+    slug: "creation-logo-identite",
+    title: "Creation de logo & identite visuelle",
+    kicker: "Agence de communication",
+    headline: "Une identite qui donne a votre entreprise la presence d'une marque serieuse des le premier contact.",
+    description: "Nous creons des logos, chartes graphiques, univers visuels et supports de communication pour les entreprises qui veulent inspirer confiance avant meme le premier rendez-vous.",
+    tags: ["Creation logo", "Identite visuelle", "Charte graphique", "Branding", "Agence communication Abidjan"],
+    benefits: ["Image plus credible", "Supports coherents", "Design applicable au digital", "Base claire pour les campagnes"],
+    process: [
+      { title: "Direction", description: "Positionnement, references, marche et niveau de premium attendu." },
+      { title: "Creation", description: "Pistes logo, palette, typographie, systeme graphique et usages." },
+      { title: "Validation", description: "Selection, ajustements, lisibilite et coherence business." },
+      { title: "Livraison", description: "Fichiers, mini-charte et formats pour web, reseaux sociaux et impression." },
+    ],
+  },
+  {
+    slug: "logiciel-sur-mesure",
+    title: "Logiciel sur mesure pour entreprises",
+    kicker: "Developpement metier",
+    headline: "Transformer vos process internes en outils simples, propres et vraiment utilises par vos equipes.",
+    description: "Nous concevons des logiciels sur mesure, portails clients, CRM internes, dashboards et outils d'automatisation adaptes a votre facon de vendre, suivre et servir vos clients.",
+    tags: ["Logiciel sur mesure", "CRM interne", "Portail client", "Dashboard", "Automatisation"],
+    benefits: ["Process mieux controles", "Moins de travail manuel", "Donnees centralisees", "Outil adapte a l'entreprise"],
+    process: [
+      { title: "Cartographie", description: "Flux actuels, utilisateurs, donnees et irritants operationnels." },
+      { title: "Prototype", description: "Parcours, ecrans, droits, logique metier et priorites." },
+      { title: "Developpement", description: "Application web, integrations, base de donnees et controles qualite." },
+      { title: "Adoption", description: "Formation, documentation et ameliorations apres usage reel." },
     ],
   },
   {
@@ -131,11 +169,11 @@ export const publicServices: PublicService[] = [
   },
   {
     slug: "publicite-facebook",
-    title: "Publicite Facebook",
+    title: "Agence Facebook & Meta Ads",
     kicker: "Social ads",
     headline: "Des campagnes Facebook qui parlent a votre marche, pas a une audience abstraite.",
-    description: "Nous construisons des campagnes Meta adaptees au contexte local, avec ciblage precis, creation lisible, retargeting et suivi des conversions.",
-    tags: ["Facebook Ads", "Instagram Ads", "Creatifs", "Retargeting"],
+    description: "Nous construisons des campagnes Facebook et Instagram adaptees au contexte local, avec ciblage precis, creation lisible, retargeting, formulaire de leads et suivi des conversions.",
+    tags: ["Agence Facebook", "Services Facebook", "Meta Ads", "Instagram Ads", "Retargeting"],
     benefits: ["Ciblage plus fin", "Creatifs mieux testes", "Suivi des prospects", "Optimisation continue"],
     process: [
       { title: "Consultation", description: "Offre, audience, budget et objectifs commerciaux." },
@@ -144,47 +182,73 @@ export const publicServices: PublicService[] = [
       { title: "Amelioration", description: "Tests hebdomadaires et arbitrages chiffres en main." },
     ],
   },
-  {
-    slug: "creation-logo",
-    title: "Creation de logo & identite visuelle",
-    kicker: "Identite",
-    headline: "Une marque qui inspire confiance avant meme que le prospect lise un mot.",
-    description: "Logo, typographie, palette, charte graphique — pensees pour les entreprises ambitieuses d'Afrique de l'Ouest.",
-    tags: ["Logo", "Charte graphique", "Branding", "Identite visuelle"],
-    benefits: ["Identite memorable et differenciante", "Coherence sur tous les supports", "Charte utilisable en interne", "Positionnement visuel professionnel"],
-    process: [
-      { title: "Brief", description: "Positionnement, valeurs, cibles et univers de reference." },
-      { title: "Exploration", description: "Pistes creatives, moodboards et directions artistiques." },
-      { title: "Creation", description: "Logo, declinaisons, typographies et palette couleurs." },
-      { title: "Livraison", description: "Fichiers sources, charte graphique et guide d'utilisation." },
-    ],
-  },
-  {
-    slug: "logiciel-sur-mesure",
-    title: "Logiciel sur mesure",
-    kicker: "Technologie",
-    headline: "Un outil construit pour votre metier, pas pour un cas generique.",
-    description: "CRM, portails clients, outils internes, dashboards — avec une logique metier pensee depuis vos vrais besoins.",
-    tags: ["CRM sur mesure", "Portail client", "Dashboard", "Outils internes"],
-    benefits: ["Outil adapte a vos processus", "Adoption rapide par les equipes", "Moins de friction operationnelle", "Donnees consolidees et lisibles"],
-    process: [
-      { title: "Analyse", description: "Processus, flux de donnees, utilisateurs et contraintes techniques." },
-      { title: "Conception", description: "Architecture, wireframes et logique metier." },
-      { title: "Developpement", description: "Build iteratif avec tests et validations intermediaires." },
-      { title: "Deploiement", description: "Mise en production, formation et documentation utilisateur." },
-    ],
-  },
 ];
 
 export const serviceOptions = [
   "Generation de leads",
-  "SEO local",
-  "Publicite digitale",
+  "SEO, AEO & GEO",
+  "Agence de publicite digitale",
   "Sites web & developpement",
-  "Automatisation & IA",
+  "IA, automatisation & integration d'entreprise",
+  "Creation de logo / identite visuelle",
+  "Logiciel sur mesure",
   "Formations & webinaires",
-  "Publicite Facebook",
+  "Agence Facebook & Meta Ads",
   "Autre / Je ne sais pas encore",
 ];
 
+export const qualificationServiceOptions = [
+  "Publicite digitale / agence de publicite",
+  "Facebook / Meta Ads",
+  "Generation de leads",
+  "SEO / AEO / GEO",
+  "Creation de logo / identite visuelle",
+  "Site web / landing page",
+  "Automatisation & IA",
+  "Logiciel sur mesure",
+  "Formation",
+  "Autre",
+];
+
 export const findService = (slug?: string) => publicServices.find((service) => service.slug === slug);
+
+export const serviceAreaPages: ServiceAreaPage[] = [
+  {
+    slug: "abidjan",
+    city: "Abidjan",
+    country: "Cote d'Ivoire",
+    title: "Agence marketing et communication a Abidjan",
+    metaDescription: "LGM est une agence marketing et communication a Abidjan : publicite digitale, Facebook Ads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure.",
+    lead: "Basee a Abidjan, LGM accompagne les entreprises qui veulent structurer leur acquisition, convertir plus de prospects et professionnaliser leur presence digitale.",
+    proof: ["Equipe basee a Abidjan", "Connaissance du marche ivoirien", "Accompagnement marketing, communication, IA et logiciel"],
+  },
+  {
+    slug: "dakar",
+    city: "Dakar",
+    country: "Senegal",
+    title: "Agence marketing pour entreprises a Dakar",
+    metaDescription: "Agence marketing pour Dakar : generation de leads, publicite Facebook, SEO local, creation de logo, automatisation IA et logiciels metier pour entreprises senegalaises.",
+    lead: "Depuis Abidjan, LGM accompagne les entreprises de Dakar avec des systemes marketing adaptes aux marches francophones et aux cycles commerciaux locaux.",
+    proof: ["Strategie adaptee aux entreprises senegalaises", "Campagnes Meta et Google pilotees a distance", "Reporting clair pour les equipes commerciales"],
+  },
+  {
+    slug: "douala-cameroun",
+    city: "Douala",
+    country: "Cameroun",
+    title: "Agence marketing pour entreprises au Cameroun",
+    metaDescription: "Agence marketing pour le Cameroun : publicite digitale, agence Facebook, SEO/AEO/GEO, IA, automatisation, sites web et logiciels sur mesure depuis Abidjan.",
+    lead: "LGM aide les entreprises au Cameroun a clarifier leur offre, generer des prospects qualifies et mettre en place des outils marketing mesurables.",
+    proof: ["Approche adaptee aux marches francophones", "Acquisition, conversion et fidelisation", "Automatisation, CRM et suivi commercial"],
+  },
+  {
+    slug: "ouagadougou",
+    city: "Ouagadougou",
+    country: "Burkina Faso",
+    title: "Agence marketing pour entreprises a Ouagadougou",
+    metaDescription: "Agence marketing pour Ouagadougou : publicite digitale, Facebook Ads, SEO local, creation de logo, sites web, automatisation IA et logiciels sur mesure.",
+    lead: "LGM accompagne les entreprises de Ouagadougou qui veulent passer d'actions marketing dispersees a un systeme commercial plus lisible.",
+    proof: ["Accompagnement a distance structure", "Pages, campagnes et formulaires de qualification", "Services marketing, communication et IA dans un seul systeme"],
+  },
+];
+
+export const findServiceArea = (slug?: string) => serviceAreaPages.find((area) => area.slug === slug);
