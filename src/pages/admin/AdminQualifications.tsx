@@ -27,7 +27,45 @@ interface QualificationSubmission {
   eligibility_status: string;
   source_page: string | null;
   created_at: string;
+  monthly_revenue_band: string | null;
+  team_size_band: string | null;
+  anchor_reaction: string | null;
+  daily_ad_budget_ready_5k: boolean | null;
+  coherence_score: number | null;
+  budget_band: string | null;
+  coherence_flags: string[] | null;
 }
+
+const revenueBandLabel: Record<string, string> = {
+  lt_500k: "Moins de 500 000 FCFA",
+  "500k_2m": "500 000 a 2 000 000 FCFA",
+  "2m_10m": "2 a 10 millions FCFA",
+  "10m_50m": "10 a 50 millions FCFA",
+  gt_50m: "Plus de 50 millions FCFA",
+};
+
+const teamSizeLabel: Record<string, string> = {
+  solo: "Solo / freelance",
+  "2_5": "2 a 5 personnes",
+  "6_20": "6 a 20 personnes",
+  "21_50": "21 a 50 personnes",
+  gt_50: "Plus de 50",
+};
+
+const anchorReactionLabel: Record<string, string> = {
+  affordable: "Dans mes moyens",
+  possible: "Eleve mais possible si ROI",
+  too_much: "Trop pour aujourd'hui",
+};
+
+const bandBadge = (band: string | null, flags: string[] | null) => {
+  const hasFlags = Array.isArray(flags) && flags.length > 0;
+  if (hasFlags) return { label: "A requalifier", className: "bg-red-500/15 text-red-400 border-red-500/30" };
+  if (band === "high") return { label: "Budget eleve", className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" };
+  if (band === "medium") return { label: "Budget moyen", className: "bg-amber-500/15 text-amber-400 border-amber-500/30" };
+  if (band === "low") return { label: "Budget faible", className: "bg-orange-500/15 text-orange-400 border-orange-500/30" };
+  return { label: "Non calibre", className: "bg-muted text-muted-foreground border-border" };
+};
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString("fr-FR", {
