@@ -21,7 +21,7 @@ const Index = () => {
         <title>LGM | Agence marketing et communication a Abidjan</title>
         <meta
           name="description"
-          content="Agence marketing et communication a Abidjan : publicite digitale, Facebook Ads, generation de leads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure."
+          content="Agence marketing et communication a Abidjan : Facebook Ads, generation de leads, SEO/AEO/GEO, sites web, IA et automatisation."
         />
         <meta
           name="keywords"

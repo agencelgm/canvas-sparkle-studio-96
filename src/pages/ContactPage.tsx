@@ -8,7 +8,7 @@ const ContactPage = () => (
   <PageLayout>
     <Helmet>
       <title>Formulaire de qualification | Agence marketing LGM Abidjan</title>
-      <meta name="description" content="Remplissez le formulaire de qualification LGM a Abidjan pour publicite digitale, Facebook Ads, SEO/AEO/GEO, logo, site web, IA, automatisation ou logiciel sur mesure." />
+      <meta name="description" content="Remplissez le formulaire de qualification LGM a Abidjan : Facebook Ads, SEO/AEO/GEO, sites web, IA et automatisation." />
       <link rel="canonical" href="https://lgm.marketing/contact" />
       <meta property="og:url" content="https://lgm.marketing/contact" />
       <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />

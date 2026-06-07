@@ -121,15 +121,18 @@ const BlogPostPage = () => {
     ],
   };
 
+  const rawDescription = post.excerpt || post.title;
+  const metaDescription = rawDescription.length <= 158 ? rawDescription : `${rawDescription.slice(0, 157).trimEnd()}…`;
+
   return (
     <PageLayout>
       <Helmet>
         <title>{post.title} | LGM Blog</title>
-        <meta name="description" content={post.excerpt || post.title} />
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt || post.title} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={ogImage} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>

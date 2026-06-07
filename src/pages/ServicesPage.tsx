@@ -9,7 +9,7 @@ const ServicesPage = () => (
   <PageLayout>
     <Helmet>
       <title>Services marketing, communication, IA et logiciel | LGM Abidjan</title>
-      <meta name="description" content="Services LGM a Abidjan : agence marketing, agence de communication, publicite digitale, Facebook Ads, SEO/AEO/GEO, logo, sites web, automatisation IA et logiciel sur mesure." />
+      <meta name="description" content="Services LGM a Abidjan : marketing, communication, Facebook Ads, SEO/AEO/GEO, sites web, IA, automatisation et logiciel sur mesure." />
       <link rel="canonical" href="https://lgm.marketing/services" />
       <meta property="og:url" content="https://lgm.marketing/services" />
       <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />

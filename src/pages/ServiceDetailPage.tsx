@@ -41,7 +41,8 @@ const ServiceDetailPage = () => {
     areaServed: serviceAreaPages.map((area) => ({ "@type": "City", name: `${area.city}, ${area.country}` })),
     url: canonicalUrl,
   };
-  const metaDescription = `${service.description} Service disponible pour Abidjan, Dakar, Douala, Ouagadougou et les entreprises francophones.`;
+  const clampMeta = (text: string, max = 158) => (text.length <= max ? text : `${text.slice(0, max - 1).trimEnd()}…`);
+  const metaDescription = clampMeta(`${service.title} a Abidjan : ${service.description}`);
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

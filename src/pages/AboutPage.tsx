@@ -29,7 +29,7 @@ const AboutPage = () => {
   <PageLayout>
     <Helmet>
       <title>A propos | Agence marketing et communication a Abidjan | LGM</title>
-      <meta name="description" content="LGM est une agence marketing et communication basee a Abidjan. Nous structurons acquisition, publicite, SEO/AEO/GEO, creation, IA, automatisation et logiciels sur mesure." />
+      <meta name="description" content="LGM, agence marketing et communication a Abidjan : acquisition, SEO/AEO/GEO, creation, IA, automatisation et logiciels sur mesure." />
       <link rel="canonical" href="https://lgm.marketing/a-propos" />
       <meta property="og:url" content="https://lgm.marketing/a-propos" />
       <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
