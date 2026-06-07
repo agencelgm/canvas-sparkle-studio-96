@@ -23,37 +23,34 @@ const Framework = () => (
   <section id="framework" className="section-charcoal section-pad relative overflow-hidden">
     <div className="public-ambient public-ambient-one" aria-hidden="true" />
     <div className="container-wide relative z-10">
-      <div className="grid gap-12 lg:grid-cols-[0.82fr_1fr] lg:items-start">
-        <Reveal className="lg:sticky lg:top-32">
-          <p className="section-kicker">Methode ACF</p>
-          <h2 className="public-h2 max-w-3xl">Trois leviers, un seul moteur de croissance.</h2>
-          <p className="public-lead">
-            LGM ne traite pas la publicite, le site et le CRM comme des chantiers separes. Nous les relions pour que chaque prospect avance dans un systeme clair.
-          </p>
-          <div className="mt-8">
-            <MagneticLink to="/services" variant="outline">Explorer la methode</MagneticLink>
-          </div>
-        </Reveal>
-
-        <div className="space-y-6">
-          <Reveal>
-            <ImageFrame src={publicImages.method} alt="Schema editorial de la methode ACF avec trois leviers connectes" className="min-h-[360px]" />
-          </Reveal>
-          {pillars.map((pillar, index) => (
-            <Reveal key={pillar.title} delay={index * 0.08}>
-              <article className="public-card grid gap-5 p-5 md:grid-cols-[0.22fr_1fr] md:p-7">
-                <div className="font-display text-5xl font-extrabold text-[#f0d99633]">{index + 1}</div>
-                <div>
-                  <h3 className="public-h3 text-platinum">{pillar.title}</h3>
-                  <p className="public-body mt-3">{pillar.text}</p>
-                  <div className="tag-list mt-5">
-                    {pillar.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                  </div>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+      <Reveal className="mx-auto max-w-3xl text-center">
+        <p className="section-kicker">Methode ACF</p>
+        <h2 className="public-h2">Trois leviers, un seul moteur de croissance.</h2>
+        <p className="public-lead">
+          LGM ne traite pas la publicite, le site et le CRM comme des chantiers separes. Nous les relions pour que chaque prospect avance dans un systeme clair.
+        </p>
+        <div className="mt-8 flex justify-center">
+          <MagneticLink to="/services" variant="outline">Explorer la methode</MagneticLink>
         </div>
+      </Reveal>
+
+      <Reveal className="mx-auto mt-12 max-w-5xl">
+        <ImageFrame src={publicImages.method} alt="Schema editorial de la methode ACF avec trois leviers connectes" className="min-h-[320px]" />
+      </Reveal>
+
+      <div className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+        {pillars.map((pillar, index) => (
+          <Reveal key={pillar.title} delay={index * 0.08}>
+            <article className="public-card flex h-full flex-col gap-4 p-6 md:p-7">
+              <div className="font-display text-5xl font-extrabold text-[#f0d99633]">{index + 1}</div>
+              <h3 className="public-h3 text-platinum">{pillar.title}</h3>
+              <p className="public-body">{pillar.text}</p>
+              <div className="tag-list mt-auto pt-3">
+                {pillar.tags.map((tag) => <span key={tag}>{tag}</span>)}
+              </div>
+            </article>
+          </Reveal>
+        ))}
       </div>
     </div>
   </section>
