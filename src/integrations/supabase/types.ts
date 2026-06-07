@@ -115,6 +115,81 @@ export type Database = {
         }
         Relationships: []
       }
+      qualification_submissions: {
+        Row: {
+          budget_normalized: number
+          budget_raw: string
+          can_invest_10000_daily: boolean | null
+          can_invest_minimum: boolean
+          company_name: string | null
+          created_at: string
+          eligibility_status: string
+          email: string
+          has_business: boolean
+          has_invested_marketing: boolean | null
+          id: string
+          industry: string
+          location: string
+          name: string
+          objective_90_days: string
+          past_marketing_budget_normalized: number | null
+          past_marketing_budget_raw: string | null
+          past_marketing_result: string | null
+          phone: string
+          service: string
+          source_page: string | null
+          website_or_social: string | null
+        }
+        Insert: {
+          budget_normalized: number
+          budget_raw: string
+          can_invest_10000_daily?: boolean | null
+          can_invest_minimum?: boolean
+          company_name?: string | null
+          created_at?: string
+          eligibility_status?: string
+          email: string
+          has_business: boolean
+          has_invested_marketing?: boolean | null
+          id?: string
+          industry: string
+          location: string
+          name: string
+          objective_90_days: string
+          past_marketing_budget_normalized?: number | null
+          past_marketing_budget_raw?: string | null
+          past_marketing_result?: string | null
+          phone: string
+          service: string
+          source_page?: string | null
+          website_or_social?: string | null
+        }
+        Update: {
+          budget_normalized?: number
+          budget_raw?: string
+          can_invest_10000_daily?: boolean | null
+          can_invest_minimum?: boolean
+          company_name?: string | null
+          created_at?: string
+          eligibility_status?: string
+          email?: string
+          has_business?: boolean
+          has_invested_marketing?: boolean | null
+          id?: string
+          industry?: string
+          location?: string
+          name?: string
+          objective_90_days?: string
+          past_marketing_budget_normalized?: number | null
+          past_marketing_budget_raw?: string | null
+          past_marketing_result?: string | null
+          phone?: string
+          service?: string
+          source_page?: string | null
+          website_or_social?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
