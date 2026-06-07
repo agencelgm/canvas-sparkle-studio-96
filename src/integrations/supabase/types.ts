@@ -117,12 +117,17 @@ export type Database = {
       }
       qualification_submissions: {
         Row: {
+          anchor_reaction: string | null
+          budget_band: string | null
           budget_normalized: number
           budget_raw: string
           can_invest_10000_daily: boolean | null
           can_invest_minimum: boolean
+          coherence_flags: string[] | null
+          coherence_score: number | null
           company_name: string | null
           created_at: string
+          daily_ad_budget_ready_5k: boolean | null
           eligibility_status: string
           email: string
           has_business: boolean
@@ -130,6 +135,7 @@ export type Database = {
           id: string
           industry: string
           location: string
+          monthly_revenue_band: string | null
           name: string
           objective_90_days: string
           past_marketing_budget_normalized: number | null
@@ -138,15 +144,21 @@ export type Database = {
           phone: string
           service: string
           source_page: string | null
+          team_size_band: string | null
           website_or_social: string | null
         }
         Insert: {
+          anchor_reaction?: string | null
+          budget_band?: string | null
           budget_normalized: number
           budget_raw: string
           can_invest_10000_daily?: boolean | null
           can_invest_minimum?: boolean
+          coherence_flags?: string[] | null
+          coherence_score?: number | null
           company_name?: string | null
           created_at?: string
+          daily_ad_budget_ready_5k?: boolean | null
           eligibility_status?: string
           email: string
           has_business: boolean
@@ -154,6 +166,7 @@ export type Database = {
           id?: string
           industry: string
           location: string
+          monthly_revenue_band?: string | null
           name: string
           objective_90_days: string
           past_marketing_budget_normalized?: number | null
@@ -162,15 +175,21 @@ export type Database = {
           phone: string
           service: string
           source_page?: string | null
+          team_size_band?: string | null
           website_or_social?: string | null
         }
         Update: {
+          anchor_reaction?: string | null
+          budget_band?: string | null
           budget_normalized?: number
           budget_raw?: string
           can_invest_10000_daily?: boolean | null
           can_invest_minimum?: boolean
+          coherence_flags?: string[] | null
+          coherence_score?: number | null
           company_name?: string | null
           created_at?: string
+          daily_ad_budget_ready_5k?: boolean | null
           eligibility_status?: string
           email?: string
           has_business?: boolean
@@ -178,6 +197,7 @@ export type Database = {
           id?: string
           industry?: string
           location?: string
+          monthly_revenue_band?: string | null
           name?: string
           objective_90_days?: string
           past_marketing_budget_normalized?: number | null
@@ -186,6 +206,7 @@ export type Database = {
           phone?: string
           service?: string
           source_page?: string | null
+          team_size_band?: string | null
           website_or_social?: string | null
         }
         Relationships: []
