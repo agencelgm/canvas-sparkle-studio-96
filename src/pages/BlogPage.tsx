@@ -1,28 +1,11 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
-import { Arrow, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { Arrow, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import { blogCategories, blogPosts } from "@/data/blogContent";
 import { publicImages } from "@/data/publicContent";
-import { supabase } from "@/integrations/supabase/client";
-
-interface BlogCategory {
-  id: string;
-  name: string;
-  slug: string;
-}
-
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  featured_image: string | null;
-  published_at: string | null;
-  category_id: string | null;
-  blog_categories: BlogCategory | null;
-}
 
 const formatDate = (dateString: string | null) => {
   if (!dateString) return "Date a venir";
@@ -30,33 +13,15 @@ const formatDate = (dateString: string | null) => {
 };
 
 const BlogPage = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const [postsResult, categoriesResult] = await Promise.all([
-        supabase.from("blog_posts").select("*, blog_categories(*)").eq("published", true).order("published_at", { ascending: false }),
-        supabase.from("blog_categories").select("*").order("name"),
-      ]);
+  const publishedPosts = blogPosts
+    .filter((p) => p.published)
+    .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
 
-      if (postsResult.error || categoriesResult.error) {
-        setError(true);
-      } else {
-        setPosts((postsResult.data || []) as BlogPost[]);
-        setCategories(categoriesResult.data || []);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
-
-  const filteredPosts = selectedCategory ? posts.filter((post) => post.category_id === selectedCategory) : posts;
+  const filteredPosts = selectedCategory
+    ? publishedPosts.filter((post) => post.category_id === selectedCategory)
+    : publishedPosts;
 
   return (
     <PageLayout>
@@ -92,7 +57,7 @@ const BlogPage = () => {
               <button onClick={() => setSelectedCategory(null)} className={selectedCategory === null ? "btn-cobalt min-h-0 px-5 py-2" : "btn-cobalt-outline min-h-0 px-5 py-2"}>
                 Tous
               </button>
-              {categories.map((category) => (
+              {blogCategories.map((category) => (
                 <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={selectedCategory === category.id ? "btn-cobalt min-h-0 px-5 py-2" : "btn-cobalt-outline min-h-0 px-5 py-2"}>
                   {category.name}
                 </button>
@@ -100,16 +65,7 @@ const BlogPage = () => {
             </div>
           </Reveal>
 
-          {loading ? (
-            <div className="mt-12 grid gap-6 md:grid-cols-3">
-              {[0, 1, 2].map((item) => <div key={item} className="public-card h-80 animate-pulse" />)}
-            </div>
-          ) : error ? (
-            <div className="mt-12 public-card p-8 text-center">
-              <h2 className="public-h3 text-platinum">Impossible de charger les articles</h2>
-              <p className="public-body mx-auto mt-3 max-w-xl">Reessayez dans quelques instants ou contactez LGM directement.</p>
-            </div>
-          ) : filteredPosts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <div className="mt-12 public-card p-8 text-center">
               <h2 className="public-h3 text-platinum">Aucun article pour cette selection</h2>
               <p className="public-body mx-auto mt-3 max-w-xl">Les prochaines notes de terrain seront publiees ici.</p>
@@ -130,7 +86,7 @@ const BlogPage = () => {
                     </div>
                     <div className="flex h-full flex-col p-5 md:p-6">
                       <div className="flex items-center justify-between gap-4 text-xs font-bold text-[#f0d996]">
-                        <span>{post.blog_categories?.name || "LGM"}</span>
+                        <span>{post.blog_categories.name}</span>
                         <span>{formatDate(post.published_at)}</span>
                       </div>
                       <h2 className="public-h3 mt-5 text-[clamp(1.25rem,2vw,1.8rem)] transition-colors group-hover:text-[#f0d996]">{post.title}</h2>
