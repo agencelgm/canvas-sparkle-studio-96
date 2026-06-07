@@ -261,7 +261,17 @@ const QualificationForm = ({
 
   const scrollToFormTop = () => {
     requestAnimationFrame(() => {
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const el = formRef.current;
+      if (!el) return;
+      const HEADER_OFFSET = 96;
+      const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+      const target = Math.max(0, top);
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (t: number, o?: { immediate?: boolean; force?: boolean }) => void } }).__lenis;
+      if (lenis) {
+        lenis.scrollTo(target, { force: true });
+      } else {
+        window.scrollTo({ top: target, behavior: "smooth" });
+      }
     });
   };
 
