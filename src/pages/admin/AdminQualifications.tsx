@@ -186,9 +186,28 @@ const AdminQualifications = () => {
                       <Detail label="Resultat de l'investissement passe" value={selected.past_marketing_result || "Non renseigne"} />
                     </>
                   )}
-                  <Detail label="Capable d'investir minimum 270 000 FCFA" value={boolLabel(selected.can_invest_minimum)} />
-                  <Detail label="Pret a investir 10 000 FCFA / jour en publicite" value={boolLabel(selected.can_invest_10000_daily)} />
+                  <Detail label="Capable d'investir le minimum requis" value={boolLabel(selected.can_invest_minimum)} />
+                  <Detail label="Pret a investir 5 000 FCFA / jour en publicite" value={boolLabel(selected.daily_ad_budget_ready_5k ?? selected.can_invest_10000_daily)} />
                   <Detail label="Source" value={selected.source_page || "Non renseigne"} />
+                </div>
+
+                <div className="mt-6 rounded-lg border border-border bg-muted/30 p-5">
+                  <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-foreground">Calibration budget</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Detail label="CA mensuel declare" value={selected.monthly_revenue_band ? (revenueBandLabel[selected.monthly_revenue_band] || selected.monthly_revenue_band) : "Non renseigne"} />
+                    <Detail label="Taille de l'equipe" value={selected.team_size_band ? (teamSizeLabel[selected.team_size_band] || selected.team_size_band) : "Non renseigne"} />
+                    <Detail label="Reaction au plan 500 000 FCFA" value={selected.anchor_reaction ? (anchorReactionLabel[selected.anchor_reaction] || selected.anchor_reaction) : "Non renseigne"} />
+                    <Detail label="Score de coherence" value={selected.coherence_score !== null ? `${selected.coherence_score} / 100` : "Non calcule"} />
+                    <Detail label="Categorie de budget" value={selected.budget_band || "Non calcule"} />
+                  </div>
+                  {selected.coherence_flags && selected.coherence_flags.length > 0 && (
+                    <div className="mt-4 rounded-md border border-red-500/30 bg-red-500/10 p-3">
+                      <p className="mb-2 text-xs font-bold uppercase text-red-400">Drapeaux d'incoherence</p>
+                      <ul className="list-inside list-disc text-sm text-red-300">
+                        {selected.coherence_flags.map((flag) => <li key={flag}>{flag}</li>)}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
