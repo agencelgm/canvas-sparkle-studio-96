@@ -62,7 +62,7 @@ const BlogPage = () => {
     <PageLayout>
       <Helmet>
         <title>Blog marketing, publicite, SEO et IA | LGM Abidjan</title>
-        <meta name="description" content="Insights LGM depuis Abidjan sur agence marketing, publicite Facebook, SEO/AEO/GEO, generation de leads, IA, automatisation, logiciel sur mesure et communication." />
+        <meta name="description" content="Insights LGM depuis Abidjan : marketing, Facebook Ads, SEO/AEO/GEO, generation de leads, IA et automatisation." />
         <link rel="canonical" href="https://lgm.marketing/blog" />
         <meta property="og:url" content="https://lgm.marketing/blog" />
         <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
