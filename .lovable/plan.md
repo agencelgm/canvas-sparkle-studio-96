@@ -1,92 +1,79 @@
-# Calibration cachée du budget — formulaire de qualification
+# Refonte du formulaire de qualification
 
-## Objectif
+## 1. Champs supprimés (étape Entreprise)
 
-Trianguler la capacité d'investissement réelle du prospect via 3 questions indirectes posées à différentes étapes, plus 2 questions directes reformulées et espacées. Bloquer la soumission en cas d'incohérence forte. Stocker un score de cohérence visible côté admin.
+- **Ville / pays** → supprimé du formulaire ET de l'insertion DB (`location` envoyé comme chaîne vide ou `"Non renseigné"` pour respecter la contrainte NOT NULL existante).
+- **Site / page Facebook / Instagram / LinkedIn** → supprimé du formulaire (`website_or_social` envoyé à `null`).
 
-## 1. Nouvelles questions indirectes
+Pas de migration DB : on garde les colonnes pour l'historique.
 
-Réparties sur 3 étapes différentes pour éviter qu'on les voie « côte à côte ».
+## 2. Nouvelle structure : 4 étapes avec budget réparti
 
-### Étape « Entreprise »
+Au lieu d'empiler toutes les questions budget à la fin, on les disperse pour casser les patterns que les prospects peuvent reconnaître.
 
-- **Chiffre d'affaires mensuel** (fourchettes) :
-  - Moins de 500 000 FCFA
-  - 500 000 — 2 000 000 FCFA
-  - 2 — 10 millions FCFA
-  - 10 — 50 millions FCFA
-  - Plus de 50 millions FCFA
-- **Combien d'employés avez-vous à temps plein** :
-  - Solo / freelance
-  - 2 à 5 personnes
-  - 6 à 20 personnes
-  - 21 à 50 personnes
-  - Plus de 50
+### Étape 1 — Identité + signal CA
 
-### Étape « Budget » (en fin de parcours)
+- Nom, email, téléphone/WhatsApp
+- **Quel est votre Chiffre d'affaires mensuel approximatif** (déplacé ici depuis Entreprise) — présenté comme contexte de profil
 
-- **Test d'ancrage** : « Si LGM vous proposait un plan d'accompagnement à 500 000 FCFA/mois, votre première réaction serait… »
-  - C'est dans mes moyens
-  - C'est élevé mais possible si le ROI est là
-  - C'est trop pour moi aujourd'hui
+### Étape 2 — Entreprise + signal équipe + ancrage
 
-## 2. Questions directes — reformulées et déplacées
+- Avez-vous déjà une entreprise ?
+- nom (si oui)
+- **Combien d'employés à temps plein** (reste ici)
+- **Réaction au plan à 500 000 FCFA/mois** (déplacé depuis Budget) — posée tôt, avant que le prospect ne devine que c'est un test budget
 
-- **« Êtes-vous en mesure d'investir au minimum 270 000 FCFA »** → seuil porté à **405 000 FCFA**. Reste à l'étape Budget.
-- **Question « 10 000 FCFA/jour »** → reformulée en **« 5 000 FCFA par jour dans votre marketing »** ET **déplacée** hors de l'étape Budget : posée à l'étape **Objectif 90 jours**, juste après le détail de l'objectif (loin de la question 405k). Toujours conditionnée à `paidAdvertisingServices`.
+### Étape 3 — Besoin (multi-select) + signal pub quotidien
 
-## 3. Moteur de calibration (client + check serveur)
+- Quel est votre besoin principal ? **Sélection multiple** (1 ou plusieurs services)
+- **Si au moins un service de pub payante est sélectionné** : « Pouvez-vous mettre au moins 10 000 FCFA/jour dans votre marketing ? Soit un budget mensuel de 300 000 FCFA » (déplacé depuis Objectif)
+- L'étape « Publicité » (historique pub) est **fusionnée** dans cette étape, conditionnée comme avant à la sélection d'un service de pub payante : « Avez-vous déjà investi en marketing ? » + montant + résultat
 
-Calcul d'un `coherence_score` (0–100) et d'un `budget_band` (low / medium / high) à partir de :
+### Étape 4 — Objectif 90 jours (multi-select) + capacité 405k + budget conditionnel
 
+- Objectif principal à 90 jours : **sélection multiple**
+- Précisez votre objectif (textarea)
+- **Êtes-vous en mesure d'investir au minimum 405 000 FCFA ?** (Oui / Non)
+- **Si « Non » uniquement** : « Quel est votre budget marketing mensuel complet en FCFA ? » apparaît (avec la confirmation d'arrondi 1 000/10 000/100 000). Si « Oui », pas de question budget supplémentaire — on considère que 405k+ est confirmé.
 
-| Signal                 | Source                          | Mapping band                                              |
-| ---------------------- | ------------------------------- | --------------------------------------------------------- |
-| CA mensuel             | étape Entreprise                | <500k = low, 500k–2M = low/med, 2M–10M = med, >10M = high |
-| Taille équipe          | étape Entreprise                | solo/2-5 = low/med, 6-20 = med, >20 = high                |
-| Réaction ancrage 500k  | étape Budget                    | « trop » = low, « possible » = med, « moyens » = high     |
-| Capacité 405k déclarée | étape Budget                    | oui = ≥med, non = low                                     |
-| 5k/jour publicité      | étape Objectif (si pub payante) | oui = ≥med, non = low                                     |
+## 3. Stockage des sélections multiples
 
+`service` et `objective_90_days` restent en `text` en DB ; on **joint les valeurs avec " | "** côté client (`["Plus de leads", "Plus de ventes"].join(" | ")`). Pas de migration. `paidAdvertisingServices` test passe à « au moins un service de la sélection appartient au set pub payante ».
 
-**Règle de cohérence forte (bloque la soumission) :**
+## 4. Scroll auto en haut du formulaire à chaque étape
 
-- CA = « moins de 500k » **ET** capacité 405k = « oui » → incohérent
-- CA = « moins de 500k » **ET** réaction ancrage = « dans mes moyens » → incohérent
-- Capacité 405k = « non » **ET** réaction ancrage = « dans mes moyens » → incohérent
+Ajouter un `useRef` sur le `<form>` et, dans `goNext`/`goBack`, faire :
 
-Message inline : *« Vos réponses semblent incohérentes. Reprenez les étapes Entreprise et Budget avant d'envoyer. »* + lien vers l'étape concernée.
+```ts
+formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+```
 
-## 4. Base de données
+Compatible avec Lenis (qui intercepte scrollIntoView).
 
-Migration `qualification_submissions` — ajout colonnes :
+## 5. Lisibilité des questions
 
-- `monthly_revenue_band` text
-- `team_size_band` text
-- `anchor_reaction` text
-- `daily_ad_budget_ready_5k` boolean (remplace `can_invest_10000_daily` qui est conservé nullable pour l'historique)
-- `coherence_score` integer
-- `budget_band` text
-- `coherence_flags` text[] (liste des règles déclenchées, vide si cohérent)
+Les libellés actuels (`.contact-label`) sont visuellement écrasés par le titre `public-h3`. On augmente la taille/poids des libellés de questions dans ce formulaire uniquement, via une classe locale :
 
-Les nouveaux champs sont nullables pour ne pas casser les anciennes lignes.
+```
+question-label : text-base md:text-lg font-bold text-platinum (clair ou foncé selon tone)
+```
 
-## 5. Admin — affichage
+Appliquée à tous les `<p className="contact-label">` qui introduisent un bloc de choix, et au `<label>` des champs principaux. Le titre `public-h3` peut être légèrement réduit (`text-[clamp(1.2rem,1.8vw,1.6rem)]`) pour rééquilibrer la hiérarchie.
 
-`src/pages/admin/AdminQualifications.tsx` :
+## 6. Calibration — adaptations
 
-- Badge couleur sur la liste : vert (cohérent + budget_band ≥ med), jaune (low ou flags faibles), rouge (flags forts — ne sera plus soumis mais montre l'historique).
-- Détail : panneau « Calibration budget » qui affiche les 3 signaux indirects, la question directe, le score, et la liste des flags.
+Le moteur `computeCalibration` reste, mais :
 
-## 6. Fichiers modifiés
+- `normalizedBudget` devient optionnel (seulement présent si l'utilisateur a répondu « Non » à 405k).
+- Règle bloquante adaptée : si `canInvestMinimum === "no"` ET `monthlyBudgetRaw` < 405 000 → toujours marqué incohérent avec l'ancrage « affordable », flagué mais pas bloquant (le « non » est cohérent en soi).
+- Les 3 incohérences fortes existantes restent.
 
-- `src/components/QualificationForm.tsx` — nouveaux champs FormData, nouveaux blocs UI sur les 3 étapes, reformulation 270→405k et déplacement 10k→5k, moteur de calibration côté soumission, blocage si incohérence forte.
-- `src/data/publicContent.ts` — exporter les options des bandes CA / équipe / ancrage (centralisé).
-- `src/pages/admin/AdminQualifications.tsx` — type + affichage badge + panneau calibration.
-- Migration Supabase pour les nouvelles colonnes.
+## 7. Fichiers modifiés
+
+- `src/components/QualificationForm.tsx` — restructuration steps, multi-select UI (toggle), suppression champs location/website, scroll-to-top, classe question-label, conditionnel budget.
+- Aucune migration DB.
 
 ## Hors scope
 
-- Pas de refonte des étapes existantes (Identité, Service, Histoire).
-- Pas de A/B testing des formulations.
-- Pas de webhook / notification — uniquement stockage + affichage admin.
+- Aucun changement sur l'admin (`AdminQualifications.tsx`) — les colonnes restent identiques, l'affichage continue de fonctionner.
+- Pas de refonte du design global de la carte formulaire.
