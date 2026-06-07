@@ -18,18 +18,25 @@ LGM accompagne les PME et entreprises ambitieuses a Abidjan, Dakar, Douala, Ouag
 ## Qualification
 Le formulaire de qualification verifie si LGM est la bonne agence pour le prospect. Les accompagnements commencent a 270 000 FCFA minimum. Pour la publicite payante, il faut aussi prevoir au moins 10 000 FCFA par jour de budget media, soit environ 300 000 FCFA par mois.
 
-## Zones
-- Abidjan, Cote d'Ivoire : https://lgm.marketing/zones/abidjan
-- Dakar, Senegal : https://lgm.marketing/zones/dakar
-- Douala, Cameroun : https://lgm.marketing/zones/douala-cameroun
-- Ouagadougou, Burkina Faso : https://lgm.marketing/zones/ouagadougou
+## Pages
+- [Accueil](/): Agence marketing et communication a Abidjan : publicite digitale, Facebook Ads, SEO/AEO/GEO, sites web, IA et automatisation.
+- [A propos](/a-propos): Presentation de LGM, equipe, methode ACF et valeurs.
+- [Services](/services): Tous les services marketing, communication, IA et logiciel sur mesure.
+- [Blog](/blog): Articles, insights et ressources pour entreprises en Afrique francophone.
+- [Contact](/contact): Formulaire de qualification et informations de contact.
+- [Abidjan](/zones/abidjan): Agence marketing et communication a Abidjan.
+- [Dakar](/zones/dakar): Agence marketing pour entreprises a Dakar.
 
-## URLs cles
-- Accueil : https://lgm.marketing/
-- A propos : https://lgm.marketing/a-propos
-- Services : https://lgm.marketing/services
-- Blog : https://lgm.marketing/blog
-- Formulaire de qualification : https://lgm.marketing/contact
+## Services
+- [Generation de leads](/services/generation-leads): Meta Ads, Google Ads, landing pages et nurturing.
+- [SEO, AEO & GEO a Abidjan](/services/seo-local): SEO technique, pages locales, Google Business et signaux de confiance.
+- [Publicite digitale](/services/publicite-digitale): Campagnes Facebook, Instagram, Google Ads et retargeting.
+- [Sites web](/services/developpement-web): Landing pages rapides, design oriente conversion et CRO.
+- [IA et automatisation](/services/automatisation-ia): Agents IA, CRM, relances, scoring et dashboards.
+- [Creation de logo](/services/creation-logo-identite): Logo, charte graphique, identite visuelle et branding.
+- [Logiciel sur mesure](/services/logiciel-sur-mesure): CRM internes, portails clients, dashboards et outils metier.
+- [Formations](/services/formations-webinaires): Ateliers et webinaires pour equipes marketing et commerciales.
+- [Agence Facebook & Meta Ads](/services/publicite-facebook): Campagnes Facebook et Instagram avec ciblage local.
 
 ## Contact
 Adresse : Chateau, Camp Militaire, Angre, Abidjan, Cote d'Ivoire.
