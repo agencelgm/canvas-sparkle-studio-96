@@ -3,7 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import RelatedLinks from "@/components/seo/RelatedLinks";
 import { findServiceArea, publicImages, publicServices, siteContact } from "@/data/publicContent";
+import { codeGraph, findNode } from "@/data/siteGraph";
 
 const baseUrl = "https://lgm.marketing";
 
@@ -97,6 +100,15 @@ const ServiceAreaPage = () => {
 
       <section className="section-platinum section-pad-tight">
         <div className="container-wide">
+          <Breadcrumbs
+            tone="light"
+            className="mb-6"
+            items={[
+              { label: "Accueil", to: "/" },
+              { label: "Zones", to: "/services" },
+              { label: area.city },
+            ]}
+          />
           <Link to="/services" className="mb-9 inline-flex items-center gap-2 text-sm font-bold text-[#d7b46a]">
             <BackArrow />
             Voir tous les services
@@ -151,6 +163,11 @@ const ServiceAreaPage = () => {
           </div>
         </div>
       </section>
+
+      {(() => {
+        const node = findNode(codeGraph, `/zones/${area.slug}`);
+        return node ? <RelatedLinks current={node} count={6} /> : null;
+      })()}
 
       <FinalCTA
         title={`Vous cherchez une agence marketing pour ${area.city} ?`}

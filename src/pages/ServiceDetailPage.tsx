@@ -3,7 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import RelatedLinks from "@/components/seo/RelatedLinks";
 import { findService, publicImages, serviceAreaPages } from "@/data/publicContent";
+import { codeGraph, findNode } from "@/data/siteGraph";
 
 const ServiceDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -74,6 +77,15 @@ const ServiceDetailPage = () => {
 
       <section className="section-platinum section-pad-tight">
         <div className="container-wide">
+          <Breadcrumbs
+            tone="light"
+            className="mb-6"
+            items={[
+              { label: "Accueil", to: "/" },
+              { label: "Services", to: "/services" },
+              { label: service.title },
+            ]}
+          />
           <Link to="/services" className="mb-9 inline-flex items-center gap-2 text-sm font-bold text-[#d7b46a]">
             <BackArrow />
             Tous les services
@@ -122,6 +134,11 @@ const ServiceDetailPage = () => {
           </div>
         </div>
       </section>
+
+      {(() => {
+        const node = findNode(codeGraph, `/services/${service.slug}`);
+        return node ? <RelatedLinks current={node} count={6} /> : null;
+      })()}
 
       <FinalCTA title={`Vous voulez activer ${service.title.toLowerCase()} avec methode ?`} text="Nous commencons par comprendre vos objectifs, votre marche et les freins actuels avant de proposer une feuille de route." />
     </PageLayout>

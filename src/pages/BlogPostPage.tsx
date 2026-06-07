@@ -4,8 +4,19 @@ import { Link, useParams } from "react-router-dom";
 import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, Reveal } from "@/components/public/PublicPrimitives";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import RelatedLinks from "@/components/seo/RelatedLinks";
 import { publicImages } from "@/data/publicContent";
+import type { PageNode } from "@/data/siteGraph";
 import { supabase } from "@/integrations/supabase/client";
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 interface BlogPost {
   id: string;
