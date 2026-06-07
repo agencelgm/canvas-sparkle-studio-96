@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { Arrow, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages } from "@/data/publicContent";
@@ -81,6 +82,7 @@ const BlogPage = () => {
         lead="Guides, analyses et notes de terrain pour comprendre ce qui fait avancer acquisition, conversion et fidelisation."
         image={publicImages.blog}
         imageAlt="Bureau editorial avec calendrier de contenu, veille marketing et analytics de croissance"
+        rightSlot={<DiagnosticHeroSlot sourcePage="blog-hero" />}
       />
 
       <section className="section-charcoal section-pad-tight">

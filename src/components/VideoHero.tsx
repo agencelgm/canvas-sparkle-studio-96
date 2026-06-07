@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 const TEXT_PHASES = [
   {
@@ -179,9 +180,9 @@ const VideoHero = () => {
                     transition={{ delay: 0.25, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="flex flex-wrap gap-4"
                   >
-                    <Link to="/contact">
+                    <Link to="#diagnostic" onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)}>
                       <button className="btn-gold group flex items-center gap-3">
-                        DÃ©couvrir la mÃ©thode
+                        Demander un audit
                         <span className="w-7 h-7 rounded-full bg-black/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                           <ArrowRight className="w-3.5 h-3.5" />
                         </span>

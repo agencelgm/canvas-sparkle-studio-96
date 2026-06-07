@@ -9,6 +9,7 @@ import Services from "@/components/Services";
 import WhyLGM from "@/components/WhyLGM";
 import FAQ from "@/components/FAQ";
 import ContactSection from "@/components/ContactSection";
+import QuickResponseBand from "@/components/QuickResponseBand";
 import Footer from "@/components/Footer";
 import { publicImages } from "@/data/publicContent";
 import { faqSchema, localBusinessSchema, websiteSchema } from "@/lib/faqSchema";
@@ -52,6 +53,7 @@ const Index = () => {
           <FAQ />
           <ContactSection />
         </main>
+        <QuickResponseBand />
         <Footer />
       </div>
     </>

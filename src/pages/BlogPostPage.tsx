@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages } from "@/data/publicContent";
@@ -127,15 +128,20 @@ const BlogPostPage = () => {
       <section className="public-page-hero">
         <img src={post.featured_image || publicImages.blog} alt={post.title} className="absolute inset-0 h-full w-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,11,18,0.62),rgba(7,11,18,0.92))]" />
-        <div className="container-narrow relative z-10 pt-32">
-          <Link to="/blog" className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-[#f0d996]">
-            <BackArrow />
-            Retour au blog
-          </Link>
-          <Reveal>
-            <p className="section-kicker">{post.blog_categories?.name || "Insight"}</p>
-            <h1 className="public-h1 max-w-[13ch]">{post.title}</h1>
-            <p className="mt-6 text-sm font-bold text-platinum/64">{formatDate(post.published_at)}</p>
+        <div className="container-wide relative z-10 grid gap-10 pt-32 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:items-start">
+          <div>
+            <Link to="/blog" className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-[#f0d996]">
+              <BackArrow />
+              Retour au blog
+            </Link>
+            <Reveal>
+              <p className="section-kicker">{post.blog_categories?.name || "Insight"}</p>
+              <h1 className="public-h1 max-w-[13ch]">{post.title}</h1>
+              <p className="mt-6 text-sm font-bold text-platinum/64">{formatDate(post.published_at)}</p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.12} className="diagnostic-hero-panel">
+            <DiagnosticHeroSlot sourcePage={`blog-post-${post.slug}`} />
           </Reveal>
         </div>
       </section>

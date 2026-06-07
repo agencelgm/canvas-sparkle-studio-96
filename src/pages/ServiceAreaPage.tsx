@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
 import { findServiceArea, publicImages, publicServices, siteContact } from "@/data/publicContent";
@@ -91,6 +92,7 @@ const ServiceAreaPage = () => {
         lead={area.lead}
         image={publicImages.contact}
         imageAlt={`Agence marketing LGM pour les entreprises a ${area.city}, avec campagnes, prospects, CRM et automatisation`}
+        rightSlot={<DiagnosticHeroSlot sourcePage={`zone-${area.slug}`} />}
       />
 
       <section className="section-platinum section-pad-tight">
@@ -99,18 +101,18 @@ const ServiceAreaPage = () => {
             <BackArrow />
             Voir tous les services
           </Link>
-          <div className="grid gap-10 lg:grid-cols-[0.74fr_1fr] lg:items-start">
+          <div className="grid gap-10 lg:grid-cols-[0.74fr_1fr] lg:items-center">
             <Reveal>
               <p className="section-kicker text-[#d7b46a]">Position locale</p>
-              <h2 className="public-h2 max-w-3xl text-platinum-text">LGM est basee a Abidjan, mais l'accompagnement n'est pas limite par la ville.</h2>
+              <h2 className="public-h2 public-h2-long text-platinum-text">LGM est basee a Abidjan, mais l'accompagnement n'est pas limite par la ville.</h2>
               <p className="public-lead text-platinum-muted">
                 Nous combinons strategie marketing, creation, publicite, SEO, IA et developpement logiciel pour aider les entreprises de {area.city} a structurer un vrai flux de prospects et de clients.
               </p>
             </Reveal>
             <Reveal delay={0.12}>
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid auto-rows-fr gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
                 {area.proof.map((item) => (
-                  <article key={item} className="border-t border-[rgba(16,24,39,0.14)] pt-4">
+                  <article key={item} className="diagnostic-benefit-card">
                     <span className="mb-4 block h-2 w-2 rounded-full bg-[#d7b46a]" aria-hidden="true" />
                     <p className="font-semibold leading-relaxed text-platinum-text">{item}</p>
                   </article>
@@ -153,7 +155,6 @@ const ServiceAreaPage = () => {
       <FinalCTA
         title={`Vous cherchez une agence marketing pour ${area.city} ?`}
         text={`Remplissez le formulaire de qualification. Nous verifierons si LGM est la meilleure agence pour votre objectif commercial a 90 jours.`}
-        button="Remplir le formulaire"
       />
     </PageLayout>
   );

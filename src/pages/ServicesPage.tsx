@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { Arrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages, publicServices } from "@/data/publicContent";
@@ -44,6 +45,7 @@ const ServicesPage = () => (
       lead="Agence marketing, agence de communication, publicite Facebook, SEO/AEO/GEO, IA, automatisation, sites web, logo et logiciels sur mesure : chaque service renforce le systeme ACF de votre entreprise."
       image={publicImages.services}
       imageAlt="Poste de travail marketing avec landing page, acquisition de prospects et contenus sociaux"
+      rightSlot={<DiagnosticHeroSlot sourcePage="services-hero" />}
     />
 
     <section className="section-charcoal section-pad-tight">
@@ -92,7 +94,7 @@ const ServicesPage = () => (
       </div>
     </section>
 
-    <FinalCTA title="Vous ne savez pas encore quel service choisir ?" text="C'est normal. L'audit sert justement a identifier le levier qui creera le plus d'impact en premier." button="Demander un diagnostic" />
+    <FinalCTA title="Vous ne savez pas encore quel service choisir ?" text="C'est normal. L'audit sert justement a identifier le levier qui creera le plus d'impact en premier." />
   </PageLayout>
 );
 

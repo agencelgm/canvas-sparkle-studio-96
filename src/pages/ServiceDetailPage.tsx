@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { BackArrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
 import { findService, publicImages, serviceAreaPages } from "@/data/publicContent";
@@ -68,6 +69,7 @@ const ServiceDetailPage = () => {
         lead={service.headline}
         image={publicImages.services}
         imageAlt={`Environnement marketing professionnel pour piloter ${service.title.toLowerCase()} et le flux de prospects`}
+        rightSlot={<DiagnosticHeroSlot sourcePage={`service-${service.slug}`} />}
       />
 
       <section className="section-platinum section-pad-tight">
@@ -76,16 +78,16 @@ const ServiceDetailPage = () => {
             <BackArrow />
             Tous les services
           </Link>
-          <div className="grid gap-10 lg:grid-cols-[0.78fr_1fr] lg:items-start">
+          <div className="grid gap-10 lg:grid-cols-[0.82fr_1fr] lg:items-center">
             <Reveal>
               <p className="section-kicker text-[#d7b46a]">Pourquoi ce levier</p>
-              <h2 className="public-h2 max-w-3xl text-platinum-text">{service.headline}</h2>
+              <h2 className="public-h2 public-h2-long text-platinum-text">{service.headline}</h2>
               <p className="public-lead text-platinum-muted">{service.description}</p>
             </Reveal>
             <Reveal delay={0.12}>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
                 {service.benefits.map((benefit) => (
-                  <div key={benefit} className="border-t border-[rgba(16,24,39,0.16)] pt-4">
+                  <div key={benefit} className="diagnostic-benefit-card flex flex-col justify-between">
                     <span className="mb-4 block h-2 w-2 rounded-full bg-[#d7b46a]" aria-hidden="true" />
                     <p className="font-semibold leading-relaxed text-platinum-text">{benefit}</p>
                   </div>
@@ -121,7 +123,7 @@ const ServiceDetailPage = () => {
         </div>
       </section>
 
-      <FinalCTA title={`Vous voulez activer ${service.title.toLowerCase()} avec methode ?`} text="Nous commencons par comprendre vos objectifs, votre marche et les freins actuels avant de proposer une feuille de route." button="Parler de ce service" />
+      <FinalCTA title={`Vous voulez activer ${service.title.toLowerCase()} avec methode ?`} text="Nous commencons par comprendre vos objectifs, votre marche et les freins actuels avant de proposer une feuille de route." />
     </PageLayout>
   );
 };

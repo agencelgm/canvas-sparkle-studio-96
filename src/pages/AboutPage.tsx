@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { FinalCTA, ImageFrame, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages } from "@/data/publicContent";
@@ -54,7 +55,7 @@ const AboutPage = () => {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,11,18,0.45),rgba(7,11,18,0.2)_36%,rgba(7,11,18,0.92))]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_64%,rgba(215,180,106,0.18),transparent_34%)]" />
 
-      <div className="container-wide relative z-10 pb-14 pt-28 md:pb-[clamp(4rem,9vw,7rem)] md:pt-32">
+      <div className="container-wide relative z-10 grid gap-10 pb-14 pt-28 md:pb-[clamp(4rem,9vw,7rem)] md:pt-32 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:items-start">
         <motion.div style={{ y: titleY }} className="max-w-5xl">
           <p className="section-kicker">L'agence</p>
           <h1 className="public-h1 max-w-[14ch]">
@@ -64,6 +65,9 @@ const AboutPage = () => {
           <p className="public-lead max-w-[54ch] text-platinum/78">
             LGM existe pour aider les entreprises ambitieuses basees a Abidjan, Dakar, Douala et Ouagadougou a transformer leur presence digitale en moteur commercial mesurable.
           </p>
+        </motion.div>
+        <motion.div className="diagnostic-hero-panel" style={{ y: titleY }}>
+          <DiagnosticHeroSlot sourcePage="about-hero" />
         </motion.div>
       </div>
     </section>
@@ -124,7 +128,7 @@ const AboutPage = () => {
       </div>
     </section>
 
-    <FinalCTA title="Votre marque merite une execution aussi serieuse que votre ambition." text="Le premier appel sert a comprendre votre contexte, pas a vous vendre une formule toute faite." button="Reserver un audit" />
+    <FinalCTA title="Votre marque merite une execution aussi serieuse que votre ambition." text="Le diagnostic sert a comprendre votre contexte avant de vous proposer une formule qui ne serait pas adaptee." />
   </PageLayout>
   );
 };

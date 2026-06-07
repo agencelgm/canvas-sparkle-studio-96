@@ -99,11 +99,21 @@ const lightOptionClass = (active: boolean) =>
 
 type QualificationFormProps = {
   sourcePage: string;
+  variant?: "full" | "hero";
   tone?: "dark" | "light";
   className?: string;
+  introTitle?: string;
+  introBody?: string;
 };
 
-const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: QualificationFormProps) => {
+const QualificationForm = ({
+  sourcePage,
+  variant = "full",
+  tone = "dark",
+  className = "",
+  introTitle,
+  introBody,
+}: QualificationFormProps) => {
   const [formData, setFormData] = useState<FormData>(emptyForm);
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
@@ -112,9 +122,17 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
   const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const isPaidAdvertising = paidAdvertisingServices.has(formData.service);
+  const isHero = variant === "hero";
   const optionButtonClass = tone === "light" ? lightOptionClass : optionClass;
   const mutedText = tone === "light" ? "text-platinum-muted" : "text-platinum/64";
   const strongText = tone === "light" ? "text-platinum-text" : "text-platinum";
+  const formTitle = introTitle || "Voyez si LGM peut vraiment vous aider.";
+  const formBody =
+    introBody ||
+    "En quelques questions, vous clarifiez votre objectif, votre budget et le levier prioritaire avant de perdre du temps dans un appel inutile.";
+  const identityGridClass = isHero ? "grid gap-4" : "grid gap-5 sm:grid-cols-2";
+  const optionGridClass = isHero ? "grid gap-2" : "grid gap-3 sm:grid-cols-2";
+  const threeOptionGridClass = isHero ? "grid gap-2" : "grid gap-3 sm:grid-cols-3";
 
   const steps = useMemo(() => {
     const base: { id: StepId; label: string }[] = [
@@ -273,12 +291,16 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
   };
 
   return (
-    <form onSubmit={submit} className={`public-card p-5 md:p-7 ${className}`} noValidate>
-      <div className="mb-6 flex flex-wrap items-center gap-2">
+    <form
+      onSubmit={submit}
+      className={`public-card ${isHero ? "p-4 shadow-[0_26px_80px_rgba(0,0,0,0.28)] md:p-5 xl:p-6" : "p-5 md:p-7"} ${className}`}
+      noValidate
+    >
+      <div className={`${isHero ? "mb-4" : "mb-6"} flex flex-wrap items-center gap-2`}>
         {steps.map((item, index) => (
           <span
             key={item.id}
-            className={`rounded-full border px-3 py-1 text-xs font-bold ${
+            className={`rounded-full border ${isHero ? "px-2.5 py-1 text-[0.66rem]" : "px-3 py-1 text-xs"} font-bold ${
               index === currentStep
                 ? "border-[#f0d996] text-[#f0d996]"
                 : tone === "light"
@@ -291,16 +313,16 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
         ))}
       </div>
 
-      <div className="mb-6">
-        <p className="section-kicker mb-2">Formulaire d'application</p>
-        <h3 className={`public-h3 ${strongText}`}>Valider si LGM est la bonne agence pour vous.</h3>
-        <p className={`public-body mt-3 ${mutedText}`}>
-          Ces questions nous aident a filtrer les demandes et a comprendre votre objectif commercial avant un premier echange.
+      <div className={isHero ? "mb-5" : "mb-6"}>
+        <p className="section-kicker mb-2">{isHero ? "Diagnostic" : "Diagnostic LGM"}</p>
+        <h3 className={`public-h3 ${isHero ? "text-[clamp(1.35rem,2vw,1.85rem)]" : ""} ${strongText}`}>{formTitle}</h3>
+        <p className={`public-body mt-3 ${isHero ? "text-sm leading-6" : ""} ${mutedText}`}>
+          {formBody}
         </p>
       </div>
 
       {current.id === "identity" && (
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className={identityGridClass}>
           <div>
             <label htmlFor={`${sourcePage}-name`} className="contact-label">Nom complet *</label>
             <input id={`${sourcePage}-name`} className="contact-field" value={formData.name} onChange={(event) => updateField("name", event.target.value)} placeholder="Votre nom" />
@@ -309,7 +331,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
             <label htmlFor={`${sourcePage}-phone`} className="contact-label">Telephone / WhatsApp *</label>
             <input id={`${sourcePage}-phone`} className="contact-field" value={formData.phone} onChange={(event) => updateField("phone", event.target.value)} placeholder="+225 07 00 00 00 00" />
           </div>
-          <div className="sm:col-span-2">
+          <div className={isHero ? "" : "sm:col-span-2"}>
             <label htmlFor={`${sourcePage}-email`} className="contact-label">Email *</label>
             <input id={`${sourcePage}-email`} type="email" className="contact-field" value={formData.email} onChange={(event) => updateField("email", event.target.value)} placeholder="vous@entreprise.com" />
           </div>
@@ -320,7 +342,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
         <div className="space-y-5">
           <div>
             <p className="contact-label">Avez-vous deja une entreprise ? *</p>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className={optionGridClass}>
               <button type="button" className={optionButtonClass(formData.hasBusiness === "yes")} onClick={() => updateField("hasBusiness", "yes")}>Oui, j'ai deja une entreprise</button>
               <button type="button" className={optionButtonClass(formData.hasBusiness === "no")} onClick={() => updateField("hasBusiness", "no")}>Pas encore / projet en creation</button>
             </div>
@@ -331,7 +353,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
               <input id={`${sourcePage}-company`} className="contact-field" value={formData.companyName} onChange={(event) => updateField("companyName", event.target.value)} placeholder="Nom de votre entreprise" />
             </div>
           )}
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className={identityGridClass}>
             <div>
               <label htmlFor={`${sourcePage}-industry`} className="contact-label">Secteur d'activite *</label>
               <input id={`${sourcePage}-industry`} className="contact-field" value={formData.industry} onChange={(event) => updateField("industry", event.target.value)} placeholder="Immobilier, e-commerce, education..." />
@@ -351,7 +373,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
       {current.id === "service" && (
         <div>
           <p className="contact-label">Quel est votre besoin principal ? *</p>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className={optionGridClass}>
             {qualificationServiceOptions.map((service) => (
               <button key={service} type="button" className={optionButtonClass(formData.service === service)} onClick={() => updateField("service", service)}>
                 {service}
@@ -365,7 +387,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
         <div className="space-y-5">
           <div>
             <p className="contact-label">Avez-vous deja investi dans le marketing ou la publicite ? *</p>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className={optionGridClass}>
               <button type="button" className={optionButtonClass(formData.hasInvestedMarketing === "yes")} onClick={() => updateField("hasInvestedMarketing", "yes")}>Oui, deja investi</button>
               <button type="button" className={optionButtonClass(formData.hasInvestedMarketing === "no")} onClick={() => updateField("hasInvestedMarketing", "no")}>Non, pas encore</button>
             </div>
@@ -389,7 +411,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
         <div className="space-y-5">
           <div>
             <p className="contact-label">Quel est votre objectif principal au bout de 90 jours ? *</p>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className={optionGridClass}>
               {objectiveOptions.map((objective) => (
                 <button key={objective} type="button" className={optionButtonClass(formData.objective90 === objective)} onClick={() => updateField("objective90", objective)}>
                   {objective}
@@ -408,7 +430,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
         <div className="space-y-5">
           <div>
             <p className="contact-label">Etes-vous en mesure d'investir au minimum {formatAmount(MINIMUM_INVESTMENT)} pour travailler avec LGM ? *</p>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className={optionGridClass}>
               <button type="button" className={optionButtonClass(formData.canInvestMinimum === "yes")} onClick={() => updateField("canInvestMinimum", "yes")}>Oui, je peux investir ce minimum</button>
               <button type="button" className={optionButtonClass(formData.canInvestMinimum === "no")} onClick={() => updateField("canInvestMinimum", "no")}>Non, pas pour le moment</button>
             </div>
@@ -421,7 +443,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
           {budgetOptions && (
             <div className="rounded-md border border-[#f0d99640] p-4">
               <p className={`text-sm font-bold ${strongText}`}>Confirmez votre montant : vous voulez dire...</p>
-              <div className="mt-3 grid gap-3 sm:grid-cols-3">
+              <div className={`mt-3 ${threeOptionGridClass}`}>
                 {budgetOptions.map((option) => (
                   <button
                     key={option}
@@ -441,7 +463,7 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
           {isPaidAdvertising && (
             <div>
               <p className="contact-label">Etes-vous pret a investir au moins {formatAmount(DAILY_AD_BUDGET)} par jour dans la publicite de votre entreprise, soit environ {formatAmount(MONTHLY_AD_BUDGET)} par mois ? *</p>
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className={threeOptionGridClass}>
                 <button type="button" className={optionButtonClass(formData.dailyAdBudgetReady === "yes")} onClick={() => updateField("dailyAdBudgetReady", "yes")}>Oui</button>
                 <button type="button" className={optionButtonClass(formData.dailyAdBudgetReady === "no")} onClick={() => updateField("dailyAdBudgetReady", "no")}>Non</button>
                 <button type="button" className={optionButtonClass(formData.dailyAdBudgetReady === "later")} onClick={() => updateField("dailyAdBudgetReady", "later")}>Pas encore</button>
@@ -461,18 +483,18 @@ const QualificationForm = ({ sourcePage, tone = "dark", className = "" }: Qualif
 
       {submitState === "success" && (
         <p className="mt-5 rounded-md border border-[#f0d99640] bg-[#f0d99614] p-4 text-sm font-semibold text-[#f0d996]">
-          Application recue. Nous analysons votre demande et nous revenons vers vous si LGM est le bon partenaire.
+          Diagnostic recu. Nous analysons votre situation et nous revenons vers vous si LGM peut vraiment vous aider.
         </p>
       )}
 
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+      <div className={`${isHero ? "mt-5" : "mt-7"} flex flex-col gap-3 sm:flex-row`}>
         {currentStep > 0 && (
           <button type="button" className="btn-cobalt-outline min-h-0 px-5 py-3" onClick={goBack} disabled={submitState === "loading"}>
             Retour
           </button>
         )}
         <button type="submit" className="btn-cobalt min-h-0 flex-1 px-5 py-3" disabled={submitState === "loading"}>
-          {submitState === "loading" ? "Envoi en cours" : current.id === "budget" ? "Envoyer mon application" : "Continuer"}
+          {submitState === "loading" ? "Envoi en cours" : current.id === "budget" ? "Envoyer mon diagnostic" : "Continuer"}
         </button>
       </div>
     </form>

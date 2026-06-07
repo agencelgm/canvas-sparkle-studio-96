@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet-async";
+import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
-import QualificationForm from "@/components/QualificationForm";
 import { ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
-import { publicImages, siteContact } from "@/data/publicContent";
+import { publicImages } from "@/data/publicContent";
 
 const ContactPage = () => (
   <PageLayout>
@@ -28,35 +28,32 @@ const ContactPage = () => (
       lead="Avant de parler solution, nous voulons comprendre votre entreprise, votre budget et l'objectif que vous voulez atteindre en 90 jours."
       image={publicImages.contact}
       imageAlt="Rendez-vous d'audit marketing autour d'un ordinateur et d'un pipeline de prospects"
+      rightSlot={<DiagnosticHeroSlot sourcePage="contact-hero" />}
     />
 
     <section className="section-charcoal section-pad-tight">
-      <div className="container-wide grid gap-12 lg:grid-cols-[0.74fr_1fr] lg:items-start">
+      <div className="container-wide grid gap-12 lg:grid-cols-[0.74fr_1fr] lg:items-center">
         <Reveal>
-          <p className="section-kicker">Formulaire d'application</p>
-          <h2 className="public-h2 max-w-3xl">Quelques questions pour filtrer les bonnes demandes.</h2>
+          <p className="section-kicker">Pourquoi commencer ici</p>
+          <h2 className="public-h2 public-h2-long">Un audit d'abord, pour eviter les appels inutiles.</h2>
           <p className="public-lead">
-            Nos accompagnements commencent a 270 000 FCFA. Pour les demandes publicitaires, il faut aussi prevoir un budget media d'au moins 10 000 FCFA par jour.
+            Le diagnostic vous aide a savoir rapidement si votre besoin, votre budget et votre objectif a 90 jours correspondent a ce que LGM peut vraiment traiter.
           </p>
-          <div className="mt-8 grid gap-4">
-            <a href={siteContact.whatsapp} target="_blank" rel="noreferrer" className="public-card p-5 text-platinum/72 transition-colors hover:text-platinum">
-              <span className="block text-sm font-bold text-[#f0d996]">Besoin d'une reponse maintenant ?</span>
-              <span className="mt-1 block text-lg font-bold">WhatsApp {siteContact.phoneDisplay}</span>
-              <span className="mt-1 block text-sm text-platinum/52">{siteContact.hours}</span>
-            </a>
-            <a href={`tel:${siteContact.phoneHref}`} className="public-card p-5 text-platinum/72 transition-colors hover:text-platinum">
-              <span className="block text-sm font-bold text-[#f0d996]">Appel service client</span>
-              <span className="mt-1 block text-lg font-bold">{siteContact.phoneDisplay}</span>
-            </a>
-            <a href={`mailto:${siteContact.email}`} className="public-card p-5 text-platinum/72 transition-colors hover:text-platinum">
-              <span className="block text-sm font-bold text-[#f0d996]">Email</span>
-              <span className="mt-1 block text-lg font-bold">{siteContact.email}</span>
-            </a>
-          </div>
         </Reveal>
 
         <Reveal delay={0.12}>
-          <QualificationForm sourcePage="contact" />
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              "Vous clarifiez le levier prioritaire avant de parler solution.",
+              "Vous savez tout de suite si le budget minimum est coherent.",
+              "Vous evitez un appel commercial si LGM n'est pas le bon partenaire.",
+            ].map((benefit) => (
+              <article key={benefit} className="diagnostic-benefit-card diagnostic-benefit-card-dark">
+                <span className="mb-4 block h-2 w-2 rounded-full bg-[#f0d996]" aria-hidden="true" />
+                <p className="font-semibold leading-relaxed text-platinum">{benefit}</p>
+              </article>
+            ))}
+          </div>
         </Reveal>
       </div>
     </section>

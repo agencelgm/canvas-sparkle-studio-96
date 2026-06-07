@@ -2,6 +2,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import ParticleBackground from "@/components/canvas/ParticleBackground";
+import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 const CTA = () => {
   return (
@@ -55,14 +56,14 @@ const CTA = () => {
             className="text-muted-foreground font-sans leading-relaxed mb-12 mx-auto max-w-[48ch]"
             style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)" }}
           >
-            RÃƒÂ©servez une consultation gratuite. En 30 minutes, nous analysons votre situation et vous proposons un plan d'activation ACF sur mesure.
+            Demandez un audit. Nous analysons votre situation et identifions si LGM peut vraiment vous aider avant de planifier un appel.
           </p>
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact">
+            <Link to="#diagnostic" onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)}>
               <button className="btn-gold group flex items-center gap-3">
-                Consultation gratuite
+                Demander un audit
                 <span className="w-7 h-7 rounded-full bg-black/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>

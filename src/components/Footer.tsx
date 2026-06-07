@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { navLinks, serviceAreaPages, siteContact } from "@/data/publicContent";
 import { Arrow, EASE } from "@/components/public/PublicPrimitives";
+import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 const Footer = () => (
   <footer className="section-charcoal border-t border-[#f0d9961f] py-12 md:py-16">
@@ -21,12 +22,9 @@ const Footer = () => (
             Agence marketing et communication basee a Abidjan. Nous structurons acquisition, conversion, fidelisation, IA et automatisation pour les entreprises ambitieuses des marches francophones.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href={siteContact.whatsapp} target="_blank" rel="noreferrer" className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
-              WhatsApp
-            </a>
-            <a href={`mailto:${siteContact.email}`} className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
-              Email
-            </a>
+            <Link to="#diagnostic" onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)} className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
+              Demander un audit
+            </Link>
           </div>
         </div>
 

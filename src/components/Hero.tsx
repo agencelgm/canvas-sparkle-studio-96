@@ -1,8 +1,10 @@
 ﻿import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
+import QualificationForm from "@/components/QualificationForm";
 import { publicImages } from "@/data/publicContent";
 import { Arrow } from "@/components/public/PublicPrimitives";
+import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -23,7 +25,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,11,18,0.34),rgba(7,11,18,0.14)_36%,rgba(7,11,18,0.9))]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_64%,rgba(215,180,106,0.18),transparent_34%)]" />
 
-      <div className="container-wide relative z-10 pb-14 pt-28 md:pb-[clamp(4rem,9vw,7rem)] md:pt-32">
+      <div className="container-wide relative z-10 grid gap-10 pb-14 pt-28 md:pb-[clamp(4rem,9vw,7rem)] md:pt-32 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:items-start">
         <motion.div style={{ y: titleY }} className="max-w-6xl">
           <p className="section-kicker">Agence marketing et communication a Abidjan</p>
           <h1 className="public-h1 hero-title max-w-[11ch]">
@@ -33,16 +35,15 @@ const Hero = () => {
           <p className="public-lead max-w-[54ch] text-platinum/78">
             LGM aide les entreprises a Abidjan et dans les marches francophones a generer des prospects, lancer des campagnes Facebook, renforcer leur SEO/AEO/GEO et automatiser leur suivi commercial.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link to="/contact" className="btn-cobalt group">
+          <div className="mt-8">
+            <Link to="#diagnostic" onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)} className="btn-cobalt group">
               <span>Demander un audit</span>
               <span className="btn-arrow-orb"><Arrow /></span>
             </Link>
-            <Link to="/services" className="btn-cobalt-outline group">
-              <span>Voir les services</span>
-              <span className="btn-arrow-orb"><Arrow /></span>
-            </Link>
           </div>
+        </motion.div>
+        <motion.div id="diagnostic" className="diagnostic-hero-panel" style={{ y: imageY }}>
+          <QualificationForm sourcePage="home-hero" variant="hero" />
         </motion.div>
       </div>
     </section>

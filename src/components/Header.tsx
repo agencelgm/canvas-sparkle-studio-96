@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import type { To } from "react-router-dom";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { navLinks, siteContact } from "@/data/publicContent";
+import { navLinks } from "@/data/publicContent";
 import { EASE } from "@/components/public/PublicPrimitives";
+import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -14,7 +16,7 @@ const Header = () => {
 
   useEffect(() => {
     setMenuOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -24,6 +26,7 @@ const Header = () => {
   }, [menuOpen]);
 
   const isActive = (href: string) => location.pathname === href || (href !== "/" && location.pathname.startsWith(`${href}/`));
+  const diagnosticTo: To = { pathname: location.pathname, search: location.search, hash: "#diagnostic" };
 
   return (
     <>
@@ -71,11 +74,8 @@ const Header = () => {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <a href={siteContact.whatsapp} target="_blank" rel="noreferrer" className="public-text-link text-[0.82rem]">
-              WhatsApp
-            </a>
-            <Link to="/contact" className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
-              Audit gratuit
+            <Link to={diagnosticTo} onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)} className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
+              Demander un audit
             </Link>
           </div>
 
@@ -128,7 +128,7 @@ const Header = () => {
                 </motion.div>
               ))}
             </nav>
-            <Link to="/contact" className="btn-cobalt w-full justify-center">
+            <Link to={diagnosticTo} onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)} className="btn-cobalt w-full justify-center">
               Demander un audit
             </Link>
           </motion.div>

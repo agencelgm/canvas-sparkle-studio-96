@@ -1,12 +1,18 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const location = useLocation();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  useLayoutEffect(() => {
+    if (location.hash) {
+      if (location.hash === "#diagnostic") scrollToDiagnostic();
+      return;
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location.key, location.pathname, location.search, location.hash]);
 
   return null;
 };
