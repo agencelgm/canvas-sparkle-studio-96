@@ -25,7 +25,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,11,18,0.34),rgba(7,11,18,0.14)_36%,rgba(7,11,18,0.9))]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_64%,rgba(215,180,106,0.18),transparent_34%)]" />
 
-      <div className="container-wide relative z-10 grid gap-10 pb-14 pt-28 md:pb-[clamp(4rem,9vw,7rem)] md:pt-32 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:items-start">
+      <div className="container-wide relative z-10 grid gap-10 pb-24 pt-28 md:pb-[clamp(6rem,11vw,9rem)] md:pt-32 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.82fr)] lg:items-start">
         <motion.div style={{ y: titleY }} className="max-w-6xl">
           <p className="section-kicker">Agence marketing et communication a Abidjan</p>
           <h1 className="public-h1 hero-title max-w-[11ch]">
