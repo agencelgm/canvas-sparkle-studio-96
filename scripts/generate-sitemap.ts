@@ -31,6 +31,8 @@ const staticEntries: Entry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
   { path: "/a-propos", changefreq: "monthly", priority: "0.7", lastmod: today },
   { path: "/services", changefreq: "monthly", priority: "0.9", lastmod: today },
+  { path: "/services/logo", changefreq: "monthly", priority: "0.85", lastmod: today },
+  { path: "/services/site-internet", changefreq: "monthly", priority: "0.85", lastmod: today },
   { path: "/blog", changefreq: "weekly", priority: "0.75", lastmod: today },
   { path: "/contact", changefreq: "monthly", priority: "0.7", lastmod: today },
 ];
