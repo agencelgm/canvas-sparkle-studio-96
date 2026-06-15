@@ -24,6 +24,8 @@ import AdminCategories from "./pages/admin/AdminCategories";
 import AdminContacts from "./pages/admin/AdminContacts";
 import AdminQualifications from "./pages/admin/AdminQualifications";
 import NotFound from "./pages/NotFound";
+import ServicesLogoPage from "./pages/ServicesLogoPage";
+import ServicesSiteInternetPage from "./pages/ServicesSiteInternetPage";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/a-propos" element={<AboutPage />} />
               <Route path="/services" element={<ServicesPage />} />
+              <Route path="/services/logo" element={<ServicesLogoPage />} />
+              <Route path="/services/site-internet" element={<ServicesSiteInternetPage />} />
               <Route path="/services/:slug" element={<ServiceDetailPage />} />
               <Route path="/zones/:slug" element={<ServiceAreaPage />} />
               <Route path="/contact" element={<ContactPage />} />

@@ -85,6 +85,39 @@ export type Database = {
           },
         ]
       }
+      demandes_services: {
+        Row: {
+          id: string
+          type: "logo" | "site"
+          pack_selectionne: string | null
+          reponses: Record<string, unknown>
+          nom: string
+          whatsapp: string
+          email: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          type: "logo" | "site"
+          pack_selectionne?: string | null
+          reponses?: Record<string, unknown>
+          nom: string
+          whatsapp: string
+          email: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          type?: "logo" | "site"
+          pack_selectionne?: string | null
+          reponses?: Record<string, unknown>
+          nom?: string
+          whatsapp?: string
+          email?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
