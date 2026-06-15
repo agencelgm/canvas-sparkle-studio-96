@@ -172,7 +172,7 @@ export default function LogoQuestionnaire({ initialPack }: { initialPack?: strin
     if (!validate()) return;
     setSubmitting(true);
     setSubmitError("");
-    const { error } = await (supabase as ReturnType<typeof import("@supabase/supabase-js").createClient>)
+    const { error } = await supabase
       .from("demandes_services")
       .insert({
         type: "logo",
