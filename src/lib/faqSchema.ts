@@ -41,7 +41,7 @@ export const localBusinessSchema = {
   email: siteContact.email,
   priceRange: "A partir de 270000 FCFA",
   image: `${baseUrl}/images/og-lgm.jpg`,
-  logo: `${baseUrl}/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png`,
+  logo: `${baseUrl}/lovable-uploads/lgm-logo-light.png`,
   address: {
     "@type": "PostalAddress",
     streetAddress: siteContact.address,
