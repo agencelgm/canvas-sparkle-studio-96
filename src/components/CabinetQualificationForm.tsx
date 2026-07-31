@@ -26,13 +26,6 @@ const clientSourceOptions = [
   "Pas de démarche structurée pour le moment",
 ];
 
-const objectiveOptions = [
-  "1 à 10 prospects qualifiés",
-  "10 à 30 prospects qualifiés",
-  "Plus de 30 prospects qualifiés",
-  "Autre objectif",
-];
-
 // Fourchettes proposées quand le budget de 405 000 FCFA n'est pas envisageable.
 // `value` = borne basse, utilisée pour budget_normalized et le seuil de qualification.
 const budgetRangeOptions = [
@@ -53,8 +46,7 @@ type FormData = {
   clientSource: string;
   hasInvestedAds: YesNo;
   pastAdBudgetRaw: string;
-  objective90: string;
-  objectiveOther: string;
+  objectiveText: string;
   canInvestMinimum: YesNo;
   budgetRange: string;
   isDecisionMaker: YesNo;
@@ -68,8 +60,7 @@ const emptyForm: FormData = {
   clientSource: "",
   hasInvestedAds: "",
   pastAdBudgetRaw: "",
-  objective90: "",
-  objectiveOther: "",
+  objectiveText: "",
   canInvestMinimum: "",
   budgetRange: "",
   isDecisionMaker: "",
@@ -89,7 +80,7 @@ const steps: { id: StepId; label: string }[] = [
 
 const stepFields: Record<StepId, (keyof FormData)[]> = {
   cabinet: ["cabinetName", "clientSource"],
-  marketing: ["hasInvestedAds", "pastAdBudgetRaw", "objective90", "objectiveOther"],
+  marketing: ["hasInvestedAds", "pastAdBudgetRaw", "objectiveText"],
   budget: ["canInvestMinimum", "budgetRange", "isDecisionMaker"],
   contact: ["fullName", "phone", "email"],
 };
@@ -138,9 +129,8 @@ const CabinetQualificationForm = () => {
             ? "Entrez un montant complet en chiffres (exemple : 150000)."
             : "Indiquez votre budget mensuel moyen.";
     }
-    if (!formData.objective90) errors.objective90 = "Choisissez votre objectif principal.";
-    if (formData.objective90 === "Autre objectif" && formData.objectiveOther.trim().length < 5)
-      errors.objectiveOther = "Précisez votre objectif en quelques mots.";
+    if (formData.objectiveText.trim().length < 10)
+      errors.objectiveText = "Décrivez ce que vous cherchez à obtenir.";
     if (!formData.canInvestMinimum) errors.canInvestMinimum = "Répondez à la question sur le budget.";
     if (formData.canInvestMinimum === "no" && !formData.budgetRange)
       errors.budgetRange = "Choisissez la fourchette qui correspond à votre budget.";
@@ -212,10 +202,7 @@ const CabinetQualificationForm = () => {
     if (!monthlyBudget) return;
 
     const pastBudget = formData.hasInvestedAds === "yes" ? parseBudgetAmount(formData.pastAdBudgetRaw) : null;
-    const objective =
-      formData.objective90 === "Autre objectif"
-        ? `Autre : ${formData.objectiveOther.trim()}`
-        : `${formData.objective90} dans les 90 prochains jours`;
+    const objective = formData.objectiveText.trim();
 
     const eligibility =
       monthlyBudget >= cabinetLeadConfig.priorityMinBudget
@@ -371,41 +358,20 @@ const CabinetQualificationForm = () => {
             </div>
           )}
 
-          <div id="cab-block-objective90">
-            <p className={questionLabelClass}>
-              Combien de prospects qualifiés visez-vous dans les 90 prochains jours ? *
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {objectiveOptions.map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  className={optionClass(formData.objective90 === option)}
-                  onClick={() => updateField("objective90", option)}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-            {fieldError("objective90")}
+          <div id="cab-block-objectiveText">
+            <label htmlFor="cab-objectiveText" className={questionLabelClass}>
+              Que cherchez-vous exactement à obtenir dans les 90 prochains jours ? *
+            </label>
+            <textarea
+              id="cab-objectiveText"
+              className={`${inputClass("objectiveText")} min-h-[120px] resize-y`}
+              value={formData.objectiveText}
+              onChange={(e) => updateField("objectiveText", e.target.value)}
+              placeholder="Exemple : signer 3 nouveaux mandats comptables de PME, remplir mon agenda de rendez-vous pendant la période fiscale..."
+              {...inputA11y("objectiveText")}
+            />
+            {fieldError("objectiveText")}
           </div>
-
-          {formData.objective90 === "Autre objectif" && (
-            <div id="cab-block-objectiveOther">
-              <label htmlFor="cab-objectiveOther" className={questionLabelClass}>
-                Précisez votre objectif *
-              </label>
-              <input
-                id="cab-objectiveOther"
-                className={inputClass("objectiveOther")}
-                value={formData.objectiveOther}
-                onChange={(e) => updateField("objectiveOther", e.target.value)}
-                placeholder="Exemple : décrocher 3 mandats de commissariat aux comptes"
-                {...inputA11y("objectiveOther")}
-              />
-              {fieldError("objectiveOther")}
-            </div>
-          )}
         </div>
       )}
 

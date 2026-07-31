@@ -7,35 +7,29 @@ import { siteContact } from "@/data/publicContent";
 const proofStats = [
   { value: "x7", label: "ROI moyen constaté chez les clients accompagnés plus de 6 mois" },
   { value: "24 h", label: "pour étudier votre demande et vous répondre" },
-  { value: "12+", label: "secteurs suivis entre Abidjan, Dakar, Douala et Ouagadougou" },
+  { value: "12+", label: "secteurs d'activité accompagnés à Abidjan" },
 ];
 
-const trustPoints = [
+const processSteps = [
   {
-    title: "Garantie de performance",
-    body: "Active dès le deuxième mois d'accompagnement : si les résultats ne sont pas au rendez-vous, les frais d'agence vous sont remboursés.",
+    step: "1",
+    title: "Remplissez le formulaire",
+    body: "Vous recevez une réponse : votre cabinet est éligible ou non.",
   },
-  {
-    title: "Pensé pour les cabinets",
-    body: "Crédibilité, conformité, clients à forte valeur : une approche adaptée aux cabinets comptables, pas une formule générique.",
-  },
-  {
-    title: "Étude avant l'appel",
-    body: "Votre situation est analysée par un membre de l'équipe avant votre rendez-vous — pas par un robot.",
-  },
-];
-
-const nextSteps = [
-  { step: "1", title: "Vous remplissez le formulaire", body: "2 minutes, quelques questions simples." },
   {
     step: "2",
-    title: "Nous étudions votre situation",
-    body: "Si nous pouvons vous aider, vous réservez un appel directement avec notre équipe.",
+    title: "Réservez un rendez-vous en ligne",
+    body: "Pas besoin de vous déplacer : l'appel se fait depuis votre bureau ou votre domicile.",
   },
   {
     step: "3",
-    title: "Vous recevez un plan concret",
-    body: "Objectifs, budget, leviers prioritaires pour attirer des prospects qualifiés vers votre cabinet.",
+    title: "On échange sur votre situation",
+    body: "Nous approfondissons vos objectifs et votre façon actuelle de trouver des clients.",
+  },
+  {
+    step: "4",
+    title: "Vous recevez un plan marketing",
+    body: "Si nous pouvons vous aider : un plan qui montre exactement ce que nous ferons pour attirer plus de prospects et développer votre cabinet.",
   },
 ];
 
@@ -87,23 +81,22 @@ const CabinetsComptablesPage = () => {
               <p className="section-kicker !mb-3">Pour les cabinets comptables et experts-comptables à Abidjan</p>
 
               <h1 className="font-display text-[clamp(2rem,5.4vw,3.9rem)] font-extrabold leading-[1.04] text-[#f0d996] [text-wrap:balance]">
-                Des prospects qualifiés pour votre cabinet chaque mois — ou nous vous remboursons les frais d'agence
+                Des prospects qualifiés pour votre cabinet chaque jour — ou nous vous remboursons les frais d'agence
               </h1>
 
               <button type="button" onClick={scrollToForm} className="btn-cobalt mt-6 w-full sm:w-auto lg:hidden">
                 Remplir le formulaire — 2 minutes
               </button>
 
-              <p className="public-lead text-platinum">
-                LGM est la seule agence de marketing digital à Abidjan qui garantit ses résultats aux cabinets
-                comptables. La plupart des cabinets dépendent encore du bouche-à-oreille : un flux irrégulier,
-                difficile à prévoir. Nous mettons en place un système qui vous apporte des prospects qualifiés chaque
-                mois.{" "}
-                <strong className="font-bold text-platinum">
-                  Et dès le deuxième mois, notre garantie de performance s'applique : si les résultats ne sont pas au
-                  rendez-vous, nous vous remboursons les frais d'agence.
-                </strong>
-              </p>
+              <div className="public-lead space-y-3 text-platinum">
+                <p>La plupart des cabinets dépendent encore du bouche-à-oreille et des références.</p>
+                <p>
+                  Résultat ? <strong className="font-bold">Un chiffre d'affaires irrégulier, difficile à prévoir.</strong>
+                </p>
+                <p>
+                  Chez LGM, nous mettons en place un système qui vous apporte des prospects qualifiés chaque jour.
+                </p>
+              </div>
 
               <div className="metric-rail mt-10">
                 {proofStats.map((stat) => (
@@ -114,13 +107,19 @@ const CabinetsComptablesPage = () => {
                 ))}
               </div>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {trustPoints.map((point) => (
-                  <div key={point.title} className="rounded-md border border-[rgba(240,217,150,0.18)] p-4">
-                    <p className="text-sm font-extrabold text-[#f0d996]">{point.title}</p>
-                    <p className="mt-2 text-xs leading-5 text-platinum/70">{point.body}</p>
-                  </div>
-                ))}
+              <div className="mt-8">
+                <p className="section-kicker">Comment ça marche</p>
+                <div className="space-y-4">
+                  {processSteps.map((item) => (
+                    <div key={item.step} className="flex gap-4 rounded-md border border-[rgba(240,217,150,0.18)] p-4">
+                      <span className="font-display text-xl font-extrabold text-[#f0d996]">{item.step}</span>
+                      <div>
+                        <p className="text-sm font-bold text-platinum">{item.title}</p>
+                        <p className="mt-1 text-xs leading-5 text-platinum/70">{item.body}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -140,20 +139,6 @@ const CabinetsComptablesPage = () => {
           </div>
         </section>
 
-        <section className="border-t border-[rgba(240,217,150,0.14)] bg-[#09101d]">
-          <div className="container-wide py-12 md:py-16">
-            <p className="section-kicker">Ce qui se passe ensuite</p>
-            <div className="grid gap-6 md:grid-cols-3">
-              {nextSteps.map((item) => (
-                <div key={item.step} className="rounded-md border border-[rgba(240,217,150,0.16)] p-5">
-                  <span className="font-display text-2xl font-extrabold text-[#f0d996]">{item.step}</span>
-                  <p className="mt-2 text-sm font-bold text-platinum">{item.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-platinum/70">{item.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-[rgba(240,217,150,0.14)] bg-[#070b12]">

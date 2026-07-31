@@ -108,6 +108,10 @@ const CabinetsMerciPage = () => {
                   </a>{" "}
                   et nous vous proposons un créneau.
                 </p>
+                <p className="mt-3 text-sm leading-6 text-platinum/70">
+                  Notre équipe vous contacte du lundi au vendredi, de 9h à 17h. En dehors de ces horaires, nous
+                  revenons vers vous le jour ouvré suivant.
+                </p>
               </div>
             )}
 
