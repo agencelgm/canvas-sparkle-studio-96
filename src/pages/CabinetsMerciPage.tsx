@@ -53,9 +53,8 @@ const CabinetsMerciPage = () => {
 
       <header className="border-b border-[rgba(240,217,150,0.14)]">
         <div className="container-wide flex items-center justify-between py-4">
-          <span className="font-display text-lg font-extrabold tracking-tight text-platinum">
-            LGM<span className="text-[#f0d996]">.</span>
-          </span>
+          <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM — Les Gens du Marketing" className="h-9 w-auto" />
+
           <span className="text-xs font-semibold text-platinum/60">Agence de marketing digital — Abidjan</span>
         </div>
       </header>
