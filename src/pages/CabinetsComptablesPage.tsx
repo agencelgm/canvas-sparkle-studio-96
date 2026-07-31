@@ -10,6 +10,49 @@ const proofStats = [
   { value: "12+", label: "secteurs d'activité accompagnés à Abidjan" },
 ];
 
+const cabinetFaqItems = [
+  {
+    question: "Que fait exactement LGM pour un cabinet comptable ?",
+    answer:
+      "Une seule chose : faire en sorte que votre téléphone sonne. Nous créons des opportunités de vente pour votre cabinet — des prospects qualifiés à qui vous pouvez proposer vos services. Tout ce que nous mettons en place sert cet unique objectif.",
+  },
+  {
+    question: "Quels outils utilisez-vous pour générer ces prospects ?",
+    answer:
+      "Publicité Facebook, création de sites internet, SEO, email marketing, systèmes d'intelligence artificielle et automatisations avec des agents IA. Les outils changent selon votre situation — l'objectif, lui, ne change pas : vous apporter des prospects.",
+  },
+  {
+    question: "Comment choisissez-vous les outils adaptés à mon cabinet ?",
+    answer:
+      "C'est justement le but de l'appel. Nous analysons votre situation, votre façon actuelle de trouver des clients et vos objectifs, puis nous vous présentons un plan marketing qui montre exactement ce que nous ferons — et avec quels outils.",
+  },
+  {
+    question: "Est-ce que je dois me déplacer ?",
+    answer:
+      "Non. Tout se fait en ligne : le rendez-vous se fait depuis votre bureau ou votre domicile, et le suivi à distance.",
+  },
+  {
+    question: "Combien ça coûte ?",
+    answer:
+      "Notre accompagnement complet démarre à 405 000 FCFA par mois — campagnes publicitaires, site, SEO et suivi inclus. Le montant exact dépend des leviers activés ; il est précisé dans le plan marketing présenté lors de l'appel.",
+  },
+  {
+    question: "Que se passe-t-il après avoir rempli le formulaire ?",
+    answer:
+      "Vous recevez une réponse sur l'éligibilité de votre cabinet. Si c'est positif, vous réservez un rendez-vous en ligne avec un membre de l'équipe. Nous vous contactons du lundi au vendredi, de 9h à 17h.",
+  },
+];
+
+const cabinetFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: cabinetFaqItems.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
+};
+
 const processSteps = [
   {
     step: "1",
@@ -63,6 +106,7 @@ const CabinetsComptablesPage = () => {
           name="description"
           content="LGM aide les cabinets comptables à Abidjan à obtenir des prospects qualifiés chaque mois, avec une garantie de résultats. Répondez à quelques questions pour voir si nous pouvons vous aider."
         />
+        <script type="application/ld+json">{JSON.stringify(cabinetFaqSchema)}</script>
       </Helmet>
 
       <header className="border-b border-[rgba(240,217,150,0.14)]">
@@ -139,6 +183,22 @@ const CabinetsComptablesPage = () => {
           </div>
         </section>
 
+        <section className="border-t border-[rgba(240,217,150,0.14)] bg-[#09101d]">
+          <div className="container-wide py-12 md:py-16">
+            <p className="section-kicker">Questions fréquentes</p>
+            <h2 className="font-display text-2xl font-extrabold text-platinum md:text-3xl">
+              Ce que vous devez savoir avant de nous contacter
+            </h2>
+            <div className="mt-8 grid max-w-3xl gap-6">
+              {cabinetFaqItems.map((item) => (
+                <article key={item.question} className="border-t border-[rgba(240,217,150,0.16)] pt-5">
+                  <h3 className="text-base font-bold text-platinum md:text-lg">{item.question}</h3>
+                  <p className="mt-2 text-sm leading-7 text-platinum/70">{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer className="border-t border-[rgba(240,217,150,0.14)] bg-[#070b12]">
