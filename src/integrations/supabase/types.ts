@@ -115,6 +115,42 @@ export type Database = {
         }
         Relationships: []
       }
+      demandes_services: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          nom: string | null
+          pack_selectionne: string | null
+          reponses: Json | null
+          type: string
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          nom?: string | null
+          pack_selectionne?: string | null
+          reponses?: Json | null
+          type: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          nom?: string | null
+          pack_selectionne?: string | null
+          reponses?: Json | null
+          type?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       qualification_submissions: {
         Row: {
           anchor_reaction: string | null
