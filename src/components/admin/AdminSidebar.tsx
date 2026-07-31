@@ -29,7 +29,7 @@ const AdminSidebar = () => {
           <img
             alt="LGM"
             className="h-8 w-auto"
-            src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png"
+            src="/lovable-uploads/lgm-logo-light.png"
           />
           <span className="font-semibold text-foreground">Admin</span>
         </Link>

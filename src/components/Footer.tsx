@@ -16,7 +16,7 @@ const Footer = () => (
       >
         <div>
           <Link to="/" aria-label="LGM, accueil" className="mb-6 inline-flex">
-            <img src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png" alt="LGM" className="h-10 w-auto" />
+            <img src="/lovable-uploads/lgm-logo-light.png" alt="LGM" className="h-10 w-auto" />
           </Link>
           <p className="public-body max-w-md">
             Agence marketing et communication basee a Abidjan. Nous structurons acquisition, conversion, fidelisation, IA et automatisation pour les entreprises ambitieuses des marches francophones.

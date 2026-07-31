@@ -68,7 +68,7 @@ const AdminLogin = () => {
             <img
               alt="LGM"
               className="h-12 w-auto mx-auto mb-4"
-              src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png"
+              src="/lovable-uploads/lgm-logo-light.png"
             />
             <h1 className="text-2xl font-bold text-foreground">Administration</h1>
             <p className="text-muted-foreground mt-2">Connectez-vous pour accÃ©der au tableau de bord</p>

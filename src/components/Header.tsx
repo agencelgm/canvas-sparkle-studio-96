@@ -51,7 +51,7 @@ const Header = () => {
         >
           <Link to="/" className="flex items-center gap-3" aria-label="LGM, accueil">
             <img
-              src="/lovable-uploads/6072f7c5-86f3-42f4-beea-4b8b7541758e.png"
+              src="/lovable-uploads/lgm-logo-light.png"
               alt="LGM"
               className="h-8 w-auto md:h-9"
             />
