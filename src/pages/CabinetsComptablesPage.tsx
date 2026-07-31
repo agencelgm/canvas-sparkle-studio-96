@@ -112,14 +112,15 @@ const CabinetsComptablesPage = () => {
       <header className="border-b border-[rgba(240,217,150,0.14)]">
         <div className="container-wide flex items-center justify-between py-4">
           <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM — Les Gens du Marketing" className="h-9 w-auto" />
-
-          <span className="text-xs font-semibold text-platinum/60">Agence de marketing digital — Abidjan</span>
+          <span className="hidden text-xs font-semibold text-platinum/60 sm:block">
+            Agence de marketing digital — Abidjan
+          </span>
         </div>
       </header>
 
       <main className="public-main">
         <section className="section-charcoal">
-          <div className="container-wide grid gap-12 py-10 md:py-16 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+          <div className="container-wide grid items-start gap-12 py-10 md:py-16 lg:grid-cols-[1fr_minmax(420px,0.9fr)] lg:gap-14">
             <div>
               <p className="section-kicker !mb-3">Pour les cabinets comptables et experts-comptables à Abidjan</p>
 
@@ -149,24 +150,9 @@ const CabinetsComptablesPage = () => {
                   </div>
                 ))}
               </div>
-
-              <div className="mt-8">
-                <p className="section-kicker">Comment ça marche</p>
-                <div className="space-y-4">
-                  {processSteps.map((item) => (
-                    <div key={item.step} className="flex gap-4 rounded-md border border-[rgba(240,217,150,0.18)] p-4">
-                      <span className="font-display text-xl font-extrabold text-[#f0d996]">{item.step}</span>
-                      <div>
-                        <p className="text-sm font-bold text-platinum">{item.title}</p>
-                        <p className="mt-1 text-xs leading-5 text-platinum/70">{item.body}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
 
-            <div id="formulaire" className="scroll-mt-6">
+            <div id="formulaire" className="scroll-mt-6 lg:sticky lg:top-24">
               <div className="public-card p-5 md:p-7">
                 <div className="mb-6 text-center">
                   <h2 className="font-display text-xl font-extrabold uppercase tracking-wide text-platinum md:text-2xl">
@@ -184,20 +170,48 @@ const CabinetsComptablesPage = () => {
 
         <section className="border-t border-[rgba(240,217,150,0.14)] bg-[#09101d]">
           <div className="container-wide py-12 md:py-16">
-            <p className="section-kicker">Questions fréquentes</p>
-            <h2 className="font-display text-2xl font-extrabold text-platinum md:text-3xl">
-              Ce que vous devez savoir avant de nous contacter
-            </h2>
-            <div className="mt-8 grid max-w-3xl gap-6">
-              {cabinetFaqItems.map((item) => (
-                <article key={item.question} className="border-t border-[rgba(240,217,150,0.16)] pt-5">
-                  <h3 className="text-base font-bold text-platinum md:text-lg">{item.question}</h3>
-                  <p className="mt-2 text-sm leading-7 text-platinum/70">{item.answer}</p>
-                </article>
+            <div className="text-center">
+              <p className="section-kicker">Comment ça marche</p>
+              <h2 className="font-display text-2xl font-extrabold text-platinum md:text-3xl">
+                Quatre étapes, sans déplacement
+              </h2>
+            </div>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {processSteps.map((item) => (
+                <div
+                  key={item.step}
+                  className="flex h-full flex-col rounded-md border border-[rgba(240,217,150,0.18)] p-5"
+                >
+                  <span className="font-display text-2xl font-extrabold text-[#f0d996]">{item.step}</span>
+                  <p className="mt-3 text-base font-bold text-platinum">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-platinum/70">{item.body}</p>
+                </div>
               ))}
             </div>
           </div>
         </section>
+
+        <section className="border-t border-[rgba(240,217,150,0.14)] bg-[#09101d]">
+          <div className="container-wide py-12 md:py-16">
+            <div className="mx-auto max-w-3xl">
+              <div className="text-center">
+                <p className="section-kicker">Questions fréquentes</p>
+                <h2 className="font-display text-2xl font-extrabold text-platinum md:text-3xl">
+                  Ce que vous devez savoir avant de nous contacter
+                </h2>
+              </div>
+              <div className="mt-8 grid gap-6">
+                {cabinetFaqItems.map((item) => (
+                  <article key={item.question} className="border-t border-[rgba(240,217,150,0.16)] pt-5">
+                    <h3 className="text-base font-bold text-platinum md:text-lg">{item.question}</h3>
+                    <p className="mt-2 text-sm leading-7 text-platinum/70">{item.answer}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <footer className="border-t border-[rgba(240,217,150,0.14)] bg-[#070b12]">
