@@ -15,8 +15,9 @@ const WhatsAppChannelCard = ({ title }: { title: string }) => (
       Rejoignez notre chaîne WhatsApp
     </h2>
     <p className="mt-3 text-sm leading-7 text-platinum/70">
-      2 à 3 conseils concrets par semaine pour attirer des clients à votre cabinet : exemples de publicités qui
-      fonctionnent à Abidjan, scripts de relance, erreurs à éviter. Gratuit — et vous partez quand vous voulez.
+      2 à 3 conseils concrets par semaine pour attirer des prospects qualifiés vers votre cabinet : exemples de
+      publicités qui fonctionnent à Abidjan, scripts de relance, erreurs à éviter. Gratuit — et vous partez quand
+      vous voulez.
     </p>
     <a
       href={cabinetLeadConfig.whatsappChannelUrl}

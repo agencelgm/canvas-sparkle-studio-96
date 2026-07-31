@@ -6,7 +6,7 @@ import { siteContact } from "@/data/publicContent";
 // Chiffres déjà publiés sur le site (SocialProof.tsx) — ne pas inventer de nouvelles statistiques.
 const proofStats = [
   { value: "x7", label: "ROI moyen constaté chez les clients accompagnés plus de 6 mois" },
-  { value: "90 j", label: "fenêtre moyenne pour voir les premiers résultats concrets" },
+  { value: "24 h", label: "pour étudier votre demande et vous répondre" },
   { value: "12+", label: "secteurs suivis entre Abidjan, Dakar, Douala et Ouagadougou" },
 ];
 
@@ -35,7 +35,7 @@ const nextSteps = [
   {
     step: "3",
     title: "Vous recevez un plan concret",
-    body: "Objectifs, budget, leviers prioritaires pour attirer des clients à votre cabinet.",
+    body: "Objectifs, budget, leviers prioritaires pour attirer des prospects qualifiés vers votre cabinet.",
   },
 ];
 
@@ -67,7 +67,7 @@ const CabinetsComptablesPage = () => {
         <title>Marketing digital pour cabinets comptables à Abidjan | Agence LGM</title>
         <meta
           name="description"
-          content="LGM aide les cabinets comptables à Abidjan à obtenir des clients qualifiés chaque mois, avec une garantie de résultats. Répondez à quelques questions pour voir si nous pouvons vous aider."
+          content="LGM aide les cabinets comptables à Abidjan à obtenir des prospects qualifiés chaque mois, avec une garantie de résultats. Répondez à quelques questions pour voir si nous pouvons vous aider."
         />
       </Helmet>
 
@@ -87,7 +87,7 @@ const CabinetsComptablesPage = () => {
               <p className="section-kicker !mb-3">Pour les cabinets comptables et experts-comptables à Abidjan</p>
 
               <h1 className="font-display text-[clamp(2rem,5.4vw,3.9rem)] font-extrabold leading-[1.04] text-[#f0d996] [text-wrap:balance]">
-                De nouveaux clients pour votre cabinet chaque mois — ou nous vous remboursons les frais d'agence
+                Des prospects qualifiés pour votre cabinet chaque mois — ou nous vous remboursons les frais d'agence
               </h1>
 
               <button type="button" onClick={scrollToForm} className="btn-cobalt mt-6 w-full sm:w-auto lg:hidden">
@@ -96,8 +96,8 @@ const CabinetsComptablesPage = () => {
 
               <p className="public-lead text-platinum">
                 LGM est la seule agence de marketing digital à Abidjan qui garantit ses résultats aux cabinets
-                comptables. Concurrence accrue, honoraires négociés, saisonnalité fiscale : un cabinet ne peut plus
-                dépendre uniquement du bouche-à-oreille.{" "}
+                comptables. Concurrence accrue, saisonnalité fiscale, dépendance au bouche-à-oreille : votre cabinet
+                mérite un flux régulier de prospects qualifiés.{" "}
                 <strong className="font-bold text-platinum">
                   Les objectifs sont définis ensemble, par écrit, avant le lancement. S'ils ne sont pas atteints, nous
                   vous remboursons les frais d'agence.

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { cabinetLeadConfig } from "@/data/cabinetLeadConfig";
@@ -27,9 +27,9 @@ const clientSourceOptions = [
 ];
 
 const objectiveOptions = [
-  "1 à 5 nouveaux clients",
-  "5 à 15 nouveaux clients",
-  "Plus de 15 nouveaux clients",
+  "1 à 10 prospects qualifiés",
+  "10 à 30 prospects qualifiés",
+  "Plus de 30 prospects qualifiés",
   "Autre objectif",
 ];
 
@@ -78,6 +78,22 @@ const emptyForm: FormData = {
   email: "",
 };
 
+type StepId = "cabinet" | "marketing" | "budget" | "contact";
+
+const steps: { id: StepId; label: string }[] = [
+  { id: "cabinet", label: "Votre cabinet" },
+  { id: "marketing", label: "Votre marketing" },
+  { id: "budget", label: "Budget" },
+  { id: "contact", label: "Contact" },
+];
+
+const stepFields: Record<StepId, (keyof FormData)[]> = {
+  cabinet: ["cabinetName", "clientSource"],
+  marketing: ["hasInvestedAds", "pastAdBudgetRaw", "objective90", "objectiveOther"],
+  budget: ["canInvestMinimum", "budgetRange", "isDecisionMaker"],
+  contact: ["fullName", "phone", "email"],
+};
+
 const optionClass = (active: boolean) =>
   `min-h-[48px] rounded-md border px-4 py-3 text-left text-sm font-semibold transition-colors ${
     active
@@ -89,9 +105,14 @@ const questionLabelClass = "mb-3 block text-base font-bold text-platinum";
 
 const CabinetQualificationForm = () => {
   const navigate = useNavigate();
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>(emptyForm);
+  const [stepIndex, setStepIndex] = useState(0);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [submitState, setSubmitState] = useState<"idle" | "loading" | "error">("idle");
+
+  const currentStep = steps[Math.min(stepIndex, steps.length - 1)];
+  const isLastStep = currentStep.id === "contact";
 
   const updateField = (name: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -103,7 +124,7 @@ const CabinetQualificationForm = () => {
     });
   };
 
-  const validate = () => {
+  const validateAll = () => {
     const errors: Record<string, string> = {};
 
     if (formData.cabinetName.trim().length < 2) errors.cabinetName = "Indiquez le nom de votre cabinet.";
@@ -129,6 +150,15 @@ const CabinetQualificationForm = () => {
       errors.phone = "Indiquez un numéro WhatsApp ou téléphone valide.";
     if (!/^\S+@\S+\.\S+$/.test(formData.email.trim())) errors.email = "Indiquez un email valide.";
 
+    return errors;
+  };
+
+  const validateStep = (stepId: StepId) => {
+    const all = validateAll();
+    const errors: Record<string, string> = {};
+    for (const field of stepFields[stepId]) {
+      if (all[field]) errors[field] = all[field];
+    }
     setFieldErrors(errors);
     return errors;
   };
@@ -140,9 +170,36 @@ const CabinetQualificationForm = () => {
     });
   };
 
+  const scrollToFormTop = () => {
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  const goNext = () => {
+    const errors = validateStep(currentStep.id);
+    const firstError = Object.keys(errors)[0];
+    if (firstError) {
+      scrollToField(firstError);
+      return;
+    }
+    setStepIndex((value) => Math.min(value + 1, steps.length - 1));
+    scrollToFormTop();
+  };
+
+  const goBack = () => {
+    setFieldErrors({});
+    setStepIndex((value) => Math.max(value - 1, 0));
+    scrollToFormTop();
+  };
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const errors = validate();
+    if (!isLastStep) {
+      goNext();
+      return;
+    }
+    const errors = validateStep("contact");
     const firstError = Object.keys(errors)[0];
     if (firstError) {
       scrollToField(firstError);
@@ -228,190 +285,227 @@ const CabinetQualificationForm = () => {
   );
 
   return (
-    <form onSubmit={submit} noValidate className="space-y-6">
-      <div id="cab-block-cabinetName">
-        <label htmlFor="cab-cabinetName" className={questionLabelClass}>
-          Quel est le nom de votre cabinet ? *
-        </label>
-        <input
-          id="cab-cabinetName"
-          className={inputClass("cabinetName")}
-          autoComplete="organization"
-          value={formData.cabinetName}
-          onChange={(e) => updateField("cabinetName", e.target.value)}
-          placeholder="Cabinet XYZ"
-          {...inputA11y("cabinetName")}
-        />
-        {fieldError("cabinetName")}
+    <form ref={formRef} onSubmit={submit} noValidate className="scroll-mt-6 space-y-6">
+      <div className="flex flex-wrap items-center gap-2">
+        {steps.map((item, index) => (
+          <span
+            key={item.id}
+            className={`rounded-full border px-3 py-1 text-xs font-bold ${
+              index === stepIndex
+                ? "border-[#f0d996] text-[#f0d996]"
+                : index < stepIndex
+                  ? "border-[rgba(240,217,150,0.4)] text-platinum/70"
+                  : "border-[rgba(240,217,150,0.18)] text-platinum/40"
+            }`}
+          >
+            {index + 1}. {item.label}
+          </span>
+        ))}
       </div>
+      <p className="text-xs font-semibold text-platinum/60">
+        Étape {stepIndex + 1} sur {steps.length}
+      </p>
 
-      <div id="cab-block-clientSource">
-        <p className={questionLabelClass}>Comment obtenez-vous vos clients aujourd'hui ? *</p>
-        <div className="grid gap-3">
-          {clientSourceOptions.map((option) => (
-            <button
-              key={option}
-              type="button"
-              className={optionClass(formData.clientSource === option)}
-              onClick={() => updateField("clientSource", option)}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-        {fieldError("clientSource")}
-      </div>
-
-      <div id="cab-block-hasInvestedAds">
-        <p className={questionLabelClass}>
-          Avez-vous déjà investi dans la publicité en ligne (Facebook, Google, etc.) ? *
-        </p>
-        {yesNoButtons("hasInvestedAds", "Oui", "Non, pas encore")}
-        {fieldError("hasInvestedAds")}
-      </div>
-
-      {formData.hasInvestedAds === "yes" && (
-        <div id="cab-block-pastAdBudgetRaw">
-          <label htmlFor="cab-pastAdBudgetRaw" className={questionLabelClass}>
-            Quel était votre budget mensuel moyen ? *
-          </label>
-          <input
-            id="cab-pastAdBudgetRaw"
-            className={inputClass("pastAdBudgetRaw")}
-            inputMode="numeric"
-            value={formData.pastAdBudgetRaw}
-            onChange={(e) => updateField("pastAdBudgetRaw", e.target.value)}
-            placeholder="Exemple : 150000"
-            {...inputA11y("pastAdBudgetRaw")}
-          />
-          {fieldError("pastAdBudgetRaw")}
-        </div>
-      )}
-
-      <div id="cab-block-objective90">
-        <p className={questionLabelClass}>Quel est votre objectif dans les 90 prochains jours ? *</p>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {objectiveOptions.map((option) => (
-            <button
-              key={option}
-              type="button"
-              className={optionClass(formData.objective90 === option)}
-              onClick={() => updateField("objective90", option)}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-        {fieldError("objective90")}
-      </div>
-
-      {formData.objective90 === "Autre objectif" && (
-        <div id="cab-block-objectiveOther">
-          <label htmlFor="cab-objectiveOther" className={questionLabelClass}>
-            Précisez votre objectif *
-          </label>
-          <input
-            id="cab-objectiveOther"
-            className={inputClass("objectiveOther")}
-            value={formData.objectiveOther}
-            onChange={(e) => updateField("objectiveOther", e.target.value)}
-            placeholder="Exemple : décrocher 3 mandats de commissariat aux comptes"
-            {...inputA11y("objectiveOther")}
-          />
-          {fieldError("objectiveOther")}
-        </div>
-      )}
-
-      <div id="cab-block-canInvestMinimum">
-        <p className={questionLabelClass}>
-          Pour vous donner un ordre d'idée : notre accompagnement complet démarre à{" "}
-          {formatAmount(cabinetLeadConfig.anchorMonthly)}/mois — campagnes publicitaires, site, SEO et suivi inclus.
-          Souvent, quelques clients réguliers suffisent à couvrir cet investissement.
-        </p>
-        <p className="-mt-1 mb-3 text-sm font-semibold text-platinum/70">
-          Ce niveau d'investissement est-il envisageable pour votre cabinet dès maintenant ? *
-        </p>
-        {yesNoButtons("canInvestMinimum", "Oui", "Pas encore, mon budget est inférieur")}
-        {fieldError("canInvestMinimum")}
-      </div>
-
-      {formData.canInvestMinimum === "no" && (
-        <div id="cab-block-budgetRange">
-          <p className={questionLabelClass}>Quel budget mensuel pourriez-vous investir ? *</p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {budgetRangeOptions.map((option) => (
-              <button
-                key={option.label}
-                type="button"
-                className={optionClass(formData.budgetRange === option.label)}
-                onClick={() => updateField("budgetRange", option.label)}
-              >
-                {option.label}
-              </button>
-            ))}
+      {currentStep.id === "cabinet" && (
+        <div className="space-y-6">
+          <div id="cab-block-cabinetName">
+            <label htmlFor="cab-cabinetName" className={questionLabelClass}>
+              Quel est le nom de votre cabinet ? *
+            </label>
+            <input
+              id="cab-cabinetName"
+              className={inputClass("cabinetName")}
+              autoComplete="organization"
+              value={formData.cabinetName}
+              onChange={(e) => updateField("cabinetName", e.target.value)}
+              placeholder="Cabinet XYZ"
+              {...inputA11y("cabinetName")}
+            />
+            {fieldError("cabinetName")}
           </div>
-          {fieldError("budgetRange")}
+
+          <div id="cab-block-clientSource">
+            <p className={questionLabelClass}>Comment obtenez-vous vos clients aujourd'hui ? *</p>
+            <div className="grid gap-3">
+              {clientSourceOptions.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  className={optionClass(formData.clientSource === option)}
+                  onClick={() => updateField("clientSource", option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+            {fieldError("clientSource")}
+          </div>
         </div>
       )}
 
-      <div id="cab-block-isDecisionMaker">
-        <p className={questionLabelClass}>Êtes-vous la personne décisionnaire dans votre cabinet ? *</p>
-        {yesNoButtons("isDecisionMaker", "Oui", "Non, je dois en discuter avec un associé")}
-        {fieldError("isDecisionMaker")}
-      </div>
+      {currentStep.id === "marketing" && (
+        <div className="space-y-6">
+          <div id="cab-block-hasInvestedAds">
+            <p className={questionLabelClass}>
+              Avez-vous déjà investi dans la publicité en ligne (Facebook, Google, etc.) ? *
+            </p>
+            {yesNoButtons("hasInvestedAds", "Oui", "Non, pas encore")}
+            {fieldError("hasInvestedAds")}
+          </div>
 
-      <div className="space-y-5 border-t border-[rgba(240,217,150,0.16)] pt-6">
-        <p className="text-sm font-bold text-[#f0d996]">Dernière étape : où vous recontacter ?</p>
-        <div id="cab-block-fullName">
-          <label htmlFor="cab-fullName" className={questionLabelClass}>
-            Votre nom complet *
-          </label>
-          <input
-            id="cab-fullName"
-            className={inputClass("fullName")}
-            autoComplete="name"
-            value={formData.fullName}
-            onChange={(e) => updateField("fullName", e.target.value)}
-            placeholder="Prénom et nom"
-            {...inputA11y("fullName")}
-          />
-          {fieldError("fullName")}
+          {formData.hasInvestedAds === "yes" && (
+            <div id="cab-block-pastAdBudgetRaw">
+              <label htmlFor="cab-pastAdBudgetRaw" className={questionLabelClass}>
+                Quel était votre budget mensuel moyen ? *
+              </label>
+              <input
+                id="cab-pastAdBudgetRaw"
+                className={inputClass("pastAdBudgetRaw")}
+                inputMode="numeric"
+                value={formData.pastAdBudgetRaw}
+                onChange={(e) => updateField("pastAdBudgetRaw", e.target.value)}
+                placeholder="Exemple : 150000"
+                {...inputA11y("pastAdBudgetRaw")}
+              />
+              {fieldError("pastAdBudgetRaw")}
+            </div>
+          )}
+
+          <div id="cab-block-objective90">
+            <p className={questionLabelClass}>
+              Combien de prospects qualifiés visez-vous dans les 90 prochains jours ? *
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {objectiveOptions.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  className={optionClass(formData.objective90 === option)}
+                  onClick={() => updateField("objective90", option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+            {fieldError("objective90")}
+          </div>
+
+          {formData.objective90 === "Autre objectif" && (
+            <div id="cab-block-objectiveOther">
+              <label htmlFor="cab-objectiveOther" className={questionLabelClass}>
+                Précisez votre objectif *
+              </label>
+              <input
+                id="cab-objectiveOther"
+                className={inputClass("objectiveOther")}
+                value={formData.objectiveOther}
+                onChange={(e) => updateField("objectiveOther", e.target.value)}
+                placeholder="Exemple : décrocher 3 mandats de commissariat aux comptes"
+                {...inputA11y("objectiveOther")}
+              />
+              {fieldError("objectiveOther")}
+            </div>
+          )}
         </div>
-        <div id="cab-block-phone">
-          <label htmlFor="cab-phone" className={questionLabelClass}>
-            Téléphone / WhatsApp *
-          </label>
-          <input
-            id="cab-phone"
-            type="tel"
-            className={inputClass("phone")}
-            autoComplete="tel"
-            inputMode="tel"
-            value={formData.phone}
-            onChange={(e) => updateField("phone", e.target.value)}
-            placeholder="+225 07 00 00 00 00"
-            {...inputA11y("phone")}
-          />
-          {fieldError("phone")}
+      )}
+
+      {currentStep.id === "budget" && (
+        <div className="space-y-6">
+          <div id="cab-block-canInvestMinimum">
+            <p className={questionLabelClass}>
+              Pour vous donner un ordre d'idée : notre accompagnement complet démarre à{" "}
+              {formatAmount(cabinetLeadConfig.anchorMonthly)}/mois — campagnes publicitaires, site, SEO et suivi
+              inclus. Souvent, quelques prospects convertis en clients réguliers suffisent à couvrir cet
+              investissement.
+            </p>
+            <p className="-mt-1 mb-3 text-sm font-semibold text-platinum/70">
+              Ce niveau d'investissement est-il envisageable pour votre cabinet dès maintenant ? *
+            </p>
+            {yesNoButtons("canInvestMinimum", "Oui", "Pas encore, mon budget est inférieur")}
+            {fieldError("canInvestMinimum")}
+          </div>
+
+          {formData.canInvestMinimum === "no" && (
+            <div id="cab-block-budgetRange">
+              <p className={questionLabelClass}>Quel budget mensuel pourriez-vous investir ? *</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {budgetRangeOptions.map((option) => (
+                  <button
+                    key={option.label}
+                    type="button"
+                    className={optionClass(formData.budgetRange === option.label)}
+                    onClick={() => updateField("budgetRange", option.label)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              {fieldError("budgetRange")}
+            </div>
+          )}
+
+          <div id="cab-block-isDecisionMaker">
+            <p className={questionLabelClass}>Êtes-vous la personne décisionnaire dans votre cabinet ? *</p>
+            {yesNoButtons("isDecisionMaker", "Oui", "Non, je dois en discuter avec un associé")}
+            {fieldError("isDecisionMaker")}
+          </div>
         </div>
-        <div id="cab-block-email">
-          <label htmlFor="cab-email" className={questionLabelClass}>
-            Email *
-          </label>
-          <input
-            id="cab-email"
-            type="email"
-            className={inputClass("email")}
-            autoComplete="email"
-            inputMode="email"
-            value={formData.email}
-            onChange={(e) => updateField("email", e.target.value)}
-            placeholder="vous@cabinet.com"
-            {...inputA11y("email")}
-          />
-          {fieldError("email")}
+      )}
+
+      {currentStep.id === "contact" && (
+        <div className="space-y-5">
+          <p className="text-sm font-bold text-[#f0d996]">Dernière étape : où vous recontacter ?</p>
+          <div id="cab-block-fullName">
+            <label htmlFor="cab-fullName" className={questionLabelClass}>
+              Votre nom complet *
+            </label>
+            <input
+              id="cab-fullName"
+              className={inputClass("fullName")}
+              autoComplete="name"
+              value={formData.fullName}
+              onChange={(e) => updateField("fullName", e.target.value)}
+              placeholder="Prénom et nom"
+              {...inputA11y("fullName")}
+            />
+            {fieldError("fullName")}
+          </div>
+          <div id="cab-block-phone">
+            <label htmlFor="cab-phone" className={questionLabelClass}>
+              Téléphone / WhatsApp *
+            </label>
+            <input
+              id="cab-phone"
+              type="tel"
+              className={inputClass("phone")}
+              autoComplete="tel"
+              inputMode="tel"
+              value={formData.phone}
+              onChange={(e) => updateField("phone", e.target.value)}
+              placeholder="+225 07 00 00 00 00"
+              {...inputA11y("phone")}
+            />
+            {fieldError("phone")}
+          </div>
+          <div id="cab-block-email">
+            <label htmlFor="cab-email" className={questionLabelClass}>
+              Email *
+            </label>
+            <input
+              id="cab-email"
+              type="email"
+              className={inputClass("email")}
+              autoComplete="email"
+              inputMode="email"
+              value={formData.email}
+              onChange={(e) => updateField("email", e.target.value)}
+              placeholder="vous@cabinet.com"
+              {...inputA11y("email")}
+            />
+            {fieldError("email")}
+          </div>
         </div>
-      </div>
+      )}
 
       {submitState === "error" && (
         <p className="rounded-md border border-[#ffb5a640] bg-[#ffb5a612] p-4 text-sm font-semibold text-[#ffb5a6]">
@@ -423,24 +517,42 @@ const CabinetQualificationForm = () => {
         </p>
       )}
 
-      <div>
-        <button
-          type="submit"
-          className="btn-cobalt w-full flex-col gap-0 py-4 !whitespace-normal text-center"
-          disabled={submitState === "loading"}
-        >
-          <span className="text-base font-extrabold uppercase tracking-wide">
-            {submitState === "loading" ? "Envoi en cours..." : "Vérifier si mon cabinet est éligible"}
-          </span>
-          {submitState !== "loading" && (
-            <span className="text-xs font-semibold opacity-80">
-              Étude de votre demande sous 24h ouvrées — sans engagement
+      <div className="flex flex-col gap-3">
+        {isLastStep ? (
+          <button
+            type="submit"
+            className="btn-cobalt w-full flex-col gap-0 py-4 !whitespace-normal text-center"
+            disabled={submitState === "loading"}
+          >
+            <span className="text-base font-extrabold uppercase tracking-wide">
+              {submitState === "loading" ? "Envoi en cours..." : "Vérifier si mon cabinet est éligible"}
             </span>
-          )}
-        </button>
-        <p className="mt-3 text-center text-xs font-semibold text-platinum/60">
-          Vos informations restent confidentielles.
-        </p>
+            {submitState !== "loading" && (
+              <span className="text-xs font-semibold opacity-80">
+                Étude de votre demande sous 24h ouvrées — sans engagement
+              </span>
+            )}
+          </button>
+        ) : (
+          <button type="submit" className="btn-cobalt w-full py-4 text-base font-extrabold">
+            Continuer
+          </button>
+        )}
+        {stepIndex > 0 && (
+          <button
+            type="button"
+            onClick={goBack}
+            disabled={submitState === "loading"}
+            className="btn-cobalt-outline w-full py-3 text-sm"
+          >
+            Retour
+          </button>
+        )}
+        {isLastStep && (
+          <p className="text-center text-xs font-semibold text-platinum/60">
+            Vos informations restent confidentielles.
+          </p>
+        )}
       </div>
     </form>
   );
