@@ -202,11 +202,8 @@ const CabinetsComptablesPage = () => {
       </main>
 
       <footer className="border-t border-[rgba(240,217,150,0.14)] bg-[#070b12]">
-        <div className="container-wide flex flex-col items-center gap-2 py-6 pb-24 text-center text-xs font-semibold text-platinum/60 md:flex-row md:justify-between md:pb-6 md:text-left">
+        <div className="container-wide py-6 pb-24 text-center text-xs font-semibold text-platinum/60 md:pb-6">
           <span>© {new Date().getFullYear()} Agence LGM — {siteContact.address}</span>
-          <span>
-            {siteContact.phoneDisplay} · {siteContact.email}
-          </span>
         </div>
       </footer>
 
