@@ -12,8 +12,8 @@ const proofStats = [
 
 const trustPoints = [
   {
-    title: "Garantie écrite",
-    body: "Les objectifs sont définis ensemble, par écrit, avant le lancement. S'ils ne sont pas atteints, les frais d'agence vous sont remboursés.",
+    title: "Garantie de performance",
+    body: "Active dès le deuxième mois d'accompagnement : si les résultats ne sont pas au rendez-vous, les frais d'agence vous sont remboursés.",
   },
   {
     title: "Pensé pour les cabinets",
@@ -96,11 +96,12 @@ const CabinetsComptablesPage = () => {
 
               <p className="public-lead text-platinum">
                 LGM est la seule agence de marketing digital à Abidjan qui garantit ses résultats aux cabinets
-                comptables. Concurrence accrue, saisonnalité fiscale, dépendance au bouche-à-oreille : votre cabinet
-                mérite un flux régulier de prospects qualifiés.{" "}
+                comptables. La plupart des cabinets dépendent encore du bouche-à-oreille : un flux irrégulier,
+                difficile à prévoir. Nous mettons en place un système qui vous apporte des prospects qualifiés chaque
+                mois.{" "}
                 <strong className="font-bold text-platinum">
-                  Les objectifs sont définis ensemble, par écrit, avant le lancement. S'ils ne sont pas atteints, nous
-                  vous remboursons les frais d'agence.
+                  Et dès le deuxième mois, notre garantie de performance s'applique : si les résultats ne sont pas au
+                  rendez-vous, nous vous remboursons les frais d'agence.
                 </strong>
               </p>
 
