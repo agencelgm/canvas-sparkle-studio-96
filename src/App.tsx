@@ -26,6 +26,8 @@ import AdminQualifications from "./pages/admin/AdminQualifications";
 import NotFound from "./pages/NotFound";
 import ServicesLogoPage from "./pages/ServicesLogoPage";
 import ServicesSiteInternetPage from "./pages/ServicesSiteInternetPage";
+import CabinetsComptablesPage from "./pages/CabinetsComptablesPage";
+import CabinetsMerciPage from "./pages/CabinetsMerciPage";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +51,8 @@ const App = () => (
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <Route path="/cabinets-comptables" element={<CabinetsComptablesPage />} />
+              <Route path="/cabinets-comptables/merci" element={<CabinetsMerciPage />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />

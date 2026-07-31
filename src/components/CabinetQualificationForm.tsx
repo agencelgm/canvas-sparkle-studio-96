@@ -1,0 +1,449 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { cabinetLeadConfig } from "@/data/cabinetLeadConfig";
+import { siteContact } from "@/data/publicContent";
+
+const formatAmount = (amount: number) => `${new Intl.NumberFormat("fr-FR").format(amount)} FCFA`;
+
+const parseBudgetAmount = (raw: string) => {
+  const trimmed = raw.trim();
+  if (!trimmed) return { ok: false as const, reason: "empty" as const };
+  if (/\p{L}/u.test(trimmed)) return { ok: false as const, reason: "letters" as const };
+
+  const digits = trimmed.replace(/[^\d]/g, "");
+  if (!digits) return { ok: false as const, reason: "invalid" as const };
+
+  const value = Number(digits);
+  if (!Number.isSafeInteger(value) || value <= 0) return { ok: false as const, reason: "invalid" as const };
+  return { ok: true as const, value };
+};
+
+const clientSourceOptions = [
+  "Bouche-à-oreille / recommandations",
+  "Réseau & partenariats",
+  "Publicité en ligne",
+  "Pas de démarche structurée pour le moment",
+];
+
+const objectiveOptions = [
+  "1 à 5 nouveaux clients",
+  "5 à 15 nouveaux clients",
+  "Plus de 15 nouveaux clients",
+  "Autre objectif",
+];
+
+// Fourchettes proposées quand le budget de 405 000 FCFA n'est pas envisageable.
+// `value` = borne basse, utilisée pour budget_normalized et le seuil de qualification.
+const budgetRangeOptions = [
+  { label: "Moins de 50 000 FCFA", value: 25000 },
+  { label: "50 000 à 150 000 FCFA", value: 50000 },
+  { label: "150 000 à 300 000 FCFA", value: 150000 },
+  { label: "300 000 à 400 000 FCFA", value: 300000 },
+] as const;
+
+const whatsappHelpUrl = `${siteContact.whatsapp}?text=${encodeURIComponent(
+  "Bonjour, je n'arrive pas à envoyer le formulaire pour mon cabinet comptable sur votre site.",
+)}`;
+
+type YesNo = "" | "yes" | "no";
+
+type FormData = {
+  cabinetName: string;
+  clientSource: string;
+  hasInvestedAds: YesNo;
+  pastAdBudgetRaw: string;
+  objective90: string;
+  objectiveOther: string;
+  canInvestMinimum: YesNo;
+  budgetRange: string;
+  isDecisionMaker: YesNo;
+  fullName: string;
+  phone: string;
+  email: string;
+};
+
+const emptyForm: FormData = {
+  cabinetName: "",
+  clientSource: "",
+  hasInvestedAds: "",
+  pastAdBudgetRaw: "",
+  objective90: "",
+  objectiveOther: "",
+  canInvestMinimum: "",
+  budgetRange: "",
+  isDecisionMaker: "",
+  fullName: "",
+  phone: "",
+  email: "",
+};
+
+const optionClass = (active: boolean) =>
+  `min-h-[48px] rounded-md border px-4 py-3 text-left text-sm font-semibold transition-colors ${
+    active
+      ? "border-[#f0d996] bg-[#f0d99614] text-platinum"
+      : "border-[rgba(240,217,150,0.2)] text-platinum/70 hover:border-[#f0d99666] hover:text-platinum"
+  }`;
+
+const questionLabelClass = "mb-3 block text-base font-bold text-platinum";
+
+const CabinetQualificationForm = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<FormData>(emptyForm);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [submitState, setSubmitState] = useState<"idle" | "loading" | "error">("idle");
+
+  const updateField = (name: keyof FormData, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => {
+      if (!prev[name]) return prev;
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+  };
+
+  const validate = () => {
+    const errors: Record<string, string> = {};
+
+    if (formData.cabinetName.trim().length < 2) errors.cabinetName = "Indiquez le nom de votre cabinet.";
+    if (!formData.clientSource) errors.clientSource = "Indiquez comment vous obtenez vos clients aujourd'hui.";
+    if (!formData.hasInvestedAds) errors.hasInvestedAds = "Indiquez si vous avez déjà investi en publicité en ligne.";
+    if (formData.hasInvestedAds === "yes") {
+      const parsed = parseBudgetAmount(formData.pastAdBudgetRaw);
+      if (!parsed.ok)
+        errors.pastAdBudgetRaw =
+          parsed.reason === "letters"
+            ? "Entrez un montant complet en chiffres (exemple : 150000)."
+            : "Indiquez votre budget mensuel moyen.";
+    }
+    if (!formData.objective90) errors.objective90 = "Choisissez votre objectif principal.";
+    if (formData.objective90 === "Autre objectif" && formData.objectiveOther.trim().length < 5)
+      errors.objectiveOther = "Précisez votre objectif en quelques mots.";
+    if (!formData.canInvestMinimum) errors.canInvestMinimum = "Répondez à la question sur le budget.";
+    if (formData.canInvestMinimum === "no" && !formData.budgetRange)
+      errors.budgetRange = "Choisissez la fourchette qui correspond à votre budget.";
+    if (!formData.isDecisionMaker) errors.isDecisionMaker = "Indiquez si vous êtes la personne décisionnaire.";
+    if (formData.fullName.trim().length < 2) errors.fullName = "Indiquez votre nom complet.";
+    if (formData.phone.trim().replace(/[^\d]/g, "").length < 8)
+      errors.phone = "Indiquez un numéro WhatsApp ou téléphone valide.";
+    if (!/^\S+@\S+\.\S+$/.test(formData.email.trim())) errors.email = "Indiquez un email valide.";
+
+    setFieldErrors(errors);
+    return errors;
+  };
+
+  const scrollToField = (key: string) => {
+    requestAnimationFrame(() => {
+      const el = document.getElementById(`cab-${key}`) ?? document.getElementById(`cab-block-${key}`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  };
+
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const errors = validate();
+    const firstError = Object.keys(errors)[0];
+    if (firstError) {
+      scrollToField(firstError);
+      return;
+    }
+
+    const selectedRange = budgetRangeOptions.find((option) => option.label === formData.budgetRange);
+    const monthlyBudget =
+      formData.canInvestMinimum === "yes" ? cabinetLeadConfig.anchorMonthly : (selectedRange?.value ?? 0);
+    if (!monthlyBudget) return;
+
+    const pastBudget = formData.hasInvestedAds === "yes" ? parseBudgetAmount(formData.pastAdBudgetRaw) : null;
+    const objective =
+      formData.objective90 === "Autre objectif"
+        ? `Autre : ${formData.objectiveOther.trim()}`
+        : `${formData.objective90} dans les 90 prochains jours`;
+
+    const eligibility =
+      monthlyBudget >= cabinetLeadConfig.priorityMinBudget
+        ? "priorite"
+        : monthlyBudget >= cabinetLeadConfig.qualifiedMinBudget
+          ? "qualifie"
+          : "nurture";
+
+    setSubmitState("loading");
+    try {
+      const { error } = await supabase.from("qualification_submissions").insert({
+        name: formData.fullName.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        has_business: true,
+        company_name: formData.cabinetName.trim(),
+        industry: "Cabinet comptable",
+        location: "Abidjan",
+        website_or_social: null,
+        service: "accompagnement-mensuel",
+        has_invested_marketing: formData.hasInvestedAds === "yes",
+        past_marketing_budget_raw: formData.hasInvestedAds === "yes" ? formData.pastAdBudgetRaw.trim() : null,
+        past_marketing_budget_normalized: pastBudget?.ok ? pastBudget.value : null,
+        past_marketing_result: `Acquisition clients actuelle : ${formData.clientSource} | Décisionnaire : ${
+          formData.isDecisionMaker === "yes" ? "oui" : "non, doit en discuter avec un associé"
+        }`,
+        objective_90_days: objective,
+        budget_raw:
+          formData.canInvestMinimum === "yes" ? String(cabinetLeadConfig.anchorMonthly) : formData.budgetRange,
+        budget_normalized: monthlyBudget,
+        can_invest_minimum: formData.canInvestMinimum === "yes",
+        eligibility_status: eligibility,
+        source_page: "cabinets-comptables",
+      });
+      if (error) throw error;
+      const tier = monthlyBudget >= cabinetLeadConfig.qualifiedMinBudget ? "ok" : "low";
+      navigate(`${cabinetLeadConfig.merciPath}?b=${tier}`);
+    } catch {
+      setSubmitState("error");
+    }
+  };
+
+  const fieldError = (key: keyof FormData | string) =>
+    fieldErrors[key] ? (
+      <p id={`cab-error-${key}`} role="alert" className="mt-2 text-sm font-semibold text-[#ffb5a6]">
+        {fieldErrors[key]}
+      </p>
+    ) : null;
+
+  const inputClass = (key: keyof FormData) =>
+    `contact-field ${fieldErrors[key] ? "!border-[#ffb5a680]" : ""}`;
+
+  const inputA11y = (key: keyof FormData) => ({
+    "aria-invalid": Boolean(fieldErrors[key]),
+    "aria-describedby": fieldErrors[key] ? `cab-error-${key}` : undefined,
+  });
+
+  const yesNoButtons = (key: keyof FormData, yesLabel: string, noLabel: string) => (
+    <div className="grid gap-3 sm:grid-cols-2">
+      <button type="button" className={optionClass(formData[key] === "yes")} onClick={() => updateField(key, "yes")}>
+        {yesLabel}
+      </button>
+      <button type="button" className={optionClass(formData[key] === "no")} onClick={() => updateField(key, "no")}>
+        {noLabel}
+      </button>
+    </div>
+  );
+
+  return (
+    <form onSubmit={submit} noValidate className="space-y-6">
+      <div id="cab-block-cabinetName">
+        <label htmlFor="cab-cabinetName" className={questionLabelClass}>
+          Quel est le nom de votre cabinet ? *
+        </label>
+        <input
+          id="cab-cabinetName"
+          className={inputClass("cabinetName")}
+          autoComplete="organization"
+          value={formData.cabinetName}
+          onChange={(e) => updateField("cabinetName", e.target.value)}
+          placeholder="Cabinet XYZ"
+          {...inputA11y("cabinetName")}
+        />
+        {fieldError("cabinetName")}
+      </div>
+
+      <div id="cab-block-clientSource">
+        <p className={questionLabelClass}>Comment obtenez-vous vos clients aujourd'hui ? *</p>
+        <div className="grid gap-3">
+          {clientSourceOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={optionClass(formData.clientSource === option)}
+              onClick={() => updateField("clientSource", option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+        {fieldError("clientSource")}
+      </div>
+
+      <div id="cab-block-hasInvestedAds">
+        <p className={questionLabelClass}>
+          Avez-vous déjà investi dans la publicité en ligne (Facebook, Google, etc.) ? *
+        </p>
+        {yesNoButtons("hasInvestedAds", "Oui", "Non, pas encore")}
+        {fieldError("hasInvestedAds")}
+      </div>
+
+      {formData.hasInvestedAds === "yes" && (
+        <div id="cab-block-pastAdBudgetRaw">
+          <label htmlFor="cab-pastAdBudgetRaw" className={questionLabelClass}>
+            Quel était votre budget mensuel moyen ? *
+          </label>
+          <input
+            id="cab-pastAdBudgetRaw"
+            className={inputClass("pastAdBudgetRaw")}
+            inputMode="numeric"
+            value={formData.pastAdBudgetRaw}
+            onChange={(e) => updateField("pastAdBudgetRaw", e.target.value)}
+            placeholder="Exemple : 150000"
+            {...inputA11y("pastAdBudgetRaw")}
+          />
+          {fieldError("pastAdBudgetRaw")}
+        </div>
+      )}
+
+      <div id="cab-block-objective90">
+        <p className={questionLabelClass}>Quel est votre objectif dans les 90 prochains jours ? *</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {objectiveOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={optionClass(formData.objective90 === option)}
+              onClick={() => updateField("objective90", option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+        {fieldError("objective90")}
+      </div>
+
+      {formData.objective90 === "Autre objectif" && (
+        <div id="cab-block-objectiveOther">
+          <label htmlFor="cab-objectiveOther" className={questionLabelClass}>
+            Précisez votre objectif *
+          </label>
+          <input
+            id="cab-objectiveOther"
+            className={inputClass("objectiveOther")}
+            value={formData.objectiveOther}
+            onChange={(e) => updateField("objectiveOther", e.target.value)}
+            placeholder="Exemple : décrocher 3 mandats de commissariat aux comptes"
+            {...inputA11y("objectiveOther")}
+          />
+          {fieldError("objectiveOther")}
+        </div>
+      )}
+
+      <div id="cab-block-canInvestMinimum">
+        <p className={questionLabelClass}>
+          Pour vous donner un ordre d'idée : notre accompagnement complet démarre à{" "}
+          {formatAmount(cabinetLeadConfig.anchorMonthly)}/mois — campagnes publicitaires, site, SEO et suivi inclus.
+          Souvent, quelques clients réguliers suffisent à couvrir cet investissement.
+        </p>
+        <p className="-mt-1 mb-3 text-sm font-semibold text-platinum/70">
+          Ce niveau d'investissement est-il envisageable pour votre cabinet dès maintenant ? *
+        </p>
+        {yesNoButtons("canInvestMinimum", "Oui", "Pas encore, mon budget est inférieur")}
+        {fieldError("canInvestMinimum")}
+      </div>
+
+      {formData.canInvestMinimum === "no" && (
+        <div id="cab-block-budgetRange">
+          <p className={questionLabelClass}>Quel budget mensuel pourriez-vous investir ? *</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {budgetRangeOptions.map((option) => (
+              <button
+                key={option.label}
+                type="button"
+                className={optionClass(formData.budgetRange === option.label)}
+                onClick={() => updateField("budgetRange", option.label)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+          {fieldError("budgetRange")}
+        </div>
+      )}
+
+      <div id="cab-block-isDecisionMaker">
+        <p className={questionLabelClass}>Êtes-vous la personne décisionnaire dans votre cabinet ? *</p>
+        {yesNoButtons("isDecisionMaker", "Oui", "Non, je dois en discuter avec un associé")}
+        {fieldError("isDecisionMaker")}
+      </div>
+
+      <div className="space-y-5 border-t border-[rgba(240,217,150,0.16)] pt-6">
+        <p className="text-sm font-bold text-[#f0d996]">Dernière étape : où vous recontacter ?</p>
+        <div id="cab-block-fullName">
+          <label htmlFor="cab-fullName" className={questionLabelClass}>
+            Votre nom complet *
+          </label>
+          <input
+            id="cab-fullName"
+            className={inputClass("fullName")}
+            autoComplete="name"
+            value={formData.fullName}
+            onChange={(e) => updateField("fullName", e.target.value)}
+            placeholder="Prénom et nom"
+            {...inputA11y("fullName")}
+          />
+          {fieldError("fullName")}
+        </div>
+        <div id="cab-block-phone">
+          <label htmlFor="cab-phone" className={questionLabelClass}>
+            Téléphone / WhatsApp *
+          </label>
+          <input
+            id="cab-phone"
+            type="tel"
+            className={inputClass("phone")}
+            autoComplete="tel"
+            inputMode="tel"
+            value={formData.phone}
+            onChange={(e) => updateField("phone", e.target.value)}
+            placeholder="+225 07 00 00 00 00"
+            {...inputA11y("phone")}
+          />
+          {fieldError("phone")}
+        </div>
+        <div id="cab-block-email">
+          <label htmlFor="cab-email" className={questionLabelClass}>
+            Email *
+          </label>
+          <input
+            id="cab-email"
+            type="email"
+            className={inputClass("email")}
+            autoComplete="email"
+            inputMode="email"
+            value={formData.email}
+            onChange={(e) => updateField("email", e.target.value)}
+            placeholder="vous@cabinet.com"
+            {...inputA11y("email")}
+          />
+          {fieldError("email")}
+        </div>
+      </div>
+
+      {submitState === "error" && (
+        <p className="rounded-md border border-[#ffb5a640] bg-[#ffb5a612] p-4 text-sm font-semibold text-[#ffb5a6]">
+          Le formulaire n'a pas pu être envoyé. Réessayez ou{" "}
+          <a href={whatsappHelpUrl} target="_blank" rel="noopener noreferrer" className="underline">
+            écrivez-nous directement sur WhatsApp
+          </a>
+          .
+        </p>
+      )}
+
+      <div>
+        <button
+          type="submit"
+          className="btn-cobalt w-full flex-col gap-0 py-4 !whitespace-normal text-center"
+          disabled={submitState === "loading"}
+        >
+          <span className="text-base font-extrabold uppercase tracking-wide">
+            {submitState === "loading" ? "Envoi en cours..." : "Vérifier si mon cabinet est éligible"}
+          </span>
+          {submitState !== "loading" && (
+            <span className="text-xs font-semibold opacity-80">
+              Étude de votre demande sous 24h ouvrées — sans engagement
+            </span>
+          )}
+        </button>
+        <p className="mt-3 text-center text-xs font-semibold text-platinum/60">
+          Vos informations restent confidentielles.
+        </p>
+      </div>
+    </form>
+  );
+};
+
+export default CabinetQualificationForm;
