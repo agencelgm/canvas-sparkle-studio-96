@@ -147,7 +147,11 @@ const LeadAgenceFormationPage = () => (
             <h2 className="font-display text-2xl font-extrabold text-platinum md:text-3xl">
               4 semaines, en direct, chaque mercredi a 19 h
             </h2>
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-md border border-[rgba(240,217,150,0.18)] p-4">
+                <p className="font-display text-xl font-extrabold text-[#f0d996]">50 000 FCFA</p>
+                <p className="mt-1 text-sm leading-6 text-platinum/70">Paiement unique pour les 4 semaines de formation.</p>
+              </div>
               <div className="rounded-md border border-[rgba(240,217,150,0.18)] p-4">
                 <p className="font-display text-xl font-extrabold text-[#f0d996]">4 semaines</p>
                 <p className="mt-1 text-sm leading-6 text-platinum/70">Une seance par semaine, du debut a la maitrise.</p>
