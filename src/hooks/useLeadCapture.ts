@@ -54,12 +54,13 @@ export const useLeadCapture = () => {
       if (sessionStorage.getItem(STORAGE_KEY) === fingerprint) return;
       sessionStorage.setItem(STORAGE_KEY, fingerprint);
 
-      const nom =
-        pick(flat, ["full_name", "fullname", "name", "nom"]) ??
-        [pick(flat, ["first_name", "firstname", "prenom"]), pick(flat, ["last_name", "lastname"])]
-          .filter(Boolean)
-          .join(" ") ||
-        null;
+      const composedName = [
+        pick(flat, ["first_name", "firstname", "prenom"]),
+        pick(flat, ["last_name", "lastname"]),
+      ]
+        .filter(Boolean)
+        .join(" ");
+      const nom = pick(flat, ["full_name", "fullname", "name", "nom"]) ?? (composedName || null);
 
       const record = {
         form_id: leadAgenceConfig.ghlFormId,
