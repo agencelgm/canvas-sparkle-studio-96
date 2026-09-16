@@ -1,6 +1,9 @@
 // Configuration de la lead page "Agence marketing" et de ses 3 pages de suite.
 // Modifier ici les liens (videos, formulaire, calendrier) sans toucher aux composants.
 
+import invitationRendezVousAsset from "@/assets/invitation-rendez-vous.mp4.asset.json";
+import reponseBudgetFormationAsset from "@/assets/reponse-budget-formation.mp4.asset.json";
+
 export const leadAgenceConfig = {
   // Formulaire de qualification GoHighLevel.
   ghlFormId: "gh8AD48uUTKRQ2OVU2Hp",
@@ -16,9 +19,9 @@ export const leadAgenceConfig = {
   // Emplacements video : coller ici les liens quand les videos sont pretes.
   // Formats acceptes : YouTube, Vimeo, ou fichier .mp4.
   videos: {
-    rendezVous: "",
+    rendezVous: invitationRendezVousAsset.url,
     rendezVousConfirme: "",
-    formation: "",
+    formation: reponseBudgetFormationAsset.url,
   },
 
   whatsappUrl: "https://wa.me/2250798172339",
