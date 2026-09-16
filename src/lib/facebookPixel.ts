@@ -4,7 +4,13 @@ export const FACEBOOK_PIXEL_ID = "673688814007270";
 
 type Fbq = ((...args: unknown[]) => void) | undefined;
 
-const readStoredContact = () => {
+export type TrackContact = {
+  email?: string | null;
+  phone?: string | null;
+  name?: string | null;
+};
+
+const readStoredContact = (): TrackContact => {
   try {
     const raw = localStorage.getItem("lgm_lead_contact");
     if (!raw) return {};
@@ -25,12 +31,22 @@ const readCookie = (name: string) => {
  * Envoi navigateur (pixel) + envoi serveur (API de conversions) avec le meme
  * identifiant d'evenement pour eviter les doublons.
  */
-export const trackQualifiedLead = async () => {
+export const trackQualifiedLead = async (override?: TrackContact) => {
   const eventId = `lead-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-  const fbq = (window as unknown as { fbq?: Fbq }).fbq;
-  fbq?.("track", "Lead", { content_name: "Qualification agence" }, { eventID: eventId });
+  const stored = readStoredContact();
+  const contact: TrackContact = {
+    email: override?.email || stored.email,
+    phone: override?.phone || stored.phone,
+    name: override?.name || stored.name,
+  };
 
-  const contact = readStoredContact();
+  const fbq = (window as unknown as { fbq?: Fbq }).fbq;
+  fbq?.(
+    "track",
+    "Lead",
+    { content_name: "Qualification agence" },
+    { eventID: eventId },
+  );
 
   try {
     await supabase.functions.invoke("facebook-capi", {
