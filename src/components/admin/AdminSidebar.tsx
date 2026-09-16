@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { ClipboardCheck, FileText, FolderOpen, LayoutDashboard, LogOut, Mail } from "lucide-react";
+import { ClipboardCheck, FileText, FolderOpen, LayoutDashboard, LogOut, Mail, Users } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 
@@ -13,6 +13,7 @@ const AdminSidebar = () => {
     { href: "/admin/categories", label: "Categories", icon: FolderOpen },
     { href: "/admin/contacts", label: "Messages", icon: Mail },
     { href: "/admin/qualifications", label: "Qualifications", icon: ClipboardCheck },
+    { href: "/admin/leads-agence", label: "Leads agence", icon: Users },
   ];
 
   const isActive = (href: string) => {
