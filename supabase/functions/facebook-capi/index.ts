@@ -42,14 +42,28 @@ Deno.serve(async (req) => {
   }
 
   const body = parsed.data;
+  const clientIp = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim();
   const userData: Record<string, unknown> = {
     client_user_agent: req.headers.get("user-agent") ?? undefined,
   };
+  if (clientIp) userData.client_ip_address = clientIp;
   if (body.email) userData.em = [await sha256(body.email)];
   if (body.phone) userData.ph = [await sha256(body.phone.replace(/[^\d]/g, ""))];
   if (body.name) userData.fn = [await sha256(body.name.split(" ")[0])];
   if (body.fbp) userData.fbp = body.fbp;
   if (body.fbc) userData.fbc = body.fbc;
+
+  // Meta rejette l'evenement s'il n'y a aucun identifiant fort.
+  const hasStrongIdentifier = Boolean(
+    body.email || body.phone || body.fbp || body.fbc || (clientIp && req.headers.get("user-agent")),
+  );
+  if (!hasStrongIdentifier) {
+    return new Response(JSON.stringify({ ok: false, skipped: "insufficient_user_data" }), {
+      status: 200,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
 
   const payload = {
     data: [
