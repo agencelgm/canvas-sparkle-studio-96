@@ -88,8 +88,10 @@ Deno.serve(async (req) => {
   );
 
   const result = await response.json().catch(() => ({}));
+  if (!response.ok) console.error("capi rejected", JSON.stringify(result));
+  // On renvoie 200 meme en cas de refus de Meta: le suivi ne doit jamais casser la page.
   return new Response(JSON.stringify({ ok: response.ok, result }), {
-    status: response.ok ? 200 : 502,
+    status: 200,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 });
