@@ -49,7 +49,11 @@ Deno.serve(async (req) => {
   if (clientIp) userData.client_ip_address = clientIp;
   if (body.email) userData.em = [await sha256(body.email)];
   if (body.phone) userData.ph = [await sha256(body.phone.replace(/[^\d]/g, ""))];
-  if (body.name) userData.fn = [await sha256(body.name.split(" ")[0])];
+  if (body.name) {
+    const parts = body.name.trim().split(/\s+/);
+    if (parts[0]) userData.fn = [await sha256(parts[0])];
+    if (parts.length > 1) userData.ln = [await sha256(parts.slice(1).join(" "))];
+  }
   if (body.fbp) userData.fbp = body.fbp;
   if (body.fbc) userData.fbc = body.fbc;
 
