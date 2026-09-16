@@ -240,12 +240,12 @@ const LeadAgenceFormationPage = () => (
 
           <div className="public-card p-6 text-center md:p-8">
             <h2 className="font-display text-2xl font-extrabold text-platinum md:text-3xl">
-              Reservez votre place pour la prochaine session
+              Reservez votre place — 50 000 FCFA
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-platinum/70">
-              Les groupes sont volontairement reduits pour que chacun puisse travailler sur son propre compte
-              publicitaire. Ecrivez-nous sur WhatsApp : nous vous confirmons la date de demarrage et les modalites
-              d'inscription.
+              4 semaines de formation en direct, paiement unique. Les groupes sont volontairement reduits pour que
+              chacun puisse travailler sur son propre compte publicitaire. Ecrivez-nous sur WhatsApp : nous vous
+              confirmons la date de demarrage et les modalites de paiement.
             </p>
             <a
               href={formationWhatsappUrl}
