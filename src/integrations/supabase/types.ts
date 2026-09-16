@@ -151,6 +151,54 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_agence_submissions: {
+        Row: {
+          created_at: string
+          email: string | null
+          form_id: string | null
+          id: string
+          nom: string | null
+          payload: Json
+          source_page: string | null
+          telephone: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          form_id?: string | null
+          id?: string
+          nom?: string | null
+          payload?: Json
+          source_page?: string | null
+          telephone?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          form_id?: string | null
+          id?: string
+          nom?: string | null
+          payload?: Json
+          source_page?: string | null
+          telephone?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
       qualification_submissions: {
         Row: {
           anchor_reaction: string | null

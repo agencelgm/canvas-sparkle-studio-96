@@ -28,6 +28,11 @@ import ServicesLogoPage from "./pages/ServicesLogoPage";
 import ServicesSiteInternetPage from "./pages/ServicesSiteInternetPage";
 import CabinetsComptablesPage from "./pages/CabinetsComptablesPage";
 import CabinetsMerciPage from "./pages/CabinetsMerciPage";
+import LeadAgencePage from "./pages/LeadAgencePage";
+import LeadAgenceRendezVousPage from "./pages/LeadAgenceRendezVousPage";
+import LeadAgenceRendezVousConfirmePage from "./pages/LeadAgenceRendezVousConfirmePage";
+import LeadAgenceFormationPage from "./pages/LeadAgenceFormationPage";
+import AdminLeadsAgence from "./pages/admin/AdminLeadsAgence";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +58,13 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/cabinets-comptables" element={<CabinetsComptablesPage />} />
               <Route path="/cabinets-comptables/merci" element={<CabinetsMerciPage />} />
+              <Route path="/lead-agence-marketing" element={<LeadAgencePage />} />
+              <Route path="/lead-agence-marketing/rendez-vous" element={<LeadAgenceRendezVousPage />} />
+              <Route
+                path="/lead-agence-marketing/rendez-vous-confirme"
+                element={<LeadAgenceRendezVousConfirmePage />}
+              />
+              <Route path="/lead-agence-marketing/formation" element={<LeadAgenceFormationPage />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
@@ -102,6 +114,14 @@ const App = () => (
                 element={
                   <ProtectedRoute requireAdmin>
                     <AdminContacts />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/leads-agence"
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminLeadsAgence />
                   </ProtectedRoute>
                 }
               />

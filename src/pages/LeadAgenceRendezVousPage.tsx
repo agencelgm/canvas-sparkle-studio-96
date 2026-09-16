@@ -1,0 +1,111 @@
+import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import LeadShell from "@/components/lead/LeadShell";
+import VideoSlot from "@/components/lead/VideoSlot";
+import GhlCalendar from "@/components/lead/GhlCalendar";
+import { leadAgenceConfig, rendezVousWhatsappUrl } from "@/data/leadAgenceConfig";
+import { siteContact } from "@/data/publicContent";
+import { trackQualifiedLead } from "@/lib/facebookPixel";
+
+const callPoints = [
+  "Vos chiffres actuels : d'ou viennent vos clients aujourd'hui.",
+  "Votre objectif sur les 90 prochains jours.",
+  "Le budget publicitaire que vous pouvez engager chaque mois.",
+  "Le plan que nous mettrions en place, levier par levier.",
+];
+
+const LeadAgenceRendezVousPage = () => {
+  useEffect(() => {
+    void trackQualifiedLead();
+  }, []);
+
+  return (
+    <LeadShell>
+      <Helmet>
+        <title>Felicitations — reservez votre appel | Agence LGM</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+
+      <section className="section-charcoal">
+        <div className="container-narrow py-12 md:py-16">
+          <div className="text-center">
+            <p className="section-kicker">Votre entreprise est eligible</p>
+            <h1 className="font-display text-[clamp(1.8rem,4.5vw,3rem)] font-extrabold leading-[1.05] text-[#f0d996] [text-wrap:balance]">
+              Felicitations — nous pensons pouvoir vous aider
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-platinum/75">
+              Prochaine etape : regardez la video ci-dessous, puis reservez votre appel avec un membre de notre equipe.
+            </p>
+          </div>
+
+          <div className="mt-10 space-y-8">
+            <div className="public-card p-4 md:p-6">
+              <p className="section-kicker mb-3">Etape 1 — Regardez cette video</p>
+              <VideoSlot
+                url={leadAgenceConfig.videos.rendezVous}
+                title="Ce qui va se passer maintenant"
+                placeholder="La video vous explique en 3 minutes comment se deroule l'appel et ce que vous en repartez avec."
+              />
+            </div>
+
+            <div className="public-card p-4 md:p-6">
+              <p className="section-kicker mb-2">Etape 2 — Reservez votre appel</p>
+              <h2 className="font-display text-xl font-extrabold text-platinum md:text-2xl">
+                Choisissez un creneau avec notre equipe
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-platinum/70">
+                L'appel dure environ 45 minutes, en ligne. Nous parlerons de :
+              </p>
+              <ul className="mt-3 space-y-2">
+                {callPoints.map((point) => (
+                  <li key={point} className="flex gap-2 text-sm leading-6 text-platinum/70">
+                    <span className="mt-[2px] text-[#f0d996]">—</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-5">
+                <GhlCalendar />
+              </div>
+
+              <p className="mt-4 text-sm leading-6 text-platinum/70">
+                Vous preferez WhatsApp ? Ecrivez-nous au{" "}
+                <a
+                  href={rendezVousWhatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-[#f0d996] underline"
+                >
+                  {siteContact.phoneDisplay}
+                </a>{" "}
+                et nous vous proposons un creneau. Notre equipe repond du lundi au vendredi, de 9h a 17h.
+              </p>
+            </div>
+
+            <div className="public-card p-5 md:p-7">
+              <p className="section-kicker mb-2">En attendant</p>
+              <h2 className="font-display text-xl font-extrabold text-platinum md:text-2xl">
+                Rejoignez notre chaine WhatsApp
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-platinum/70">
+                2 a 3 conseils concrets par semaine : exemples de publicites qui fonctionnent a Abidjan, scripts de
+                relance, erreurs a eviter. Gratuit, et vous partez quand vous voulez.
+              </p>
+              <a
+                href={leadAgenceConfig.whatsappChannelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-cobalt mt-5 w-full sm:w-auto"
+              >
+                Rejoindre la chaine WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </LeadShell>
+  );
+};
+
+export default LeadAgenceRendezVousPage;
