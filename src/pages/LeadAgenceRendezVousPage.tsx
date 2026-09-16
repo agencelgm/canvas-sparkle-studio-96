@@ -83,24 +83,6 @@ const LeadAgenceRendezVousPage = () => {
               </p>
             </div>
 
-            <div className="public-card p-5 md:p-7">
-              <p className="section-kicker mb-2">En attendant</p>
-              <h2 className="font-display text-xl font-extrabold text-platinum md:text-2xl">
-                Rejoignez notre chaine WhatsApp
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-platinum/70">
-                2 a 3 conseils concrets par semaine : exemples de publicites qui fonctionnent a Abidjan, scripts de
-                relance, erreurs a eviter. Gratuit, et vous partez quand vous voulez.
-              </p>
-              <a
-                href={leadAgenceConfig.whatsappChannelUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-cobalt mt-5 w-full sm:w-auto"
-              >
-                Rejoindre la chaine WhatsApp
-              </a>
-            </div>
           </div>
         </div>
       </section>
