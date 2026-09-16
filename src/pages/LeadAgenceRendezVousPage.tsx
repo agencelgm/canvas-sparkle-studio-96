@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import LeadShell from "@/components/lead/LeadShell";
 import VideoSlot from "@/components/lead/VideoSlot";
@@ -6,6 +6,7 @@ import GhlCalendar from "@/components/lead/GhlCalendar";
 import { leadAgenceConfig, rendezVousWhatsappUrl } from "@/data/leadAgenceConfig";
 import { siteContact } from "@/data/publicContent";
 import { trackQualifiedLead } from "@/lib/facebookPixel";
+import { saveLead } from "@/hooks/useLeadCapture";
 
 const callPoints = [
   "Vos chiffres actuels : d'ou viennent vos clients aujourd'hui.",
@@ -14,9 +15,58 @@ const callPoints = [
   "Le plan que nous mettrions en place, levier par levier.",
 ];
 
+const readIdentityFromUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  const get = (...keys: string[]) => {
+    for (const key of keys) {
+      const value = params.get(key);
+      if (value && value.trim() && !value.includes("{{")) return value.trim();
+    }
+    return null;
+  };
+  const first = get("prenom", "first_name", "firstname");
+  const last = get("nom", "last_name", "lastname");
+  return {
+    email: get("email", "courriel"),
+    phone: get("phone", "telephone", "tel", "whatsapp"),
+    name: [first, last].filter(Boolean).join(" ") || get("full_name", "fullname") || null,
+    hasParams: Boolean(get("email", "courriel") || get("phone", "telephone", "tel", "whatsapp") || first || last),
+  };
+};
+
 const LeadAgenceRendezVousPage = () => {
+  const done = useRef(false);
+
   useEffect(() => {
-    void trackQualifiedLead();
+    if (done.current) return;
+    done.current = true;
+
+    const run = async () => {
+      const identity = readIdentityFromUrl();
+
+      if (identity.hasParams) {
+        await saveLead({
+          email: identity.email,
+          phone: identity.phone,
+          full_name: identity.name,
+          source: "ghl_redirect",
+        });
+        // On retire les coordonnees de la barre d'adresse.
+        const url = new URL(window.location.href);
+        ["email", "courriel", "phone", "telephone", "tel", "whatsapp", "prenom", "first_name", "firstname", "nom", "last_name", "lastname", "full_name", "fullname"].forEach(
+          (key) => url.searchParams.delete(key),
+        );
+        window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+      }
+
+      await trackQualifiedLead({
+        email: identity.email,
+        phone: identity.phone,
+        name: identity.name,
+      });
+    };
+
+    void run();
   }, []);
 
   return (
