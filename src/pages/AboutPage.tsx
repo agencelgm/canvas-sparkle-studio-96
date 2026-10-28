@@ -30,14 +30,14 @@ const AboutPage = () => {
     <Helmet>
       <title>A propos | Agence marketing et communication a Abidjan | LGM</title>
       <meta name="description" content="LGM, agence marketing et communication a Abidjan : acquisition, SEO/AEO/GEO, creation, IA, automatisation et logiciels sur mesure." />
-      <link rel="canonical" href="https://lgm.marketing/a-propos" />
-      <meta property="og:url" content="https://lgm.marketing/a-propos" />
-      <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
+      <link rel="canonical" href="https://agencelgm.com/a-propos" />
+      <meta property="og:url" content="https://agencelgm.com/a-propos" />
+      <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+          { "@type": "ListItem", position: 1, name: "Accueil", item: "https://agencelgm.com/" },
           { "@type": "ListItem", position: 2, name: "A propos" },
         ],
       })}</script>

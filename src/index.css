@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -97,14 +97,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif; }
 
   a { text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
 }
 
 @layer components {
   .font-sans { font-family: 'Manrope', system-ui, sans-serif; }
-  .font-display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+  .font-display { font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif; }
 
   .container-wide { @apply mx-auto max-w-[1320px] px-5 md:px-8; width: 100%; }
   .container-narrow { @apply mx-auto max-w-4xl px-5 md:px-8; width: 100%; }
@@ -125,7 +125,7 @@
 
   .section-kicker {
     margin-bottom: 1rem;
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--cobalt-light);
@@ -133,7 +133,7 @@
 
   .public-h1 {
     max-width: 12ch;
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
     font-size: clamp(3.2rem, 8vw, 7.2rem);
     font-weight: 800;
     line-height: 0.94;
@@ -142,7 +142,7 @@
   }
 
   .public-h2 {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
     font-size: clamp(2.1rem, 5vw, 5.25rem);
     font-weight: 750;
     line-height: 0.98;
@@ -157,7 +157,7 @@
   }
 
   .public-h3 {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
     font-size: clamp(1.35rem, 2.4vw, 2.4rem);
     font-weight: 700;
     line-height: 1.06;
@@ -183,7 +183,7 @@
   }
 
   .corporate-accent {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
     font-style: normal;
     color: var(--cobalt-light);
   }

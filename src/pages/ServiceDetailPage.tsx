@@ -29,7 +29,7 @@ const ServiceDetailPage = () => {
     );
   }
 
-  const canonicalUrl = `https://lgm.marketing/services/${service.slug}`;
+  const canonicalUrl = `https://agencelgm.com/services/${service.slug}`;
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -39,7 +39,7 @@ const ServiceDetailPage = () => {
     provider: {
       "@type": "Organization",
       name: "LGM, Les Gens du Marketing",
-      url: "https://lgm.marketing",
+      url: "https://agencelgm.com",
     },
     areaServed: serviceAreaPages.map((area) => ({ "@type": "City", name: `${area.city}, ${area.country}` })),
     url: canonicalUrl,
@@ -61,8 +61,8 @@ const ServiceDetailPage = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
-      { "@type": "ListItem", position: 2, name: "Services", item: "https://lgm.marketing/services" },
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://agencelgm.com/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://agencelgm.com/services" },
       { "@type": "ListItem", position: 3, name: service.title },
     ],
   };
@@ -76,7 +76,7 @@ const ServiceDetailPage = () => {
         <meta property="og:title" content={`${service.title} a Abidjan | LGM`} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
+        <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>

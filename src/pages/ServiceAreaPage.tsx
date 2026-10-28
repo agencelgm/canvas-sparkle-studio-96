@@ -8,7 +8,7 @@ import RelatedLinks from "@/components/seo/RelatedLinks";
 import { findServiceArea, publicImages, publicServices, siteContact } from "@/data/publicContent";
 import { codeGraph, findNode } from "@/data/siteGraph";
 
-const baseUrl = "https://lgm.marketing";
+const baseUrl = "https://agencelgm.com";
 
 const ServiceAreaPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -84,7 +84,7 @@ const ServiceAreaPage = () => {
         <meta property="og:title" content={`${area.title} | LGM`} />
         <meta property="og:description" content={area.metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
+        <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
         <script type="application/ld+json">{JSON.stringify(areaSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>

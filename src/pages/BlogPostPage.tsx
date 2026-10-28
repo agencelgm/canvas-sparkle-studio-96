@@ -40,8 +40,8 @@ const BlogPostPage = () => {
     );
   }
 
-  const canonicalUrl = `https://lgm.marketing/blog/${post.slug}`;
-  const ogImage = `https://lgm.marketing${publicImages.og}`;
+  const canonicalUrl = `https://agencelgm.com/blog/${post.slug}`;
+  const ogImage = `https://agencelgm.com${publicImages.og}`;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -51,7 +51,7 @@ const BlogPostPage = () => {
     image: ogImage,
     datePublished: post.published_at,
     dateModified: post.published_at,
-    author: { "@type": "Organization", name: "LGM, Les Gens du Marketing", url: "https://lgm.marketing" },
+    author: { "@type": "Organization", name: "LGM, Les Gens du Marketing", url: "https://agencelgm.com" },
     publisher: {
       "@type": "Organization",
       name: "LGM, Les Gens du Marketing",
@@ -65,8 +65,8 @@ const BlogPostPage = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://lgm.marketing/blog" },
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://agencelgm.com/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://agencelgm.com/blog" },
       { "@type": "ListItem", position: 3, name: post.title },
     ],
   };

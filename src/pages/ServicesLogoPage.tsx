@@ -43,10 +43,10 @@ export default function ServicesLogoPage() {
           name="description"
           content="Faites creer votre logo professionnel par LGM. 3 packs disponibles a partir de 50 000 FCFA. Remplissez notre questionnaire en ligne pour recevoir votre devis personnalise."
         />
-        <link rel="canonical" href="https://lgm.marketing/services/logo" />
+        <link rel="canonical" href="https://agencelgm.com/services/logo" />
         <meta property="og:title" content="Creation de Logo & Identite Visuelle | LGM" />
         <meta property="og:description" content="Faites creer votre logo professionnel par LGM a partir de 50 000 FCFA." />
-        <meta property="og:url" content="https://lgm.marketing/services/logo" />
+        <meta property="og:url" content="https://agencelgm.com/services/logo" />
       </Helmet>
 
       {/* HERO */}

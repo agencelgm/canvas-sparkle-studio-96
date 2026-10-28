@@ -46,10 +46,10 @@ export default function ServicesSiteInternetPage() {
           name="description"
           content="Site internet professionnel cle en main a 165 000 FCFA : design responsive, SEO, hebergement, email. Remplissez notre questionnaire pour votre devis personnalise."
         />
-        <link rel="canonical" href="https://lgm.marketing/services/site-internet" />
+        <link rel="canonical" href="https://agencelgm.com/services/site-internet" />
         <meta property="og:title" content="Creation de Site Internet Vitrine | LGM" />
         <meta property="og:description" content="Site vitrine professionnel a 165 000 FCFA, cle en main. Design, SEO, hebergement et email inclus." />
-        <meta property="og:url" content="https://lgm.marketing/services/site-internet" />
+        <meta property="og:url" content="https://agencelgm.com/services/site-internet" />
       </Helmet>
 
       {/* HERO */}

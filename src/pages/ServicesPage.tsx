@@ -10,9 +10,9 @@ const ServicesPage = () => (
     <Helmet>
       <title>Services marketing, communication, IA et logiciel | LGM Abidjan</title>
       <meta name="description" content="Services LGM a Abidjan : marketing, communication, Facebook Ads, SEO/AEO/GEO, sites web, IA, automatisation et logiciel sur mesure." />
-      <link rel="canonical" href="https://lgm.marketing/services" />
-      <meta property="og:url" content="https://lgm.marketing/services" />
-      <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
+      <link rel="canonical" href="https://agencelgm.com/services" />
+      <meta property="og:url" content="https://agencelgm.com/services" />
+      <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
       <meta property="og:title" content="Services marketing, communication, IA et logiciel | LGM" />
       <meta property="og:description" content="Generation de leads, publicite, Facebook Ads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure." />
       <script type="application/ld+json">{JSON.stringify({
@@ -21,7 +21,7 @@ const ServicesPage = () => (
           {
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+              { "@type": "ListItem", position: 1, name: "Accueil", item: "https://agencelgm.com/" },
               { "@type": "ListItem", position: 2, name: "Services" },
             ],
           },
@@ -32,7 +32,7 @@ const ServicesPage = () => (
               "@type": "ListItem",
               position: index + 1,
               name: service.title,
-              url: `https://lgm.marketing/services/${service.slug}`,
+              url: `https://agencelgm.com/services/${service.slug}`,
             })),
           },
         ],

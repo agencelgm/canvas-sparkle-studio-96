@@ -28,14 +28,14 @@ const BlogPage = () => {
       <Helmet>
         <title>Blog marketing, publicite, SEO et IA | LGM Abidjan</title>
         <meta name="description" content="Insights LGM depuis Abidjan : marketing, Facebook Ads, SEO/AEO/GEO, generation de leads, IA et automatisation." />
-        <link rel="canonical" href="https://lgm.marketing/blog" />
-        <meta property="og:url" content="https://lgm.marketing/blog" />
-        <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
+        <link rel="canonical" href="https://agencelgm.com/blog" />
+        <meta property="og:url" content="https://agencelgm.com/blog" />
+        <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://lgm.marketing/" },
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://agencelgm.com/" },
             { "@type": "ListItem", position: 2, name: "Blog" },
           ],
         })}</script>

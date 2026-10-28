@@ -27,14 +27,14 @@ const Index = () => {
           name="keywords"
           content="agence marketing Abidjan, agence de communication Abidjan, entreprise de marketing, agence de publicite, agence Facebook, services Facebook, generation de leads, SEO Abidjan, AEO, GEO, creation de logo, automatisation IA, logiciel sur mesure"
         />
-        <link rel="canonical" href="https://lgm.marketing" />
+        <link rel="canonical" href="https://agencelgm.com" />
         <meta property="og:title" content="LGM | Agence marketing et communication a Abidjan" />
         <meta property="og:description" content="Publicite digitale, Facebook Ads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure pour entreprises ambitieuses." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://lgm.marketing" />
+        <meta property="og:url" content="https://agencelgm.com" />
         <meta property="og:locale" content="fr_CI" />
-        <meta property="og:image" content={`https://lgm.marketing${publicImages.og}`} />
-        <meta name="twitter:image" content={`https://lgm.marketing${publicImages.og}`} />
+        <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
+        <meta name="twitter:image" content={`https://agencelgm.com${publicImages.og}`} />
         <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
