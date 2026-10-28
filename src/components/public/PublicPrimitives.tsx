@@ -66,8 +66,8 @@ export const MagneticLink = ({
   );
 };
 
-export const TextLink = ({ to, children }: { to: To; children: ReactNode }) => (
-  <Link to={to} className="public-text-link group">
+export const TextLink = ({ to, children, tone = "dark" }: { to: To; children: ReactNode; tone?: "dark" | "light" }) => (
+  <Link to={to} className={`public-text-link group ${tone === "light" ? "!text-cobalt-dark" : ""}`}>
     <span>{children}</span>
     <Arrow className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
   </Link>

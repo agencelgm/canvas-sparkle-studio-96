@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -97,14 +97,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif; }
 
   a { text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
 }
 
 @layer components {
   .font-sans { font-family: 'Manrope', system-ui, sans-serif; }
-  .font-display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+  .font-display { font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif; }
 
   .container-wide { @apply mx-auto max-w-[1320px] px-5 md:px-8; width: 100%; }
   .container-narrow { @apply mx-auto max-w-4xl px-5 md:px-8; width: 100%; }
@@ -125,27 +125,31 @@
 
   .section-kicker {
     margin-bottom: 1rem;
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: 0.75rem;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+    font-size: 0.95rem;
     font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--cobalt-light);
   }
 
   .public-h1 {
-    max-width: 12ch;
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(3.2rem, 8vw, 7.2rem);
+    max-width: 14ch;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+    font-size: clamp(3.4rem, 8.4vw, 7.8rem);
     font-weight: 800;
-    line-height: 0.94;
+    line-height: 0.9;
+    text-transform: uppercase;
     letter-spacing: 0;
     text-wrap: balance;
   }
 
   .public-h2 {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(2.1rem, 5vw, 5.25rem);
-    font-weight: 750;
-    line-height: 0.98;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+    font-size: clamp(2.4rem, 5.4vw, 5.4rem);
+    font-weight: 700;
+    line-height: 0.95;
+    text-transform: uppercase;
     letter-spacing: 0;
     text-wrap: balance;
   }
@@ -157,10 +161,10 @@
   }
 
   .public-h3 {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    font-size: clamp(1.35rem, 2.4vw, 2.4rem);
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+    font-size: clamp(1.5rem, 2.6vw, 2.5rem);
     font-weight: 700;
-    line-height: 1.06;
+    line-height: 1;
     letter-spacing: 0;
     text-wrap: balance;
   }
@@ -183,7 +187,7 @@
   }
 
   .corporate-accent {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
     font-style: normal;
     color: var(--cobalt-light);
   }
@@ -357,6 +361,31 @@
   .public-prose a { color: var(--cobalt-light); }
   .public-prose ul { margin: 1rem 0 1.25rem; padding-left: 1.25rem; }
   .public-prose li { margin-bottom: 0.5rem; }
+
+
+  /* ---- Refonte 2026 : systeme LGM ---- */
+  .skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 100; background: var(--cobalt); color: var(--cobalt-ink); padding: 0.75rem 1rem; border-radius: 6px; font-weight: 700; }
+  .skip-link:focus { top: 1rem; }
+  .nav-link { position: relative; border-radius: 999px; padding: 0.5rem 0.9rem; font-size: 0.86rem; font-weight: 700; color: rgba(246,248,251,0.72); transition: color 240ms var(--ease-lgm), background 240ms var(--ease-lgm); }
+  .nav-link:hover { color: var(--platinum); background: rgba(246,248,251,0.06); }
+  .nav-link[aria-current="page"] { color: var(--cobalt-ink); background: var(--cobalt-light); }
+  .numbered-row { display: grid; grid-template-columns: 3.5rem 1fr auto; gap: 1rem; align-items: center; width: 100%; text-align: left; padding: 1.15rem 0.25rem; border-bottom: 1px solid rgba(240,217,150,0.16); color: rgba(246,248,251,0.62); transition: color 240ms var(--ease-lgm), padding 240ms var(--ease-lgm); }
+  .numbered-row .row-num { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; font-size: 1.1rem; color: rgba(240,217,150,0.5); }
+  .numbered-row .row-title { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 700; text-transform: uppercase; font-size: clamp(1.5rem, 2.8vw, 2.6rem); line-height: 1; }
+  .numbered-row[data-active="true"] { color: var(--platinum); padding-left: 0.85rem; }
+  .numbered-row[data-active="true"] .row-num { color: var(--cobalt-light); }
+  .numbered-row-light { border-bottom-color: var(--platinum-border); color: var(--platinum-muted); }
+  .numbered-row-light[data-active="true"] { color: var(--platinum-text); }
+  .numbered-row-light .row-num { color: var(--cobalt-dark); }
+  .context-panel { position: relative; overflow: hidden; border-radius: 8px; border: 1px solid rgba(240,217,150,0.2); background: var(--charcoal-panel); }
+  .panel-light { border-radius: 8px; background: #fff; border: 1px solid var(--platinum-border); color: var(--platinum-text); box-shadow: 0 24px 60px rgba(16,24,39,0.08); }
+  .system-node { display: flex; flex-direction: column; gap: 0.35rem; border: 1px solid rgba(240,217,150,0.2); border-radius: 8px; background: rgba(246,248,251,0.04); padding: 1rem; color: var(--platinum); }
+  .system-node[data-active="true"] { border-color: var(--cobalt-light); background: rgba(215,180,106,0.12); }
+  .composition { position: relative; overflow: hidden; border-radius: 8px; min-height: 300px; background:
+      radial-gradient(circle at 80% 18%, rgba(215,180,106,0.28), transparent 38%),
+      linear-gradient(150deg, #0c1424 0%, #141d2d 60%, #1b2537 100%); border: 1px solid rgba(240,217,150,0.2); }
+  .composition-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(240,217,150,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(240,217,150,0.07) 1px, transparent 1px); background-size: 32px 32px; }
+  .team-placeholder { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 8px; background: linear-gradient(160deg, #101827, #1b2537); border: 1px solid rgba(240,217,150,0.18); }
 
   .public-cta-band { position: relative; overflow: hidden; padding: clamp(5rem, 12vw, 10rem) 0; }
   .public-cta-band::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(215, 180, 106, 0.14), transparent 34%); pointer-events: none; }

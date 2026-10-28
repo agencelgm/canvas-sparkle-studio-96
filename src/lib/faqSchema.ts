@@ -1,7 +1,7 @@
 import { faqItems } from "@/data/faqContent";
 import { publicServices, serviceAreaPages, siteContact } from "@/data/publicContent";
 
-const baseUrl = "https://lgm.marketing";
+const baseUrl = "https://agencelgm.com";
 
 export const faqSchema = {
   "@context": "https://schema.org",

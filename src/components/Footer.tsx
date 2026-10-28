@@ -1,70 +1,74 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { navLinks, serviceAreaPages, siteContact } from "@/data/publicContent";
-import { Arrow, EASE } from "@/components/public/PublicPrimitives";
+import { navLinks, publicServices, serviceAreaPages, siteContact } from "@/data/publicContent";
 import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
+const linkCls = "text-sm font-semibold text-platinum/60 transition-colors hover:text-platinum";
+
 const Footer = () => (
-  <footer className="section-charcoal border-t border-[#f0d9961f] py-12 md:py-16">
+  <footer className="section-charcoal border-t border-[#f0d9961f] py-14 md:py-20">
     <div className="container-wide">
-      <motion.div
-        className="grid gap-10 md:grid-cols-2 md:items-start lg:grid-cols-[1.2fr_0.75fr_0.85fr_0.9fr]"
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.65, ease: EASE }}
-      >
+      <div className="grid gap-10 border-b border-[#f0d99614] pb-12 lg:grid-cols-[1.3fr_1fr] lg:items-end">
         <div>
-          <Link to="/" aria-label="LGM, accueil" className="mb-6 inline-flex">
+          <p className="section-kicker">Un systeme complet</p>
+          <p className="public-h2 max-w-[16ch]">Attirer, convertir et fideliser vos clients.</p>
+        </div>
+        <div className="flex flex-wrap gap-3 lg:justify-end">
+          <Link to="#diagnostic" onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)} className="btn-cobalt">Faire mon diagnostic</Link>
+          <a href={siteContact.whatsapp} target="_blank" rel="noreferrer" className="btn-cobalt-outline">WhatsApp</a>
+        </div>
+      </div>
+
+      <div className="grid gap-10 pt-12 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.8fr_1fr_0.8fr_1fr]">
+        <div>
+          <Link to="/" aria-label="LGM, accueil" className="mb-5 inline-flex">
             <img src="/lovable-uploads/lgm-logo-light.png" alt="LGM" className="h-10 w-auto" />
           </Link>
-          <p className="public-body max-w-md">
-            Agence marketing et communication basee a Abidjan. Nous structurons acquisition, conversion, fidelisation, IA et automatisation pour les entreprises ambitieuses des marches francophones.
+          <p className="public-body max-w-xs">
+            Agence marketing a Abidjan. Campagnes, pages, qualification, CRM, rendez-vous, vente et fidelisation relies dans un seul systeme.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="#diagnostic" onClick={() => window.setTimeout(() => scrollToDiagnostic(), 0)} className="btn-cobalt-outline min-h-0 px-5 py-2 text-[0.78rem]">
-              Demander un audit
-            </Link>
-          </div>
         </div>
 
-        <div>
+        <nav aria-label="Navigation du pied de page">
           <p className="section-kicker">Navigation</p>
-          <nav className="flex flex-col gap-3" aria-label="Navigation footer">
+          <ul className="flex flex-col gap-3">
+            <li><Link to="/" className={linkCls}>Accueil</Link></li>
             {navLinks.map(({ href, label }) => (
-              <Link key={href} to={href} className="inline-flex items-center gap-2 text-sm font-semibold text-platinum/58 transition-colors hover:text-platinum">
-                {label}
-                <Arrow className="h-3 w-3" />
-              </Link>
+              <li key={href}><Link to={href} className={linkCls}>{label}</Link></li>
             ))}
-          </nav>
-        </div>
+          </ul>
+        </nav>
 
-        <div>
-          <p className="section-kicker">Zones</p>
-          <nav className="flex flex-col gap-3" aria-label="Zones desservies">
-            {serviceAreaPages.map(({ slug, city, country }) => (
-              <Link key={slug} to={`/zones/${slug}`} className="inline-flex items-center gap-2 text-sm font-semibold text-platinum/58 transition-colors hover:text-platinum">
-                {city}, {country}
-                <Arrow className="h-3 w-3" />
-              </Link>
+        <nav aria-label="Services">
+          <p className="section-kicker">Services</p>
+          <ul className="flex flex-col gap-3">
+            {publicServices.slice(0, 6).map((s) => (
+              <li key={s.slug}><Link to={`/services/${s.slug}`} className={linkCls}>{s.title}</Link></li>
             ))}
-          </nav>
-        </div>
+          </ul>
+        </nav>
+
+        <nav aria-label="Zones desservies">
+          <p className="section-kicker">Zones</p>
+          <ul className="flex flex-col gap-3">
+            {serviceAreaPages.map(({ slug, city }) => (
+              <li key={slug}><Link to={`/zones/${slug}`} className={linkCls}>{city}</Link></li>
+            ))}
+          </ul>
+        </nav>
 
         <div>
           <p className="section-kicker">Contact</p>
-          <div className="space-y-3 text-sm text-platinum/58">
-            <a className="block transition-colors hover:text-platinum" href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
-            <a className="block transition-colors hover:text-platinum" href={`tel:${siteContact.phoneHref}`}>{siteContact.phoneDisplay}</a>
+          <address className="space-y-3 text-sm not-italic text-platinum/60">
+            <a className="block hover:text-platinum" href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
+            <a className="block hover:text-platinum" href={`tel:${siteContact.phoneHref}`}>{siteContact.phoneDisplay}</a>
             <p>{siteContact.hours}</p>
             <p>{siteContact.address}</p>
-          </div>
+          </address>
         </div>
-      </motion.div>
+      </div>
 
-      <div className="mt-12 flex flex-col gap-3 border-t border-[#f0d99614] pt-6 text-xs text-platinum/34 md:flex-row md:items-center md:justify-between">
-        <p>(c) {new Date().getFullYear()} LGM, Les Gens du Marketing. Tous droits reserves.</p>
+      <div className="mt-12 flex flex-col gap-3 border-t border-[#f0d99614] pt-6 text-xs text-platinum/40 md:flex-row md:items-center md:justify-between">
+        <p>© {new Date().getFullYear()} LGM, Les Gens du Marketing. Tous droits reserves.</p>
         <p>Abidjan, Cote d'Ivoire</p>
       </div>
     </div>

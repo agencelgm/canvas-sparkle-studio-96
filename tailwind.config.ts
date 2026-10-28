@@ -21,7 +21,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Manrope", "system-ui", "sans-serif"],
-        display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
+        display: ["Barlow Condensed", "Arial Narrow", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -32,4 +32,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://canvas-sparkle-studio-96.lovable.app/sitemap.xml
+Sitemap: https://agencelgm.com/sitemap.xml
