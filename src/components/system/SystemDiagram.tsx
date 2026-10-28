@@ -8,7 +8,7 @@ import { EASE } from "@/components/public/PublicPrimitives";
 const SystemDiagram = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
-  const step = systemSteps[active];
+  const step = systemSteps[active] ?? systemSteps[0];
   const light = tone === "light";
 
   return (
@@ -76,6 +76,7 @@ const SystemDiagram = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
           </li>
         ))}
       </ol>
+      </div>
 
       <div className={`mt-3 flex items-center gap-3 rounded-lg border border-dashed px-4 py-3 text-sm font-semibold ${light ? "border-cobalt-dark/50 text-platinum-muted" : "border-[#f0d99659] text-platinum/70"}`}>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" className={light ? "text-cobalt-dark" : "text-cobalt-light"}>
@@ -84,7 +85,7 @@ const SystemDiagram = ({ tone = "dark" }: { tone?: "dark" | "light" }) => {
         <span><strong className={light ? "text-platinum-text" : "text-platinum"}>{measureLoop.title} :</strong> chaque etape est mesuree, la plus faible est corrigee en premier.</span>
       </div>
 
-      <div className={`mt-6 min-h-[7.5rem] ${light ? "text-platinum-text" : "text-platinum"}`} aria-live="polite">
+      <div className={`mt-6 hidden min-h-[7.5rem] sm:block ${light ? "text-platinum-text" : "text-platinum"}`} aria-live="polite">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={step.id}
