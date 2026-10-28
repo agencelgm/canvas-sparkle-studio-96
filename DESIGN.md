@@ -1,40 +1,41 @@
-# DESIGN
+# DESIGN — Systeme visuel LGM (refonte 2026)
 
-## Design Read
+## Promesse
+« Un systeme complet pour attirer, convertir et fideliser vos clients. » Chaque page explique simplement comment campagnes, pages, qualification, CRM, rendez-vous, vente et fidelisation se relient. CTA principal unique : le diagnostic / formulaire de qualification multi-etapes (`#diagnostic`).
 
-Reading this as: public brand site for West African business owners and marketing leaders, with an Awwwards-bold contemporary African luxury language, leaning toward image-led editorial React sections, Tailwind v3 tokens, and Framer Motion.
+## Palette
+- Bleu nuit / charbon (`--charcoal`, `--charcoal-panel`, `--graphite`) pour les sections d'autorite.
+- Panneaux clairs (`--platinum`, `.panel-light`) pour les sections de lecture et de preuve.
+- Or discret (`--cobalt`, `--cobalt-light`, `--cobalt-dark`) : accent, etat actif, numeros. Sur fond clair, utiliser `cobalt-dark` pour le contraste.
+- Aucune couleur de concurrent, aucun degrade violet, pas de texte en degrade.
 
-## Theme
+## Typographie
+- Titres : Barlow Condensed 700/800, en capitales, interlignage serre (`.public-h1`, `.public-h2`, `.public-h3`, `font-display`).
+- Corps, formulaires, boutons : Manrope.
+- Kickers : Barlow Condensed en capitales, espacement 0.14em, or.
 
-The site is a cinematic public brand surface. It uses deep espresso, warm dark brown, ivory, Akan gold and restrained terracotta. The palette is committed but not decorative: dark surfaces carry authority, ivory surfaces carry clarity, gold is a precise accent.
+## Structure editoriale
+- Hierarchie de chaque page : promesse → methode → preuves → action.
+- Listes numerotees (`.numbered-row`, rangees 01–06) plutot que grilles de cartes identiques.
+- Panneau contextuel adjacent qui change au survol ET au focus clavier (AnimatePresence), accordeon au toucher (`ServiceExplorer`).
+- Diagramme du systeme : six etapes reliees + boucle « Mesurer et optimiser » (`SystemDiagram`, `SystemJourney`).
+- Logo, logiciel sur mesure et formation sont presentes comme soutiens transversaux, jamais comme etapes.
 
-## Typography
-
-- Display: Bricolage Grotesque for large confident headlines and kinetic navigation.
-- Body/UI: Manrope for readable French copy, forms and buttons.
-- Editorial accent: Bodoni Moda only for rare italic or oversized accent moments.
-- Hero headings stay at 2 to 3 lines on desktop and never overflow mobile containers.
-
-## Imagery
-
-Images are local generated raster assets under `public/images/`. They should feel like editorial photography: Abidjan light, strategy rooms, fabric texture, business founders, city architecture, hands, notebooks and growth systems. No stock-photo smile, no generic SaaS dashboard, no purple AI glow.
-
-## Layout
-
-Sections are cinematic chapters with varied composition: bottom-left hero over image, split image/text, horizontal service rows, sticky-feeling method blocks, editorial quote bands, and dense but controlled blog surfaces. Avoid repeated equal card grids unless the content truly needs cards.
+## Images
+- Uniquement les visuels de `public/images/` ou des compositions CSS/SVG originales (`.composition`, `.team-placeholder`).
+- Equipe presentee par roles avec placeholders abstraits : aucun nom ni faux portrait tant que les donnees reelles ne sont pas fournies (`teamRoles` dans `src/data/systemContent.ts`).
 
 ## Motion
+- Framer Motion, courbe `[0.32, 0.72, 0, 1]`, transitions courtes (opacity/transform).
+- Pas d'apparition au scroll des contenus. Seule exception : sur desktop, la page `/systeme-acquisition` active l'etape visible dans un panneau collant. Sur mobile, tout est lisible sans scroll ni animation.
+- `prefers-reduced-motion` : transitions coupees (CSS global + `useReducedMotion`).
 
-Use Framer Motion with the global cubic bezier `[0.32, 0.72, 0, 1]`. Motion intensity is high enough to feel premium, but content is readable without animation. Prefer transform and opacity. Respect `prefers-reduced-motion`.
+## Accessibilite
+- Lien « Aller au contenu », `aria-current="page"` sur la navigation, focus visibles or, menu mobile fermable par Echap, accordeons avec `aria-expanded`/`aria-controls`.
 
-## Components
+## SEO
+- Domaine canonique unique : https://agencelgm.com (`src/lib/site.ts`). lgm.marketing est un site distinct.
+- Sitemap statique : routes permanentes seulement. Articles lus depuis la base a l'execution.
 
-- Header: fixed public navigation, active state, no scroll event listener.
-- Buttons: high-contrast filled gold, ivory and outline variants, with physical hover/active feedback.
-- Image frames: local raster image, subtle parallax or scale, dark/ivory overlays only for readability.
-- Forms: inline validation, visible focus, success/error states, Supabase field names unchanged.
-- Footer: compact public navigation, direct contact, legal links, no link farm.
-
-## Bans
-
-No `source.unsplash`, no gradient text, no `h-screen`, no repeated eyebrow labels, no 3D/Three.js public components, no hand-wavy copy, no English 404, no old Lovable OG image.
+## Interdits
+Pas de `source.unsplash`, pas de `h-screen`, pas de composants 3D publics, pas de resultats inventes, pas de photos generiques presentees comme des employes.
