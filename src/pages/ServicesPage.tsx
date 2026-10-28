@@ -1,100 +1,79 @@
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
 import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
-import { Arrow, FinalCTA, ImageFrame, PageHero, Reveal } from "@/components/public/PublicPrimitives";
-import { publicImages, publicServices } from "@/data/publicContent";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import ServiceExplorer from "@/components/system/ServiceExplorer";
+import SystemDiagram from "@/components/system/SystemDiagram";
+import { FinalCTA, TextLink } from "@/components/public/PublicPrimitives";
+import { publicServices } from "@/data/publicContent";
+import { OG_IMAGE, absUrl, breadcrumbSchema } from "@/lib/site";
+
+const title = "Services marketing relies a votre parcours client | LGM Abidjan";
+const description = "Publicite Facebook et Google, SEO, sites web, generation de leads, CRM et automatisation : chaque service LGM joue un role precis dans votre systeme.";
 
 const ServicesPage = () => (
   <PageLayout>
     <Helmet>
-      <title>Services marketing, communication, IA et logiciel | LGM Abidjan</title>
-      <meta name="description" content="Services LGM a Abidjan : marketing, communication, Facebook Ads, SEO/AEO/GEO, sites web, IA, automatisation et logiciel sur mesure." />
-      <link rel="canonical" href="https://agencelgm.com/services" />
-      <meta property="og:url" content="https://agencelgm.com/services" />
-      <meta property="og:image" content={`https://agencelgm.com${publicImages.og}`} />
-      <meta property="og:title" content="Services marketing, communication, IA et logiciel | LGM" />
-      <meta property="og:description" content="Generation de leads, publicite, Facebook Ads, SEO/AEO/GEO, logo, sites web, IA, automatisation et logiciels sur mesure." />
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <link rel="canonical" href={absUrl("/services")} />
+      <meta property="og:url" content={absUrl("/services")} />
+      <meta property="og:image" content={OG_IMAGE} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema([{ name: "Accueil", path: "/" }, { name: "Services" }]))}</script>
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Accueil", item: "https://agencelgm.com/" },
-              { "@type": "ListItem", position: 2, name: "Services" },
-            ],
-          },
-          {
-            "@type": "ItemList",
-            name: "Services LGM",
-            itemListElement: publicServices.map((service, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              name: service.title,
-              url: `https://agencelgm.com/services/${service.slug}`,
-            })),
-          },
-        ],
+        "@type": "ItemList",
+        name: "Services LGM",
+        itemListElement: publicServices.map((service, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: service.title,
+          url: absUrl(`/services/${service.slug}`),
+        })),
       })}</script>
     </Helmet>
 
-    <PageHero
-      eyebrow="Services"
-      title={<>Des leviers precis pour une <span className="corporate-accent">croissance visible.</span></>}
-      lead="Agence marketing, agence de communication, publicite Facebook, SEO/AEO/GEO, IA, automatisation, sites web, logo et logiciels sur mesure : chaque service renforce le systeme ACF de votre entreprise."
-      image={publicImages.services}
-      imageAlt="Poste de travail marketing avec landing page, acquisition de prospects et contenus sociaux"
-      rightSlot={<DiagnosticHeroSlot sourcePage="services-hero" />}
-    />
+    <section className="public-page-hero !min-h-0">
+      <div className="container-wide relative z-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.8fr)] lg:items-start">
+        <div>
+          <Breadcrumbs className="mb-6" items={[{ label: "Accueil", to: "/" }, { label: "Services" }]} />
+          <p className="section-kicker">Services</p>
+          <h1 className="public-h1">Des services relies, pas des prestations isolees.</h1>
+          <p className="public-lead">
+            Chaque service LGM correspond a une etape de votre parcours client, ou renforce l'ensemble. Vous savez toujours a quoi sert ce que vous achetez.
+          </p>
+        </div>
+        <DiagnosticHeroSlot sourcePage="services-hero" />
+      </div>
+    </section>
 
     <section className="section-charcoal section-pad-tight">
       <div className="container-wide">
-        <Reveal>
-          <p className="section-kicker">Index des expertises</p>
-          <h2 className="public-h2 max-w-5xl">Choisissez un point d'entree, nous relions le reste du systeme.</h2>
-        </Reveal>
-        <div className="mt-12 border-t border-[#f0d99624]">
-          {publicServices.map((service, index) => (
-            <Reveal key={service.slug} delay={index * 0.045}>
-              <Link to={`/services/${service.slug}`} className="service-row group text-platinum">
-                <div>
-                  <p className="font-display text-5xl font-extrabold text-[#f0d99633]">{String(index + 1).padStart(2, "0")}</p>
-                  <p className="mt-2 text-sm font-bold text-[#f0d996]">{service.kicker}</p>
-                </div>
-                <div>
-                  <h2 className="public-h3 transition-colors group-hover:text-[#f0d996]">{service.title}</h2>
-                  <p className="public-body mt-3 max-w-2xl">{service.description}</p>
-                </div>
-                <div className="tag-list">
-                  {service.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                </div>
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#f0d9963d] text-[#f0d996] transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">
-                  <Arrow />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
+        <div className="mb-10 max-w-3xl">
+          <p className="section-kicker">Index des services</p>
+          <h2 className="public-h2">Choisissez un point d'entree.</h2>
+          <p className="public-lead">Survolez ou parcourez la liste au clavier pour voir le benefice et le role de chaque service. Sur mobile, touchez un service pour l'ouvrir.</p>
         </div>
+        <ServiceExplorer />
       </div>
     </section>
 
     <section className="section-platinum section-pad-tight">
-      <div className="container-wide grid gap-10 lg:grid-cols-[1fr_0.76fr] lg:items-center">
-        <Reveal>
-          <p className="section-kicker text-[#d7b46a]">ACF en pratique</p>
-          <h2 className="public-h2 max-w-4xl text-platinum-text">Un bon service ne suffit pas. Il doit s'inscrire dans le parcours complet du client.</h2>
-          <p className="public-lead text-platinum-muted">
-            C'est pourquoi nous commencons toujours par comprendre ou le systeme bloque : attirer, convertir, fideliser ou mesurer.
-          </p>
-        </Reveal>
-        <Reveal delay={0.12}>
-          <ImageFrame src={publicImages.method} alt="Visualisation du parcours Acquisition Conversion Fidelisation pour piloter la croissance" tone="light" className="min-h-[360px]" />
-        </Reveal>
+      <div className="container-wide">
+        <div className="mb-8 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="section-kicker !text-cobalt-dark">Ou se placent les services</p>
+            <h2 className="public-h2 max-w-[20ch] text-platinum-text">Le parcours qu'ils construisent ensemble.</h2>
+          </div>
+          <TextLink to="/systeme-acquisition">Le systeme en detail</TextLink>
+        </div>
+        <SystemDiagram tone="light" />
       </div>
     </section>
 
-    <FinalCTA title="Vous ne savez pas encore quel service choisir ?" text="C'est normal. L'audit sert justement a identifier le levier qui creera le plus d'impact en premier." />
+    <FinalCTA title="Vous ne savez pas par quel service commencer ?" text="C'est normal. Le diagnostic sert justement a identifier l'etape qui creera le plus d'impact en premier." button="Faire mon diagnostic" />
   </PageLayout>
 );
 
