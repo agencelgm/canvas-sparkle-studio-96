@@ -5,6 +5,8 @@ import DiagnosticHeroSlot from "@/components/DiagnosticHeroSlot";
 import PageLayout from "@/components/layout/PageLayout";
 import { FinalCTA, ImageFrame, Reveal } from "@/components/public/PublicPrimitives";
 import { publicImages } from "@/data/publicContent";
+import { teamRoles } from "@/data/systemContent";
+import SocialProof from "@/components/SocialProof";
 
 const principles = [
   { title: "Clarte radicale", text: "Chaque action doit etre reliee a une metrique et a une decision commerciale." },
@@ -28,7 +30,7 @@ const AboutPage = () => {
   return (
   <PageLayout>
     <Helmet>
-      <title>A propos | Agence marketing et communication a Abidjan | LGM</title>
+      <title>A propos de LGM, equipe et methode | Agence marketing Abidjan</title>
       <meta name="description" content="LGM, agence marketing et communication a Abidjan : acquisition, SEO/AEO/GEO, creation, IA, automatisation et logiciels sur mesure." />
       <link rel="canonical" href="https://agencelgm.com/a-propos" />
       <meta property="og:url" content="https://agencelgm.com/a-propos" />
@@ -128,7 +130,39 @@ const AboutPage = () => {
       </div>
     </section>
 
-    <FinalCTA title="Votre marque merite une execution aussi serieuse que votre ambition." text="Le diagnostic sert a comprendre votre contexte avant de vous proposer une formule qui ne serait pas adaptee." />
+    <section className="section-charcoal section-pad-tight" aria-labelledby="equipe">
+      <div className="container-wide">
+        <p className="section-kicker">L'equipe</p>
+        <h2 id="equipe" className="public-h2 max-w-[18ch]">Un role par etape du systeme.</h2>
+        <p className="public-lead">Chaque etape de votre parcours client a un responsable identifie. Les profils detailles de l'equipe seront presentes ici.</p>
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {teamRoles.map((member, index) => (
+            <li key={member.id}>
+              <article className="h-full">
+                <div className="team-placeholder" aria-hidden={!member.photo}>
+                  {member.photo ? (
+                    <img src={member.photo} alt={member.name ?? member.role} className="h-full w-full object-cover" loading="lazy" />
+                  ) : (
+                    <>
+                      <div className="composition-grid" />
+                      <span className="absolute bottom-4 left-4 font-display text-7xl font-extrabold text-[#f0d99633]">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="absolute right-4 top-4 rounded-full border border-[#f0d99640] px-3 py-1 text-xs font-bold text-cobalt-light">{member.focus}</span>
+                    </>
+                  )}
+                </div>
+                <h3 className="mt-4 font-display text-2xl font-bold uppercase leading-none text-platinum">{member.name ?? member.role}</h3>
+                {member.name && <p className="text-sm font-semibold text-cobalt-light">{member.role}</p>}
+                <p className="public-body mt-2">{member.description}</p>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <SocialProof />
+
+    <FinalCTA button="Faire mon diagnostic" title="Votre marque merite une execution aussi serieuse que votre ambition." text="Le diagnostic sert a comprendre votre contexte avant de vous proposer une formule qui ne serait pas adaptee." />
   </PageLayout>
   );
 };
