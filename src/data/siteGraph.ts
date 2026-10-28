@@ -17,6 +17,7 @@ export type PageNode = {
 // a partir de publicContent.ts pour ne jamais etre desynchronises.
 const staticNodes: PageNode[] = [
   { url: "/", title: "Accueil LGM", type: "home", tags: ["acquisition", "conversion", "fidelisation", "acf"] },
+  { url: "/systeme-acquisition", title: "Systeme d'acquisition client", type: "hub", tags: ["acquisition", "conversion", "fidelisation", "acf", "systeme"] },
   { url: "/a-propos", title: "A propos de LGM", type: "static", tags: ["agence", "equipe", "methode"] },
   { url: "/services", title: "Tous les services", type: "hub", tags: ["services", "leviers"] },
   { url: "/blog", title: "Blog LGM", type: "hub", tags: ["blog", "contenu", "insights"] },
