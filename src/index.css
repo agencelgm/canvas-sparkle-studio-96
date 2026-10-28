@@ -87,7 +87,7 @@
 
   html { scroll-behavior: smooth; }
 
-  html, body, #root { width: 100%; overflow-x: hidden; }
+  html, body, #root { width: 100%; overflow-x: clip; }
 
   body {
     @apply bg-background text-foreground antialiased;
@@ -118,8 +118,8 @@
   .section-platinum { background: var(--platinum); color: var(--platinum-text); }
   .section-cobalt { background: linear-gradient(135deg, var(--cobalt-ink), var(--cobalt-dark)); color: #fff; }
 
-  .public-shell { min-height: 100dvh; background: var(--charcoal); overflow-x: hidden; }
-  .public-main { overflow-x: hidden; }
+  .public-shell { min-height: 100dvh; background: var(--charcoal); overflow-x: clip; }
+  .public-main { overflow-x: clip; }
   .section-pad { padding-top: clamp(5rem, 12vw, 10rem); padding-bottom: clamp(5.5rem, 13vw, 11rem); }
   .section-pad-tight { padding-top: clamp(3.75rem, 9vw, 7rem); padding-bottom: clamp(4rem, 9vw, 7.5rem); }
 
