@@ -12,7 +12,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
     <div className="public-shell flex min-h-[100dvh] flex-col">
       <GrainOverlay />
       <Header />
-      <main className="public-main flex-1">{children}</main>
+      <main id="contenu" tabIndex={-1} className="public-main flex-1 focus:outline-none">{children}</main>
       <QuickResponseBand />
       <Footer />
     </div>
