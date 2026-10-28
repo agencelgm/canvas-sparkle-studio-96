@@ -400,8 +400,12 @@
 
   ::selection { background: rgba(215, 180, 106, 0.32); color: var(--platinum); }
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--charcoal); }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(240, 217, 150, 0.34); border-radius: 99px; }
+  @media (max-width: 1023px) {
+    html { scrollbar-width: none; }
+    ::-webkit-scrollbar { width: 0; height: 0; display: none; }
+  }
 
   :focus-visible { outline: 2px solid var(--cobalt-light); outline-offset: 3px; }
 
