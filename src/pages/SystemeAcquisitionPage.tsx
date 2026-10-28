@@ -65,7 +65,7 @@ const SystemeAcquisitionPage = () => (
               <li key={p} className="flex gap-3 font-semibold"><span className="text-cobalt-dark" aria-hidden="true">●</span>{p}</li>
             ))}
           </ul>
-          <div className="mt-8"><TextLink to="/services">Voir les services qui composent le systeme</TextLink></div>
+          <div className="mt-8"><TextLink tone="light" to="/services">Voir les services qui composent le systeme</TextLink></div>
         </div>
         <figure className="panel-light p-6" aria-label="Schema de la boucle de mesure">
           <svg viewBox="0 0 400 400" className="mx-auto w-full max-w-sm" role="img" aria-labelledby="loop-title">

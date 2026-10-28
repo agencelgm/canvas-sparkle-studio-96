@@ -67,7 +67,7 @@ const ServicesPage = () => (
             <p className="section-kicker !text-cobalt-dark">Ou se placent les services</p>
             <h2 className="public-h2 max-w-[20ch] text-platinum-text">Le parcours qu'ils construisent ensemble.</h2>
           </div>
-          <TextLink to="/systeme-acquisition">Le systeme en detail</TextLink>
+          <TextLink tone="light" to="/systeme-acquisition">Le systeme en detail</TextLink>
         </div>
         <SystemDiagram tone="light" />
       </div>
