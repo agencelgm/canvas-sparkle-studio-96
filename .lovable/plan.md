@@ -1,17 +1,12 @@
-# Corriger le décalage vers la droite sur mobile
+# Supprimer la bande sombre à droite sur mobile
 
-## Constat actuel (vérifié en format téléphone 393 px)
-- Aucun élément ne dépasse de l'écran sur l'accueil et la page ne défile pas sur le côté.
-- Les marges de contenu sont de 20 px à gauche et à droite, mais la barre du haut (logo + menu) a seulement 12 px de marge : le logo n'est donc pas aligné avec les titres et le texte en dessous, ce qui peut donner une impression de décalage.
-- La cause exacte reste à confirmer avec ta capture d'écran.
+## Cause (vérifiée)
+La ligne noire entourée en rouge n'est pas un décalage du contenu : c'est la barre de défilement personnalisée du site (6 px, fond charbon). Sur les sections claires, ce fond sombre ressort et donne l'impression que la page est poussée vers la gauche/droite. Les marges du contenu sont bien égales (20 px de chaque côté) et rien ne dépasse de l'écran.
 
 ## Ce qui sera fait
-1. Avec ta capture, identifier l'élément exact qui paraît décalé.
-2. Aligner la barre du haut sur les mêmes marges que le contenu (20 px) pour que logo, titres et boutons partent de la même ligne.
-3. Vérifier toutes les pages publiques en format téléphone (393 px et 360 px) : aucun élément ne dépasse, marges gauche et droite égales.
-4. Corriger tout élément qui dépasse ou qui est décentré (formulaires, listes, cartes, images).
-5. Rien ne change sur ordinateur et tablette.
+1. Sur téléphone et tablette (moins de 1024 px) : masquer complètement la barre de défilement personnalisée. Le défilement au doigt continue de fonctionner normalement.
+2. Sur ordinateur : garder une barre fine, mais avec un fond transparent au lieu du charbon, pour qu'elle ne forme plus une bande sombre sur les sections claires. Le curseur doré reste.
+3. Vérifier en format téléphone sur l'accueil, Services et Système d'acquisition que la bande a disparu.
 
 ## Détails techniques
-- Script Playwright qui mesure, pour chaque page du sitemap, les éléments dont `right > clientWidth` ou dont marges gauche/droite diffèrent de plus de 8 px.
-- Harmoniser le padding horizontal du header flottant avec `container-wide` sur mobile.
+- `src/index.css` : `::-webkit-scrollbar-track { background: transparent }` ; dans `@media (max-width: 1023px)` : `html { scrollbar-width: none }` et `::-webkit-scrollbar { width: 0; display: none }`.
