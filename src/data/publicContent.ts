@@ -19,8 +19,9 @@ export const publicImages = {
 };
 
 export const navLinks = [
-  { href: "/a-propos", label: "A propos" },
+  { href: "/systeme-acquisition", label: "Le systeme" },
   { href: "/services", label: "Services" },
+  { href: "/a-propos", label: "A propos" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
