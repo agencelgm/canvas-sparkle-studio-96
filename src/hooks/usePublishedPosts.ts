@@ -1,5 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { blogPosts as legacyPosts } from "@/data/blogContent";
+
+// Repli : si la base ne renvoie aucun article publie, on affiche les
+// anciens articles embarques pour ne jamais casser les URL existantes.
+const legacy = (): PublicPost[] =>
+  legacyPosts.filter((p) => p.published).map((p) => ({
+    id: p.id, slug: p.slug, title: p.title, excerpt: p.excerpt, content: p.content,
+    featured_image: p.featured_image, published_at: p.published_at, updated_at: p.published_at,
+    category: p.blog_categories,
+  }));
 
 // Meme source que l'admin : table blog_posts. Seuls les articles publies
 // sont lus (la politique d'acces masque aussi les brouillons).
@@ -27,7 +37,8 @@ export const usePublishedPosts = () =>
         .eq("published", true)
         .order("published_at", { ascending: false, nullsFirst: false });
       if (error) throw error;
-      return (data ?? []) as unknown as PublicPost[];
+      const rows = (data ?? []) as unknown as PublicPost[];
+      return rows.length > 0 ? rows : legacy();
     },
     staleTime: 60_000,
   });
@@ -44,7 +55,9 @@ export const usePublishedPost = (slug?: string) =>
         .eq("slug", slug!)
         .maybeSingle();
       if (error) throw error;
-      return (data as unknown as PublicPost) ?? null;
+      if (data) return data as unknown as PublicPost;
+      const { count } = await supabase.from("blog_posts").select("id", { count: "exact", head: true }).eq("published", true);
+      return count ? null : legacy().find((p) => p.slug === slug) ?? null;
     },
   });
 

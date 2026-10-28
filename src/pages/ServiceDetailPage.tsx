@@ -9,6 +9,7 @@ import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import RelatedLinks from "@/components/seo/RelatedLinks";
 import { findService, publicImages, serviceAreaPages } from "@/data/publicContent";
 import { codeGraph, findNode } from "@/data/siteGraph";
+import { findServiceRole, systemSteps } from "@/data/systemContent";
 
 const ServiceDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -29,6 +30,7 @@ const ServiceDetailPage = () => {
     );
   }
 
+  const sysRole = findServiceRole(service.slug);
   const canonicalUrl = `https://agencelgm.com/services/${service.slug}`;
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -126,6 +128,31 @@ const ServiceDetailPage = () => {
         </div>
       </section>
 
+      {sysRole && (
+        <section className="section-charcoal section-pad-tight">
+          <div className="container-wide grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <p className="section-kicker">Role dans le systeme</p>
+              <h2 className="public-h2 max-w-[16ch]">{sysRole.role === "soutien" ? "Un soutien pour tout le parcours." : "Une etape precise du parcours."}</h2>
+              <p className="public-lead">{sysRole.roleText} {sysRole.benefit}</p>
+              <Link to="/systeme-acquisition" className="public-text-link mt-6">Voir le systeme complet</Link>
+            </div>
+            <ol className="grid grid-cols-2 gap-2 sm:grid-cols-3" aria-label="Etapes concernees">
+              {systemSteps.map((s) => {
+                const on = sysRole.role === "soutien" || sysRole.steps.includes(s.id);
+                return (
+                  <li key={s.id} className="system-node" data-active={on}>
+                    <span className="font-display text-sm font-bold text-cobalt-light">{s.number}</span>
+                    <span className="font-display text-xl font-bold uppercase leading-none">{s.title}</span>
+                    <span className="text-xs text-platinum/60">{on ? "Concerne" : "—"}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </section>
+      )}
+
       {/* Long description */}
       <section className="section-platinum section-pad-tight border-t border-[rgba(26,21,16,0.06)]">
         <div className="container-wide">
@@ -216,7 +243,7 @@ const ServiceDetailPage = () => {
         return node ? <RelatedLinks current={node} count={6} /> : null;
       })()}
 
-      <FinalCTA title={`Vous voulez activer ${service.title.toLowerCase()} avec methode ?`} text="Nous commencons par comprendre vos objectifs, votre marche et les freins actuels avant de proposer une feuille de route." />
+      <FinalCTA button="Faire mon diagnostic" title={`Vous voulez activer ${service.title.toLowerCase()} avec methode ?`} text="Nous commencons par comprendre vos objectifs, votre marche et les freins actuels avant de proposer une feuille de route." />
     </PageLayout>
   );
 };

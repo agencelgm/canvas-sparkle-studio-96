@@ -7,7 +7,7 @@ import { publicImages } from "@/data/publicContent";
 const ContactPage = () => (
   <PageLayout>
     <Helmet>
-      <title>Formulaire de qualification | Agence marketing LGM Abidjan</title>
+      <title>Contact et diagnostic | Agence marketing LGM Abidjan</title>
       <meta name="description" content="Remplissez le formulaire de qualification LGM a Abidjan : Facebook Ads, SEO/AEO/GEO, sites web, IA et automatisation." />
       <link rel="canonical" href="https://agencelgm.com/contact" />
       <meta property="og:url" content="https://agencelgm.com/contact" />
@@ -55,6 +55,31 @@ const ContactPage = () => (
             ))}
           </div>
         </Reveal>
+      </div>
+    </section>
+
+    <section className="section-charcoal section-pad-tight">
+      <div className="container-wide grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <p className="section-kicker">Apres l'envoi</p>
+          <h2 className="public-h2">Ce qui se passe ensuite.</h2>
+        </div>
+        <ol className="border-t border-[#f0d99626]">
+          {[
+            ["01", "Lecture de vos reponses", "Nous verifions votre besoin, votre objectif a 90 jours et votre budget."],
+            ["02", "Prise de contact", "Selon votre situation : proposition de rendez-vous ou appel d'un membre de l'equipe."],
+            ["03", "Diagnostic de votre parcours", "Nous identifions l'etape qui fait perdre le plus de clients."],
+            ["04", "Proposition claire", "Une feuille de route avec les priorites, sans engagement."],
+          ].map(([n, t, d]) => (
+            <li key={n} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-[#f0d9961f] py-5">
+              <span className="font-display text-xl font-bold text-cobalt-light">{n}</span>
+              <div>
+                <h3 className="font-display text-2xl font-bold uppercase leading-none text-platinum">{t}</h3>
+                <p className="public-body mt-2">{d}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
 

@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
+import SystemeAcquisitionPage from "./pages/SystemeAcquisitionPage";
 import ServicesPage from "./pages/ServicesPage";
 import ServiceDetailPage from "./pages/ServiceDetailPage";
 import ServiceAreaPage from "./pages/ServiceAreaPage";
@@ -48,6 +49,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/a-propos" element={<AboutPage />} />
+              <Route path="/systeme-acquisition" element={<SystemeAcquisitionPage />} />
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/services/logo" element={<ServicesLogoPage />} />
               <Route path="/services/site-internet" element={<ServicesSiteInternetPage />} />
