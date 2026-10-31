@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import QualificationForm from "@/components/QualificationForm";
+import DiagnosticLauncher from "@/components/diagnostic/DiagnosticLauncher";
 import { publicImages } from "@/data/publicContent";
 import { Arrow } from "@/components/public/PublicPrimitives";
 import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
@@ -46,7 +46,7 @@ const Hero = () => (
       </div>
 
       <div id="diagnostic" className="diagnostic-hero-panel">
-        <QualificationForm sourcePage="home-hero" variant="hero" />
+        <DiagnosticLauncher sourcePage="home-hero" />
       </div>
     </div>
   </section>

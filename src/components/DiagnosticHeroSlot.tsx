@@ -1,8 +1,8 @@
-import QualificationForm from "@/components/QualificationForm";
+import DiagnosticLauncher from "@/components/diagnostic/DiagnosticLauncher";
 
 const DiagnosticHeroSlot = ({ sourcePage }: { sourcePage: string }) => (
   <div id="diagnostic">
-    <QualificationForm sourcePage={sourcePage} variant="hero" />
+    <DiagnosticLauncher sourcePage={sourcePage} />
   </div>
 );
 
