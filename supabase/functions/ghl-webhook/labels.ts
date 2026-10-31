@@ -3,6 +3,7 @@ export const optionLabels: Record<string, Record<string, string>> = {
   objective: { prospects: "Plus de prospects qualifies", ventes: "Augmenter les ventes", devis: "Plus de demandes de devis", visibilite: "Visibilite en ligne" },
   pastBudget: { moins_150k: "Moins de 150 000 FCFA", "150k_300k": "150 000 a 300 000 FCFA", "300k_600k": "300 000 a 600 000 FCFA", plus_600k: "Plus de 600 000 FCFA" },
   minimum: { oui: "Oui, des maintenant", pas_encore: "Pas encore", discuter: "Besoin d'en discuter" },
+  budgetRange: { moins_100k: "Moins de 100 000 FCFA", "100k_200k": "100 000 a 200 000 FCFA", "200k_270k": "200 000 a 270 000 FCFA", plus_270k: "270 000 FCFA ou plus" },
   revenue: { moins_1m: "Moins de 1 M FCFA", "1m_5m": "1 a 5 M FCFA", "5m_20m": "5 a 20 M FCFA", plus_20m: "Plus de 20 M FCFA" },
   decision: { moi: "Decide seul", associe: "Avec un associe", autre: "Autre decideur" },
 };

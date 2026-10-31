@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { PILOT_WARNING } from "@/data/diagnosticContent";
 import ScoreResultBadge from "@/components/diagnostic/ScoreResultBadge";
 import LeadShell from "@/components/lead/LeadShell";
 import VideoSlot from "@/components/lead/VideoSlot";
@@ -89,6 +90,10 @@ const LeadAgenceRendezVousPage = () => {
               Prochaine etape : regardez la video ci-dessous, puis reservez votre appel avec un membre de notre equipe.
             </p>
           </div>
+
+          {new URLSearchParams(window.location.search).get("pilote") === "1" && (
+            <p className="dx-info mx-auto mt-8 max-w-2xl">{PILOT_WARNING}</p>
+          )}
 
           <div className="mt-10 space-y-8">
             <div className="dx-launcher p-4 md:p-6">
