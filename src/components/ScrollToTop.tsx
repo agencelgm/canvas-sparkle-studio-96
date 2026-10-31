@@ -17,7 +17,7 @@ const ScrollToTop = () => {
 
   useLayoutEffect(() => {
     if (location.hash) {
-      if (location.hash === "#diagnostic") scrollToDiagnostic();
+      if (location.hash === "#diagnostic") return;
       return;
     }
 

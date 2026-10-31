@@ -7,11 +7,10 @@ import {
   ArrowLeft, ArrowRight, Check, ChevronDown, Clock3, Info, Loader2, Lock, ShieldCheck, Sparkles, Target, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { questionSteps, decisionBlocker, type QuestionStep } from "@/data/diagnosticContent";
+import { questionSteps, decisionBlocker, PILOT_WARNING, type QuestionStep } from "@/data/diagnosticContent";
 import { computeDiagnosticScore, QUALIFIED_THRESHOLD, type DiagnosticAnswers } from "@/lib/diagnosticScore";
 import ScoreGauge from "./ScoreGauge";
 
-const TOTAL = 10;
 const countries = [
   { code: "+225", label: "CI" }, { code: "+221", label: "SN" }, { code: "+223", label: "ML" },
   { code: "+226", label: "BF" }, { code: "+228", label: "TG" }, { code: "+229", label: "BJ" },
@@ -51,7 +50,7 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ score: number; qualified: boolean } | null>(null);
+  const [result, setResult] = useState<{ score: number; qualified: boolean; tier: string } | null>(null);
   const [delta, setDelta] = useState<number | null>(null);
   const prevScore = useRef(0);
   const advanceTimer = useRef<number>();
@@ -63,11 +62,16 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
 
   // Questions actives (on saute le budget passe si jamais investi)
   const questions = useMemo(
-    () => questionSteps.filter((q) => !(q.id === "pastBudget" && answers.invested === "non")),
-    [answers.invested],
+    () => questionSteps.filter((q) => {
+      if (q.id === "pastBudget") return answers.invested !== "non";
+      if (q.id === "budgetRange") return answers.minimum === "pas_encore" || answers.minimum === "discuter";
+      return true;
+    }),
+    [answers.invested, answers.minimum],
   );
   const contactStep = questions.length + 1;
   const resultStep = questions.length + 2;
+  const TOTAL = resultStep + 1;
   const live = computeDiagnosticScore(answers);
   const score = result?.score ?? (step === 0 ? 0 : live.score);
 
@@ -134,7 +138,7 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
         email: contact.email.trim(), telephone: phone, nom: `${contact.firstName} ${contact.lastName}`.trim(),
       }));
     } catch { /* stockage indisponible */ }
-    setResult({ score: data.score, qualified: data.qualified });
+    setResult({ score: data.score, qualified: data.qualified, tier: data.tier });
     go(resultStep);
   };
 
@@ -145,16 +149,16 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
     window.setTimeout(() => {
       setStep(0); setAnswers({}); setResult(null);
     }, 400);
-    navigate(`${target}?score=${result.score}`);
+    navigate(`${target}?score=${result.score}${result.tier === "pilot" ? "&pilote=1" : ""}`);
   };
 
   const blockers = [
-    answers.minimum && answers.minimum !== "oui" ? "Le budget de 405 000 FCFA/mois n'est pas encore valide." : null,
+    answers.minimum && answers.minimum !== "oui" ? "Le budget de 270 000 FCFA/mois n'est pas encore valide." : null,
     answers.decision ? decisionBlocker[answers.decision] : null,
     live.flags.length ? "Certaines reponses sur le budget meritent d'etre precisees." : null,
   ].filter(Boolean) as string[];
 
-  const progressIndex = step === 0 ? 1 : step >= resultStep ? TOTAL : Math.min(TOTAL - 1, step + 1);
+  const progressIndex = Math.min(TOTAL, step + 1);
 
   const slide: Variants = {
     enter: (d: number) => ({ opacity: 0, x: reduce ? 0 : d * 48 }),
@@ -342,6 +346,9 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
             ? "Prochaine etape : reservez votre appel strategique avec notre equipe."
             : "Un membre de notre equipe vous contacte sous 24 h pour faire le point sur votre situation."}
         </motion.p>
+        {result?.tier === "pilot" && (
+          <motion.p variants={item} className="dx-info mx-auto mt-5 max-w-md text-left"><Info className="h-4 w-4 shrink-0" aria-hidden="true" />{PILOT_WARNING}</motion.p>
+        )}
         <motion.button variants={item} type="button" onClick={finish} className="dx-btn-primary mx-auto mt-6 w-full max-w-sm">
           {ok ? "Reserver mon appel" : "Continuer"} <ArrowRight className="h-5 w-5" aria-hidden="true" />
         </motion.button>
