@@ -8,6 +8,7 @@ export type DiagnosticAnswers = {
   invested?: "oui" | "non";
   pastBudget?: string;
   minimum?: "oui" | "pas_encore" | "discuter";
+  budgetRange?: "moins_100k" | "100k_200k" | "200k_270k" | "plus_270k";
   revenue?: string;
   decision?: string;
 };
@@ -18,6 +19,7 @@ export const SCORE_TABLE = {
   invested: { oui: 10, non: 0 } as Record<string, number>,
   pastBudget: { moins_150k: 3, "150k_300k": 8, "300k_600k": 12, plus_600k: 15 } as Record<string, number>,
   minimum: { oui: 25, discuter: 15, pas_encore: 8 } as Record<string, number>,
+  budgetRange: { moins_100k: 0, "100k_200k": 8, "200k_270k": 15, plus_270k: 25 } as Record<string, number>,
   revenue: { moins_1m: 2, "1m_5m": 7, "5m_20m": 12, plus_20m: 15 } as Record<string, number>,
   decision: { moi: 15, associe: 9, autre: 3 } as Record<string, number>,
 };
@@ -27,6 +29,8 @@ export const INCOHERENCE_PENALTY = 10;
 export type ScoreResult = {
   score: number;
   qualified: boolean;
+  /** full = accompagnement complet, pilot = programme pilote, none = non qualifie, excluded = budget < 100 000 */
+  tier: "full" | "pilot" | "none" | "excluded";
   breakdown: Record<string, number>;
   flags: string[];
 };
@@ -38,17 +42,22 @@ export function computeDiagnosticScore(a: DiagnosticAnswers): ScoreResult {
     objective: pick(SCORE_TABLE.objective, a.objective) || (a.objectiveOther?.trim() ? 6 : 0),
     invested: pick(SCORE_TABLE.invested, a.invested),
     pastBudget: a.invested === "oui" ? pick(SCORE_TABLE.pastBudget, a.pastBudget) : 0,
-    minimum: pick(SCORE_TABLE.minimum, a.minimum),
+    minimum: a.minimum === "oui" ? 25 : a.minimum ? pick(SCORE_TABLE.budgetRange, a.budgetRange) : 0,
     revenue: pick(SCORE_TABLE.revenue, a.revenue),
     decision: pick(SCORE_TABLE.decision, a.decision),
   };
   const flags: string[] = [];
-  // Coherence : dire "oui" a 405 000 FCFA/mois avec un tres petit chiffre d'affaires.
+  // Coherence : dire "oui" a 270 000 FCFA/mois avec un tres petit chiffre d'affaires.
   if (a.minimum === "oui" && a.revenue === "moins_1m") flags.push("budget_vs_revenu");
   if (a.minimum === "oui" && a.invested === "oui" && a.pastBudget === "moins_150k" && a.revenue === "moins_1m") {
     flags.push("budget_vs_historique");
   }
   const raw = Object.values(breakdown).reduce((s, v) => s + v, 0) - flags.length * INCOHERENCE_PENALTY;
   const score = Math.max(0, Math.min(100, raw));
-  return { score, qualified: score >= QUALIFIED_THRESHOLD, breakdown, flags };
+  const askedRange = a.minimum === "pas_encore" || a.minimum === "discuter";
+  let tier: ScoreResult["tier"];
+  if (askedRange && a.budgetRange === "moins_100k") tier = "excluded";
+  else if (askedRange && (a.budgetRange === "100k_200k" || a.budgetRange === "200k_270k")) tier = "pilot";
+  else tier = score >= QUALIFIED_THRESHOLD ? "full" : "none";
+  return { score, qualified: tier === "full" || tier === "pilot", tier, breakdown, flags };
 }

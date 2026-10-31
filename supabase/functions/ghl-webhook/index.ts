@@ -21,6 +21,7 @@ const Body = z.object({
     invested: opt(["oui", "non"]),
     pastBudget: opt(["moins_150k", "150k_300k", "300k_600k", "plus_600k"]),
     minimum: opt(["oui", "pas_encore", "discuter"]),
+    budgetRange: opt(["moins_100k", "100k_200k", "200k_270k", "plus_270k"]),
     revenue: opt(["moins_1m", "1m_5m", "5m_20m", "plus_20m"]),
     decision: opt(["moi", "associe", "autre"]),
   }),
@@ -44,7 +45,9 @@ Deno.serve(async (req) => {
   const a = d.answers;
   const result = computeDiagnosticScore(a);
   const fullName = `${d.firstName} ${d.lastName}`.trim();
-  const budgetNormalized = a.minimum === "oui" ? 405000 : 0;
+  const rangeValue: Record<string, number> = { moins_100k: 50000, "100k_200k": 150000, "200k_270k": 235000, plus_270k: 270000 };
+  const budgetNormalized = a.minimum === "oui" ? 270000 : rangeValue[a.budgetRange ?? ""] ?? 0;
+  const statusLabel = { full: "qualifie", pilot: "qualifie_programme_pilote", none: "non_qualifie", excluded: "non_qualifie_budget_insuffisant" }[result.tier];
 
   const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const { data: row, error } = await supabase
@@ -64,7 +67,8 @@ Deno.serve(async (req) => {
       budget_normalized: budgetNormalized,
       can_invest_minimum: a.minimum === "oui",
       monthly_revenue_band: a.revenue ?? null,
-      eligibility_status: result.qualified ? "qualified" : "not_qualified",
+      eligibility_status: statusLabel,
+      budget_band: a.budgetRange ?? (a.minimum === "oui" ? "plus_270k" : null),
       coherence_flags: result.flags,
       coherence_score: result.score,
       score: result.score,
@@ -96,13 +100,16 @@ Deno.serve(async (req) => {
           phone: d.phone,
           score: result.score,
           qualified: result.qualified,
-          status: result.qualified ? "qualifie" : "non_qualifie",
-          tags: ["diagnostic-site", result.qualified ? "qualifie" : "non-qualifie"],
+          status: statusLabel,
+          programme_pilote: result.tier === "pilot",
+          tags: ["diagnostic-site", statusLabel.replace(/_/g, "-")],
           secteur: optionLabels.sector[a.sector ?? ""] ?? "",
           objectif: a.objectiveOther?.trim() || optionLabels.objective[a.objective ?? ""] || "",
           deja_investi: a.invested ?? "",
           budget_pub_mensuel: a.pastBudget ? optionLabels.pastBudget[a.pastBudget] : "",
-          budget_405k: optionLabels.minimum[a.minimum ?? ""] ?? "",
+          budget_270k: optionLabels.minimum[a.minimum ?? ""] ?? "",
+          budget_tranche: optionLabels.budgetRange[a.budgetRange ?? ""] ?? "",
+          budget_mensuel_estime: budgetNormalized,
           chiffre_affaires: optionLabels.revenue[a.revenue ?? ""] ?? "",
           decideur: optionLabels.decision[a.decision ?? ""] ?? "",
           detail_score: result.breakdown,
@@ -122,5 +129,5 @@ Deno.serve(async (req) => {
   }
   await supabase.from("qualification_submissions").update({ ghl_status: ghlStatus }).eq("id", row.id);
 
-  return json({ id: row.id, score: result.score, qualified: result.qualified, ghl: ghlStatus });
+  return json({ id: row.id, score: result.score, qualified: result.qualified, tier: result.tier, ghl: ghlStatus });
 });

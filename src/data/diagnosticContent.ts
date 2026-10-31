@@ -7,7 +7,7 @@ import {
 export type Option = { value: string; label: string; hint?: string; icon?: LucideIcon };
 
 export type QuestionStep = {
-  id: "sector" | "objective" | "invested" | "pastBudget" | "minimum" | "revenue" | "decision";
+  id: "sector" | "objective" | "invested" | "pastBudget" | "minimum" | "budgetRange" | "revenue" | "decision";
   kicker: string;
   title: [string, string, string?]; // avant, mot cle, apres
   subtitle: string;
@@ -15,6 +15,12 @@ export type QuestionStep = {
   options: Option[];
   info?: string;
 };
+
+const BUDGET_INFO =
+  "Ce montant est celui que nous investissons en publicite sur Facebook, Google et Instagram pour vous. C'est lui qui genere vos prospects : plus de budget, plus de prospects, plus de chances de signer de nouveaux clients.";
+
+export const PILOT_WARNING =
+  "Avec ce budget, vous risquez de ne pas etre qualifie pour notre accompagnement complet. Nous pouvons vous proposer notre programme pilote : parlons-en pendant l'appel.";
 
 export const questionSteps: QuestionStep[] = [
   {
@@ -74,13 +80,28 @@ export const questionSteps: QuestionStep[] = [
   {
     id: "minimum",
     kicker: "Budget & engagement",
-    title: ["Notre accompagnement demarre a ", "405 000 FCFA/mois", " (campagnes, pages, suivi). Est-ce envisageable ?"],
+    title: ["Notre accompagnement demarre a ", "270 000 FCFA/mois", ". Est-ce envisageable ?"],
     subtitle: "Pour vous proposer un accompagnement adapte a vos moyens et a vos objectifs.",
     layout: "rows",
+    info: BUDGET_INFO,
     options: [
       { value: "oui", label: "Oui", hint: "Je suis pret a investir des maintenant." },
       { value: "pas_encore", label: "Pas encore", hint: "Pas pour l'instant, mais j'y reflechis." },
       { value: "discuter", label: "J'ai besoin d'en discuter", hint: "Je dois en parler avec un associe ou un decideur." },
+    ],
+  },
+  {
+    id: "budgetRange",
+    kicker: "Votre budget",
+    title: ["Quel ", "budget mensuel", " pouvez-vous consacrer a votre acquisition ?"],
+    subtitle: "Choisissez la tranche la plus proche de vos moyens actuels.",
+    layout: "compact",
+    info: BUDGET_INFO,
+    options: [
+      { value: "moins_100k", label: "Moins de 100 000 FCFA" },
+      { value: "100k_200k", label: "100 000 a 200 000 FCFA" },
+      { value: "200k_270k", label: "200 000 a 270 000 FCFA" },
+      { value: "plus_270k", label: "270 000 FCFA ou plus" },
     ],
   },
   {

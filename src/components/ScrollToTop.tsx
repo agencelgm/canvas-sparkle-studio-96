@@ -1,6 +1,5 @@
 import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { scrollToDiagnostic } from "@/lib/diagnosticScroll";
 
 type LenisLike = { scrollTo: (target: number, opts?: { immediate?: boolean; force?: boolean }) => void };
 
@@ -17,7 +16,7 @@ const ScrollToTop = () => {
 
   useLayoutEffect(() => {
     if (location.hash) {
-      if (location.hash === "#diagnostic") scrollToDiagnostic();
+      if (location.hash === "#diagnostic") return;
       return;
     }
 
