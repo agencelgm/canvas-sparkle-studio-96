@@ -19,7 +19,7 @@ export const leadAgenceConfig = {
   // Emplacements video : coller ici les liens quand les videos sont pretes.
   // Formats acceptes : YouTube, Vimeo, ou fichier .mp4.
   videos: {
-    rendezVous: invitationRendezVousAsset.url,
+    rendezVous: rendezVousQualificationAsset.url,
     rendezVousConfirme: "",
     formation: reponseBudgetFormationAsset.url,
   },
