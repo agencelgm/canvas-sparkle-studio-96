@@ -20,6 +20,12 @@
   - 100 000 à 200 000 FCFA
   - 200 000 à 270 000 FCFA
   - 270 000 FCFA ou plus
-- Points pour le budget (25 au total, inchangé) : « Oui » 25 · 270 000 ou plus 25 · 200 000 à 270 000 : 15 · 100 000 à 200 000 : 8 · moins de 100 000 : 2.
-- Le seuil reste à 65/100. Montant et tranche envoyés à GoHighLevel et visibles dans l'admin. Les mentions « 405 000 » disparaissent partout.
+- Points pour le budget (25 au total, inchangé) : « Oui » 25 · 270 000 ou plus 25 · 200 000 à 270 000 : 15 · 100 000 à 200 000 : 8 · moins de 100 000 : 0.
+
+## Règles de décision selon le budget
+- **Moins de 100 000 FCFA** : toujours non qualifié, quel que soit le score. Page « Votre demande a bien été reçue », **aucun événement Facebook**. Statut envoyé à GoHighLevel : « non qualifié – budget insuffisant ».
+- **100 000 à 270 000 FCFA** : qualifié pour le **programme pilote**, quel que soit le score. La personne va vers la page rendez-vous, mais l'écran de résultat et la page rendez-vous affichent un avertissement : « Avec ce budget, vous risquez de ne pas être qualifié pour notre accompagnement complet. Nous pouvons vous proposer notre programme pilote : parlons-en pendant l'appel. » L'événement Facebook « prospect » est envoyé. Statut GoHighLevel : « qualifié – programme pilote ».
+- **270 000 FCFA ou plus, ou « Oui »** : règle du score inchangée, qualifié à partir de 65/100. Statut GoHighLevel : « qualifié » ou « non qualifié ».
+- Montant, tranche et statut (dont « programme pilote ») sont envoyés à GoHighLevel et visibles dans l'admin. Les mentions « 405 000 » disparaissent partout.
+- Tests ajoutés : moins de 100 000 → non qualifié même avec un score élevé ; 100 000 à 270 000 → programme pilote ; 270 000 ou plus → seuil de 65.
 - Vérification Playwright : clic sur le menu, le bouton du haut de page et un appel à l'action en bas de page (pop-up visible, page non défilée), plus un accès direct à `/#diagnostic`.
