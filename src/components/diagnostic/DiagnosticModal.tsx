@@ -55,6 +55,11 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
   const [delta, setDelta] = useState<number | null>(null);
   const prevScore = useRef(0);
   const advanceTimer = useRef<number>();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  }, [step, reduce]);
 
   // Questions actives (on saute le budget passe si jamais investi)
   const questions = useMemo(
@@ -181,22 +186,19 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
             Diagnostic digital <span className="dx-accent">interactif</span>
           </motion.h2>
           <motion.p variants={item} className="dx-sub">
-            Repondez a quelques questions pour savoir si notre systeme d'acquisition est adapte a votre entreprise.
+            8 questions pour savoir si notre accompagnement est adapte a votre entreprise.
           </motion.p>
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <ul className="mt-6 space-y-3">
             {[
-              { icon: ShieldCheck, t: "100% confidentiel", d: "Vos reponses restent privees." },
-              { icon: Clock3, t: "Moins de 3 minutes", d: "Rapide, simple et efficace." },
-              { icon: Target, t: "Recommandations personnalisees", d: "Basees sur votre activite." },
-              { icon: Sparkles, t: "Sans engagement", d: "Gratuit, sans obligation." },
-            ].map(({ icon: Icon, t, d }) => (
-              <motion.div key={t} variants={item} className="dx-perk">
-                <span className="dx-icon-bubble"><Icon className="h-5 w-5" aria-hidden="true" /></span>
-                <p className="mt-3 text-sm font-bold dx-ink">{t}</p>
-                <p className="mt-1 text-xs dx-muted">{d}</p>
-              </motion.div>
+              { icon: Clock3, t: "Moins de 3 minutes" },
+              { icon: Target, t: "Resultat immediat sur 100" },
+              { icon: Sparkles, t: "Gratuit et sans engagement" },
+            ].map(({ icon: Icon, t }) => (
+              <motion.li key={t} variants={item} className="flex items-center gap-3 text-[0.95rem] font-semibold dx-ink">
+                <Icon className="h-5 w-5 shrink-0 dx-accent" aria-hidden="true" />{t}
+              </motion.li>
             ))}
-          </div>
+          </ul>
           <motion.button variants={item} type="button" className="dx-btn-primary mt-7 w-full" onClick={() => go(1)}>
             Commencer le diagnostic <ArrowRight className="h-5 w-5" aria-hidden="true" />
           </motion.button>
@@ -373,7 +375,7 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
               <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>
             </header>
 
-            <div className="dx-scroll" data-lenis-prevent>
+            <div ref={scrollRef} className="dx-scroll" data-lenis-prevent>
               <div className="dx-grid">
                 <div className="min-w-0">
                   {/* Jauge mobile */}

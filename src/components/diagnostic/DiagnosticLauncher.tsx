@@ -1,13 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Clock3, ShieldCheck, Sparkles, Target } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useDiagnostic } from "./DiagnosticContext";
 
-const perks = [
-  { icon: ShieldCheck, label: "100% confidentiel" },
-  { icon: Clock3, label: "Moins de 3 minutes" },
-  { icon: Target, label: "Recommandation personnalisee" },
-  { icon: Sparkles, label: "Gratuit, sans engagement" },
-];
 
 /** Carte qui remplace les formulaires dans les pages : ouvre le diagnostic en pop-up. */
 const DiagnosticLauncher = ({ sourcePage, title = "Diagnostic digital interactif" }: { sourcePage: string; title?: string }) => {
@@ -20,16 +14,8 @@ const DiagnosticLauncher = ({ sourcePage, title = "Diagnostic digital interactif
         {title}
       </h2>
       <p className="mt-3 text-sm leading-6 text-platinum/70">
-        Repondez a quelques questions et obtenez votre score sur 100 : vous saurez tout de suite si notre accompagnement est adapte.
+        Obtenez votre score sur 100 et sachez tout de suite si notre accompagnement vous correspond.
       </p>
-      <ul className="mt-5 grid grid-cols-2 gap-2">
-        {perks.map(({ icon: Icon, label }) => (
-          <li key={label} className="dx-launcher-perk">
-            <Icon className="h-4 w-4 shrink-0 dx-accent" aria-hidden="true" />
-            <span>{label}</span>
-          </li>
-        ))}
-      </ul>
       <motion.button
         type="button"
         onClick={() => open(sourcePage)}
@@ -39,7 +25,7 @@ const DiagnosticLauncher = ({ sourcePage, title = "Diagnostic digital interactif
       >
         Commencer mon diagnostic <ArrowRight className="h-5 w-5" aria-hidden="true" />
       </motion.button>
-      <p className="mt-3 text-center text-xs text-platinum/55">8 questions · environ 3 minutes</p>
+      <p className="mt-3 text-center text-xs text-platinum/55">Gratuit · Sans engagement · 3 minutes · Confidentiel</p>
     </div>
   );
 };
