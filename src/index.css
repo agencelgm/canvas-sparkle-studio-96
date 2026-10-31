@@ -242,8 +242,11 @@
 
   .diagnostic-hero-panel {
     width: 100%;
-    max-width: 33rem;
-    justify-self: end;
+    max-width: none;
+    justify-self: stretch;
+  }
+  @media (min-width: 1024px) {
+    .diagnostic-hero-panel { max-width: 33rem; justify-self: end; }
   }
 
   .diagnostic-benefit-card {
