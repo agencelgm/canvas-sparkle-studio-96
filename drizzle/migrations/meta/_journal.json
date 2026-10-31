@@ -8,6 +8,13 @@
       "when": 1793212278855,
       "tag": "0000_seed_blog_posts_from_legacy",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793404993064,
+      "tag": "0001_diagnostic_score_columns",
+      "breakpoints": true
     }
   ]
 }

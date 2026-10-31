@@ -202,6 +202,7 @@ export type Database = {
       qualification_submissions: {
         Row: {
           anchor_reaction: string | null
+          answers: Json
           budget_band: string | null
           budget_normalized: number
           budget_raw: string
@@ -214,6 +215,7 @@ export type Database = {
           daily_ad_budget_ready_5k: boolean | null
           eligibility_status: string
           email: string
+          ghl_status: string | null
           has_business: boolean
           has_invested_marketing: boolean | null
           id: string
@@ -226,13 +228,17 @@ export type Database = {
           past_marketing_budget_raw: string | null
           past_marketing_result: string | null
           phone: string
+          qualified: boolean | null
+          score: number | null
           service: string
           source_page: string | null
           team_size_band: string | null
+          utm: Json
           website_or_social: string | null
         }
         Insert: {
           anchor_reaction?: string | null
+          answers?: Json
           budget_band?: string | null
           budget_normalized: number
           budget_raw: string
@@ -245,6 +251,7 @@ export type Database = {
           daily_ad_budget_ready_5k?: boolean | null
           eligibility_status?: string
           email: string
+          ghl_status?: string | null
           has_business: boolean
           has_invested_marketing?: boolean | null
           id?: string
@@ -257,13 +264,17 @@ export type Database = {
           past_marketing_budget_raw?: string | null
           past_marketing_result?: string | null
           phone: string
+          qualified?: boolean | null
+          score?: number | null
           service: string
           source_page?: string | null
           team_size_band?: string | null
+          utm?: Json
           website_or_social?: string | null
         }
         Update: {
           anchor_reaction?: string | null
+          answers?: Json
           budget_band?: string | null
           budget_normalized?: number
           budget_raw?: string
@@ -276,6 +287,7 @@ export type Database = {
           daily_ad_budget_ready_5k?: boolean | null
           eligibility_status?: string
           email?: string
+          ghl_status?: string | null
           has_business?: boolean
           has_invested_marketing?: boolean | null
           id?: string
@@ -288,9 +300,12 @@ export type Database = {
           past_marketing_budget_raw?: string | null
           past_marketing_result?: string | null
           phone?: string
+          qualified?: boolean | null
+          score?: number | null
           service?: string
           source_page?: string | null
           team_size_band?: string | null
+          utm?: Json
           website_or_social?: string | null
         }
         Relationships: []

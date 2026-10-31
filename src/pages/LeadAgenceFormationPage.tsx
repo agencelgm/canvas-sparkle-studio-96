@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { CheckCircle2, Clock3, MessageCircle, PhoneCall } from "lucide-react";
+import ScoreResultBadge from "@/components/diagnostic/ScoreResultBadge";
 import LeadShell from "@/components/lead/LeadShell";
 import { leadAgenceConfig } from "@/data/leadAgenceConfig";
 import { siteContact } from "@/data/publicContent";
@@ -22,6 +23,7 @@ const LeadAgenceFormationPage = () => (
     <section className="section-charcoal">
       <div className="container-narrow flex min-h-[calc(100vh-164px)] items-center py-12 md:py-16">
         <div className="mx-auto w-full max-w-3xl text-center">
+          <ScoreResultBadge caption="Diagnostic enregistre" />
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-bronze/40 bg-bronze/10 text-bronze">
             <CheckCircle2 aria-hidden="true" className="h-7 w-7" />
           </div>
@@ -35,7 +37,7 @@ const LeadAgenceFormationPage = () => (
             et les moyens que vous pouvez mobiliser pour votre projet.
           </p>
 
-          <div className="mt-10 border-y border-bronze/20 py-7 text-left">
+          <div className="dx-launcher mt-10 text-left">
             <div className="grid gap-6 md:grid-cols-3">
               <div className="flex gap-3">
                 <Clock3 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-bronze" />
@@ -71,7 +73,7 @@ const LeadAgenceFormationPage = () => (
               href={contactWhatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-cobalt mt-4 inline-flex w-full items-center justify-center gap-2 sm:w-auto"
+              className="dx-btn-primary mt-4 w-full sm:w-auto"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Écrire à l'équipe sur WhatsApp

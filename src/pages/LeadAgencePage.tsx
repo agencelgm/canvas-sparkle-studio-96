@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import LeadShell from "@/components/lead/LeadShell";
-import GhlQualificationForm from "@/components/lead/GhlQualificationForm";
+import DiagnosticLauncher from "@/components/diagnostic/DiagnosticLauncher";
 
 // Chiffres deja publies sur le site (SocialProof.tsx) — ne pas inventer de statistiques.
 const proofStats = [
@@ -132,19 +132,7 @@ const LeadAgencePage = () => {
           </div>
 
           <div id="formulaire" className="scroll-mt-6 lg:sticky lg:top-24">
-            <div className="public-card p-4 md:p-6">
-              <div className="mb-4 text-center">
-                <h2 className="font-display text-xl font-extrabold uppercase tracking-wide text-platinum md:text-2xl">
-                  Formulaire de qualification
-                </h2>
-                <p className="mt-2 text-sm leading-6 text-platinum/70">
-                  2 minutes. Vous saurez tout de suite quelle est votre prochaine etape.
-                </p>
-              </div>
-              <div className="overflow-hidden rounded-md bg-white" style={{ minHeight: 1200 }}>
-                <GhlQualificationForm />
-              </div>
-            </div>
+            <DiagnosticLauncher sourcePage="lead-agence-marketing" title="Formulaire de qualification" />
           </div>
         </div>
       </section>
