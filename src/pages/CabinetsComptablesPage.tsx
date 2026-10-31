@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useDiagnostic } from "@/components/diagnostic/DiagnosticContext";
 import DiagnosticLauncher from "@/components/diagnostic/DiagnosticLauncher";
 import { siteContact } from "@/data/publicContent";
 
@@ -76,27 +77,19 @@ const processSteps = [
   },
 ];
 
-const scrollToForm = () => {
-  document.getElementById("formulaire")?.scrollIntoView({ behavior: "smooth", block: "start" });
-};
 
 const CabinetsComptablesPage = () => {
-  const [formInView, setFormInView] = useState(false);
+  const { open } = useDiagnostic();
+  const scrollToForm = () => open("cabinets-comptables");
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const form = document.getElementById("formulaire");
-    const observer = new IntersectionObserver(([entry]) => setFormInView(entry.isIntersecting));
-    if (form) observer.observe(form);
     const onScroll = () => setScrolled(window.scrollY > 250);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const showStickyCta = scrolled && !formInView;
+  const showStickyCta = scrolled;
 
   return (
     <div className="public-shell">
