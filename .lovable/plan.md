@@ -10,4 +10,16 @@
 - Dans `DiagnosticProvider` : un seul écouteur de clic global qui capte tout lien dont l'adresse se termine par `#diagnostic`, empêche le défilement et appelle `open(source)`. La source vient de la page en cours (`cta-<pathname>`). Ça couvre `Header`, `Hero`, `Footer`, `CTA`, `FinalCTA`, `MagneticLink`, `VideoHero`, `ContactSection` et `NotFound` sans modifier chaque bouton.
 - `ScrollToTop` : au chargement avec le hash `#diagnostic`, ouvrir le pop-up au lieu de `scrollToDiagnostic()`, puis retirer le hash de l'adresse pour éviter une réouverture.
 - Header : les boutons du menu mobile ferment déjà le menu au clic, à vérifier une fois le changement fait.
+- Budget : `minimum` passe à 270 000 ; nouvelle question `budgetRange` dans `diagnosticContent.ts`, affichée seulement si `minimum` vaut `pas_encore` ou `discuter`. Barème `budgetRange` dans `_shared/diagnosticScore.ts` : la part budget = 25 si `minimum`=oui, sinon les points de la tranche. Tests vitest mis à jour (270 000, tranches, seuil 65). `ghl-webhook` : validation zod, libellés, champ `budget_tranche`, `budget_normalized` calculé sur la tranche, puis redéploiement. Le total d'étapes s'adapte au nombre de questions réellement affichées.
+
+## Budget : 270 000 FCFA et question de rattrapage
+- La question du budget dit maintenant : « Notre accompagnement démarre à **270 000 FCFA/mois**. Est-ce envisageable ? » (Oui / Pas encore / J'ai besoin d'en discuter).
+- Sous la question, une explication : « Ce montant est celui que nous investissons en publicité sur Facebook, Google et Instagram pour vous. C'est lui qui génère vos prospects : plus de budget, plus de prospects, plus de chances de signer de nouveaux clients. »
+- Si la personne répond « Pas encore » ou « J'ai besoin d'en discuter », une question en plus apparaît juste après : « Quel budget mensuel pouvez-vous consacrer à votre acquisition ? »
+  - Moins de 100 000 FCFA
+  - 100 000 à 200 000 FCFA
+  - 200 000 à 270 000 FCFA
+  - 270 000 FCFA ou plus
+- Points pour le budget (25 au total, inchangé) : « Oui » 25 · 270 000 ou plus 25 · 200 000 à 270 000 : 15 · 100 000 à 200 000 : 8 · moins de 100 000 : 2.
+- Le seuil reste à 65/100. Montant et tranche envoyés à GoHighLevel et visibles dans l'admin. Les mentions « 405 000 » disparaissent partout.
 - Vérification Playwright : clic sur le menu, le bouton du haut de page et un appel à l'action en bas de page (pop-up visible, page non défilée), plus un accès direct à `/#diagnostic`.
