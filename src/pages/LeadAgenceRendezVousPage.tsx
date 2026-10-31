@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import ScoreResultBadge from "@/components/diagnostic/ScoreResultBadge";
 import LeadShell from "@/components/lead/LeadShell";
 import VideoSlot from "@/components/lead/VideoSlot";
 import GhlCalendar from "@/components/lead/GhlCalendar";
@@ -79,6 +80,7 @@ const LeadAgenceRendezVousPage = () => {
       <section className="section-charcoal">
         <div className="container-narrow py-12 md:py-16">
           <div className="text-center">
+            <ScoreResultBadge caption="Profil qualifie" />
             <p className="section-kicker">Votre entreprise est eligible</p>
             <h1 className="font-display text-[clamp(1.8rem,4.5vw,3rem)] font-extrabold leading-[1.05] text-[#f0d996] [text-wrap:balance]">
               Felicitations — nous pensons pouvoir vous aider
@@ -89,7 +91,7 @@ const LeadAgenceRendezVousPage = () => {
           </div>
 
           <div className="mt-10 space-y-8">
-            <div className="public-card p-4 md:p-6">
+            <div className="dx-launcher p-4 md:p-6">
               <p className="section-kicker mb-3">Etape 1 — Regardez cette video</p>
               <VideoSlot
                 url={leadAgenceConfig.videos.rendezVous}
@@ -98,7 +100,7 @@ const LeadAgenceRendezVousPage = () => {
               />
             </div>
 
-            <div className="public-card p-4 md:p-6">
+            <div className="dx-launcher p-4 md:p-6">
               <p className="section-kicker mb-2">Etape 2 — Reservez votre appel</p>
               <h2 className="font-display text-xl font-extrabold text-platinum md:text-2xl">
                 Choisissez un creneau avec notre equipe
