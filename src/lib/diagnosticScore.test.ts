@@ -24,15 +24,13 @@ describe("grille du diagnostic", () => {
   });
 
   it("un score de 65 est qualifie", () => {
-    // 10 + 10 + 10 + 3 + 15 + 2 + 15 = 65
-    const r = computeDiagnosticScore({ sector: "btp", objective: "ventes", invested: "oui", pastBudget: "moins_150k", minimum: "discuter", budgetRange: "200k_270k", revenue: "plus_20m", decision: "moi" });
-    expect(r.score).toBe(10 + 10 + 10 + 3 + 15 + 15 + 15);
+    const r = computeDiagnosticScore({ sector: "btp", objective: "ventes", invested: "oui", pastBudget: "moins_150k", minimum: "oui", revenue: "1m_5m" });
+    expect(r.score).toBe(65);
     expect(r.qualified).toBe(true);
   });
 
-  it("un score de 64 n'est pas qualifie", () => {
-    // 10 + 6 + 10 + 3 + 15 + 2 + 15 = 61 -> sous le seuil
-    const r = computeDiagnosticScore({ sector: "btp", objective: "visibilite", invested: "oui", pastBudget: "moins_150k", minimum: "discuter", revenue: "moins_1m", decision: "moi" });
+  it("un score de 61 n'est pas qualifie", () => {
+    const r = computeDiagnosticScore({ sector: "btp", objective: "visibilite", invested: "oui", pastBudget: "moins_150k", minimum: "oui", revenue: "1m_5m" });
     expect(r.score).toBe(61);
     expect(r.qualified).toBe(false);
   });
