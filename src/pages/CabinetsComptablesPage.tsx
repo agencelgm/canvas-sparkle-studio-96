@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import CabinetQualificationForm from "@/components/CabinetQualificationForm";
+import DiagnosticLauncher from "@/components/diagnostic/DiagnosticLauncher";
 import { siteContact } from "@/data/publicContent";
 
 // Chiffres déjà publiés sur le site (SocialProof.tsx) — ne pas inventer de nouvelles statistiques.
@@ -153,17 +153,7 @@ const CabinetsComptablesPage = () => {
             </div>
 
             <div id="formulaire" className="scroll-mt-6 lg:sticky lg:top-24">
-              <div className="public-card p-5 md:p-7">
-                <div className="mb-6 text-center">
-                  <h2 className="font-display text-xl font-extrabold uppercase tracking-wide text-platinum md:text-2xl">
-                    Formulaire d'application
-                  </h2>
-                  <p className="mt-2 text-sm leading-6 text-platinum/70">
-                    Répondez à quelques questions pour découvrir si nous sommes l'agence marketing qu'il vous faut.
-                  </p>
-                </div>
-                <CabinetQualificationForm />
-              </div>
+              <DiagnosticLauncher sourcePage="cabinets-comptables" title="Formulaire d'application" />
             </div>
           </div>
         </section>
