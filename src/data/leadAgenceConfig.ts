@@ -1,7 +1,7 @@
 // Configuration de la lead page "Agence marketing" et de ses 3 pages de suite.
 // Modifier ici les liens (videos, formulaire, calendrier) sans toucher aux composants.
 
-import invitationRendezVousAsset from "@/assets/invitation-rendez-vous.mp4.asset.json";
+import rendezVousQualificationAsset from "@/assets/rendez-vous-qualification.mp4.asset.json";
 import reponseBudgetFormationAsset from "@/assets/reponse-budget-formation.mp4.asset.json";
 
 export const leadAgenceConfig = {
