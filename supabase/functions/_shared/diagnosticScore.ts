@@ -47,7 +47,7 @@ export function computeDiagnosticScore(a: DiagnosticAnswers): ScoreResult {
     decision: pick(SCORE_TABLE.decision, a.decision),
   };
   const flags: string[] = [];
-  // Coherence : dire "oui" a 405 000 FCFA/mois avec un tres petit chiffre d'affaires.
+  // Coherence : dire "oui" a 270 000 FCFA/mois avec un tres petit chiffre d'affaires.
   if (a.minimum === "oui" && a.revenue === "moins_1m") flags.push("budget_vs_revenu");
   if (a.minimum === "oui" && a.invested === "oui" && a.pastBudget === "moins_150k" && a.revenue === "moins_1m") {
     flags.push("budget_vs_historique");
