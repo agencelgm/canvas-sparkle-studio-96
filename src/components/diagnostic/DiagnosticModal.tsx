@@ -39,11 +39,11 @@ const readUtm = () => {
   return out;
 };
 
-const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: () => void }) => {
-  const isOpen = source !== null;
+const DiagnosticModal = ({ source, onClose, inline = false }: { source: string | null; onClose: () => void; inline?: boolean }) => {
+  const isOpen = source !== null && !inline;
   const reduce = useReducedMotion();
   const navigate = useNavigate();
-  const [step, setStep] = useState(0); // 0 accueil, 1..n questions, n+1 coordonnees, n+2 resultat
+  const [step, setStep] = useState(inline ? 1 : 0); // 0 accueil, 1..n questions, n+1 coordonnees, n+2 resultat
   const [dir, setDir] = useState(1);
   const [answers, setAnswers] = useState<DiagnosticAnswers>({});
   const [contact, setContact] = useState<Contact>({ firstName: "", lastName: "", email: "", phone: "", country: "+225" });
@@ -56,9 +56,17 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
   const advanceTimer = useRef<number>();
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const panelRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
   useEffect(() => {
+    if (firstRender.current) { firstRender.current = false; return; }
+    if (inline) {
+      const el = panelRef.current;
+      if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      return;
+    }
     scrollRef.current?.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  }, [step, reduce]);
+  }, [step, reduce, inline]);
 
   // Questions actives (on saute le budget passe si jamais investi)
   const questions = useMemo(
@@ -147,7 +155,7 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
     const target = result.qualified ? "/lead-agence-marketing/rendez-vous" : "/lead-agence-marketing/programme-pilote";
     onClose();
     window.setTimeout(() => {
-      setStep(0); setAnswers({}); setResult(null);
+      setStep(inline ? 1 : 0); setAnswers({}); setResult(null);
     }, 400);
     navigate(`${target}?score=${result.score}${result.tier === "pilot" ? "&pilote=1" : ""}`);
   };
@@ -357,36 +365,22 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
   };
 
   const showNav = step > 0 && step < resultStep;
+  const canBack = !(inline && step === 1);
   const canNext = q ? Boolean(answers[q.id as keyof DiagnosticAnswers]) || (q.id === "objective" && Boolean(answers.objectiveOther?.trim())) : true;
 
-  return createPortal(
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="dx-overlay"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          transition={{ duration: reduce ? 0 : 0.25 }}
-          onMouseDown={(e) => e.target === e.currentTarget && onClose()}
-        >
-          <motion.div
-            role="dialog" aria-modal="true" aria-labelledby="dx-title"
-            className="dx-panel"
-            initial={{ opacity: 0, y: reduce ? 0 : 60, scale: reduce ? 1 : 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: reduce ? 0 : 40, scale: reduce ? 1 : 0.98 }}
-            transition={{ type: reduce ? "tween" : "spring", stiffness: 260, damping: 28, duration: reduce ? 0 : undefined }}
-          >
-            <div className="dx-handle sm:hidden" aria-hidden="true" />
+  const inner = (
+    <>
+            {!inline && <div className="dx-handle sm:hidden" aria-hidden="true" />}
             <header className="dx-header">
               <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM" className="h-8 w-auto" />
-              <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>
+              {!inline && <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>}
             </header>
 
             <div ref={scrollRef} className="dx-scroll" data-lenis-prevent>
               <div className="dx-grid">
                 <div className="min-w-0">
                   {/* Jauge mobile */}
-                  <div className="dx-score-card lg:hidden">
+                  <div className={`dx-score-card ${inline ? "" : "lg:hidden"}`}>
                     <ScoreGauge score={score} size={92} />
                     <div className="min-w-0">
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] dx-muted">Score de preparation</p>
@@ -426,7 +420,7 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
                 </div>
 
                 {/* Panneau lateral bureau */}
-                <aside className="dx-aside hidden lg:block" aria-label="Votre score">
+                {!inline && <aside className="dx-aside hidden lg:block" aria-label="Votre score">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] dx-muted">Score de preparation</p>
                   <div className="mt-4 flex justify-center"><ScoreGauge score={score} size={150} /></div>
                   <p className="mt-3 text-center font-display text-lg font-extrabold dx-ink">{step === 0 ? "Pret a demarrer" : scoreLabel(score)}</p>
@@ -445,13 +439,13 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
                       );
                     })}
                   </ul>
-                </aside>
+                </aside>}
               </div>
             </div>
 
             {showNav && (
               <footer className="dx-footer">
-                <button type="button" className="dx-btn-ghost" onClick={() => go(step - 1)}>
+                <button type="button" className="dx-btn-ghost" onClick={() => go(step - 1)} disabled={!canBack} style={canBack ? undefined : { visibility: "hidden" }}>
                   <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Precedent
                 </button>
                 {step === contactStep ? (
@@ -466,6 +460,31 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
                 )}
               </footer>
             )}
+    </>
+  );
+
+  if (inline) {
+    return <div ref={panelRef} className="dx-panel dx-inline scroll-mt-24" aria-labelledby="dx-title">{inner}</div>;
+  }
+
+  return createPortal(
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="dx-overlay"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          transition={{ duration: reduce ? 0 : 0.25 }}
+          onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+        >
+          <motion.div
+            role="dialog" aria-modal="true" aria-labelledby="dx-title"
+            className="dx-panel"
+            initial={{ opacity: 0, y: reduce ? 0 : 60, scale: reduce ? 1 : 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: reduce ? 0 : 40, scale: reduce ? 1 : 0.98 }}
+            transition={{ type: reduce ? "tween" : "spring", stiffness: 260, damping: 28, duration: reduce ? 0 : undefined }}
+          >
+            {inner}
           </motion.div>
         </motion.div>
       )}
