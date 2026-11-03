@@ -2,6 +2,7 @@
 // Modifier ici les liens (videos, formulaire, calendrier) sans toucher aux composants.
 
 import preparezRendezVousAsset from "@/assets/preparez-rendez-vous.mp4.asset.json";
+import programmePiloteAsset from "@/assets/programme-pilote.mp4.asset.json";
 import rendezVousQualificationAsset from "@/assets/rendez-vous-qualification.mp4.asset.json";
 import reponseBudgetFormationAsset from "@/assets/reponse-budget-formation.mp4.asset.json";
 
