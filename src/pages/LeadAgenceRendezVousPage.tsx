@@ -95,38 +95,32 @@ const LeadAgenceRendezVousPage = () => {
             <p className="dx-info mx-auto mt-8 max-w-2xl">{PILOT_WARNING}</p>
           )}
 
-          <div className="mt-10 grid gap-8 lg:-mx-[12vw] lg:grid-cols-2 lg:items-start xl:-mx-40">
-            <div className="dx-launcher p-4 md:p-6">
-              <p className="section-kicker mb-3">Etape 1 — Regardez cette video</p>
-              <VideoSlot
-                url={leadAgenceConfig.videos.rendezVous}
-                title="Ce qui va se passer maintenant"
-                placeholder="La video vous explique en 3 minutes comment se deroule l'appel et ce que vous en repartez avec."
-              />
-            </div>
-
-            <div className="dx-launcher p-4 md:p-6">
-              <p className="section-kicker mb-2">Etape 2 — Reservez votre appel</p>
-              <h2 className="font-display text-xl font-extrabold text-platinum md:text-2xl">
-                Choisissez un creneau avec notre equipe
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-platinum/70">
-                L'appel dure environ 45 minutes, en ligne. Nous parlerons de :
-              </p>
-              <ul className="mt-3 space-y-2">
-                {callPoints.map((point) => (
-                  <li key={point} className="flex gap-2 text-sm leading-6 text-platinum/70">
-                    <span className="mt-[2px] text-[#f0d996]">—</span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-5">
-                <GhlCalendar />
+          <div className="mt-10 grid gap-6 lg:-mx-[12vw] lg:grid-cols-[1.15fr_1fr] lg:items-start lg:gap-8 xl:-mx-40">
+            <div className="contents lg:sticky lg:top-24 lg:block lg:space-y-6">
+              <div className="dx-launcher order-1 p-4 md:p-6">
+                <p className="section-kicker mb-3">Etape 1 — Regardez cette video</p>
+                <VideoSlot
+                  url={leadAgenceConfig.videos.rendezVous}
+                  title="Ce qui va se passer maintenant"
+                  placeholder="La video vous explique en 3 minutes comment se deroule l'appel et ce que vous en repartez avec."
+                />
               </div>
 
-              <p className="mt-4 text-sm leading-6 text-platinum/70">
+              <div className="dx-launcher order-2 p-4 md:p-6">
+                <p className="text-sm leading-6 text-platinum/70">
+                  L'appel dure environ 45 minutes, en ligne. Nous parlerons de :
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {callPoints.map((point) => (
+                    <li key={point} className="flex gap-2 text-sm leading-6 text-platinum/70">
+                      <span className="mt-[2px] text-[#f0d996]">—</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <p className="order-4 px-1 text-sm leading-6 text-platinum/70">
                 Vous preferez WhatsApp ? Ecrivez-nous au{" "}
                 <a
                   href={rendezVousWhatsappUrl}
@@ -140,6 +134,15 @@ const LeadAgenceRendezVousPage = () => {
               </p>
             </div>
 
+            <div className="dx-launcher order-3 p-4 md:p-6">
+              <p className="section-kicker mb-2">Etape 2 — Reservez votre appel</p>
+              <h2 className="font-display text-xl font-extrabold text-platinum md:text-2xl">
+                Choisissez un creneau avec notre equipe
+              </h2>
+              <div className="mt-5">
+                <GhlCalendar />
+              </div>
+            </div>
           </div>
         </div>
       </section>
