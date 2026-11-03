@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import LeadShell from "@/components/lead/LeadShell";
-import { useDiagnostic } from "@/components/diagnostic/DiagnosticContext";
-import DiagnosticLauncher from "@/components/diagnostic/DiagnosticLauncher";
+import DiagnosticModal from "@/components/diagnostic/DiagnosticModal";
 
 // Chiffres deja publies sur le site (SocialProof.tsx) — ne pas inventer de statistiques.
 const proofStats = [
@@ -63,9 +62,17 @@ const faqSchema = {
 
 
 const LeadAgencePage = () => {
-  const { open } = useDiagnostic();
-  const scrollToForm = () => open("lead-agence-marketing");
+  const scrollToForm = () => document.getElementById("formulaire")?.scrollIntoView({ behavior: "smooth", block: "start" });
   const [scrolled, setScrolled] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById("formulaire");
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setFormVisible(e.isIntersecting), { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 250);
@@ -73,7 +80,7 @@ const LeadAgencePage = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const showStickyCta = scrolled;
+  const showStickyCta = scrolled && !formVisible;
 
   return (
     <LeadShell>
@@ -88,18 +95,21 @@ const LeadAgencePage = () => {
       </Helmet>
 
       <section className="section-charcoal">
-        <div className="container-wide grid items-start gap-12 py-10 md:py-16 lg:grid-cols-[1fr_minmax(420px,0.95fr)] lg:gap-14">
-          <div>
+        <div className="container-wide grid items-start gap-12 py-10 md:py-16 lg:grid-cols-[1fr_minmax(420px,0.95fr)] lg:gap-x-14 lg:gap-y-0">
+          <div className="lg:col-start-1 lg:row-start-1">
             <p className="section-kicker !mb-3">Pour les entreprises qui veulent plus de clients a Abidjan</p>
 
             <h1 className="font-display text-[clamp(2rem,5.4vw,3.9rem)] font-extrabold leading-[1.04] text-[#f0d996] [text-wrap:balance]">
               Des prospects qualifies pour votre entreprise chaque jour, sans dependre du bouche-a-oreille
             </h1>
 
-            <button type="button" onClick={scrollToForm} className="btn-cobalt mt-6 w-full sm:w-auto lg:hidden">
-              Remplir le formulaire — 2 minutes
-            </button>
+          </div>
 
+          <div id="formulaire" className="scroll-mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+            <DiagnosticModal inline source="lead-agence-marketing" onClose={() => {}} />
+          </div>
+
+          <div className="lg:col-start-1 lg:row-start-2">
             <div className="public-lead space-y-3 text-platinum">
               <p>La plupart des entreprises attendent que les clients viennent d'eux-memes.</p>
               <p>
@@ -124,9 +134,6 @@ const LeadAgencePage = () => {
             </div>
           </div>
 
-          <div id="formulaire" className="scroll-mt-6 lg:sticky lg:top-24">
-            <DiagnosticLauncher sourcePage="lead-agence-marketing" title="Formulaire de qualification" />
-          </div>
         </div>
       </section>
 
