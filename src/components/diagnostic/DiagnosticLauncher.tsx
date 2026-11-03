@@ -25,7 +25,7 @@ const DiagnosticLauncher = ({ sourcePage, title = "Diagnostic digital interactif
       >
         Commencer mon diagnostic <ArrowRight className="h-5 w-5" aria-hidden="true" />
       </motion.button>
-      <p className="mt-3 text-center text-xs text-platinum/55">Gratuit · Sans engagement · 3 minutes · Confidentiel</p>
+      <p className="mt-3 text-center text-xs text-platinum/55">Gratuit · Sans engagement · 1 minute · Confidentiel</p>
     </div>
   );
 };
