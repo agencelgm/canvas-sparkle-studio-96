@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import LeadShell from "@/components/lead/LeadShell";
-import { useDiagnostic } from "@/components/diagnostic/DiagnosticContext";
 import DiagnosticModal from "@/components/diagnostic/DiagnosticModal";
 
 // Chiffres deja publies sur le site (SocialProof.tsx) — ne pas inventer de statistiques.
