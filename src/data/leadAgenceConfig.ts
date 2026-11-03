@@ -23,6 +23,8 @@ export const leadAgenceConfig = {
     rendezVous: rendezVousQualificationAsset.url,
     rendezVousConfirme: preparezRendezVousAsset.url,
     formation: reponseBudgetFormationAsset.url,
+    // Video provisoire : remplacer par la video du programme pilote.
+    pilote: reponseBudgetFormationAsset.url,
   },
 
   whatsappUrl: "https://wa.me/2250798172339",
@@ -32,7 +34,9 @@ export const leadAgenceConfig = {
   leadPath: "/lead-agence-marketing",
   rendezVousPath: "/lead-agence-marketing/rendez-vous",
   rendezVousConfirmePath: "/lead-agence-marketing/rendez-vous-confirme",
-  formationPath: "/lead-agence-marketing/formation",
+  formationPath: "/lead-agence-marketing/programme-pilote",
+  formationFacebookPath: "/lead-agence-marketing/formation-facebook",
+  groupeWhatsappPath: "/lead-agence-marketing/groupe-whatsapp",
 } as const;
 
 export const formationWhatsappUrl = `${leadAgenceConfig.whatsappUrl}?text=${encodeURIComponent(
@@ -41,4 +45,8 @@ export const formationWhatsappUrl = `${leadAgenceConfig.whatsappUrl}?text=${enco
 
 export const rendezVousWhatsappUrl = `${leadAgenceConfig.whatsappUrl}?text=${encodeURIComponent(
   "Bonjour, je viens de remplir le formulaire de qualification et je souhaite reserver un appel.",
+)}`;
+
+export const piloteWhatsappUrl = `${leadAgenceConfig.whatsappUrl}?text=${encodeURIComponent(
+  "Bonjour LGM, je viens de votre site internet. Je voudrais adhérer au programme pilote. Est-ce que je peux avoir un rendez-vous avec un de vos spécialistes pour en discuter ?",
 )}`;

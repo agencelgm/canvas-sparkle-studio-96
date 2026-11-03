@@ -33,7 +33,9 @@ import CabinetsMerciPage from "./pages/CabinetsMerciPage";
 import LeadAgencePage from "./pages/LeadAgencePage";
 import LeadAgenceRendezVousPage from "./pages/LeadAgenceRendezVousPage";
 import LeadAgenceRendezVousConfirmePage from "./pages/LeadAgenceRendezVousConfirmePage";
-import LeadAgenceFormationPage from "./pages/LeadAgenceFormationPage";
+import LeadAgencePilotePage from "./pages/LeadAgencePilotePage";
+import LeadAgenceFormationFacebookPage from "./pages/LeadAgenceFormationFacebookPage";
+import LeadAgenceGroupeWhatsappPage from "./pages/LeadAgenceGroupeWhatsappPage";
 import AdminLeadsAgence from "./pages/admin/AdminLeadsAgence";
 
 const queryClient = new QueryClient();
@@ -68,7 +70,10 @@ const App = () => (
                 path="/lead-agence-marketing/rendez-vous-confirme"
                 element={<LeadAgenceRendezVousConfirmePage />}
               />
-              <Route path="/lead-agence-marketing/formation" element={<LeadAgenceFormationPage />} />
+              <Route path="/lead-agence-marketing/formation" element={<Navigate to="/lead-agence-marketing/programme-pilote" replace />} />
+              <Route path="/lead-agence-marketing/programme-pilote" element={<LeadAgencePilotePage />} />
+              <Route path="/lead-agence-marketing/formation-facebook" element={<LeadAgenceFormationFacebookPage />} />
+              <Route path="/lead-agence-marketing/groupe-whatsapp" element={<LeadAgenceGroupeWhatsappPage />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />

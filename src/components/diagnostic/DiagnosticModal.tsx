@@ -144,7 +144,7 @@ const DiagnosticModal = ({ source, onClose }: { source: string | null; onClose: 
 
   const finish = () => {
     if (!result) return;
-    const target = result.qualified ? "/lead-agence-marketing/rendez-vous" : "/lead-agence-marketing/formation";
+    const target = result.qualified ? "/lead-agence-marketing/rendez-vous" : "/lead-agence-marketing/programme-pilote";
     onClose();
     window.setTimeout(() => {
       setStep(0); setAnswers({}); setResult(null);
