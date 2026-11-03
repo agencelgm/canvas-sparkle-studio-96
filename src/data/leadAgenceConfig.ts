@@ -2,6 +2,7 @@
 // Modifier ici les liens (videos, formulaire, calendrier) sans toucher aux composants.
 
 import preparezRendezVousAsset from "@/assets/preparez-rendez-vous.mp4.asset.json";
+import formationFacebookAsset from "@/assets/formation-facebook.mp4.asset.json";
 import programmePiloteAsset from "@/assets/programme-pilote.mp4.asset.json";
 import rendezVousQualificationAsset from "@/assets/rendez-vous-qualification.mp4.asset.json";
 import reponseBudgetFormationAsset from "@/assets/reponse-budget-formation.mp4.asset.json";
@@ -25,6 +26,7 @@ export const leadAgenceConfig = {
     rendezVousConfirme: preparezRendezVousAsset.url,
     formation: reponseBudgetFormationAsset.url,
     pilote: programmePiloteAsset.url,
+    formationFacebook: formationFacebookAsset.url,
   },
 
   whatsappUrl: "https://wa.me/2250798172339",
@@ -40,7 +42,7 @@ export const leadAgenceConfig = {
 } as const;
 
 export const formationWhatsappUrl = `${leadAgenceConfig.whatsappUrl}?text=${encodeURIComponent(
-  "Bonjour, je veux m'inscrire a la formation publicite Facebook de LGM.",
+  "Bonjour LGM, je veux réserver ma place à la prochaine session de la formation « Gérez vos propres campagnes publicitaires ».",
 )}`;
 
 export const rendezVousWhatsappUrl = `${leadAgenceConfig.whatsappUrl}?text=${encodeURIComponent(
