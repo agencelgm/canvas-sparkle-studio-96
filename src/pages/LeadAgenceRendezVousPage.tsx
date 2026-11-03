@@ -95,7 +95,7 @@ const LeadAgenceRendezVousPage = () => {
             <p className="dx-info mx-auto mt-8 max-w-2xl">{PILOT_WARNING}</p>
           )}
 
-          <div className="mt-10 space-y-8">
+          <div className="mt-10 grid gap-8 lg:-mx-[12vw] lg:grid-cols-2 lg:items-start xl:-mx-40">
             <div className="dx-launcher p-4 md:p-6">
               <p className="section-kicker mb-3">Etape 1 — Regardez cette video</p>
               <VideoSlot
