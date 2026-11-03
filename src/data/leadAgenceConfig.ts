@@ -24,8 +24,7 @@ export const leadAgenceConfig = {
     rendezVous: rendezVousQualificationAsset.url,
     rendezVousConfirme: preparezRendezVousAsset.url,
     formation: reponseBudgetFormationAsset.url,
-    // Video provisoire : remplacer par la video du programme pilote.
-    pilote: reponseBudgetFormationAsset.url,
+    pilote: programmePiloteAsset.url,
   },
 
   whatsappUrl: "https://wa.me/2250798172339",
