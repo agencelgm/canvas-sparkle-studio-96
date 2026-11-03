@@ -491,3 +491,7 @@
 .dx-panel.dx-inline { height: auto; max-height: none; max-width: none; border-radius: 1.5rem; }
 .dx-inline .dx-scroll { overflow: visible; }
 .dx-inline .dx-grid { grid-template-columns: minmax(0,1fr); }
+
+@keyframes dx-flash-kf { 0%,100% { box-shadow: 0 0 0 0 hsl(43 70% 76% / 0); } 35% { box-shadow: 0 0 0 4px hsl(43 70% 76% / 0.55), 0 0 40px 6px hsl(43 70% 76% / 0.25); } }
+.dx-flash { border-radius: 1.5rem; animation: dx-flash-kf 1.3s ease-out; }
+@media (prefers-reduced-motion: reduce) { .dx-flash { animation: none; } }

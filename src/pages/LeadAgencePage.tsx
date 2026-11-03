@@ -26,7 +26,7 @@ const faqItems = [
   {
     question: "Pourquoi un formulaire avant de parler a quelqu'un ?",
     answer:
-      "Parce que nous ne pouvons pas aider tout le monde. Le formulaire nous permet de savoir en deux minutes si votre situation correspond a ce que nous faisons. Si oui, vous reservez un appel immediatement. Si non, vous recevez une alternative utile plutot qu'un silence.",
+      "Parce que nous ne pouvons pas aider tout le monde. Le formulaire nous permet de savoir en une minute si votre situation correspond a ce que nous faisons. Si oui, vous reservez un appel immediatement. Si non, vous recevez une alternative utile plutot qu'un silence.",
   },
   {
     question: "Faut-il un budget publicitaire minimum ?",
@@ -62,7 +62,22 @@ const faqSchema = {
 
 
 const LeadAgencePage = () => {
-  const scrollToForm = () => document.getElementById("formulaire")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToForm = () => {
+    const el = document.getElementById("formulaire");
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const target = () => Math.max(0, el.getBoundingClientRect().top + window.scrollY - 16);
+    window.scrollTo({ top: target(), behavior: reduce ? "auto" : "smooth" });
+    window.setTimeout(() => {
+      if (Math.abs(el.getBoundingClientRect().top - 16) > 60) window.scrollTo({ top: target(), behavior: "auto" });
+    }, 450);
+    if (!reduce) {
+      el.classList.remove("dx-flash");
+      void el.offsetWidth;
+      el.classList.add("dx-flash");
+      window.setTimeout(() => el.classList.remove("dx-flash"), 1400);
+    }
+  };
   const [scrolled, setScrolled] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
 
@@ -176,7 +191,7 @@ const LeadAgencePage = () => {
             </div>
             <div className="mt-10 text-center">
               <button type="button" onClick={scrollToForm} className="btn-cobalt">
-                Remplir le formulaire — 2 minutes
+                Remplir le formulaire — 1 minute
               </button>
             </div>
           </div>
@@ -186,7 +201,7 @@ const LeadAgencePage = () => {
       {showStickyCta && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[rgba(240,217,150,0.24)] bg-[#070b12]/95 p-3 backdrop-blur lg:hidden">
           <button type="button" onClick={scrollToForm} className="btn-cobalt w-full">
-            Remplir le formulaire — 2 minutes
+            Remplir le formulaire — 1 minute
           </button>
         </div>
       )}
