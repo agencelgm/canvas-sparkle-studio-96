@@ -2,6 +2,7 @@
 // Modifier ici les liens (videos, formulaire, calendrier) sans toucher aux composants.
 
 import preparezRendezVousAsset from "@/assets/preparez-rendez-vous.mp4.asset.json";
+import programmePiloteAsset from "@/assets/programme-pilote.mp4.asset.json";
 import rendezVousQualificationAsset from "@/assets/rendez-vous-qualification.mp4.asset.json";
 import reponseBudgetFormationAsset from "@/assets/reponse-budget-formation.mp4.asset.json";
 
@@ -23,8 +24,7 @@ export const leadAgenceConfig = {
     rendezVous: rendezVousQualificationAsset.url,
     rendezVousConfirme: preparezRendezVousAsset.url,
     formation: reponseBudgetFormationAsset.url,
-    // Video provisoire : remplacer par la video du programme pilote.
-    pilote: reponseBudgetFormationAsset.url,
+    pilote: programmePiloteAsset.url,
   },
 
   whatsappUrl: "https://wa.me/2250798172339",
