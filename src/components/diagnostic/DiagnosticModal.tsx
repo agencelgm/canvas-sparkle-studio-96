@@ -26,6 +26,8 @@ const contactSchema = z.object({
 
 type Contact = { firstName: string; lastName: string; email: string; phone: string; country: string };
 
+const STAGES = ["Votre activite", "Publicite et budget", "Votre entreprise", "Vos coordonnees"];
+
 const scoreLabel = (s: number) =>
   s >= 80 ? "Excellent potentiel" : s >= QUALIFIED_THRESHOLD ? "Bon niveau de compatibilite" : s >= 40 ? "Evolution en cours" : "Estimation en cours";
 
@@ -166,7 +168,16 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
     live.flags.length ? "Certaines reponses sur le budget meritent d'etre precisees." : null,
   ].filter(Boolean) as string[];
 
-  const progressIndex = Math.min(TOTAL, step + 1);
+  const stageOf = (id: string) => (id === "sector" || id === "objective" ? 0 : id === "revenue" || id === "decision" ? 2 : 1);
+  const stage = (() => {
+    if (step >= resultStep) return { index: 3, fill: 1 };
+    if (step === contactStep) return { index: 3, fill: 0.5 };
+    if (step === 0) return { index: 0, fill: 0 };
+    const idx = stageOf(questions[step - 1].id);
+    const inStage = questions.filter((x) => stageOf(x.id) === idx);
+    const pos = inStage.findIndex((x) => x.id === questions[step - 1].id);
+    return { index: idx, fill: (pos + 1) / (inStage.length + 1) };
+  })();
 
   const slide: Variants = {
     enter: (d: number) => ({ opacity: 0, x: reduce ? 0 : d * 48 }),
@@ -202,7 +213,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
           </motion.p>
           <ul className="mt-6 space-y-3">
             {[
-              { icon: Clock3, t: "Moins de 3 minutes" },
+              { icon: Clock3, t: "1 minute seulement" },
               { icon: Target, t: "Resultat immediat sur 100" },
               { icon: Sparkles, t: "Gratuit et sans engagement" },
             ].map(({ icon: Icon, t }) => (
@@ -372,7 +383,12 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
     <>
             {!inline && <div className="dx-handle sm:hidden" aria-hidden="true" />}
             <header className="dx-header">
-              <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM" className="h-8 w-auto" />
+              {inline ? (
+                <div className="min-w-0">
+                  <p className="font-display text-xl font-extrabold leading-tight dx-accent">Sommes-nous l'agence qu'il vous faut ?</p>
+                  <p className="mt-0.5 text-sm dx-muted">Remplissez le formulaire ci-dessous pour le savoir. Ça prend 1 minute.</p>
+                </div>
+              ) : <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM" className="h-8 w-auto" />}
               {!inline && <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>}
             </header>
 
@@ -398,13 +414,13 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
                   {/* Progression */}
                   <div className="mt-5">
                     <div className="flex items-center justify-between text-xs font-semibold">
-                      <span className="dx-accent">Etape {progressIndex} sur {TOTAL}</span>
-                      <span className="dx-muted">{Math.round((progressIndex / TOTAL) * 100)}%</span>
+                      <span className="dx-accent">Etape {stage.index + 1} sur 4</span>
+                      <span className="dx-muted">{STAGES[stage.index]}</span>
                     </div>
-                    <div className="mt-2 grid gap-1" style={{ gridTemplateColumns: `repeat(${TOTAL}, 1fr)` }} aria-hidden="true">
-                      {Array.from({ length: TOTAL }).map((_, i) => (
+                    <div className="mt-2 grid grid-cols-4 gap-1" aria-hidden="true">
+                      {STAGES.map((_, i) => (
                         <span key={i} className="dx-seg">
-                          <motion.span className="dx-seg-fill" initial={false} animate={{ scaleX: i < progressIndex ? 1 : 0 }} transition={{ duration: reduce ? 0 : 0.4, delay: reduce ? 0 : i * 0.02 }} />
+                          <motion.span className="dx-seg-fill" initial={false} animate={{ scaleX: i < stage.index ? 1 : i === stage.index ? stage.fill : 0 }} transition={{ duration: reduce ? 0 : 0.4 }} />
                         </span>
                       ))}
                     </div>
