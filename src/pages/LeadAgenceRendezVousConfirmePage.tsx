@@ -25,7 +25,10 @@ const checklist = [
   },
 ];
 
-const LeadAgenceRendezVousConfirmePage = () => (
+const LeadAgenceRendezVousConfirmePage = () => {
+  // Rendez-vous reserve = conversion du test de la page rendez-vous.
+  useEffect(() => trackAbConversion("rendez-vous"), []);
+  return (
   <LeadShell>
     <Helmet>
       <title>Rendez-vous confirme | Agence LGM</title>
@@ -103,6 +106,7 @@ const LeadAgenceRendezVousConfirmePage = () => (
       </div>
     </section>
   </LeadShell>
-);
+  );
+};
 
 export default LeadAgenceRendezVousConfirmePage;
