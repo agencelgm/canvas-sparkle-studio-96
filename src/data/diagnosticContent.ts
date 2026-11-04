@@ -80,10 +80,10 @@ export const questionSteps: QuestionStep[] = [
   {
     id: "minimum",
     kicker: "Budget & engagement",
-    title: ["Notre accompagnement demarre a ", "270 000 FCFA/mois", ". Est-ce envisageable ?"],
-    subtitle: "Pour vous proposer un accompagnement adapte a vos moyens et a vos objectifs.",
+    title: ["Notre accompagnement démarre à ", "270 000 FCFA/mois", ". Est-ce un montant que vous pouvez investir chaque mois ?"],
+    subtitle:
+      "Ce montant est celui que nous investissons en publicité sur Facebook, Google et Instagram pour vous. C'est lui qui génère vos prospects : plus de budget, plus de prospects, plus de chances de signer de nouveaux clients.",
     layout: "rows",
-    info: BUDGET_INFO,
     options: [
       { value: "oui", label: "Oui", hint: "Je suis pret a investir des maintenant." },
       { value: "pas_encore", label: "Pas encore", hint: "Pas pour l'instant, mais j'y reflechis." },
