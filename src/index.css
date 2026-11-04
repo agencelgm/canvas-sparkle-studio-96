@@ -509,7 +509,8 @@
 .dx-close:hover, .dx-btn-ghost:hover { background: hsl(var(--dx-ink) / 0.05); }
 .dx-ink { color: hsl(var(--dx-ink)); }
 .dx-muted, .dx-sub { color: hsl(var(--dx-muted)); }
-.dx-accent, .dx-kicker { color: hsl(var(--dx-gold)); }
+.dx-accent { color: hsl(var(--dx-gold)); }
+.dx-kicker { color: hsl(var(--dx-muted)); font-weight: 700; }
 .dx-error { color: hsl(4 70% 45%); }
 .dx-title { font-size: clamp(1.55rem, 4.2vw, 2.3rem); color: hsl(var(--dx-ink)); }
 .dx-aside, .dx-score-card, .dx-perk, .dx-details, .dx-launcher-perk { background: hsl(var(--dx-card)); border-color: hsl(var(--dx-line)); color: hsl(var(--dx-ink)); }
@@ -527,7 +528,7 @@
 .dx-check { border-color: hsl(var(--dx-line)); color: hsl(var(--dx-card)); }
 .dx-check.is-on { background: hsl(var(--dx-gold)); border-color: hsl(var(--dx-gold)); }
 .dx-info { background: hsl(var(--dx-card)); color: hsl(var(--dx-muted)); border-color: hsl(var(--dx-line)); }
-.dx-info svg { color: hsl(var(--dx-gold)); }
+.dx-info svg { color: hsl(var(--dx-muted)); }
 .dx-input { background: hsl(var(--dx-card)); border: 1px solid hsl(var(--dx-line)); color: hsl(var(--dx-ink)); }
 .dx-input::placeholder { color: hsl(var(--dx-muted) / 0.7); }
 .dx-input:focus { border-color: hsl(var(--dx-gold)); box-shadow: 0 0 0 3px hsl(var(--dx-gold-soft)); }
