@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Hourglass, MessageCircle, Users } from "lucide-react";
+import { useAbTest } from "@/hooks/useAbTest";
 import ScoreResultBadge from "@/components/diagnostic/ScoreResultBadge";
 import LeadShell from "@/components/lead/LeadShell";
 import { leadAgenceConfig, piloteWhatsappUrl } from "@/data/leadAgenceConfig";
@@ -10,6 +11,7 @@ import { leadAgenceConfig, piloteWhatsappUrl } from "@/data/leadAgenceConfig";
 const UNLOCK_KEY = "lgm-pilote-video-unlocked";
 
 const LeadAgencePilotePage = () => {
+  const { content, convert } = useAbTest("programme-pilote");
   const videoRef = useRef<HTMLVideoElement>(null);
   const [unlocked, setUnlocked] = useState(() => {
     try { return sessionStorage.getItem(UNLOCK_KEY) === "1"; } catch { return false; }
@@ -42,10 +44,10 @@ const LeadAgencePilotePage = () => {
             <ScoreResultBadge caption="Diagnostic enregistré" />
             <p className="section-kicker mt-6">Un instant</p>
             <h1 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.05] text-platinum [text-wrap:balance]">
-              Ne fermez pas cette page avant de quitter
+              {content.headline ?? "Ne fermez pas cette page avant de quitter"}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-platinum/75 md:text-lg md:leading-8">
-              Regardez cette vidéo pour savoir ce qui se passe et quoi faire ensuite.
+              {content.subtitle ?? "Regardez cette vidéo pour savoir ce qui se passe et quoi faire ensuite."}
             </p>
 
             <div className="mt-8 aspect-video w-full overflow-hidden rounded-md border border-bronze/30 bg-black">
@@ -87,9 +89,9 @@ const LeadAgencePilotePage = () => {
                   transition={{ duration: 0.5, ease: "easeOut" }}
                   className="mt-8 flex flex-col gap-3"
                 >
-                  <a href={piloteWhatsappUrl} target="_blank" rel="noopener noreferrer" className="dx-btn-primary w-full">
+                  <a href={piloteWhatsappUrl} target="_blank" rel="noopener noreferrer" onClick={convert} className="dx-btn-primary w-full">
                     <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                    Oui, je veux une place dans le programme pilote
+                    {content.cta ?? "Oui, je veux une place dans le programme pilote"}
                   </a>
                   <Link
                     to={leadAgenceConfig.formationFacebookPath}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { CalendarDays, Check, ChevronDown, Clock, Laptop, MessageCircle, Target, Wallet, X } from "lucide-react";
+import { useAbTest, trackAbConversion } from "@/hooks/useAbTest";
 import LeadShell from "@/components/lead/LeadShell";
 import VideoSlot from "@/components/lead/VideoSlot";
 import { formationWhatsappUrl, leadAgenceConfig } from "@/data/leadAgenceConfig";
@@ -10,10 +11,10 @@ import { absUrl, breadcrumbSchema } from "@/lib/site";
 
 const formatIcons = [CalendarDays, Clock, Laptop, Target, Wallet, MessageCircle];
 
-const ReserveButton = ({ className = "" }: { className?: string }) => (
-  <a href={formationWhatsappUrl} target="_blank" rel="noopener noreferrer" className={`dx-btn-primary w-full sm:w-auto ${className}`}>
+const ReserveButton = ({ className = "", label }: { className?: string; label?: string }) => (
+  <a href={formationWhatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackAbConversion("formation-facebook")} className={`dx-btn-primary w-full sm:w-auto ${className}`}>
     <MessageCircle aria-hidden="true" className="h-4 w-4" />
-    Je réserve ma place à la prochaine session
+    {label ?? "Je réserve ma place à la prochaine session"}
   </a>
 );
 
@@ -22,6 +23,7 @@ const H2 = ({ children }: { children: React.ReactNode }) => (
 );
 
 const LeadAgenceFormationFacebookPage = () => {
+  const { content } = useAbTest("formation-facebook");
   const [showBar, setShowBar] = useState(false);
   useEffect(() => {
     const onScroll = () => setShowBar(window.scrollY > 500);
@@ -63,14 +65,14 @@ const LeadAgenceFormationFacebookPage = () => {
         <div className="container-narrow py-10 md:py-16">
           <div className="mx-auto max-w-3xl text-center">
             <p className="section-kicker">Formation publicité Facebook et Instagram</p>
-            <h1 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.05] text-platinum [text-wrap:balance]">{c.title}</h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-platinum/75 md:text-lg md:leading-8">{c.promise}</p>
+            <h1 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.05] text-platinum [text-wrap:balance]">{content.headline ?? c.title}</h1>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-platinum/75 md:text-lg md:leading-8">{content.subtitle ?? c.promise}</p>
           </div>
           <div className="mx-auto mt-8 max-w-3xl overflow-hidden rounded-md">
             <VideoSlot url={leadAgenceConfig.videos.formationFacebook} title="Présentation de la formation" />
           </div>
           <div className="mt-8 text-center">
-            <ReserveButton />
+            <ReserveButton label={content.cta} />
             <p className="mt-3 text-sm text-platinum/60">50 000 FCFA · 4 mercredis à 19h · En direct sur Zoom</p>
           </div>
         </div>
@@ -170,7 +172,7 @@ const LeadAgenceFormationFacebookPage = () => {
           <p className="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold text-platinum">50 000 FCFA</p>
           <p className="mt-1 text-platinum/75">Une seule fois, pour les 4 semaines.</p>
           <p className="mt-1 text-sm text-bronze">Places limitées, une session par mois.</p>
-          <ReserveButton className="mt-6" />
+          <ReserveButton className="mt-6" label={content.cta} />
           <p className="mt-10 text-sm text-platinum/60">
             <Link to={leadAgenceConfig.groupeWhatsappPath} className="underline underline-offset-4 hover:text-platinum">
               Pas intéressé par la formation ? Rejoignez notre chaîne WhatsApp gratuite
@@ -180,7 +182,7 @@ const LeadAgenceFormationFacebookPage = () => {
       </section>
 
       <div className={`fixed inset-x-0 bottom-0 z-40 border-t border-bronze/20 bg-charcoal/95 p-3 backdrop-blur transition-transform motion-reduce:transition-none sm:hidden ${showBar ? "translate-y-0" : "translate-y-full"}`}>
-        <ReserveButton />
+        <ReserveButton label={content.cta} />
       </div>
     </LeadShell>
   );
