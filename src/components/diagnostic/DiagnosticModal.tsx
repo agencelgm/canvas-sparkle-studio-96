@@ -139,6 +139,8 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
         variant,
         ab: experimentId && !noTrackAb() ? { experimentId, visitorId: getAbVisitorId() } : undefined,
         answers,
+        fbp: readFbCookie("_fbp"),
+        fbc: readFbCookie("_fbc"),
       },
     });
     setSending(false);
@@ -151,6 +153,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
         email: contact.email.trim(), telephone: phone, nom: `${contact.firstName} ${contact.lastName}`.trim(),
       }));
     } catch { /* stockage indisponible */ }
+    if (data.fbEventId) firePixelLeadOnce(data.fbEventId);
     setResult({ score: data.score, qualified: data.qualified, tier: data.tier });
     go(resultStep);
   };

@@ -16,6 +16,8 @@ const Body = z.object({
   variant: z.enum(["a","b"]).optional(),
   ab: z.object({ experimentId: z.string().uuid(), visitorId: z.string().min(8).max(64) }).optional(),
   utm: z.record(z.string().max(300)).optional().default({}),
+  fbp: z.string().max(200).optional(),
+  fbc: z.string().max(400).optional(),
   answers: z.object({
     sector: opt(["btp", "industrie", "commerce", "services", "sante", "autre"]),
     objective: opt(["prospects", "ventes", "devis", "visibilite"]),
@@ -142,7 +144,42 @@ Deno.serve(async (req) => {
       ghlStatus = "error_network";
     }
   }
-  await supabase.from("qualification_submissions").update({ ghl_status: ghlStatus }).eq("id", row.id);
+  // Facebook "Lead" : uniquement pour un prospect qualifie (65+ ou programme pilote), jamais pour < 100 000 FCFA.
+  const fbEligible = result.qualified && result.tier !== "excluded";
+  const fbEventId = fbEligible ? `lead-${row.id}` : null;
+  let fbStatus = "skipped_not_qualified";
+  const fbToken = Deno.env.get("FACEBOOK_CAPI_TOKEN");
+  if (fbEligible && !fbToken) fbStatus = "error_missing_token";
+  if (fbEligible && fbToken) {
+    try {
+      const sha = async (v: string) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(v.trim().toLowerCase())))).map((b) => b.toString(16).padStart(2, "0")).join("");
+      const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim();
+      const userData: Record<string, unknown> = {
+        client_user_agent: req.headers.get("user-agent") ?? undefined,
+        em: [await sha(d.email)],
+        ph: [await sha(d.phone.replace(/[^\d]/g, ""))],
+        fn: [await sha(d.firstName)],
+      };
+      if (d.lastName) userData.ln = [await sha(d.lastName)];
+      if (ip) userData.client_ip_address = ip;
+      if (d.fbp) userData.fbp = d.fbp;
+      if (d.fbc) userData.fbc = d.fbc;
+      const res = await fetch(`https://graph.facebook.com/v21.0/673688814007270/events?access_token=${encodeURIComponent(fbToken)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: [{
+          event_name: "Lead", event_time: Math.floor(Date.now() / 1000), event_id: fbEventId,
+          event_source_url: d.pageUrl || "https://agencelgm.com/lead-agence-marketing", action_source: "website", user_data: userData,
+        }] }),
+      });
+      fbStatus = res.ok ? "sent" : `error_${res.status}`;
+      if (!res.ok) console.error("CAPI", res.status, await res.text());
+    } catch (e) {
+      console.error("CAPI fetch", e);
+      fbStatus = "error_network";
+    }
+  }
+  await supabase.from("qualification_submissions").update({ ghl_status: ghlStatus, fb_status: fbStatus }).eq("id", row.id);
 
-  return json({ id: row.id, score: result.score, qualified: result.qualified, tier: result.tier, ghl: ghlStatus });
+  return json({ id: row.id, score: result.score, qualified: result.qualified, tier: result.tier, ghl: ghlStatus, fbEventId });
 });
