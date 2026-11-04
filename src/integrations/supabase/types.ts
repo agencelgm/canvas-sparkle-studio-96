@@ -234,6 +234,7 @@ export type Database = {
           source_page: string | null
           team_size_band: string | null
           utm: Json
+          variant: string | null
           website_or_social: string | null
         }
         Insert: {
@@ -270,6 +271,7 @@ export type Database = {
           source_page?: string | null
           team_size_band?: string | null
           utm?: Json
+          variant?: string | null
           website_or_social?: string | null
         }
         Update: {
@@ -306,6 +308,7 @@ export type Database = {
           source_page?: string | null
           team_size_band?: string | null
           utm?: Json
+          variant?: string | null
           website_or_social?: string | null
         }
         Relationships: []
