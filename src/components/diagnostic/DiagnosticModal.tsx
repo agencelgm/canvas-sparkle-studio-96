@@ -40,7 +40,7 @@ const readUtm = () => {
   return out;
 };
 
-const DiagnosticModal = ({ source, onClose, inline = false }: { source: string | null; onClose: () => void; inline?: boolean }) => {
+const DiagnosticModal = ({ source, onClose, inline = false, variant }: { source: string | null; onClose: () => void; inline?: boolean; variant?: "a" | "b" }) => {
   const isOpen = source !== null && !inline;
   const reduce = useReducedMotion();
   const navigate = useNavigate();
@@ -134,6 +134,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
         sourcePage: source ?? "",
         pageUrl: window.location.href.slice(0, 1000),
         utm: readUtm(),
+        variant,
         answers,
       },
     });

@@ -13,6 +13,7 @@ const Body = z.object({
   phone: z.string().trim().min(6).max(30),
   sourcePage: z.string().trim().max(200).optional().default(""),
   pageUrl: z.string().trim().max(1000).optional().default(""),
+  variant: z.enum(["a","b"]).optional(),
   utm: z.record(z.string().max(300)).optional().default({}),
   answers: z.object({
     sector: opt(["btp", "industrie", "commerce", "services", "sante", "autre"]),
@@ -76,6 +77,7 @@ Deno.serve(async (req) => {
       answers: { ...a, breakdown: result.breakdown },
       utm: d.utm,
       source_page: d.sourcePage,
+      variant: d.variant ?? null,
     })
     .select("id")
     .single();
@@ -102,7 +104,7 @@ Deno.serve(async (req) => {
           qualified: result.qualified,
           status: statusLabel,
           programme_pilote: result.tier === "pilot",
-          tags: ["diagnostic-site", statusLabel.replace(/_/g, "-")],
+          tags: ["diagnostic-site", statusLabel.replace(/_/g, "-"), ...(d.variant ? [`lp-version-${d.variant}`] : [])],
           secteur: optionLabels.sector[a.sector ?? ""] ?? "",
           objectif: a.objectiveOther?.trim() || optionLabels.objective[a.objective ?? ""] || "",
           deja_investi: a.invested ?? "",
@@ -116,6 +118,7 @@ Deno.serve(async (req) => {
           alertes: result.flags,
           source_page: d.sourcePage,
           page_url: d.pageUrl,
+          version_page: d.variant ?? "",
           ...d.utm,
           submission_id: row.id,
         }),
