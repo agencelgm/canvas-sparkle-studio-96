@@ -19,7 +19,7 @@ export const decideWinner = (a: ArmStats, b: ArmStats): Decision => {
   const [best, other, rBest, rOther] = rb >= ra ? (["b", "a", rb, ra] as const) : (["a", "b", ra, rb] as const);
   const lift = rOther === 0 ? (rBest > 0 ? Infinity : 0) : (rBest - rOther) / rOther;
   const summary = `${best.toUpperCase()} : ${pct(rBest)} contre ${other.toUpperCase()} : ${pct(rOther)}`;
-  if (lift >= MIN_LIFT) {
+  if (lift >= MIN_LIFT - 1e-9) {
     const liftTxt = Number.isFinite(lift) ? `+${Math.round(lift * 100)} %` : "l'autre version n'a aucune conversion";
     return { status: "winner", winner: best, lift, reason: `${summary} (${liftTxt}), au-dessus du seuil de +20 %.` };
   }
