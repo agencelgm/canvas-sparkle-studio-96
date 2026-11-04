@@ -1,9 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import { MessageCircle } from "lucide-react";
+import { useAbTest } from "@/hooks/useAbTest";
 import LeadShell from "@/components/lead/LeadShell";
 import { leadAgenceConfig } from "@/data/leadAgenceConfig";
 
-const LeadAgenceGroupeWhatsappPage = () => (
+const LeadAgenceGroupeWhatsappPage = () => {
+  const { content, convert } = useAbTest("groupe-whatsapp");
+  return (
   <LeadShell>
     <Helmet>
       <title>Chaîne WhatsApp gratuite LGM | Agence LGM</title>
@@ -19,20 +22,21 @@ const LeadAgenceGroupeWhatsappPage = () => (
           </div>
           <p className="section-kicker mt-6">Dernière étape</p>
           <h1 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.05] text-platinum [text-wrap:balance]">
-            Restez connecté gratuitement
+            {content.headline ?? "Restez connecté gratuitement"}
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-platinum/75 md:text-lg md:leading-8">
             Rejoignez notre chaîne WhatsApp gratuite pour recevoir nos conseils marketing et être informé dès
             qu'une place se libère dans le programme pilote.
           </p>
-          <a href={leadAgenceConfig.whatsappChannelUrl} target="_blank" rel="noopener noreferrer" className="dx-btn-primary mt-8 w-full sm:w-auto">
+          <a href={leadAgenceConfig.whatsappChannelUrl} target="_blank" rel="noopener noreferrer" onClick={convert} className="dx-btn-primary mt-8 w-full sm:w-auto">
             <MessageCircle aria-hidden="true" className="h-4 w-4" />
-            Rejoindre la chaîne WhatsApp
+            {content.cta ?? "Rejoindre la chaîne WhatsApp"}
           </a>
         </div>
       </div>
     </section>
   </LeadShell>
-);
+  );
+};
 
 export default LeadAgenceGroupeWhatsappPage;

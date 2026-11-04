@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import LeadShell from "@/components/lead/LeadShell";
 import DiagnosticModal from "@/components/diagnostic/DiagnosticModal";
 import LeadAgenceShortVariant from "./LeadAgenceShortVariant";
-import { getLpVariant } from "@/lib/abVariant";
+import { useAbTest, type AbContent } from "@/hooks/useAbTest";
 
 // Chiffres deja publies sur le site (SocialProof.tsx) — ne pas inventer de statistiques.
 const proofStats = [
@@ -64,12 +64,9 @@ const faqSchema = {
 
 
 const LeadAgencePage = () => {
-  const [variant] = useState(getLpVariant);
-  useEffect(() => {
-    const w = window as unknown as { clarity?: (...a: unknown[]) => void };
-    w.clarity?.("set", "lp_variant", variant);
-  }, [variant]);
-  if (variant === "b") {
+  const ab = useAbTest("lead-agence-marketing");
+  if (!ab.ready) return <LeadShell><div className="section-charcoal min-h-screen" /></LeadShell>;
+  if (ab.content.layout === "short") {
     return (
       <LeadShell>
         <Helmet>
@@ -77,14 +74,14 @@ const LeadAgencePage = () => {
           <meta name="description" content="Repondez a quelques questions pour savoir si LGM peut generer des prospects qualifies pour votre entreprise a Abidjan." />
           <meta name="robots" content="noindex, follow" />
         </Helmet>
-        <LeadAgenceShortVariant />
+        <LeadAgenceShortVariant variant={ab.variant} experimentId={ab.experimentId} content={ab.content} />
       </LeadShell>
     );
   }
-  return <LeadAgenceFull />;
+  return <LeadAgenceFull variant={ab.variant} experimentId={ab.experimentId} content={ab.content} />;
 };
 
-const LeadAgenceFull = () => {
+const LeadAgenceFull = ({ variant, experimentId, content }: { variant: "a" | "b"; experimentId?: string; content: AbContent }) => {
   const scrollToForm = () => {
     const el = document.getElementById("formulaire");
     if (!el) return;
@@ -138,13 +135,13 @@ const LeadAgenceFull = () => {
             <p className="section-kicker !mb-3">Pour les entreprises qui veulent plus de clients a Abidjan</p>
 
             <h1 className="font-display text-[clamp(2rem,5.4vw,3.9rem)] font-extrabold leading-[1.04] text-[#f0d996] [text-wrap:balance]">
-              Des prospects qualifies pour votre entreprise chaque jour, sans dependre du bouche-a-oreille
+              {content.headline ?? "Des prospects qualifies pour votre entreprise chaque jour, sans dependre du bouche-a-oreille"}
             </h1>
 
           </div>
 
           <div id="formulaire" className="scroll-mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <DiagnosticModal inline variant="a" source="lead-agence-marketing" onClose={() => {}} />
+            <DiagnosticModal inline variant={variant} experimentId={experimentId} source="lead-agence-marketing" onClose={() => {}} />
           </div>
 
           <div className="lg:col-start-1 lg:row-start-2">

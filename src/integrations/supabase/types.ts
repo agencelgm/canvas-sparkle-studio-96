@@ -14,6 +14,118 @@ export type Database = {
   }
   public: {
     Tables: {
+      ab_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          experiment_id: string
+          id: string
+          variant: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          experiment_id: string
+          id?: string
+          variant: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          experiment_id?: string
+          id?: string
+          variant?: string
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ab_events_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "ab_experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ab_experiments: {
+        Row: {
+          ai_rationale: string | null
+          created_at: string
+          decision_reason: string | null
+          ended_at: string | null
+          final_stats: Json
+          id: string
+          name: string
+          page_key: string
+          started_at: string | null
+          status: string
+          winner: string | null
+        }
+        Insert: {
+          ai_rationale?: string | null
+          created_at?: string
+          decision_reason?: string | null
+          ended_at?: string | null
+          final_stats?: Json
+          id?: string
+          name: string
+          page_key: string
+          started_at?: string | null
+          status?: string
+          winner?: string | null
+        }
+        Update: {
+          ai_rationale?: string | null
+          created_at?: string
+          decision_reason?: string | null
+          ended_at?: string | null
+          final_stats?: Json
+          id?: string
+          name?: string
+          page_key?: string
+          started_at?: string | null
+          status?: string
+          winner?: string | null
+        }
+        Relationships: []
+      }
+      ab_variants: {
+        Row: {
+          change_description: string
+          content: Json
+          experiment_id: string
+          id: string
+          label: string
+          variant: string
+        }
+        Insert: {
+          change_description?: string
+          content?: Json
+          experiment_id: string
+          id?: string
+          label: string
+          variant: string
+        }
+        Update: {
+          change_description?: string
+          content?: Json
+          experiment_id?: string
+          id?: string
+          label?: string
+          variant?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ab_variants_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "ab_experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_categories: {
         Row: {
           created_at: string
@@ -339,6 +451,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ab_stats: {
+        Args: { _experiment_id: string }
+        Returns: {
+          event_type: string
+          n: number
+          variant: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { trackAbConversion } from "@/hooks/useAbTest";
 import LeadShell from "@/components/lead/LeadShell";
 import VideoSlot from "@/components/lead/VideoSlot";
 import { leadAgenceConfig } from "@/data/leadAgenceConfig";
@@ -23,7 +25,10 @@ const checklist = [
   },
 ];
 
-const LeadAgenceRendezVousConfirmePage = () => (
+const LeadAgenceRendezVousConfirmePage = () => {
+  // Rendez-vous reserve = conversion du test de la page rendez-vous.
+  useEffect(() => trackAbConversion("rendez-vous"), []);
+  return (
   <LeadShell>
     <Helmet>
       <title>Rendez-vous confirme | Agence LGM</title>
@@ -101,6 +106,7 @@ const LeadAgenceRendezVousConfirmePage = () => (
       </div>
     </section>
   </LeadShell>
-);
+  );
+};
 
 export default LeadAgenceRendezVousConfirmePage;

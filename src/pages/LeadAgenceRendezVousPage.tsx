@@ -9,6 +9,7 @@ import { leadAgenceConfig, rendezVousWhatsappUrl } from "@/data/leadAgenceConfig
 import { siteContact } from "@/data/publicContent";
 import { trackQualifiedLead } from "@/lib/facebookPixel";
 import { saveLead } from "@/hooks/useLeadCapture";
+import { useAbTest } from "@/hooks/useAbTest";
 
 const callPoints = [
   "Vos chiffres actuels : d'ou viennent vos clients aujourd'hui.",
@@ -37,6 +38,7 @@ const readIdentityFromUrl = () => {
 };
 
 const LeadAgenceRendezVousPage = () => {
+  const { content } = useAbTest("rendez-vous");
   const done = useRef(false);
 
   useEffect(() => {
@@ -84,10 +86,10 @@ const LeadAgenceRendezVousPage = () => {
             <ScoreResultBadge caption="Profil qualifie" />
             <p className="section-kicker">Votre entreprise est eligible</p>
             <h1 className="font-display text-[clamp(1.8rem,4.5vw,3rem)] font-extrabold leading-[1.05] text-[#f0d996] [text-wrap:balance]">
-              Felicitations — nous pensons pouvoir vous aider
+              {content.headline ?? "Felicitations — nous pensons pouvoir vous aider"}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-platinum/75">
-              Prochaine etape : regardez la video ci-dessous, puis reservez votre appel avec un membre de notre equipe.
+              {content.subtitle ?? "Prochaine etape : regardez la video ci-dessous, puis reservez votre appel avec un membre de notre equipe."}
             </p>
           </div>
 
