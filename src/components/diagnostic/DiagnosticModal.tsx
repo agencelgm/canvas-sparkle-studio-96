@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import {
-  ArrowLeft, ArrowRight, Check, ChevronDown, Clock3, Info, Loader2, Lock, ShieldCheck, Sparkles, Target, X,
+  ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, Clock3, Info, Loader2, Lock, ShieldCheck, Sparkles, Target, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { questionSteps, decisionBlocker, PILOT_WARNING, type QuestionStep } from "@/data/diagnosticContent";
@@ -379,11 +379,12 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
   const inner = (
     <>
             {!inline && <div className="dx-handle sm:hidden" aria-hidden="true" />}
-            <header className="dx-header">
+            <header className={`dx-header${inline ? " justify-center" : ""}`}>
               {inline ? (
-                <div className="min-w-0">
-                  <p className="font-display text-2xl sm:text-3xl font-extrabold leading-tight dx-ink">Sommes-nous l'agence qu'il vous faut ?</p>
-                  <p className="mt-1 text-base dx-muted">Remplissez le formulaire ci-dessous pour le savoir. Ça prend 1 minute.</p>
+                <div className="w-full min-w-0 text-center">
+                  <p className="font-display text-3xl sm:text-4xl font-extrabold leading-tight dx-ink">Sommes-nous l'agence qu'il vous faut ?</p>
+                  <p className="mx-auto mt-2 max-w-xl text-lg sm:text-xl font-semibold leading-snug dx-ink">Répondez aux 4 petites questions ci-dessous pour le savoir — ça prend 1 minute.</p>
+                  <ArrowDown className="mx-auto mt-2 h-6 w-6 text-primary motion-safe:animate-bounce" aria-hidden="true" />
                 </div>
               ) : <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM" className="h-8 w-auto" />}
               {!inline && <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>}
