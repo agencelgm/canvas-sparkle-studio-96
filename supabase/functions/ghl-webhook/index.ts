@@ -14,6 +14,7 @@ const Body = z.object({
   sourcePage: z.string().trim().max(200).optional().default(""),
   pageUrl: z.string().trim().max(1000).optional().default(""),
   variant: z.enum(["a","b"]).optional(),
+  ab: z.object({ experimentId: z.string().uuid(), visitorId: z.string().min(8).max(64) }).optional(),
   utm: z.record(z.string().max(300)).optional().default({}),
   answers: z.object({
     sector: opt(["btp", "industrie", "commerce", "services", "sante", "autre"]),
@@ -84,6 +85,17 @@ Deno.serve(async (req) => {
   if (error) {
     console.error("insert failed", error);
     return json({ error: "Enregistrement impossible" }, 500);
+  }
+
+  // Test A/B : formulaire envoye + prospect qualifie (le qualifie decide du gagnant).
+  if (d.ab && d.variant) {
+    const { data: exp } = await supabase.from("ab_experiments").select("status").eq("id", d.ab.experimentId).maybeSingle();
+    if (exp?.status === "running") {
+      const base = { experiment_id: d.ab.experimentId, variant: d.variant, visitor_id: d.ab.visitorId };
+      const rows = [{ ...base, event_type: "submit" }, ...(result.qualified ? [{ ...base, event_type: "convert" }] : [])];
+      const { error: abErr } = await supabase.from("ab_events").upsert(rows, { onConflict: "experiment_id,visitor_id,event_type", ignoreDuplicates: true });
+      if (abErr) console.error("ab events", abErr);
+    }
   }
 
   // Envoi vers GoHighLevel (webhook entrant -> automatisations / assignation).

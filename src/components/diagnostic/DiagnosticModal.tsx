@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { getAbVisitorId } from "@/hooks/useAbTest";
+const noTrackAb = () => { try { return sessionStorage.getItem("lgm_ab_notrack") === "1"; } catch { return false; } };
 import {
   ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, Clock3, Info, Loader2, Lock, ShieldCheck, Sparkles, Target, X,
 } from "lucide-react";
@@ -40,7 +42,7 @@ const readUtm = () => {
   return out;
 };
 
-const DiagnosticModal = ({ source, onClose, inline = false, variant }: { source: string | null; onClose: () => void; inline?: boolean; variant?: "a" | "b" }) => {
+const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentId }: { source: string | null; onClose: () => void; inline?: boolean; variant?: "a" | "b"; experimentId?: string }) => {
   const isOpen = source !== null && !inline;
   const reduce = useReducedMotion();
   const navigate = useNavigate();
@@ -135,6 +137,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant }: { source:
         pageUrl: window.location.href.slice(0, 1000),
         utm: readUtm(),
         variant,
+        ab: experimentId && !noTrackAb() ? { experimentId, visitorId: getAbVisitorId() } : undefined,
         answers,
       },
     });
