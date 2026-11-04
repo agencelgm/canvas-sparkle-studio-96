@@ -25,6 +25,7 @@ import AdminBlogPostForm from "./pages/admin/AdminBlogPostForm";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminContacts from "./pages/admin/AdminContacts";
 import AdminQualifications from "./pages/admin/AdminQualifications";
+import AdminAbTest from "./pages/admin/AdminAbTest";
 import NotFound from "./pages/NotFound";
 import ServicesLogoPage from "./pages/ServicesLogoPage";
 import ServicesSiteInternetPage from "./pages/ServicesSiteInternetPage";
@@ -142,7 +143,7 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
-              
+              <Route path="/admin/test-ab" element={<ProtectedRoute requireAdmin><AdminAbTest /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
