@@ -1,3 +1,4 @@
+import { firePixelLeadOnce, readFbCookie } from "@/lib/facebookPixel";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import { createPortal } from "react-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
