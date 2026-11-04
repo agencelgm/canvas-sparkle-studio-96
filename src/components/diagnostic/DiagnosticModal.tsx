@@ -9,7 +9,6 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { questionSteps, decisionBlocker, PILOT_WARNING, type QuestionStep } from "@/data/diagnosticContent";
 import { computeDiagnosticScore, QUALIFIED_THRESHOLD, type DiagnosticAnswers } from "@/lib/diagnosticScore";
-import ScoreGauge from "./ScoreGauge";
 
 const countries = [
   { code: "+225", label: "CI" }, { code: "+221", label: "SN" }, { code: "+223", label: "ML" },
@@ -73,7 +72,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
   // Questions actives (on saute le budget passe si jamais investi)
   const questions = useMemo(
     () => questionSteps.filter((q) => {
-      if (q.id === "pastBudget") return answers.invested !== "non";
+      if (q.id === "pastBudget") return answers.invested === "oui";
       if (q.id === "budgetRange") return answers.minimum === "pas_encore" || answers.minimum === "discuter";
       return true;
     }),
@@ -206,10 +205,10 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
         <>
           <motion.p variants={item} className="dx-kicker">Diagnostic gratuit</motion.p>
           <motion.h2 variants={item} id="dx-title" className="dx-title">
-            Diagnostic digital <span className="dx-accent">interactif</span>
+            Sommes-nous l'agence <span className="dx-accent">qu'il vous faut</span> ?
           </motion.h2>
           <motion.p variants={item} className="dx-sub">
-            8 questions pour savoir si notre accompagnement est adapte a votre entreprise.
+            4 petites sections pour savoir si notre accompagnement est adapte a votre entreprise.
           </motion.p>
           <ul className="mt-6 space-y-3">
             {[
@@ -241,10 +240,9 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
             {q.title[0]}<span className="dx-accent">{q.title[1]}</span>{q.title[2] ?? ""}
           </motion.h2>
           <motion.p variants={item} className="dx-sub">{q.subtitle}</motion.p>
-          <div role="radiogroup" aria-labelledby="dx-title" className={q.layout === "tiles" ? "mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3" : "mt-6 grid gap-3"}>
+          <div role="radiogroup" aria-labelledby="dx-title" className="mt-6 grid gap-2.5">
             {q.options.map((o) => {
               const selected = current === o.value;
-              const Icon = o.icon;
               return (
                 <motion.button
                   key={o.value}
@@ -252,11 +250,10 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
                   role="radio"
                   aria-checked={selected}
                   variants={item}
-                  whileTap={reduce ? undefined : { scale: 0.97 }}
+                  whileTap={reduce ? undefined : { scale: 0.98 }}
                   onClick={() => choose(q, o.value)}
-                  className={`dx-option ${q.layout === "tiles" ? "dx-option-tile" : ""} ${selected ? "is-selected" : ""}`}
+                  className={`dx-option ${selected ? "is-selected" : ""}`}
                 >
-                  {Icon && <span className="dx-icon-bubble"><Icon className="h-5 w-5" aria-hidden="true" /></span>}
                   <span className="min-w-0 flex-1 text-left">
                     <span className="block text-[0.95rem] font-bold dx-ink">{o.label}</span>
                     {o.hint && <span className="mt-0.5 block text-xs leading-5 dx-muted">{o.hint}</span>}
@@ -355,7 +352,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
     const ok = result?.qualified;
     return (
       <div className="text-center">
-        <motion.div variants={item} className="mx-auto w-fit"><ScoreGauge score={result?.score ?? 0} size={150} /></motion.div>
+        <motion.div variants={item} className="mx-auto flex h-14 w-14 items-center justify-center rounded-full dx-check is-on"><Check className="h-7 w-7" aria-hidden="true" /></motion.div>
         <motion.p variants={item} className="dx-kicker mt-4">{ok ? "Votre entreprise est eligible" : "Merci pour vos reponses"}</motion.p>
         <motion.h2 variants={item} id="dx-title" className="dx-title">
           {ok ? <>Nous pouvons vous <span className="dx-accent">aider</span></> : <>Votre demande est bien <span className="dx-accent">recue</span></>}
@@ -393,28 +390,12 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
             </header>
 
             <div ref={scrollRef} className="dx-scroll" data-lenis-prevent>
-              <div className="dx-grid">
+              <div>
                 <div className="min-w-0">
-                  {/* Jauge mobile */}
-                  <div className={`dx-score-card ${inline ? "" : "lg:hidden"}`}>
-                    <ScoreGauge score={score} size={92} />
-                    <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] dx-muted">Score de preparation</p>
-                      <p className="mt-1 font-display text-lg font-extrabold dx-ink">{step === 0 ? "Pret a demarrer" : scoreLabel(score)}</p>
-                      <AnimatePresence mode="wait">
-                        {delta && step < resultStep && (
-                          <motion.span key={`${step}-${delta}`} className="dx-delta" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                            +{delta} apres votre reponse
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-
                   {/* Progression */}
-                  <div className="mt-5">
+                  <div className="mt-1">
                     <div className="flex items-center justify-between text-xs font-semibold">
-                      <span className="dx-accent">Etape {stage.index + 1} sur 4</span>
+                      <span className="dx-accent">Section {stage.index + 1} / 4</span>
                       <span className="dx-muted">{STAGES[stage.index]}</span>
                     </div>
                     <div className="mt-2 grid grid-cols-4 gap-1" aria-hidden="true">
@@ -434,46 +415,24 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
                     </AnimatePresence>
                   </div>
                 </div>
-
-                {/* Panneau lateral bureau */}
-                {!inline && <aside className="dx-aside hidden lg:block" aria-label="Votre score">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] dx-muted">Score de preparation</p>
-                  <div className="mt-4 flex justify-center"><ScoreGauge score={score} size={150} /></div>
-                  <p className="mt-3 text-center font-display text-lg font-extrabold dx-ink">{step === 0 ? "Pret a demarrer" : scoreLabel(score)}</p>
-                  <p className="mt-1 text-center text-xs dx-muted">Qualification a partir de {QUALIFIED_THRESHOLD}/100</p>
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] dx-muted">Detail de votre profil</p>
-                  <ul className="mt-3 space-y-3">
-                    {breakdown.map((b) => {
-                      const pct = Math.round((b.v / b.max) * 100);
-                      return (
-                        <li key={b.label}>
-                          <div className="flex justify-between text-xs"><span className="dx-ink font-semibold">{b.label}</span><span className="dx-muted">{pct}/100</span></div>
-                          <span className="dx-bar mt-1.5 block">
-                            <motion.span className="dx-bar-fill block" initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.6 }} />
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </aside>}
               </div>
             </div>
 
             {showNav && (
               <footer className="dx-footer">
                 <button type="button" className="dx-btn-ghost" onClick={() => go(step - 1)} disabled={!canBack} style={canBack ? undefined : { visibility: "hidden" }}>
-                  <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Precedent
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Retour
                 </button>
                 {step === contactStep ? (
                   <button type="button" className="dx-btn-primary" onClick={submit} disabled={sending}>
                     {sending ? <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" /> : null}
-                    Voir mon diagnostic {!sending && <ArrowRight className="h-5 w-5" aria-hidden="true" />}
+                    Envoyer {!sending && <ArrowRight className="h-5 w-5" aria-hidden="true" />}
                   </button>
-                ) : (
-                  <button type="button" className="dx-btn-primary" onClick={() => go(step + 1)} disabled={!canNext}>
+                ) : q?.id === "objective" && answers.objectiveOther?.trim() ? (
+                  <button type="button" className="dx-btn-primary" onClick={() => go(step + 1)}>
                     Suivant <ArrowRight className="h-5 w-5" aria-hidden="true" />
                   </button>
-                )}
+                ) : null}
               </footer>
             )}
     </>
