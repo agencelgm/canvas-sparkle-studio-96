@@ -6,4 +6,4 @@
 - Acquisition-system content (steps, service roles, team roles) lives in `src/data/systemContent.ts` so copy changes never touch components.
 - Visual system rules live in `DESIGN.md`; read it before changing public UI.
 - All lead forms open the shared diagnostic pop-up (`src/components/diagnostic/`); the /100 scoring grid lives once in `supabase/functions/_shared/diagnosticScore.ts` so site and server score identically, and the `ghl-webhook` function saves the lead then forwards it to GoHighLevel.
-- The /lead-agence-marketing A/B split is decided by `src/lib/abVariant.ts` and the variant is stored on each `qualification_submissions` row, so lead quality can be compared per version.
+- Funnel A/B tests live in `ab_experiments`/`ab_variants`/`ab_events`; pages read texts via `src/hooks/useAbTest.ts` (defaults in the page), the winner rule lives once in `supabase/functions/_shared/abRule.ts`, and `ab-evaluate` concludes tests and drafts AI challengers that an admin must launch.
