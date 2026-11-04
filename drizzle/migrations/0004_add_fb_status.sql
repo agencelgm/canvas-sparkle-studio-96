@@ -1,0 +1,1 @@
+ALTER TABLE public.qualification_submissions ADD COLUMN IF NOT EXISTS fb_status text;

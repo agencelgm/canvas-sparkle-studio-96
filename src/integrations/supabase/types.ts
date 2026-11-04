@@ -327,6 +327,7 @@ export type Database = {
           daily_ad_budget_ready_5k: boolean | null
           eligibility_status: string
           email: string
+          fb_status: string | null
           ghl_status: string | null
           has_business: boolean
           has_invested_marketing: boolean | null
@@ -364,6 +365,7 @@ export type Database = {
           daily_ad_budget_ready_5k?: boolean | null
           eligibility_status?: string
           email: string
+          fb_status?: string | null
           ghl_status?: string | null
           has_business: boolean
           has_invested_marketing?: boolean | null
@@ -401,6 +403,7 @@ export type Database = {
           daily_ad_budget_ready_5k?: boolean | null
           eligibility_status?: string
           email?: string
+          fb_status?: string | null
           ghl_status?: string | null
           has_business?: boolean
           has_invested_marketing?: boolean | null

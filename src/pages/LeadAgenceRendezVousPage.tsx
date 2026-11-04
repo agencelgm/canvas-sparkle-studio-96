@@ -7,7 +7,6 @@ import VideoSlot from "@/components/lead/VideoSlot";
 import GhlCalendar from "@/components/lead/GhlCalendar";
 import { leadAgenceConfig, rendezVousWhatsappUrl } from "@/data/leadAgenceConfig";
 import { siteContact } from "@/data/publicContent";
-import { trackQualifiedLead } from "@/lib/facebookPixel";
 import { saveLead } from "@/hooks/useLeadCapture";
 import { useAbTest } from "@/hooks/useAbTest";
 
@@ -63,11 +62,7 @@ const LeadAgenceRendezVousPage = () => {
         window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
       }
 
-      await trackQualifiedLead({
-        email: identity.email,
-        phone: identity.phone,
-        name: identity.name,
-      });
+      // Le "Lead" Facebook est envoye a la soumission du formulaire, plus a l'ouverture de cette page.
     };
 
     void run();
