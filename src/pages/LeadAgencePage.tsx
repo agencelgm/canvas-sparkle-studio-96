@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import LeadShell from "@/components/lead/LeadShell";
 import DiagnosticModal from "@/components/diagnostic/DiagnosticModal";
+import LeadAgenceShortVariant from "./LeadAgenceShortVariant";
+import { getLpVariant } from "@/lib/abVariant";
 
 // Chiffres deja publies sur le site (SocialProof.tsx) — ne pas inventer de statistiques.
 const proofStats = [
@@ -62,6 +64,27 @@ const faqSchema = {
 
 
 const LeadAgencePage = () => {
+  const [variant] = useState(getLpVariant);
+  useEffect(() => {
+    const w = window as unknown as { clarity?: (...a: unknown[]) => void };
+    w.clarity?.("set", "lp_variant", variant);
+  }, [variant]);
+  if (variant === "b") {
+    return (
+      <LeadShell>
+        <Helmet>
+          <title>Des prospects qualifies chaque jour | Agence LGM Abidjan</title>
+          <meta name="description" content="Repondez a quelques questions pour savoir si LGM peut generer des prospects qualifies pour votre entreprise a Abidjan." />
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
+        <LeadAgenceShortVariant />
+      </LeadShell>
+    );
+  }
+  return <LeadAgenceFull />;
+};
+
+const LeadAgenceFull = () => {
   const scrollToForm = () => {
     const el = document.getElementById("formulaire");
     if (!el) return;
@@ -121,7 +144,7 @@ const LeadAgencePage = () => {
           </div>
 
           <div id="formulaire" className="scroll-mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <DiagnosticModal inline source="lead-agence-marketing" onClose={() => {}} />
+            <DiagnosticModal inline variant="a" source="lead-agence-marketing" onClose={() => {}} />
           </div>
 
           <div className="lg:col-start-1 lg:row-start-2">
