@@ -421,18 +421,18 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
             {showNav && (
               <footer className="dx-footer">
                 <button type="button" className="dx-btn-ghost" onClick={() => go(step - 1)} disabled={!canBack} style={canBack ? undefined : { visibility: "hidden" }}>
-                  <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Precedent
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Retour
                 </button>
                 {step === contactStep ? (
                   <button type="button" className="dx-btn-primary" onClick={submit} disabled={sending}>
                     {sending ? <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" /> : null}
-                    Voir mon diagnostic {!sending && <ArrowRight className="h-5 w-5" aria-hidden="true" />}
+                    Envoyer {!sending && <ArrowRight className="h-5 w-5" aria-hidden="true" />}
                   </button>
-                ) : (
-                  <button type="button" className="dx-btn-primary" onClick={() => go(step + 1)} disabled={!canNext}>
+                ) : q?.id === "objective" && answers.objectiveOther?.trim() ? (
+                  <button type="button" className="dx-btn-primary" onClick={() => go(step + 1)}>
                     Suivant <ArrowRight className="h-5 w-5" aria-hidden="true" />
                   </button>
-                )}
+                ) : null}
               </footer>
             )}
     </>
