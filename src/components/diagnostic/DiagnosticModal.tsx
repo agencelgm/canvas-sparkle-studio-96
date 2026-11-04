@@ -385,7 +385,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant }: { source:
                 <div className="w-full min-w-0 text-center">
                   <p className="font-display text-3xl sm:text-4xl font-extrabold leading-tight dx-ink">Sommes-nous l'agence qu'il vous faut ?</p>
                   <p className="mx-auto mt-2 max-w-xl text-lg sm:text-xl font-semibold leading-snug dx-ink">Répondez aux 4 petites questions ci-dessous pour le savoir — ça prend 1 minute.</p>
-                  <ArrowDown className="mx-auto mt-2 h-6 w-6 text-primary motion-safe:animate-bounce" aria-hidden="true" />
+                  <ArrowDown className="mx-auto mt-2 h-6 w-6 dx-ink motion-safe:animate-bounce" aria-hidden="true" />
                 </div>
               ) : <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM" className="h-8 w-auto" />}
               {!inline && <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>}
