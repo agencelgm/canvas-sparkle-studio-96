@@ -338,14 +338,6 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
               {errors.phone && <span className="mt-1 block text-xs dx-error">{errors.phone}</span>}
             </motion.div>
           </div>
-          {blockers.length > 0 && (
-            <motion.details variants={item} className="dx-details mt-4">
-              <summary>Ce qui peut encore bloquer <ChevronDown className="h-4 w-4" aria-hidden="true" /></summary>
-              <ul className="mt-2 space-y-1.5">
-                {blockers.map((b) => <li key={b} className="flex gap-2 text-xs dx-muted">• {b}</li>)}
-              </ul>
-            </motion.details>
-          )}
           <motion.p variants={item} className="dx-info mt-4"><ShieldCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Vos informations sont confidentielles et ne seront jamais partagees.</motion.p>
           {sendError && <p role="alert" className="mt-3 text-sm dx-error">{sendError}</p>}
         </>
