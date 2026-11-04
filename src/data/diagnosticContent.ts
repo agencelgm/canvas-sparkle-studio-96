@@ -16,8 +16,6 @@ export type QuestionStep = {
   info?: string;
 };
 
-const BUDGET_INFO =
-  "Ce montant est celui que nous investissons en publicite sur Facebook, Google et Instagram pour vous. C'est lui qui genere vos prospects : plus de budget, plus de prospects, plus de chances de signer de nouveaux clients.";
 
 export const PILOT_WARNING =
   "Avec ce budget, vous risquez de ne pas etre qualifie pour notre accompagnement complet. Nous pouvons vous proposer notre programme pilote : parlons-en pendant l'appel.";
@@ -81,8 +79,7 @@ export const questionSteps: QuestionStep[] = [
     id: "minimum",
     kicker: "Budget & engagement",
     title: ["Notre accompagnement démarre à ", "270 000 FCFA/mois", ". Est-ce un montant que vous pouvez investir chaque mois ?"],
-    subtitle:
-      "Ce montant est celui que nous investissons en publicité sur Facebook, Google et Instagram pour vous. C'est lui qui génère vos prospects : plus de budget, plus de prospects, plus de chances de signer de nouveaux clients.",
+    subtitle: "Pour attirer des clients, il faut de la publicité et quelqu'un pour la gérer. Ce budget couvre les deux.",
     layout: "rows",
     options: [
       { value: "oui", label: "Oui", hint: "Je suis pret a investir des maintenant." },
@@ -93,10 +90,9 @@ export const questionSteps: QuestionStep[] = [
   {
     id: "budgetRange",
     kicker: "Votre budget",
-    title: ["Quel ", "budget mensuel", " pouvez-vous consacrer a votre acquisition ?"],
-    subtitle: "Choisissez la tranche la plus proche de vos moyens actuels.",
+    title: ["Pour bien vous orienter : combien pouvez-vous ", "investir chaque mois", " pour attirer de nouveaux clients ?"],
+    subtitle: "Pour attirer des clients, il faut de la publicité et quelqu'un pour la gérer. Ce budget couvre les deux.",
     layout: "compact",
-    info: BUDGET_INFO,
     options: [
       { value: "moins_100k", label: "Moins de 100 000 FCFA" },
       { value: "100k_200k", label: "100 000 a 200 000 FCFA" },
