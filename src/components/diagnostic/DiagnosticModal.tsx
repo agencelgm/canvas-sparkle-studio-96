@@ -205,7 +205,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
         <>
           <motion.p variants={item} className="dx-kicker">Diagnostic gratuit</motion.p>
           <motion.h2 variants={item} id="dx-title" className="dx-title">
-            Sommes-nous l'agence <span className="dx-accent">qu'il vous faut</span> ?
+            Sommes-nous l'agence qu'il vous faut ?
           </motion.h2>
           <motion.p variants={item} className="dx-sub">
             4 petites sections pour savoir si notre accompagnement est adapte a votre entreprise.
@@ -217,7 +217,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
               { icon: Sparkles, t: "Gratuit et sans engagement" },
             ].map(({ icon: Icon, t }) => (
               <motion.li key={t} variants={item} className="flex items-center gap-3 text-[0.95rem] font-semibold dx-ink">
-                <Icon className="h-5 w-5 shrink-0 dx-accent" aria-hidden="true" />{t}
+                <Icon className="h-5 w-5 shrink-0 dx-muted" aria-hidden="true" />{t}
               </motion.li>
             ))}
           </ul>
@@ -237,7 +237,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
         <>
           <motion.p variants={item} className="dx-kicker">{q.kicker}</motion.p>
           <motion.h2 variants={item} id="dx-title" className="dx-title">
-            {q.title[0]}<span className="dx-accent">{q.title[1]}</span>{q.title[2] ?? ""}
+            {q.title.filter(Boolean).join("")}
           </motion.h2>
           <motion.p variants={item} className="dx-sub">{q.subtitle}</motion.p>
           <div role="radiogroup" aria-labelledby="dx-title" className="mt-6 grid gap-2.5">
@@ -304,7 +304,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
       return (
         <>
           <motion.p variants={item} className="dx-kicker">Derniere etape</motion.p>
-          <motion.h2 variants={item} id="dx-title" className="dx-title">Vos <span className="dx-accent">coordonnees</span></motion.h2>
+          <motion.h2 variants={item} id="dx-title" className="dx-title">Vos coordonnees</motion.h2>
           <motion.p variants={item} className="dx-sub">Pour recevoir votre diagnostic et etre recontacte par notre equipe.</motion.p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {field("firstName", "Prenom", "text", "given-name")}
@@ -338,7 +338,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
             <motion.details variants={item} className="dx-details mt-4">
               <summary>Ce qui peut encore bloquer <ChevronDown className="h-4 w-4" aria-hidden="true" /></summary>
               <ul className="mt-2 space-y-1.5">
-                {blockers.map((b) => <li key={b} className="flex gap-2 text-xs dx-muted"><span className="dx-accent">•</span>{b}</li>)}
+                {blockers.map((b) => <li key={b} className="flex gap-2 text-xs dx-muted">• {b}</li>)}
               </ul>
             </motion.details>
           )}
@@ -355,7 +355,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
         <motion.div variants={item} className="mx-auto flex h-14 w-14 items-center justify-center rounded-full dx-check is-on"><Check className="h-7 w-7" aria-hidden="true" /></motion.div>
         <motion.p variants={item} className="dx-kicker mt-4">{ok ? "Votre entreprise est eligible" : "Merci pour vos reponses"}</motion.p>
         <motion.h2 variants={item} id="dx-title" className="dx-title">
-          {ok ? <>Nous pouvons vous <span className="dx-accent">aider</span></> : <>Votre demande est bien <span className="dx-accent">recue</span></>}
+          {ok ? "Nous pouvons vous aider" : "Votre demande est bien recue"}
         </motion.h2>
         <motion.p variants={item} className="dx-sub mx-auto max-w-md">
           {ok
@@ -382,8 +382,8 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
             <header className="dx-header">
               {inline ? (
                 <div className="min-w-0">
-                  <p className="font-display text-xl font-extrabold leading-tight dx-accent">Sommes-nous l'agence qu'il vous faut ?</p>
-                  <p className="mt-0.5 text-sm dx-muted">Remplissez le formulaire ci-dessous pour le savoir. Ça prend 1 minute.</p>
+                  <p className="font-display text-2xl sm:text-3xl font-extrabold leading-tight dx-ink">Sommes-nous l'agence qu'il vous faut ?</p>
+                  <p className="mt-1 text-base dx-muted">Remplissez le formulaire ci-dessous pour le savoir. Ça prend 1 minute.</p>
                 </div>
               ) : <img src="/lovable-uploads/lgm-logo-light.png" alt="Agence LGM" className="h-8 w-auto" />}
               {!inline && <button type="button" onClick={onClose} className="dx-close" aria-label="Fermer le diagnostic"><X className="h-5 w-5" /></button>}
@@ -395,7 +395,7 @@ const DiagnosticModal = ({ source, onClose, inline = false }: { source: string |
                   {/* Progression */}
                   <div className="mt-1">
                     <div className="flex items-center justify-between text-xs font-semibold">
-                      <span className="dx-accent">Section {stage.index + 1} / 4</span>
+                      <span className="dx-ink">Section {stage.index + 1} / 4</span>
                       <span className="dx-muted">{STAGES[stage.index]}</span>
                     </div>
                     <div className="mt-2 grid grid-cols-4 gap-1" aria-hidden="true">
