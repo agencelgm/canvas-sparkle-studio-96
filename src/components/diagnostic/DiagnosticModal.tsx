@@ -23,8 +23,21 @@ const contactSchema = z.object({
   firstName: z.string().trim().min(1, "Indiquez votre prenom").max(80),
   lastName: z.string().trim().max(80),
   email: z.string().trim().email("Adresse email invalide").max(255),
-  phone: z.string().trim().regex(/^[0-9 ]{6,15}$/, "Numero WhatsApp invalide"),
+  phone: z.string().trim().max(30),
+  country: z.string(),
+}).superRefine((v, ctx) => {
+  const n = normalizePhone(v.phone, v.country);
+  if (n.length < 8 || n.length > 12) ctx.addIssue({ code: "custom", path: ["phone"], message: "Entrez votre numero WhatsApp (8 a 10 chiffres)" });
 });
+
+/** Garde uniquement les chiffres et retire l'indicatif s'il a ete tape dans le numero. */
+export function normalizePhone(raw: string, country: string): string {
+  let d = raw.replace(/\D/g, "");
+  const cc = country.replace(/\D/g, "");
+  if (d.startsWith("00")) d = d.slice(2);
+  if (cc && d.startsWith(cc) && d.length - cc.length >= 8) d = d.slice(cc.length);
+  return d;
+}
 
 type Contact = { firstName: string; lastName: string; email: string; phone: string; country: string };
 
@@ -127,7 +140,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
     setErrors({});
     setSending(true);
     setSendError(null);
-    const phone = `${contact.country} ${contact.phone.trim()}`;
+    const phone = `${contact.country} ${normalizePhone(contact.phone, contact.country)}`;
     const { data, error } = await supabase.functions.invoke("ghl-webhook", {
       body: {
         firstName: contact.firstName.trim(),
