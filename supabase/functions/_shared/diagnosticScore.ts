@@ -10,6 +10,8 @@ export type DiagnosticAnswers = {
   minimum?: "oui" | "pas_encore" | "discuter";
   budgetRange?: "moins_100k" | "100k_200k" | "200k_270k" | "plus_270k";
   revenue?: string;
+  /** Confirmation demandee si "oui" a 270 000 FCFA avec un CA < 1M */
+  confirmMinimum?: "oui" | "non";
   decision?: string;
 };
 
@@ -52,11 +54,14 @@ export function computeDiagnosticScore(a: DiagnosticAnswers): ScoreResult {
   if (a.minimum === "oui" && a.invested === "oui" && a.pastBudget === "moins_150k" && a.revenue === "moins_1m") {
     flags.push("budget_vs_historique");
   }
-  const raw = Object.values(breakdown).reduce((s, v) => s + v, 0) - flags.length * INCOHERENCE_PENALTY;
+  // Les flags restent informatifs : la question de confirmation remplace la penalite.
+  const raw = Object.values(breakdown).reduce((s, v) => s + v, 0);
   const score = Math.max(0, Math.min(100, raw));
   const askedRange = a.minimum === "pas_encore" || a.minimum === "discuter";
   let tier: ScoreResult["tier"];
-  if (askedRange && a.budgetRange === "moins_100k") tier = "excluded";
+  // Le budget est decisif : "oui" a 270 000 FCFA = qualifie, confirme si CA < 1M.
+  if (a.minimum === "oui") tier = a.revenue === "moins_1m" && a.confirmMinimum !== "oui" ? "none" : "full";
+  else if (askedRange && a.budgetRange === "moins_100k") tier = "excluded";
   else if (askedRange && (a.budgetRange === "100k_200k" || a.budgetRange === "200k_270k")) tier = "pilot";
   else tier = score >= QUALIFIED_THRESHOLD ? "full" : "none";
   return { score, qualified: tier === "full" || tier === "pilot", tier, breakdown, flags };
