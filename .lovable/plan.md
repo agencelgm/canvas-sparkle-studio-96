@@ -19,7 +19,7 @@ In the new version, no. The "Lead" only fires after the form is saved AND the pe
 5. Optional: in Facebook Events Manager, look at today's 3 "Lead" events — the "URL" column shows which page sent them; tell me and I'll confirm the source.
 
 ## Phone number field (people can't enter their number)
-Confirmed by you: only the "+225" picker shows; the number box is squeezed to nothing. Other problems in the same field:
+Confirmed by your screenshot: the "CI +225" picker stretches across the whole line and pushes the number box out of sight (the form's box style forces full width on the picker). Fix: picker fixed small width, number box takes the rest. Other problems in the same field:
 - It cuts the number at 15 characters, so a pasted or auto-filled "+225 07 00 00 00 00" gets chopped and then refused.
 - It silently deletes "+", dots, dashes and brackets while typing, which feels like the field is broken.
 - On small phones the number box can get squeezed next to the country picker.
