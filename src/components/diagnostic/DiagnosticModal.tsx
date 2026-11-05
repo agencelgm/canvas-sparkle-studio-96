@@ -23,8 +23,21 @@ const contactSchema = z.object({
   firstName: z.string().trim().min(1, "Indiquez votre prenom").max(80),
   lastName: z.string().trim().max(80),
   email: z.string().trim().email("Adresse email invalide").max(255),
-  phone: z.string().trim().regex(/^[0-9 ]{6,15}$/, "Numero WhatsApp invalide"),
+  phone: z.string().trim().max(30),
+  country: z.string(),
+}).superRefine((v, ctx) => {
+  const n = normalizePhone(v.phone, v.country);
+  if (n.length < 8 || n.length > 12) ctx.addIssue({ code: "custom", path: ["phone"], message: "Entrez votre numero WhatsApp (8 a 10 chiffres)" });
 });
+
+/** Garde uniquement les chiffres et retire l'indicatif s'il a ete tape dans le numero. */
+export function normalizePhone(raw: string, country: string): string {
+  let d = raw.replace(/\D/g, "");
+  const cc = country.replace(/\D/g, "");
+  if (d.startsWith("00")) d = d.slice(2);
+  if (cc && d.startsWith(cc) && d.length - cc.length >= 8) d = d.slice(cc.length);
+  return d;
+}
 
 type Contact = { firstName: string; lastName: string; email: string; phone: string; country: string };
 
@@ -127,7 +140,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
     setErrors({});
     setSending(true);
     setSendError(null);
-    const phone = `${contact.country} ${contact.phone.trim()}`;
+    const phone = `${contact.country} ${normalizePhone(contact.phone, contact.country)}`;
     const { data, error } = await supabase.functions.invoke("ghl-webhook", {
       body: {
         firstName: contact.firstName.trim(),
@@ -325,18 +338,21 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
               <div className="mt-1 flex gap-2">
                 <select
                   aria-label="Indicatif"
-                  className="dx-input w-[6.5rem] shrink-0"
+                  className="dx-input shrink-0"
+                  style={{ width: "6.5rem", flex: "0 0 6.5rem" }}
                   value={contact.country}
                   onChange={(e) => setContact((c) => ({ ...c, country: e.target.value }))}
                 >
                   {countries.map((c) => <option key={c.code} value={c.code}>{c.label} {c.code}</option>)}
                 </select>
                 <input
-                  type="tel" autoComplete="tel-national" inputMode="tel" maxLength={15}
-                  className={`dx-input ${errors.phone ? "has-error" : ""}`}
+                  type="tel" autoComplete="tel-national" inputMode="tel" maxLength={30}
+                  aria-label="Numero WhatsApp"
+                  className={`dx-input min-w-0 flex-1 ${errors.phone ? "has-error" : ""}`}
+                  style={{ width: "auto" }}
                   placeholder="07 00 00 00 00"
                   value={contact.phone}
-                  onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value.replace(/[^0-9 ]/g, "") }))}
+                  onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))}
                 />
               </div>
               {errors.phone && <span className="mt-1 block text-xs dx-error">{errors.phone}</span>}
