@@ -7,3 +7,7 @@ project_id = "wawscgfibbbxnvpvkwas"
     verify_jwt = false
   [functions.generate-illustration]
     verify_jwt = false
+  [functions.preview-transactional-email]
+    verify_jwt = false
+  [functions.ghl-webhook]
+    verify_jwt = false
