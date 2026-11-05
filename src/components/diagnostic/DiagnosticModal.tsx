@@ -333,23 +333,21 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
           </div>
           <div className="mt-3 grid gap-3">
             {field("email", "Adresse email", "email", "email")}
-            <motion.div variants={item}>
+            <motion.div variants={item} className="min-w-0">
               <span className="text-xs font-semibold dx-muted">Numero WhatsApp</span>
-              <div className="mt-1 flex gap-2">
+              <div className="mt-1 grid min-w-0 grid-cols-[6.5rem_minmax(0,1fr)] gap-2">
                 <select
                   aria-label="Indicatif"
-                  className="dx-input shrink-0"
-                  style={{ width: "6.5rem", flex: "0 0 6.5rem" }}
+                  className="dx-input min-w-0"
                   value={contact.country}
                   onChange={(e) => setContact((c) => ({ ...c, country: e.target.value }))}
                 >
                   {countries.map((c) => <option key={c.code} value={c.code}>{c.label} {c.code}</option>)}
                 </select>
                 <input
-                  type="tel" autoComplete="tel-national" inputMode="tel" maxLength={30}
+                  type="tel" autoComplete="tel-national" inputMode="tel" maxLength={30} size={1}
                   aria-label="Numero WhatsApp"
-                  className={`dx-input min-w-0 flex-1 ${errors.phone ? "has-error" : ""}`}
-                  style={{ width: "auto" }}
+                  className={`dx-input w-full min-w-0 ${errors.phone ? "has-error" : ""}`}
                   placeholder="07 00 00 00 00"
                   value={contact.phone}
                   onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))}
