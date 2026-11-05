@@ -1,3 +1,5 @@
+import { sendTemplateEmail } from "../_shared/transactional-email-templates/send-email.ts";
+const LEAD_ALERT_RECIPIENTS = ["deborahlgm146@gmail.com", "agencelgm@gmail.com"];
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
@@ -178,6 +180,25 @@ Deno.serve(async (req) => {
     } catch (e) {
       console.error("CAPI fetch", e);
       fbStatus = "error_network";
+    }
+  }
+  // Alerte email a l'equipe administrative pour chaque prospect qualifie.
+  if (result.qualified) {
+    const data = {
+      name: fullName, phone: d.phone, email: d.email,
+      sector: optionLabels.sector[a.sector ?? ""] ?? "",
+      objective: a.objectiveOther?.trim() || optionLabels.objective[a.objective ?? ""] || "",
+      budget: a.minimum === "oui" ? "Oui (270 000 FCFA/mois)" : optionLabels.budgetRange[a.budgetRange ?? ""] ?? "",
+      revenue: optionLabels.revenue[a.revenue ?? ""] ?? "",
+      score: result.score,
+      type: result.tier === "pilot" ? "Programme pilote" : "Accompagnement complet",
+    };
+    for (const to of LEAD_ALERT_RECIPIENTS) {
+      try {
+        await sendTemplateEmail("qualified-lead-alert", to, { templateData: data, idempotencyKey: `lead-alert-${row.id}-${to}` });
+      } catch (e) {
+        console.error("lead alert email", to, e);
+      }
     }
   }
   await supabase.from("qualification_submissions").update({ ghl_status: ghlStatus, fb_status: fbStatus }).eq("id", row.id);
