@@ -14,7 +14,21 @@
 4. You check in GoHighLevel that no calendar/funnel page or workflow uses pixel 673688814007270 with a "Lead" event.
 5. Optional: in Facebook Events Manager, look at today's 3 "Lead" events — the "URL" column shows which page sent them; tell me and I'll confirm the source.
 
+## Phone number field (people can't enter their number)
+Likely causes in the current field:
+- It cuts the number at 15 characters, so a pasted or auto-filled "+225 07 00 00 00 00" gets chopped and then refused.
+- It silently deletes "+", dots, dashes and brackets while typing, which feels like the field is broken.
+- On small phones the number box can get squeezed next to the country picker.
+
+Fix:
+- Accept any way of writing the number (spaces, dots, dashes, "+225" or "00225" in front); clean it up automatically.
+- Remove the 15-character cut; check only that there are 8 to 12 digits after cleaning.
+- If the person types the country code inside the number, remove it so it isn't doubled.
+- Make the number box always take the remaining width; show a clear message if the number is too short.
+- Test on a phone screen: typing, pasting, auto-fill, then a full submission.
+
 ## Technical details
+- `DiagnosticModal.tsx`: drop `maxLength`, keep raw input, normalize on submit (`replace(/\D/g,"")`, strip leading `00`/country digits), zod check 8–12 digits; input `flex-1 min-w-0`. Server zod in `ghl-webhook` already allows 6–30 chars.
 - Delete `supabase/functions/facebook-capi` (deployed + code); only `ghl-webhook` sends CAPI "Lead" when `fbEligible`.
 - Verify with Playwright on agencelgm.com that `/lead-agence-marketing/rendez-vous` loaded directly makes no `facebook.com/tr?ev=Lead` request.
 - Remove unused `trackQualifiedLead` from `src/lib/facebookPixel.ts`.
