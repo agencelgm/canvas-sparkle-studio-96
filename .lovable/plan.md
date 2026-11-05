@@ -10,8 +10,13 @@ Il a répondu **« Oui » aux 270 000 FCFA/mois**. Il a pourtant eu 47/100 et a 
 
 Aujourd'hui, le budget ne compte que pour 25 points sur 100.
 
-## 1. Le budget devient décisif
-- **« Oui, je peux investir 270 000 FCFA/mois » = toujours qualifié** (accompagnement complet), quel que soit le score.
+## 1. Le budget devient décisif, avec une confirmation en cas de doute
+- **« Oui, je peux investir 270 000 FCFA/mois » = qualifié** (accompagnement complet), quel que soit le score, **sauf** si son chiffre d'affaires est inférieur à 1 million.
+- Dans ce cas, une question de confirmation s'affiche juste après celle sur le chiffre d'affaires :
+  - « Attention, une incohérence a été détectée. »
+  - « Vous avez indiqué un chiffre d'affaires de moins de 1 million FCFA. Pour travailler avec nous, il faut pouvoir investir au minimum 270 000 FCFA par mois, soit environ 30 % de ce chiffre d'affaires. Êtes-vous sûr de pouvoir démarrer avec 270 000 FCFA par mois pendant 3 mois ? »
+  - **Oui** → qualifié. **Non** → non qualifié (envoyé vers la page du programme pilote, sans conversion Facebook).
+- La pénalité de −10 pour « incohérence » est supprimée : c'est cette confirmation qui la remplace.
 - Les règles budget ne changent pas :
   - 100 000 à 270 000 FCFA = programme pilote (qualifié)
   - moins de 100 000 FCFA = exclu, sans conversion Facebook
@@ -27,8 +32,12 @@ Aujourd'hui, le budget ne compte que pour 25 points sur 100.
 **À faire avant :** l'envoi d'emails demande un domaine expéditeur (par exemple notify.agencelgm.com). Une fenêtre de configuration s'ouvrira au début de la mise en place.
 
 ## Détails techniques
-- `diagnosticScore.ts` : si `minimum === "oui"`, alors tier = "full". Le seuil de 65 s'applique seulement aux autres cas.
-- Tests unitaires à ajouter : « oui » avec un score bas = qualifié ; pilote ; exclu.
+- `diagnosticScore.ts` : nouvelle réponse `confirmMinimum` ("oui" | "non").
+  - Si `minimum === "oui"` et que le chiffre d'affaires n'est pas inférieur à 1M → "full".
+  - Si `minimum === "oui"` et chiffre d'affaires inférieur à 1M → "full" quand `confirmMinimum === "oui"`, sinon "none".
+  - Suppression de `INCOHERENCE_PENALTY` dans le calcul ; le flag reste pour information.
+- `diagnosticContent.ts` : étape conditionnelle `confirmMinimum` placée après `revenue` (section 3). `ghl-webhook` : ajout de cette réponse dans le schéma zod.
+- Tests unitaires : « oui » avec un score bas = qualifié ; CA < 1M + confirmation oui = qualifié ; confirmation non = non qualifié ; pilote ; exclu.
 - Emails :
   - configuration du domaine, puis de l'infrastructure, puis génération des emails de l'app ;
   - création d'un modèle `qualified-lead-alert`.
