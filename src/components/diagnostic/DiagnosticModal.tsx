@@ -325,18 +325,21 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
               <div className="mt-1 flex gap-2">
                 <select
                   aria-label="Indicatif"
-                  className="dx-input w-[6.5rem] shrink-0"
+                  className="dx-input shrink-0"
+                  style={{ width: "6.5rem", flex: "0 0 6.5rem" }}
                   value={contact.country}
                   onChange={(e) => setContact((c) => ({ ...c, country: e.target.value }))}
                 >
                   {countries.map((c) => <option key={c.code} value={c.code}>{c.label} {c.code}</option>)}
                 </select>
                 <input
-                  type="tel" autoComplete="tel-national" inputMode="tel" maxLength={15}
-                  className={`dx-input ${errors.phone ? "has-error" : ""}`}
+                  type="tel" autoComplete="tel-national" inputMode="tel" maxLength={30}
+                  aria-label="Numero WhatsApp"
+                  className={`dx-input min-w-0 flex-1 ${errors.phone ? "has-error" : ""}`}
+                  style={{ width: "auto" }}
                   placeholder="07 00 00 00 00"
                   value={contact.phone}
-                  onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value.replace(/[^0-9 ]/g, "") }))}
+                  onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))}
                 />
               </div>
               {errors.phone && <span className="mt-1 block text-xs dx-error">{errors.phone}</span>}
