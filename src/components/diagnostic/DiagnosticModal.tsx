@@ -90,9 +90,10 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
     () => questionSteps.filter((q) => {
       if (q.id === "pastBudget") return answers.invested === "oui";
       if (q.id === "budgetRange") return answers.minimum === "pas_encore" || answers.minimum === "discuter";
+      if (q.id === "confirmMinimum") return answers.minimum === "oui" && answers.revenue === "moins_1m";
       return true;
     }),
-    [answers.invested, answers.minimum],
+    [answers.invested, answers.minimum, answers.revenue],
   );
   const contactStep = questions.length + 1;
   const resultStep = questions.length + 2;
@@ -188,7 +189,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
     live.flags.length ? "Certaines reponses sur le budget meritent d'etre precisees." : null,
   ].filter(Boolean) as string[];
 
-  const stageOf = (id: string) => (id === "sector" || id === "objective" ? 0 : id === "revenue" || id === "decision" ? 2 : 1);
+  const stageOf = (id: string) => (id === "sector" || id === "objective" ? 0 : id === "revenue" || id === "confirmMinimum" || id === "decision" ? 2 : 1);
   const stage = (() => {
     if (step >= resultStep) return { index: 3, fill: 1 };
     if (step === contactStep) return { index: 3, fill: 0.5 };

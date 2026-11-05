@@ -27,6 +27,7 @@ const Body = z.object({
     minimum: opt(["oui", "pas_encore", "discuter"]),
     budgetRange: opt(["moins_100k", "100k_200k", "200k_270k", "plus_270k"]),
     revenue: opt(["moins_1m", "1m_5m", "5m_20m", "plus_20m"]),
+    confirmMinimum: opt(["oui", "non"]),
     decision: opt(["moi", "associe", "autre"]),
   }),
 });

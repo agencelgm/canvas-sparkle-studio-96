@@ -7,7 +7,7 @@ import {
 export type Option = { value: string; label: string; hint?: string; icon?: LucideIcon };
 
 export type QuestionStep = {
-  id: "sector" | "objective" | "invested" | "pastBudget" | "minimum" | "budgetRange" | "revenue" | "decision";
+  id: "sector" | "objective" | "invested" | "pastBudget" | "minimum" | "budgetRange" | "revenue" | "confirmMinimum" | "decision";
   kicker: string;
   title: [string, string, string?]; // avant, mot cle, apres
   subtitle: string;
@@ -111,6 +111,17 @@ export const questionSteps: QuestionStep[] = [
       { value: "1m_5m", label: "1 a 5 millions FCFA" },
       { value: "5m_20m", label: "5 a 20 millions FCFA" },
       { value: "plus_20m", label: "Plus de 20 millions FCFA" },
+    ],
+  },
+  {
+    id: "confirmMinimum",
+    kicker: "Attention, une incohérence a été détectée",
+    title: ["Êtes-vous sûr de pouvoir démarrer avec ", "270 000 FCFA par mois", " pendant 3 mois ?"],
+    subtitle: "Vous avez indiqué un chiffre d'affaires de moins de 1 million FCFA. Pour travailler avec nous, il faut pouvoir investir au minimum 270 000 FCFA par mois, soit près de 30 % de ce chiffre d'affaires.",
+    layout: "rows",
+    options: [
+      { value: "oui", label: "Oui, j'en suis sûr" },
+      { value: "non", label: "Non, pas pour le moment" },
     ],
   },
   {
