@@ -1,30 +1,7 @@
-import { supabase } from "@/integrations/supabase/client";
 
 export const FACEBOOK_PIXEL_ID = "673688814007270";
 
 type Fbq = ((...args: unknown[]) => void) | undefined;
-
-export type TrackContact = {
-  email?: string | null;
-  phone?: string | null;
-  name?: string | null;
-};
-
-const readStoredContact = (): TrackContact => {
-  try {
-    const raw = localStorage.getItem("lgm_lead_contact");
-    if (!raw) return {};
-    const parsed = JSON.parse(raw) as { email?: string | null; telephone?: string | null; nom?: string | null };
-    return { email: parsed.email ?? undefined, phone: parsed.telephone ?? undefined, name: parsed.nom ?? undefined };
-  } catch {
-    return {};
-  }
-};
-
-const readCookie = (name: string) => {
-  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : undefined;
-};
 
 export const readFbCookie = (name: string) => {
   const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
