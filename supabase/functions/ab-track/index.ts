@@ -11,7 +11,7 @@ const Body = z.discriminatedUnion("action", [
     experimentId: z.string().uuid(),
     variant: z.enum(["a", "b"]),
     visitorId: z.string().min(8).max(64),
-    eventType: z.enum(["view", "convert"]),
+    eventType: z.enum(["view", "convert", "video_play", "video_25", "decline"]),
   }),
 ]);
 

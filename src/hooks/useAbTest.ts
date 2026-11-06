@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export type AbPageKey = "lead-agence-marketing" | "rendez-vous" | "programme-pilote" | "formation-facebook" | "groupe-whatsapp";
-export type AbContent = { headline?: string; subtitle?: string; cta?: string; layout?: "full" | "short" };
+export type AbContent = { headline?: string; subtitle?: string; cta?: string; layout?: "full" | "short" | "video" | "sales" };
 type Assignment = { experimentId: string; variant: "a" | "b"; content: AbContent };
 
 const visitorId = () => {
@@ -49,6 +49,13 @@ export const trackAbConversion = (pageKey: AbPageKey) => {
 };
 
 export const getAbVisitorId = visitorId;
+
+/** Evenement secondaire (video lancee, refus...) — informatif, n'entre pas dans la regle du gagnant. */
+export const trackAbEvent = (pageKey: AbPageKey, eventType: "video_play" | "video_25" | "decline") => {
+  const a = getStoredAssignment(pageKey);
+  if (!a || noTrack()) return;
+  void send({ action: "track", experimentId: a.experimentId, variant: a.variant, visitorId: visitorId(), eventType });
+};
 
 /** Tirage 50/50 par experience, memorise sur l'appareil ; `?v=a|b` force la version sans compter la visite. */
 export const useAbTest = (pageKey: AbPageKey) => {
