@@ -1,3 +1,4 @@
+import { rememberSubmission } from "@/lib/ghlOffer";
 import { firePixelLeadOnce, readFbCookie } from "@/lib/facebookPixel";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import { createPortal } from "react-dom";
@@ -163,6 +164,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
       setSendError("L'envoi n'a pas abouti. Verifiez votre connexion et reessayez.");
       return;
     }
+    rememberSubmission(data.id);
     try {
       localStorage.setItem("lgm_lead_contact", JSON.stringify({
         email: contact.email.trim(), telephone: phone, nom: `${contact.firstName} ${contact.lastName}`.trim(),

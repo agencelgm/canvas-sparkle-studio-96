@@ -1,3 +1,4 @@
+import { acceptOffer } from "@/lib/ghlOffer";
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
@@ -44,7 +45,8 @@ const Summary = () => (
 );
 
 const LeadAgencePilotePage = () => {
-  const { ready, content, convert } = useAbTest("programme-pilote");
+  const { ready, content, convert: abConvert } = useAbTest("programme-pilote");
+  const convert = () => { abConvert(); acceptOffer("pilote"); };
   const sales = content.layout === "sales";
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
