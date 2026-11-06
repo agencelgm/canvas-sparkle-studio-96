@@ -537,7 +537,8 @@
 .dx-btn-primary:hover:not(:disabled) { background: hsl(40 49% 42%); box-shadow: none; }
 .dx-btn-ghost { color: hsl(var(--dx-ink)); border-color: hsl(var(--dx-line)); }
 .dx-launcher .text-platinum { color: hsl(var(--dx-ink)); }
-.dx-launcher .text-platinum\/70, .dx-launcher .text-platinum\/55 { color: hsl(var(--dx-muted)); }
+.dx-launcher .text-platinum\/70, .dx-launcher .text-platinum\/55, .dx-launcher .text-platinum\/65, .dx-launcher .text-platinum\/75, .dx-launcher .text-platinum\/80 { color: hsl(var(--dx-muted)); }
+.dx-btn-primary { --dx-gold: 40 49% 48%; }
 .dx-option-tile, .grid > .dx-option { }
 .dx-scroll .space-y-3 > .dx-option + .dx-option { margin-top: .85rem; }
 .dx-flash { animation-name: dx-flash-kf; }
