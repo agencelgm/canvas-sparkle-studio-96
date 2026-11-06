@@ -1,4 +1,7 @@
 /** Textes de la page de vente du programme pilote (version B). Ne contient que des faits fournis par LGM. */
+export const piloteDeclineLabel =
+  "Non, je laisse passer ma place : je ne suis pas prêt à développer mon entreprise maintenant";
+
 export const piloteSales = {
   kicker: "Programme pilote",
   headline: "Votre budget est plus petit ? Il existe une autre solution.",
