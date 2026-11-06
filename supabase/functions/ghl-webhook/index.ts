@@ -104,14 +104,11 @@ Deno.serve(async (req) => {
   }
 
   // Envoi vers GoHighLevel (webhook entrant -> automatisations / assignation).
+  // Regle : seuls les prospects qualifies partent tout de suite. Les autres sont "held"
+  // et ne partent que s'ils disent oui a une offre (fonction ghl-offer-accept).
   let ghlStatus = "skipped";
   const url = Deno.env.get("GHL_WEBHOOK_URL");
-  if (url) {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+  const ghlPayload = {
           first_name: d.firstName,
           last_name: d.lastName,
           full_name: fullName,
@@ -138,7 +135,16 @@ Deno.serve(async (req) => {
           version_page: d.variant ?? "",
           ...d.utm,
           submission_id: row.id,
-        }),
+  };
+  if (!result.qualified) {
+    ghlStatus = "held";
+    await supabase.from("qualification_submissions").update({ answers: { ...a, breakdown: result.breakdown, ghl_payload: ghlPayload } }).eq("id", row.id);
+  } else if (url) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ghlPayload),
       });
       ghlStatus = res.ok ? "sent" : `error_${res.status}`;
       if (!res.ok) console.error("GHL", res.status, await res.text());

@@ -1,3 +1,4 @@
+import { acceptOffer } from "@/lib/ghlOffer";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
@@ -12,7 +13,7 @@ import { absUrl, breadcrumbSchema } from "@/lib/site";
 const formatIcons = [CalendarDays, Clock, Laptop, Target, Wallet, MessageCircle];
 
 const ReserveButton = ({ className = "", label }: { className?: string; label?: string }) => (
-  <a href={formationWhatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackAbConversion("formation-facebook")} className={`dx-btn-primary w-full sm:w-auto ${className}`}>
+  <a href={formationWhatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => { trackAbConversion("formation-facebook"); acceptOffer("formation"); }} className={`dx-btn-primary w-full sm:w-auto ${className}`}>
     <MessageCircle aria-hidden="true" className="h-4 w-4" />
     {label ?? "Je réserve ma place à la prochaine session"}
   </a>
