@@ -26,7 +26,7 @@ type Exp = {
   winner: string | null; decision_reason: string | null; ai_rationale: string | null;
   final_stats: Record<string, { views: number; conversions: number; submits?: number }>; ab_variants: Variant[];
 };
-type Arm = { views: number; conversions: number; submits: number };
+type Arm = { views: number; conversions: number; submits: number; plays?: number; v25?: number; declines?: number };
 
 const rate = (a: Arm | undefined) => (a && a.views ? `${((a.conversions / a.views) * 100).toFixed(1)} %` : "—");
 const fmt = (d: string | null) => (d ? new Date(d).toLocaleDateString("fr-FR") : "—");
@@ -51,6 +51,9 @@ const AdminAbTest = () => {
         if (r.event_type === "view") arm.views = Number(r.n);
         if (r.event_type === "convert") arm.conversions = Number(r.n);
         if (r.event_type === "submit") arm.submits = Number(r.n);
+        if (r.event_type === "video_play") arm.plays = Number(r.n);
+        if (r.event_type === "video_25") arm.v25 = Number(r.n);
+        if (r.event_type === "decline") arm.declines = Number(r.n);
       });
       s[e.id] = arms;
     }));
@@ -130,6 +133,11 @@ const AdminAbTest = () => {
                             <div><dt className="text-muted-foreground">Conversions</dt><dd className="font-bold">{arm?.conversions ?? 0}</dd></div>
                             <div><dt className="text-muted-foreground">Taux</dt><dd className="font-bold">{rate(arm)}</dd></div>
                           </dl>
+                          {p.key === "programme-pilote" && (
+                            <p className="mt-2 text-xs text-muted-foreground">
+                              Vidéo lancée : {arm?.plays ?? 0} · 25 % vus : {arm?.v25 ?? 0} · « Non » vers formation : {arm?.declines ?? 0}
+                            </p>
+                          )}
                           {p.key === "lead-agence-marketing" && <p className="mt-2 text-xs text-muted-foreground">Formulaires envoyés : {arm?.submits ?? 0}</p>}
                           <div className="mt-2 h-1.5 rounded bg-muted"><div className="h-1.5 rounded bg-primary" style={{ width: `${Math.min(100, arm?.views ?? 0)}%` }} /></div>
                         </div>
