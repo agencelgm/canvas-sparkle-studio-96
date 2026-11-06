@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Check, Hourglass, MessageCircle, Users, Volume2, X } from "lucide-react";
+import { ArrowRight, Check, Hourglass, MessageCircle, Play, Users, X, ArrowDown } from "lucide-react";
 import { trackAbEvent, useAbTest } from "@/hooks/useAbTest";
 import ScoreResultBadge from "@/components/diagnostic/ScoreResultBadge";
 import LeadShell from "@/components/lead/LeadShell";
 import { leadAgenceConfig, piloteWhatsappUrl } from "@/data/leadAgenceConfig";
-import { piloteSales as S } from "@/data/piloteContent";
+import { piloteDeclineLabel, piloteSales as S } from "@/data/piloteContent";
 
 const UNLOCK_KEY = "lgm-pilote-video-unlocked";
 const UNLOCK_RATIO = 0.25;
@@ -24,7 +24,7 @@ const Choices = ({ cta, onYes, onNo }: { cta: string; onYes: () => void; onNo: (
       onClick={onNo}
       className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-platinum/20 px-5 py-3.5 text-sm font-semibold text-platinum/80 transition-colors hover:border-bronze/50 hover:text-platinum"
     >
-      Non, 175 000 F c'est encore trop pour moi aujourd'hui
+      {piloteDeclineLabel}
       <ArrowRight aria-hidden="true" className="h-4 w-4" />
     </Link>
   </div>
@@ -47,7 +47,7 @@ const LeadAgencePilotePage = () => {
   const { ready, content, convert } = useAbTest("programme-pilote");
   const sales = content.layout === "sales";
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
+  const [started, setStarted] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [unlocked, setUnlocked] = useState(() => {
     try { return sessionStorage.getItem(UNLOCK_KEY) === "1"; } catch { return false; }
@@ -84,40 +84,55 @@ const LeadAgencePilotePage = () => {
     return () => { video.removeEventListener("play", onPlay); video.removeEventListener("timeupdate", onTime); };
   }, [unlocked, ready, sales]);
 
-  const enableSound = () => {
+  const startVideo = () => {
     const v = videoRef.current;
     if (!v) return;
     v.muted = false;
     v.currentTime = 0;
     void v.play();
-    setMuted(false);
+    setStarted(true);
   };
 
   const onNo = () => trackAbEvent("programme-pilote", "decline");
   const cta = content.cta ?? "Oui, je veux une place dans le programme pilote";
 
-  const video = (autoPlay: boolean) => (
-    <div className="relative aspect-video w-full overflow-hidden rounded-md border border-bronze/30 bg-black">
-      <video
-        ref={videoRef}
-        src={leadAgenceConfig.videos.pilote}
-        controls
-        playsInline
-        autoPlay={autoPlay}
-        muted={autoPlay}
-        className="h-full w-full"
-        title="Le programme pilote LGM"
-      />
-      {autoPlay && muted && (
-        <button
-          type="button"
-          onClick={enableSound}
-          className="dx-btn-primary absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg"
-        >
-          <Volume2 aria-hidden="true" className="h-4 w-4" />
-          Activer le son
-        </button>
+  const video = (withCover: boolean) => (
+    <div>
+      {withCover && !started && (
+        <p className="mb-3 flex items-center justify-center gap-2 text-sm font-semibold text-bronze">
+          <ArrowDown aria-hidden="true" className="h-4 w-4 motion-safe:animate-bounce" />
+          Regardez cette courte vidéo avant de décider
+          <ArrowDown aria-hidden="true" className="h-4 w-4 motion-safe:animate-bounce" />
+        </p>
       )}
+      <div className="relative aspect-video w-full overflow-hidden rounded-md border border-bronze/30 bg-black">
+        <video
+          ref={videoRef}
+          src={leadAgenceConfig.videos.pilote}
+          controls={!withCover || started}
+          playsInline
+          preload="metadata"
+          className="h-full w-full"
+          title="Le programme pilote LGM"
+        />
+        {withCover && !started && (
+          <button
+            type="button"
+            onClick={startVideo}
+            aria-label="Cliquez ici pour regarder la vidéo"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/55 text-platinum"
+          >
+            <span className="relative flex h-20 w-20 items-center justify-center">
+              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-bronze/50 motion-safe:animate-ping" />
+              <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-bronze shadow-lg">
+                <Play aria-hidden="true" className="ml-1 h-9 w-9 fill-current text-background" />
+              </span>
+            </span>
+            <span className="text-lg font-bold sm:text-xl">Cliquez ici pour regarder la vidéo</span>
+            <span className="text-sm text-platinum/75">Le son est activé · 2 minutes</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 
