@@ -161,10 +161,23 @@ const LeadAgencePilotePage = () => {
                 </p>
               </div>
 
+              <div className="mt-8">{video(true)}</div>
+
               <div className="mt-8"><Choices cta={cta} onYes={convert} onNo={onNo} /></div>
 
               <h2 className="mt-12 font-display text-2xl font-bold text-platinum">Ce que vous obtenez</h2>
               <div className="mt-4"><Summary /></div>
+
+              <h2 className="mt-12 font-display text-2xl font-bold text-platinum">Comment ça se passe</h2>
+              <ol className="mt-4 grid gap-4 sm:grid-cols-3">
+                {S.steps.map((s, i) => (
+                  <li key={s.title} className="dx-launcher text-left">
+                    <p className="font-display text-2xl font-extrabold text-bronze">{i + 1}</p>
+                    <h3 className="mt-1 text-sm font-bold text-platinum">{s.title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-platinum/65">{s.text}</p>
+                  </li>
+                ))}
+              </ol>
 
               <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 <div className="dx-launcher text-left">
@@ -185,24 +198,10 @@ const LeadAgencePilotePage = () => {
                 </div>
               </div>
 
-              <h2 className="mt-12 font-display text-2xl font-bold text-platinum">Comment ça se passe</h2>
-              <ol className="mt-4 grid gap-4 sm:grid-cols-3">
-                {S.steps.map((s, i) => (
-                  <li key={s.title} className="dx-launcher text-left">
-                    <p className="font-display text-2xl font-extrabold text-bronze">{i + 1}</p>
-                    <h3 className="mt-1 text-sm font-bold text-platinum">{s.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-platinum/65">{s.text}</p>
-                  </li>
-                ))}
-              </ol>
-
               <p className="mt-8 flex items-center justify-center gap-2 text-center text-sm text-platinum/70">
                 <Hourglass aria-hidden="true" className="h-4 w-4 text-bronze" />
                 {S.scarcity}
               </p>
-
-              <h2 className="mt-12 font-display text-2xl font-bold text-platinum">Voir la présentation en vidéo</h2>
-              <div className="mt-4">{video(false)}</div>
 
               <div className="mt-8"><Choices cta={cta} onYes={convert} onNo={onNo} /></div>
 
