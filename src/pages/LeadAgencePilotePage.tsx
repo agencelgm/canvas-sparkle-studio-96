@@ -99,7 +99,7 @@ const LeadAgencePilotePage = () => {
   const video = (withCover: boolean) => (
     <div>
       {withCover && !started && (
-        <p className="mb-3 flex items-center justify-center gap-2 text-sm font-semibold text-bronze">
+        <p className="mb-3 flex items-center justify-center gap-2 text-sm font-semibold text-primary">
           <ArrowDown aria-hidden="true" className="h-4 w-4 motion-safe:animate-bounce" />
           Regardez cette courte vidéo avant de décider
           <ArrowDown aria-hidden="true" className="h-4 w-4 motion-safe:animate-bounce" />
@@ -123,9 +123,9 @@ const LeadAgencePilotePage = () => {
             className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/55 text-platinum"
           >
             <span className="relative flex h-20 w-20 items-center justify-center">
-              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-bronze/50 motion-safe:animate-ping" />
-              <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-bronze shadow-lg">
-                <Play aria-hidden="true" className="ml-1 h-9 w-9 fill-current text-background" />
+              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-primary/50 motion-safe:animate-ping" />
+              <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary shadow-lg">
+                <Play aria-hidden="true" className="ml-1 h-9 w-9 fill-current text-primary-foreground" />
               </span>
             </span>
             <span className="text-lg font-bold sm:text-xl">Cliquez ici pour regarder la vidéo</span>
