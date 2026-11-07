@@ -32,6 +32,7 @@ interface QualificationSubmission {
   anchor_reaction: string | null;
   daily_ad_budget_ready_5k: boolean | null;
   coherence_score: number | null;
+  fb_status?: string | null;
   budget_band: string | null;
   coherence_flags: string[] | null;
 }
@@ -146,6 +147,9 @@ const AdminQualifications = () => {
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{qualification.service}</span>
                     <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">{formatAmount(qualification.budget_normalized)}</span>
+                    <span className={`rounded px-2 py-1 text-xs ${qualification.fb_status === "sent" ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}>
+                      Facebook : {qualification.fb_status === "sent" ? "Envoyé" : "Non envoyé"}
+                    </span>
                     {qualification.coherence_score !== null && (
                       <span className="rounded bg-muted px-2 py-1 text-xs text-muted-foreground">Score {qualification.coherence_score}</span>
                     )}

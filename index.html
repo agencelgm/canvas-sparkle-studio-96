@@ -26,7 +26,9 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window,document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '673688814007270');
+      // Pas d'evenements automatiques : Facebook ne doit jamais compter un formulaire comme Lead tout seul.
+      fbq('set', 'autoConfig', false, '673688814007270');
+      fbq('init', '673688814007270', {}, {agent: 'lovable'});
       fbq('track', 'PageView');
     </script>
     <!-- Microsoft Clarity -->
