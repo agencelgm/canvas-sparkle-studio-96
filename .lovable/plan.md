@@ -6,7 +6,9 @@ Last 17 form submissions in the database:
 - 14 unqualified: the site marked all of them "not sent to Facebook".
 - But 12 of those 14 unqualified leads WERE sent to GoHighLevel (before yesterday's change), and 2 more reached GoHighLevel today after clicking "Oui" on the pilot offer.
 
-So the most likely leak is GoHighLevel: if a GHL workflow or its Facebook integration sends a "Lead" / conversion for every new contact, every unqualified lead that lands in GHL becomes a Facebook conversion.
+Today: 5 Facebook leads for 5 forms, while our server sent only 1 (the qualified 11:35 lead). A 1-for-1 match with every form suggests Facebook's own "automatic events": the pixel can detect a form submission on its own and count it as a Lead, whatever the score. This is now the #1 suspect, and step 1 below turns it off.
+
+Second possible leak: GoHighLevel: if a GHL workflow or its Facebook integration sends a "Lead" / conversion for every new contact, every unqualified lead that lands in GHL becomes a Facebook conversion.
 
 ## Fix
 
