@@ -25,7 +25,8 @@ Deno.serve(async (req) => {
 
   const url = Deno.env.get("GHL_WEBHOOK_URL");
   if (!url) return json({ ghl: "skipped" });
-  const tags = [...((payload.tags as string[]) ?? []), `offre-${offer}`];
+  const tags = [...((payload.tags as string[]) ?? []).filter((t) => t !== "lead-qualifie"), "non-qualifie-offre", `offre-${offer}`];
+  payload.fb_qualifie = "non";
   let result = `error_network`;
   try {
     const res = await fetch(url, {
