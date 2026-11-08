@@ -444,7 +444,7 @@ const DiagnosticModal = ({ source, onClose, inline = false, variant, experimentI
                 {step === contactStep ? (
                   <button type="button" className="dx-btn-primary" onClick={submit} disabled={sending}>
                     {sending ? <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" /> : null}
-                    Envoyer {!sending && <ArrowRight className="h-5 w-5" aria-hidden="true" />}
+                    Voir mon résultat {!sending && <ArrowRight className="h-5 w-5" aria-hidden="true" />}
                   </button>
                 ) : q?.id === "objective" && answers.objectiveOther?.trim() ? (
                   <button type="button" className="dx-btn-primary" onClick={() => go(step + 1)}>
