@@ -1,7 +1,7 @@
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { leadFromRow, sendLeadToHub } from "../_shared/growthHub.ts";
-import { optionLabels } from "../ghl-webhook/labels.ts";
+import { optionLabels } from "../_shared/labels.ts";
 
 // Rattrapage unique : cree une tache dans Client Growth Hub pour chaque ancien prospect qualifie.
 // Reserve aux admins. Sans doublon grace au source_key cote Hub.

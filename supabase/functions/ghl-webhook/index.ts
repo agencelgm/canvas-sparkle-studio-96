@@ -4,7 +4,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 import { computeDiagnosticScore } from "../_shared/diagnosticScore.ts";
-import { optionLabels } from "./labels.ts";
+import { optionLabels } from "../_shared/labels.ts";
 import { leadFromRow, sendLeadToHub } from "../_shared/growthHub.ts";
 
 const opt = (vals: [string, ...string[]]) => z.enum(vals).optional();
