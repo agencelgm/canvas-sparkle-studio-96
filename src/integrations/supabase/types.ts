@@ -331,6 +331,7 @@ export type Database = {
           ghl_status: string | null
           has_business: boolean
           has_invested_marketing: boolean | null
+          hub_task_status: string | null
           id: string
           industry: string
           location: string
@@ -369,6 +370,7 @@ export type Database = {
           ghl_status?: string | null
           has_business: boolean
           has_invested_marketing?: boolean | null
+          hub_task_status?: string | null
           id?: string
           industry: string
           location: string
@@ -407,6 +409,7 @@ export type Database = {
           ghl_status?: string | null
           has_business?: boolean
           has_invested_marketing?: boolean | null
+          hub_task_status?: string | null
           id?: string
           industry?: string
           location?: string
