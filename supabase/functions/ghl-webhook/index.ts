@@ -4,7 +4,8 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 import { computeDiagnosticScore } from "../_shared/diagnosticScore.ts";
-import { optionLabels } from "./labels.ts";
+import { optionLabels } from "../_shared/labels.ts";
+import { leadFromRow, sendLeadToHub } from "../_shared/growthHub.ts";
 
 const opt = (vals: [string, ...string[]]) => z.enum(vals).optional();
 
@@ -208,7 +209,13 @@ Deno.serve(async (req) => {
       }
     }
   }
-  await supabase.from("qualification_submissions").update({ ghl_status: ghlStatus, fb_status: fbStatus }).eq("id", row.id);
+  // Tache urgente pour Deborah dans Client Growth Hub (n'empeche jamais l'envoi du formulaire).
+  let hubStatus: string | null = null;
+  if (result.qualified) {
+    const { data: saved } = await supabase.from("qualification_submissions").select("*").eq("id", row.id).single();
+    if (saved) hubStatus = await sendLeadToHub(leadFromRow(saved, optionLabels as any));
+  }
+  await supabase.from("qualification_submissions").update({ ghl_status: ghlStatus, fb_status: fbStatus, hub_task_status: hubStatus }).eq("id", row.id);
 
   return json({ id: row.id, score: result.score, qualified: result.qualified, tier: result.tier, ghl: ghlStatus, fbEventId });
 });

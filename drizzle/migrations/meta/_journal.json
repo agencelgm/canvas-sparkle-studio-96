@@ -36,6 +36,13 @@
       "when": 1793832867975,
       "tag": "0004_add_fb_status",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794182174924,
+      "tag": "0005_hub_task_status",
+      "breakpoints": true
     }
   ]
 }
