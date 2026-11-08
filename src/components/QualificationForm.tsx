@@ -848,7 +848,7 @@ const QualificationForm = ({
           {submitState === "loading"
             ? "Envoi en cours"
             : current.id === "objective"
-              ? "Envoyer mon diagnostic"
+              ? "Valider ma demande"
               : "Continuer"}
         </button>
       </div>
