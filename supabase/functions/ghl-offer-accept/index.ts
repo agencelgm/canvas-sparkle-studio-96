@@ -2,6 +2,8 @@
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
+import { leadFromRow, sendLeadToHub } from "../_shared/growthHub.ts";
+import { optionLabels } from "../_shared/labels.ts";
 
 const Body = z.object({ submissionId: z.string().uuid(), offer: z.enum(["pilote", "formation"]) });
 const json = (data: unknown, status = 200) =>
@@ -37,6 +39,13 @@ Deno.serve(async (req) => {
     result = res.ok ? `sent_${offer}` : `error_${res.status}`;
     if (!res.ok) console.error("GHL", res.status, await res.text());
   } catch (e) { console.error("GHL fetch", e); }
+  if (offer === "pilote" && result.startsWith("sent_")) {
+    const { data: full } = await supabase.from("qualification_submissions").select("*").eq("id", submissionId).maybeSingle();
+    if (full && !full.qualified) {
+      const hub = await sendLeadToHub(leadFromRow(full, optionLabels as any));
+      await supabase.from("qualification_submissions").update({ hub_task_status: hub === "duplicate" ? "sent" : hub }).eq("id", submissionId);
+    }
+  }
   const next = result.startsWith("sent_") ? [status === "held" ? "" : status, result].filter(Boolean).join(",") : status;
   await supabase.from("qualification_submissions").update({ ghl_status: next }).eq("id", submissionId);
   return json({ ghl: result });

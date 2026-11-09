@@ -16,14 +16,17 @@ Deno.serve(async (req) => {
   const { data: isAdmin } = await sb.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
   if (!isAdmin) return json({ error: "forbidden" }, 403);
 
-  const { data: rows, error } = await sb.from("qualification_submissions").select("*")
-    .eq("qualified", true).or("hub_task_status.is.null,hub_task_status.neq.sent").order("created_at");
+  let force = false;
+  try { force = (await req.json())?.force === true; } catch { /* corps vide */ }
+  let q = sb.from("qualification_submissions").select("*").eq("qualified", true);
+  if (!force) q = q.or("hub_task_status.is.null,hub_task_status.neq.sent");
+  const { data: rows, error } = await q.order("created_at");
   if (error) return json({ error: error.message }, 500);
   const results: Record<string, number> = {};
   for (const r of rows ?? []) {
     const status = await sendLeadToHub(leadFromRow(r, optionLabels as any));
     results[status] = (results[status] ?? 0) + 1;
-    await sb.from("qualification_submissions").update({ hub_task_status: status }).eq("id", r.id);
+    await sb.from("qualification_submissions").update({ hub_task_status: status === "duplicate" ? "sent" : status }).eq("id", r.id);
     if (status === "not_configured") break;
   }
   return json({ total: rows?.length ?? 0, results });
