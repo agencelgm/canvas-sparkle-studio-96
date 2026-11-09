@@ -11,3 +11,4 @@
 - [x] URLs agencelgm.com, sitemap (routes permanentes, liens valides), llms.txt
 - [x] DESIGN.md
 - [x] Build / typecheck
+- [ ] Corriger la connexion Client Growth Hub et relancer les tâches des prospects qualifiés.
