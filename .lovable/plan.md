@@ -12,6 +12,8 @@ I can't change another project from here. Open Client Growth Hub and paste this 
 - Run the catch-up again to send the 4 past qualified leads as urgent tasks for Deborah.
 - Confirm all 4 come back as created, with due dates set by the opening hours (Mon–Fri 9h–17h, Abidjan).
 - Send one test qualified lead to confirm new leads create a task right away.
+- Each lead creates one task only. All the details the lead entered (name, phone, email, business, budget, answers, score, date submitted) go in the task's note.
+- Check that the note is filled in on the tasks that get created.
 - Nothing gets sent twice: each lead is matched by its own key.
 
 ## Technical details
