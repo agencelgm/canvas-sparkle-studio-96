@@ -12,3 +12,4 @@
 - [x] DESIGN.md
 - [x] Build / typecheck
 - [x] Client Growth Hub `lead-intake` corrigé ; `hub-backfill` relancé (4 tâches créées, détails dans la note).
+- [ ] Corriger les 4 tâches existantes (offre pilote) : bloqué, Client Growth Hub doit mettre à jour titre/note quand le source_key existe ; ensuite relancer hub-backfill avec force.

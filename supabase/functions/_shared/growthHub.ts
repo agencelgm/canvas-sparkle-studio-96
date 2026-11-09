@@ -1,4 +1,5 @@
 import { nextBusinessSlot } from "./businessHours.ts";
+import { hubTaskHeader, hubTaskTitle, type HubTier } from "./hubTask.ts";
 
 // Envoie un prospect qualifie a Client Growth Hub, qui cree une tache urgente pour Deborah.
 // La meme fonction sert pour les nouveaux prospects et le rattrapage des anciens.
@@ -7,7 +8,7 @@ export type HubLead = {
   name: string;
   email: string;
   phone: string;
-  tier: "full" | "pilot";
+  tier: HubTier;
   score: number | null;
   createdAt: string;
   details: Record<string, string>;
@@ -20,7 +21,7 @@ export async function sendLeadToHub(lead: HubLead, now = new Date()): Promise<st
   const due = nextBusinessSlot(now);
   const digits = lead.phone.replace(/\D/g, "");
   const lines = [
-    `Prospect qualifié (${lead.tier === "pilot" ? "Programme pilote" : "Accompagnement complet"}) — appeler pour fixer un rendez-vous avec Koffi ou Ousmane.`,
+    ...hubTaskHeader(lead.tier),
     "",
     `Nom : ${lead.name}`,
     `WhatsApp : ${lead.phone} — https://wa.me/${digits}`,
@@ -36,7 +37,7 @@ export async function sendLeadToHub(lead: HubLead, now = new Date()): Promise<st
       headers: { "Content-Type": "application/json", "x-lead-secret": secret },
       body: JSON.stringify({
         source_key: `lgm-lead:${lead.id}`,
-        title: `Appeler ${lead.name} — fixer un RDV avec Koffi ou Ousmane`,
+        title: hubTaskTitle(lead.tier, lead.name),
         description: lines.join("\n"),
         priority: "urgent",
         due_date: due.toISOString().slice(0, 10),
@@ -49,6 +50,7 @@ export async function sendLeadToHub(lead: HubLead, now = new Date()): Promise<st
       console.error(`hub intake [${res.status}]: ${body}`);
       return `error_${res.status}`;
     }
+    try { if (JSON.parse(body)?.duplicate) return "duplicate"; } catch { /* ignore */ }
     return "sent";
   } catch (e) {
     console.error("hub intake", e);
@@ -61,7 +63,8 @@ type Row = Record<string, any>;
 export function leadFromRow(r: Row, labels: Record<string, Record<string, string>>): HubLead {
   const a = r.answers ?? {};
   const utm = r.utm ?? {};
-  const tier = r.eligibility_status === "qualifie_programme_pilote" ? "pilot" : "full";
+  const tier: HubTier = !r.qualified ? "pilot_offer"
+    : r.eligibility_status === "qualifie_programme_pilote" ? "pilot" : "full";
   return {
     id: r.id, name: r.name, email: r.email, phone: r.phone, tier, score: r.score, createdAt: r.created_at,
     details: {
