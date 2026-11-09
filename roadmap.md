@@ -11,4 +11,4 @@
 - [x] URLs agencelgm.com, sitemap (routes permanentes, liens valides), llms.txt
 - [x] DESIGN.md
 - [x] Build / typecheck
-- [ ] Corriger `lead-intake` dans Client Growth Hub (`organization_members.is_active`, pas `status`), puis relancer `hub-backfill` ici. Bloqué : ce chat ne peut pas modifier ni déployer l'autre projet.
+- [x] Client Growth Hub `lead-intake` corrigé ; `hub-backfill` relancé (4 tâches créées, détails dans la note).
