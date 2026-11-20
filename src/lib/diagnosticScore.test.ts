@@ -16,7 +16,8 @@ describe("grille du diagnostic", () => {
   });
   it("270 000 FCFA ou plus suit la regle des 65 points", () => {
     expect(computeDiagnosticScore({ ...base, minimum: "pas_encore", budgetRange: "plus_270k" }).tier).toBe("full");
-    expect(computeDiagnosticScore({ minimum: "oui", decision: "autre" }).tier).toBe("none");
+    // "oui" a 270 000 FCFA est decisif : qualifie meme avec un score bas.
+    expect(computeDiagnosticScore({ minimum: "oui", decision: "autre" }).tier).toBe("full");
   });
 
   it("le seuil de qualification est 65", () => {
@@ -29,10 +30,14 @@ describe("grille du diagnostic", () => {
     expect(r.qualified).toBe(true);
   });
 
-  it("un score de 61 n'est pas qualifie", () => {
-    const r = computeDiagnosticScore({ sector: "btp", objective: "visibilite", invested: "oui", pastBudget: "moins_150k", minimum: "oui", revenue: "1m_5m" });
+  it("un score de 61 sans engagement a 270 000 FCFA n'est pas qualifie", () => {
+    const r = computeDiagnosticScore({ sector: "btp", objective: "visibilite", invested: "oui", pastBudget: "moins_150k", minimum: "pas_encore", budgetRange: "plus_270k", revenue: "1m_5m" });
     expect(r.score).toBe(61);
     expect(r.qualified).toBe(false);
+    // le meme profil qui dit "oui" a 270 000 FCFA est qualifie
+    const o = computeDiagnosticScore({ sector: "btp", objective: "visibilite", invested: "oui", pastBudget: "moins_150k", minimum: "oui", revenue: "1m_5m" });
+    expect(o.score).toBe(61);
+    expect(o.qualified).toBe(true);
   });
 
   it("le meilleur profil obtient 100", () => {
@@ -40,9 +45,16 @@ describe("grille du diagnostic", () => {
     expect(r.score).toBe(100);
   });
 
-  it("une incoherence budget / chiffre d'affaires retire 10 points", () => {
-    const r = computeDiagnosticScore({ sector: "btp", objective: "prospects", invested: "non", minimum: "oui", revenue: "moins_1m", decision: "moi" });
+  it("une incoherence budget / chiffre d'affaires ne retire plus de points mais demande confirmation", () => {
+    const answers = { sector: "btp", objective: "prospects", invested: "non", minimum: "oui", revenue: "moins_1m", decision: "moi" } as const;
+    const r = computeDiagnosticScore(answers);
     expect(r.flags).toContain("budget_vs_revenu");
-    expect(r.score).toBe(10 + 10 + 0 + 25 + 2 + 15 - 10);
+    expect(r.score).toBe(10 + 10 + 0 + 25 + 2 + 15);
+    expect(r.tier).toBe("none");
+    expect(r.qualified).toBe(false);
+    const c = computeDiagnosticScore({ ...answers, confirmMinimum: "oui" });
+    expect(c.score).toBe(62);
+    expect(c.tier).toBe("full");
+    expect(c.qualified).toBe(true);
   });
 });

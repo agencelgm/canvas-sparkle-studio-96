@@ -4,6 +4,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 import { leadFromRow, sendLeadToHub } from "../_shared/growthHub.ts";
 import { optionLabels } from "../_shared/labels.ts";
+import { buildOfferPayload } from "../_shared/ghlOfferPayload.ts";
 
 const Body = z.object({ submissionId: z.string().uuid(), offer: z.enum(["pilote", "formation"]) });
 const json = (data: unknown, status = 200) =>
@@ -27,14 +28,15 @@ Deno.serve(async (req) => {
 
   const url = Deno.env.get("GHL_WEBHOOK_URL");
   if (!url) return json({ ghl: "skipped" });
-  const tags = [...((payload.tags as string[]) ?? []).filter((t) => t !== "lead-qualifie"), "non-qualifie-offre", `offre-${offer}`];
-  payload.fb_qualifie = "non";
+  // Regle metier : dans GHL ce prospect passe comme QUALIFIE (branche "Qualifie site"),
+  // mais fb_qualifie reste "non" pour ne pas biaiser l'optimisation Meta.
+  const body = buildOfferPayload(payload, offer);
   let result = `error_network`;
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...payload, tags, offre_acceptee: offer }),
+      body: JSON.stringify(body),
     });
     result = res.ok ? `sent_${offer}` : `error_${res.status}`;
     if (!res.ok) console.error("GHL", res.status, await res.text());
